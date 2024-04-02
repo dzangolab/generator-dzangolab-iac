@@ -1,0 +1,6 @@
+name: swarm-do-resources
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: Docker swarm DigitalOcean resources

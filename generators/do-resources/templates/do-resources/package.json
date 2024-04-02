@@ -1,0 +1,11 @@
+{
+  "name": "swarm-do-resources",
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/digitalocean": "^4",
+    "@pulumi/pulumi": "^3"
+  },
+  "devDependencies": {
+    "@types/node": "20"
+  }
+}

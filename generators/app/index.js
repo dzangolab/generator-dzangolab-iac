@@ -32,12 +32,14 @@ export default class IaCGenerator extends Generator {
   };
 
   writing() {
-    this.log(`${chalk.green(JSON.stringify(this.props.action))}`);
+    const generators = {
+      "do-resources": { Generator: DigitalOceanResourcesGenerator, path: '../do-resources/index.js' },
+    };
 
-    this.composeWith({ Generator: DigitalOceanResourcesGenerator, path: '../do-resources/index.js' });
-  }
-
-  install() {
-    // this.installDependencies();
+    if (generators[this.props.action]) {
+      this.composeWith(generators[this.props.action]);
+    } else {
+      this.log(`${chalk.green(JSON.stringify(this.props.action))}`);
+    }
   }
 };

@@ -14,7 +14,13 @@ Note: This project does NOT provision the Docker swarm itself. The Docker swarm 
 
 ## Usage
 
-* Cd into the folder of your choice (we recommend a folder named `infrastructure` inside your devops repo).
+* Cd into the `do-resources` folder.
+
+* Install dependencies 
+
+```
+npm install
+```
 
 * Copy `.env.example` to `.env` and update your DigitalOcean Personal Access Token.
 

@@ -1,0 +1,6 @@
+name: digitalocean-ssh-keys
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: DigitalOcean SSH keys

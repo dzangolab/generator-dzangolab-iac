@@ -1,0 +1,12 @@
+config:
+  digitalocean-ssh-keys:key-folder: "../ssh-keys"
+  digitalocean-ssh-keys:key-names:
+    - deepak 
+    - op@mbp3 
+    - op@mmintel
+    - prem
+    - ramesh 
+    - semanta 
+    - uddhab
+  digitalocean-ssh-keys:protect: "true"
+  digitalocean-ssh-keys:retainOnDelete: "true"

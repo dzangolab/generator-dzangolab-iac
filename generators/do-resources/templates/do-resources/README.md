@@ -1,4 +1,4 @@
-# Swarm DigitalOcean resources
+# DigitalOcean resources
 
 Provisions resources in DigitalOcean for the Docker swarm.
 

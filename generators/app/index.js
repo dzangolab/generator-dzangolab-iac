@@ -1,7 +1,11 @@
 import chalk from "chalk";
 import Generator from "yeoman-generator";
 
+import AWSResourcesGenerator from "../aws-resources/index.js"
+import DigitalOceanSSHKeysGenerator from "../do-ssh-keys/index.js"
+import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js"
 import DigitalOceanResourcesGenerator from "../do-resources/index.js"
+import SSHKeyFolderGenerator from "../ssh-key-folder/index.js"
 
 export default class IaCGenerator extends Generator {
   async prompting() {
@@ -11,11 +15,19 @@ export default class IaCGenerator extends Generator {
 			type: "list",
       choices: [
         {
+          name: "SSH key folder",
+          value: "ssh-key-folder"
+        },
+        {
+          name: "DigitalOcean SSH keys",
+          value: "do-ssh-keys"
+        },
+        {
           name: "DigitalOcean resources",
           value: "do-resources"
         },
         {
-          name: "DigitalOcean swarm leader",
+          name: "DigitalOcean Docker swarm leader",
           value: "do-swarm-leader"
         },
         {
@@ -33,7 +45,11 @@ export default class IaCGenerator extends Generator {
 
   writing() {
     const generators = {
+      "aws-resources": { Generator: AWSResourcesGenerator, path: '../aws-resources/index.js' },
+      "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: '../do-ssh-keys/index.js' },
+      "do-swarm-leader": { Generator: DigitalOceanDockerSwarmLeaderGenerator, path: '../do-swarm-leader/index.js' },
       "do-resources": { Generator: DigitalOceanResourcesGenerator, path: '../do-resources/index.js' },
+      "ssh-key-folder": { Generator: SSHKeyFolderGenerator, path: '../ssh-key-folder/index.js' },
     };
 
     if (generators[this.props.action]) {

@@ -1,0 +1,10 @@
+config:
+  aws:region: ap-southeast-1
+  digitalocean-swarm-leader:image: docker-20-04
+  digitalocean-swarm-leader:protect: "false"
+  digitalocean-swarm-leader:publicKeyNames:
+    - KEY_NAME
+  digitalocean-swarm-leader:region: sgp1
+  digitalocean-swarm-leader:retainOnDelete: "false"
+  digitalocean-swarm-leader:size: s-1vcpu-1gb
+  digitalocean-swarm-leader:username: USERNAME

@@ -11,7 +11,7 @@ export const getConfig = async () => {
 
   return {
     dataVolumeSize: stackConfig.requireNumber("dataVolumeSize"),
-    description: stackConfig.get("description") || `{stack} infrastructure`,
+    description: stackConfig.get("description") || `${stack} infrastructure`,
     environment: stackConfig.get("environment") || stack,
     ipRange: stackConfig.get("ipRange"),
     name: `${stack}-${nameSuffix}`,

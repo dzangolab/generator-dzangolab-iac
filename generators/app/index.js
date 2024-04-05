@@ -45,11 +45,11 @@ export default class IaCGenerator extends Generator {
 
   writing() {
     const generators = {
-      "aws-resources": { Generator: AWSResourcesGenerator, path: '../aws-resources/index.js' },
-      "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: '../do-ssh-keys/index.js' },
-      "do-swarm-leader": { Generator: DigitalOceanDockerSwarmLeaderGenerator, path: '../do-swarm-leader/index.js' },
-      "do-resources": { Generator: DigitalOceanResourcesGenerator, path: '../do-resources/index.js' },
-      "ssh-key-folder": { Generator: SSHKeyFolderGenerator, path: '../ssh-key-folder/index.js' },
+      "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
+      "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: "../do-ssh-keys/index.js" },
+      "do-swarm-leader": { Generator: DigitalOceanDockerSwarmLeaderGenerator, path: "../do-swarm-leader/index.js" },
+      "do-resources": { Generator: DigitalOceanResourcesGenerator, path: "../do-resources/index.js" },
+      "ssh-key-folder": { Generator: SSHKeyFolderGenerator, path: "../ssh-key-folder/index.js" },
     };
 
     if (generators[this.props.action]) {

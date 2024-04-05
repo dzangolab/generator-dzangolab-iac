@@ -22,7 +22,7 @@ export const getConfig = async () => {
             }
         );
 
-        publicKeys[path] = publicKey;
+        publicKeys[name] = publicKey;
     }
 
     return {

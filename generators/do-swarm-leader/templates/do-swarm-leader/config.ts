@@ -34,6 +34,9 @@ export const getConfig = async () => {
   const vpcUuidOutput = await resourcesStack.getOutputDetails("vpcId");
   const vpcUuid = getValue<string>(vpcUuidOutput);
 
+  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
+  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../ssh-keys";
+
   return {
     image: stackConfig.require("image"),
     name: stack,
@@ -48,7 +51,8 @@ export const getConfig = async () => {
       {
         username,
         groups: "sudo, docker",
-        publicKeys: getPublicKeys(stackConfig.requireObject("publicKeyNames") as string[]),
+        publicKeys: getPublicKeys(publicKeyNames, pathToSshKeysFolder)
+        
       },
     ],
     volumeIds: [dataVolumeId],

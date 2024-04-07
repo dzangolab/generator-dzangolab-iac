@@ -1,0 +1,7 @@
+config:
+  aws-ecr:images: 
+    - {scope}/api
+    - {scope}/app
+    - {scope}/test-db
+  aws-ecr:protect: false
+  aws-ecr:retainOnDelete: false  

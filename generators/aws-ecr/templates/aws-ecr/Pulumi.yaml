@@ -1,0 +1,6 @@
+name: aws-ecr
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: AWS ECR resources

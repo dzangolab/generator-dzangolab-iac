@@ -1,7 +1,8 @@
 import chalk from "chalk";
 import Generator from "yeoman-generator";
 
-import AWSResourcesGenerator from "../aws-resources/index.js"
+import AWSECRGenerator from "../aws-ecr/index.js";
+// import AWSResourcesGenerator from "../aws-resources/index.js"
 import DigitalOceanSSHKeysGenerator from "../do-ssh-keys/index.js"
 import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js"
 import DigitalOceanResourcesGenerator from "../do-resources/index.js"
@@ -31,9 +32,14 @@ export default class IaCGenerator extends Generator {
           value: "do-swarm-leader"
         },
         {
-          name: "AWS resources",
-          value: "aws-resources"
+          name: "AWS ECR",
+          value: "aws-ecr"
         },
+          // },
+        // {
+        //   name: "AWS resources",
+        //   value: "aws-resources"
+        // },
         {
           name: "Credentials",
           value: "credentials"
@@ -45,7 +51,8 @@ export default class IaCGenerator extends Generator {
 
   writing() {
     const generators = {
-      "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
+      "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },
+      // "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
       "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: "../do-ssh-keys/index.js" },
       "do-swarm-leader": { Generator: DigitalOceanDockerSwarmLeaderGenerator, path: "../do-swarm-leader/index.js" },
       "do-resources": { Generator: DigitalOceanResourcesGenerator, path: "../do-resources/index.js" },

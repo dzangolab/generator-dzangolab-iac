@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import Generator from "yeoman-generator";
 
+import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSECRGenerator from "../aws-ecr/index.js";
 import AWSResourcesGenerator from "../aws-resources/index.js"
 import DigitalOceanSSHKeysGenerator from "../do-ssh-keys/index.js"
@@ -40,8 +41,8 @@ export default class IaCGenerator extends Generator {
           value: "aws-resources"
         },
         {
-          name: "Credentials",
-          value: "credentials"
+          name: "AWS credentials",
+          value: "aws-credentials"
         }
       ],
       required: true
@@ -50,6 +51,7 @@ export default class IaCGenerator extends Generator {
 
   writing() {
     const generators = {
+      "aws-credentials": { Generator: AWSCredentialsGenerator, path: "../aws-credentials/index.js" },
       "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
       "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: "../do-ssh-keys/index.js" },

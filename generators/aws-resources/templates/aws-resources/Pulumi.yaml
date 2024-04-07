@@ -1,0 +1,6 @@
+name: aws-resources
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: AWS resources for Docker swarm

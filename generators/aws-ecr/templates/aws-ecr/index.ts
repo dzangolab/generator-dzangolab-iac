@@ -1,7 +1,4 @@
 import { Repository } from "@pulumi/awsx/ecr";
-import { config } from "dotenv";
-
-config({ path: "../.env" });
 
 import { getConfig } from "./config";
 

@@ -5,6 +5,7 @@ import AnsibleGenerator from "../ansible/index.js";
 import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSECRGenerator from "../aws-ecr/index.js";
 import AWSResourcesGenerator from "../aws-resources/index.js";
+import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
 import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
 import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js";
 import DigitalOceanResourcesGenerator from "../do-resources/index.js";
@@ -51,6 +52,10 @@ export default class IaCGenerator extends Generator {
           value: "do-swarm-leader"
         },
         {
+          name: "Cloudflare DNS",
+          value: "cloudflare-dns"
+        },
+        {
           name: "DigitalOcean Database cluster",
           value: "do-database-cluster"
         }
@@ -65,6 +70,7 @@ export default class IaCGenerator extends Generator {
       "aws-credentials": { Generator: AWSCredentialsGenerator, path: "../aws-credentials/index.js" },
       "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
+      "cloudflare-dns": { Generator: CloudflareDNSGenerator, path: "../cloudflare-dns/index.js" },
       "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },
       "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: "../do-ssh-keys/index.js" },
       "do-swarm-leader": { Generator: DigitalOceanDockerSwarmLeaderGenerator, path: "../do-swarm-leader/index.js" },

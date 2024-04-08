@@ -1,0 +1,12 @@
+config:
+  cloudflare-dns:aliases:
+    - adminer
+    - mail
+    - pma
+    - portainer
+    - traefik
+  cloudflare-dns:domain: DOMAIN
+  cloudflare-dns:host: HOST
+  cloudflare-dns:ip: IP
+  cloudflare-dns:protect: "true"
+  cloudflare-dns:retainOnDelete: "true"

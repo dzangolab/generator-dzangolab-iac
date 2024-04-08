@@ -1,0 +1,8 @@
+config:
+  cloudflare-dns:aliases:
+    - "*"
+  cloudflare-dns:domain: DOMAIN
+  cloudflare-dns:host: HOST
+  cloudflare-dns:ip: IP_ADDRESS
+  cloudflare-dns:protect: "true"
+  cloudflare-dns:retainOnDelete: "true"

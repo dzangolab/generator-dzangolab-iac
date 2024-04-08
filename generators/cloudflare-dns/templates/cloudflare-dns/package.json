@@ -1,0 +1,12 @@
+{
+  "name": "dns",
+  "main": "index.ts",
+  "dependencies": {
+    "@dzangolab/pulumi": "^0.22",
+    "@pulumi/cloudflare": "^5",
+    "@pulumi/pulumi": "^3"
+  },
+  "devDependencies": {
+    "@types/node": "^20"
+  }
+}

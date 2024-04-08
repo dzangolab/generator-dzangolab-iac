@@ -35,7 +35,7 @@ export const getConfig = async () => {
   const vpcUuid = getValue<string>(vpcUuidOutput);
 
   const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
-  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../ssh-keys";
+  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../ssh-keys";
 
   return {
     image: stackConfig.require("image"),

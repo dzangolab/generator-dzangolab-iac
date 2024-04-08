@@ -60,6 +60,12 @@ export = async () => {
     secretValue["ses-smtp-password"] = sesSmtpAccessKey.sesSmtpPasswordV4;
   }
 
+  if (config.rootPassword) {
+    secretValue["database-root-password"] = config.rootPassword;
+    secretValue["database-password"] = config.databasePassword;
+    secretValue["database-user"] = config.databaseUser;
+  }
+
   const version = new SecretVersion(
     config.name,
     {

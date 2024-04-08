@@ -11,6 +11,7 @@ export const getConfig = async () => {
   const stack = getStack();
   const stackConfig = new Config();
   const awsResourcesProject = stackConfig.get("aws-resources-project") || "aws-resources";
+  const doDatabaseClusterProject = stackConfig.get("do-database-cluster-project");
 
   const resourcesStack = new StackReference(
     `${organization}/${awsResourcesProject}/${stack}`,
@@ -32,7 +33,7 @@ export const getConfig = async () => {
   const usernameOutput = await resourcesStack.getOutputDetails("username");
   const username = getValue<string>(usernameOutput);
 
-  return {
+  let config: { [key: string]: any } = {
     name: stack,
     passwordLength: stackConfig.getNumber("passwordLength"),
     passwords: stackConfig.requireObject<string[]>("passwords"),
@@ -43,6 +44,23 @@ export const getConfig = async () => {
     timestamp: stackConfig.require("timestamp"),
     username
   };
+
+  if (doDatabaseClusterProject) {
+    const databaseStack = new StackReference(
+      `${organization}/${doDatabaseClusterProject}/${stack}`,
+    );
+
+    const rootPasswordOutput = await databaseStack.getOutputDetails("rootPassword");
+    config.rootPassword = getValue<string>(rootPasswordOutput);
+
+    const databaseUsernameOutput = await databaseStack.getOutputDetails("userName");
+    config.databaseUsername = getValue<string>(databaseUsernameOutput);
+
+    const databasePasswordOutput = await databaseStack.getOutputDetails("userPassword");
+    config.databasePassword = getValue<string>(databasePasswordOutput);
+  }
+
+  return config;
 };
 
 function getValue<T>(input: StackReferenceOutputDetails, defaultValue?: T): T {

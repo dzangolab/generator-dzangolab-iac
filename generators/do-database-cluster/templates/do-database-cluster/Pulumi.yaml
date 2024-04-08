@@ -1,0 +1,6 @@
+name: do-database-cluster
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: DigitalOcean database cluster

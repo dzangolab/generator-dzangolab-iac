@@ -1,0 +1,9 @@
+config:
+  do-database-cluster:engine: "pg"
+  do-database-cluster:nameSuffix: "YYYYMMDD"
+  do-database-cluster:nodeCount: 1
+  do-database-cluster:protect: "false"
+  do-database-cluster:region: "sgp1"
+  do-database-cluster:retainOnDelete: "false"
+  do-database-cluster:size: "db-s-1vcpu-1gb"
+  do-database-cluster:version: "16"

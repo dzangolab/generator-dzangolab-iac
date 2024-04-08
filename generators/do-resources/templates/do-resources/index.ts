@@ -43,6 +43,7 @@ export = async () => {
   );
 
   outputs["vpcId"] = interpolate`${vpc.id}`;
+  outputs["vpcIpRange"] = interpolate`${vpc.ipRange}`;
 
   const reservedIp = new ReservedIp(
     config.name,

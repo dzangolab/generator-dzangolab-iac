@@ -1,0 +1,6 @@
+---
+
+- name: Deploy portainer
+  hosts: all
+  roles:
+    - role: dzangolab.docker_portainer

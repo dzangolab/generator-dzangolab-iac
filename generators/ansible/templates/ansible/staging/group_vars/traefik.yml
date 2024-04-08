@@ -1,0 +1,10 @@
+traefik__acme_email: op+develop@dzango.com
+traefik__deploy_dir: "{{ deploy_dir }}/traefik"
+traefik__deploy_group: "{{ deploy_group }}"
+traefik__deploy_user: "{{ deploy_user }}"
+traefik__domain: "traefik.{{ domain }}"
+traefik__image: "traefik:v2.10.3"
+traefik__label: "traefik"
+traefik__log_level: "ERROR"
+traefik__network: "{{ network }}"
+traefik__state: "started"

@@ -1,0 +1,24 @@
+[swarm]
+leader ansible_host=PUBLIC_IP_ADDRESS
+
+[swarm:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_user=USERNAME
+
+[apps:children]
+swarm
+
+[awscli:children]
+swarm
+
+[db]
+leader
+
+[portainer]
+leader
+
+[swarm_init]
+leader
+
+[traefik]
+leader

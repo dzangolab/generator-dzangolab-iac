@@ -1,0 +1,50 @@
+---
+- name: Create postgres data directories
+  hosts: db
+  become: true
+  tasks:
+    - file:
+        group: "{{ deploy_group }}"
+        owner: "{{ deploy_user }}"
+        path: "{{ item }}"
+        state: directory
+        recurse: true
+      with_items:
+        - "{{ deploy_dir }}/postgres"
+        - "{{ deploy_dir }}/postgres/14"
+        - "{{ deploy_dir }}/postgres/14/backups"
+        - "{{ deploy_dir }}/postgres/14/data"
+  tags:
+    - postgres
+
+- name: Create minio data directories
+  hosts: leader
+  become: true
+  tasks:
+    - file:
+        group: "{{ deploy_group }}"
+        owner: "{{ deploy_user }}"
+        path: "{{ item }}"
+        state: directory
+        recurse: true
+      with_items:
+        - "{{ deploy_dir }}/minio"
+        - "{{ deploy_dir }}/minio/data"
+  tags:
+    - minio
+
+- name: Create nocodb data directories
+  hosts: leader
+  become: true
+  tasks:
+    - file:
+        group: "{{ deploy_group }}"
+        owner: "{{ deploy_user }}"
+        path: "{{ item }}"
+        state: directory
+        recurse: true
+      with_items:
+        - "{{ deploy_dir }}/nocodb"
+        - "{{ deploy_dir }}/nocodb/data"
+  tags:
+    - nocodb

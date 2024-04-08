@@ -1,13 +1,15 @@
 import chalk from "chalk";
 import Generator from "yeoman-generator";
 
+import AnsibleGenerator from "../ansible/index.js";
 import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSECRGenerator from "../aws-ecr/index.js";
-import AWSResourcesGenerator from "../aws-resources/index.js"
-import DigitalOceanSSHKeysGenerator from "../do-ssh-keys/index.js"
-import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js"
-import DigitalOceanResourcesGenerator from "../do-resources/index.js"
-import SSHKeyFolderGenerator from "../ssh-key-folder/index.js"
+import AWSResourcesGenerator from "../aws-resources/index.js";
+import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
+import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js";
+import DigitalOceanResourcesGenerator from "../do-resources/index.js";
+import DigitalOceanSSHKeysGenerator from "../do-ssh-keys/index.js";
+import SSHKeyFolderGenerator from "../ssh-key-folder/index.js";
 
 export default class IaCGenerator extends Generator {
   async prompting() {
@@ -29,10 +31,6 @@ export default class IaCGenerator extends Generator {
           value: "do-resources"
         },
         {
-          name: "DigitalOcean Docker swarm leader",
-          value: "do-swarm-leader"
-        },
-        {
           name: "AWS ECR",
           value: "aws-ecr"
         },
@@ -43,6 +41,18 @@ export default class IaCGenerator extends Generator {
         {
           name: "AWS credentials",
           value: "aws-credentials"
+        },
+        {
+          name: "Ansible",
+          value: "ansible"
+        },
+        {
+          name: "DigitalOcean Docker swarm leader",
+          value: "do-swarm-leader"
+        },
+        {
+          name: "DigitalOcean Database cluster",
+          value: "do-database-cluster"
         }
       ],
       required: true
@@ -51,9 +61,11 @@ export default class IaCGenerator extends Generator {
 
   writing() {
     const generators = {
+      "ansible": { Generator: AnsibleGenerator, path: "../ansible/index.js" },
       "aws-credentials": { Generator: AWSCredentialsGenerator, path: "../aws-credentials/index.js" },
       "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
+      "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },
       "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: "../do-ssh-keys/index.js" },
       "do-swarm-leader": { Generator: DigitalOceanDockerSwarmLeaderGenerator, path: "../do-swarm-leader/index.js" },
       "do-resources": { Generator: DigitalOceanResourcesGenerator, path: "../do-resources/index.js" },

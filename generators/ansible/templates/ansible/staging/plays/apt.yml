@@ -1,0 +1,11 @@
+---
+- name: Update server packages
+  hosts: all
+  become: true
+
+  tasks:
+    - ansible.builtin.apt:
+        autoclean: yes
+        autoremove: yes
+        update_cache: yes
+        upgrade: safe

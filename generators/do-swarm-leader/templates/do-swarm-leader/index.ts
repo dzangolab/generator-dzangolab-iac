@@ -32,6 +32,7 @@ export = async () => {
     id: interpolate`${droplet.id}`,
     ipv4Address: interpolate`${config.reservedIpId}`,
     ipv4AddressPrivate: interpolate`${droplet.ipv4AddressPrivate}`,
+    name: interpolate`${droplet.name}`
   };
 };
 

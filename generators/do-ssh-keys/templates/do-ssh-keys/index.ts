@@ -1,4 +1,5 @@
 import { SshKey } from "@pulumi/digitalocean";
+import { interpolate } from "@pulumi/pulumi";
 
 import { getConfig } from "./config";
 
@@ -9,15 +10,21 @@ export = async () => {
 
     var sshKeys: SshKey[] = [];
 
+    var outputs = {} as { [key:string]: any };
+
     for (const name in keys) {
-        sshKeys.push(new SshKey(name, {
+        const sshKey = new SshKey(name, {
             name: name,
             publicKey: keys[name],
         }, {
             protect: config.protect,
             retainOnDelete: config.retainOnDelete
-        }));
+        });
+
+        sshKeys.push(sshKey);
+
+        outputs[name] = interpolate`${sshKey.id}`;
     }
 
-    return sshKeys.map(key => key.id);
+    return outputs;
 }

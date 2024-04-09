@@ -4,6 +4,7 @@ import Generator from "yeoman-generator";
 import AnsibleGenerator from "../ansible/index.js";
 import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSECRGenerator from "../aws-ecr/index.js";
+import AWSGithubIdentityProviderGenerator from "../aws-github-identity-provider/index.js";
 import AWSResourcesGenerator from "../aws-resources/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
 import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
@@ -34,6 +35,10 @@ export default class IaCGenerator extends Generator {
         {
           name: "AWS ECR",
           value: "aws-ecr"
+        },
+        {
+          name: "AWS Github identity provider",
+          value: "aws-github-idp"
         },
         {
           name: "AWS resources",
@@ -69,6 +74,7 @@ export default class IaCGenerator extends Generator {
       "ansible": { Generator: AnsibleGenerator, path: "../ansible/index.js" },
       "aws-credentials": { Generator: AWSCredentialsGenerator, path: "../aws-credentials/index.js" },
       "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },
+      "aws-github-idp": { Generator: AWSGithubIdentityProviderGenerator, path: "../aws-github-identity-provider/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
       "cloudflare-dns": { Generator: CloudflareDNSGenerator, path: "../cloudflare-dns/index.js" },
       "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },

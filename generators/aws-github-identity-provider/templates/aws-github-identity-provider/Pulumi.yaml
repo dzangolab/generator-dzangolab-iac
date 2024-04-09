@@ -1,0 +1,6 @@
+name: aws-github-identity-provider
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: AWS Github identity provider and associated resources

@@ -1,0 +1,9 @@
+config:
+  aws-github-identity-provider:policyArns:
+    - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser
+  aws-github-identity-provider:protect: false
+  aws-github-identity-provider:repos:
+    - ORG/*
+  aws-github-identity-provider:retainOnDelete: false  
+
+}

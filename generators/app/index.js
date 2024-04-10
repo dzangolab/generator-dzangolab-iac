@@ -6,6 +6,7 @@ import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSECRGenerator from "../aws-ecr/index.js";
 import AWSGithubIdentityProviderGenerator from "../aws-github-identity-provider/index.js";
 import AWSResourcesGenerator from "../aws-resources/index.js";
+import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
 import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
 import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js";
@@ -35,6 +36,10 @@ export default class IaCGenerator extends Generator {
         {
           name: "AWS ECR",
           value: "aws-ecr"
+        },
+        {
+          name: "AWS SSH key pairs",
+          value: "aws-ssh-keypairs"
         },
         {
           name: "AWS Github identity provider",
@@ -76,6 +81,7 @@ export default class IaCGenerator extends Generator {
       "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },
       "aws-github-idp": { Generator: AWSGithubIdentityProviderGenerator, path: "../aws-github-identity-provider/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
+      "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
       "cloudflare-dns": { Generator: CloudflareDNSGenerator, path: "../cloudflare-dns/index.js" },
       "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },
       "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: "../do-ssh-keys/index.js" },

@@ -1,0 +1,8 @@
+config:
+  aws-ssh-keypairs:keyFolder: "../ssh-keys"
+  aws-ssh-keypairs:keyNames: 
+    - key1 
+    - key2 
+    - ...
+  aws-ssh-keypairs:protect: false
+  aws-ssh-keypairs:retainOnDelete: false  

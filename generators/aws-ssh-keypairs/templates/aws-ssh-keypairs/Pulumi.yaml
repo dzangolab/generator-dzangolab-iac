@@ -1,0 +1,6 @@
+name: aws-ssh-keypairs
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: AWS SSH keypairs

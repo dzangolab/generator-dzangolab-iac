@@ -5,6 +5,11 @@ import { getConfig } from "./config";
 export = async () => {
   const config = await getConfig();
 
+  const options = {
+    protect: config.protect,
+    retainOnDelete: config.retainOnDelete,
+  };
+
   const images = config.images;
 
   const repos = [];
@@ -17,10 +22,7 @@ export = async () => {
       {
         name: name
       },
-      {
-        protect: config.protect,
-        retainOnDelete: config.retainOnDelete,
-      }
+      options
     ));
   }
 

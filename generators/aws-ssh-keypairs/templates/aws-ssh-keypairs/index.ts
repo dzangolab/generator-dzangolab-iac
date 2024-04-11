@@ -6,6 +6,11 @@ import { getConfig } from "./config";
 export = async () => {
     const config = await getConfig();
 
+    const options = {
+      protect: config.protect,
+      retainOnDelete: config.retainOnDelete,
+    };
+  
     const publicKeys = config.publicKeys;
 
     const keys: { [key: string]: any } = {};
@@ -21,10 +26,7 @@ export = async () => {
                 Name: name,
               }
             },
-            {
-              protect: config.protect,
-              retainOnDelete: config.retainOnDelete,
-            }
+            options
           );
 
         keys[name] = {

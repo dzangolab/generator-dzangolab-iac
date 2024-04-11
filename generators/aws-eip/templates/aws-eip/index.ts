@@ -6,6 +6,11 @@ import { getConfig } from "./config";
 export = async () => {
   const config = await getConfig();
 
+  const options = {
+    protect: config.protect,
+    retainOnDelete: config.retainOnDelete,
+  };
+
   const eip = new Eip(
     config.name,
     {
@@ -13,10 +18,7 @@ export = async () => {
         Name: config.name,
       }
     },
-    {
-      protect: config.protect,
-      retainOnDelete: config.retainOnDelete,
-    },
+    options
   );
 
   return {

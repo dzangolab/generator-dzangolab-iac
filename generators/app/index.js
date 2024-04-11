@@ -4,6 +4,7 @@ import Generator from "yeoman-generator";
 import AnsibleGenerator from "../ansible/index.js";
 import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSECRGenerator from "../aws-ecr/index.js";
+import AWSEIPGenerator from "../aws-eip/index.js";
 import AWSGithubIdentityProviderGenerator from "../aws-github-identity-provider/index.js";
 import AWSResourcesGenerator from "../aws-resources/index.js";
 import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
@@ -36,6 +37,10 @@ export default class IaCGenerator extends Generator {
         {
           name: "AWS ECR",
           value: "aws-ecr"
+        },
+        {
+          name: "AWS EIP",
+          value: "aws-eip"
         },
         {
           name: "AWS SSH key pairs",
@@ -79,6 +84,7 @@ export default class IaCGenerator extends Generator {
       "ansible": { Generator: AnsibleGenerator, path: "../ansible/index.js" },
       "aws-credentials": { Generator: AWSCredentialsGenerator, path: "../aws-credentials/index.js" },
       "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },
+      "aws-eip": { Generator: AWSEIPGenerator, path: "../aws-eip/index.js" },
       "aws-github-idp": { Generator: AWSGithubIdentityProviderGenerator, path: "../aws-github-identity-provider/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },

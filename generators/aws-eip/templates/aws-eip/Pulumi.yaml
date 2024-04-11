@@ -1,0 +1,6 @@
+name: aws-eip
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: AWS EIP resources

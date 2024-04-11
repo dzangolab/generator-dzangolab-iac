@@ -62,6 +62,6 @@ Unfortunately, existing ECR repositories cannot be imported into this IaC.
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| dimages | string[] | | The names of the repositories to be provisioned |
+| images  | string[] | | The names of the repositories to be provisioned |
 | protect | boolean | false | Protect resources from accidental deletion |
 | retainOnDelete | boolean | false | Retain resources when destroyed |

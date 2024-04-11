@@ -1,0 +1,14 @@
+{
+  "name": "aws-swarm-leader",
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/aws": "^6.0.4",
+    "@pulumi/command": "^0.8.2",
+    "@pulumi/pulumi": "^3.81.0",
+    "@types/nunjucks": "^3.2.3",
+    "nunjucks": "^3.2.4"
+},
+  "devDependencies": {
+    "@types/node": "20"
+  }
+}

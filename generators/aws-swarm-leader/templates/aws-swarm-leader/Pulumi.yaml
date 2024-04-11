@@ -1,0 +1,6 @@
+name: aws-swarm-leader
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: Provisions Docker swarm leader and associated resources on AWS

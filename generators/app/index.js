@@ -8,6 +8,7 @@ import AWSEIPGenerator from "../aws-eip/index.js";
 import AWSGithubIdentityProviderGenerator from "../aws-github-identity-provider/index.js";
 import AWSResourcesGenerator from "../aws-resources/index.js";
 import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
+import AWSDockerSwarmLeaderGenerator from "../aws-swarm-leader/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
 import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
 import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js";
@@ -63,6 +64,10 @@ export default class IaCGenerator extends Generator {
           value: "ansible"
         },
         {
+          name: "AWS Docker swarm leader",
+          value: "aws-swarm-leader"
+        },
+        {
           name: "DigitalOcean Docker swarm leader",
           value: "do-swarm-leader"
         },
@@ -88,6 +93,7 @@ export default class IaCGenerator extends Generator {
       "aws-github-idp": { Generator: AWSGithubIdentityProviderGenerator, path: "../aws-github-identity-provider/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
+      "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },
       "cloudflare-dns": { Generator: CloudflareDNSGenerator, path: "../cloudflare-dns/index.js" },
       "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },
       "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: "../do-ssh-keys/index.js" },

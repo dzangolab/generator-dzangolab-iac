@@ -6,6 +6,7 @@ import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSECRGenerator from "../aws-ecr/index.js";
 import AWSEIPGenerator from "../aws-eip/index.js";
 import AWSGithubIdentityProviderGenerator from "../aws-github-identity-provider/index.js";
+import AWSInstanceProfileGenerator from "../aws-instance-profile/index.js";
 import AWSResourcesGenerator from "../aws-resources/index.js";
 import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
 import AWSDockerSwarmLeaderGenerator from "../aws-swarm-leader/index.js";
@@ -60,6 +61,10 @@ export default class IaCGenerator extends Generator {
           value: "aws-credentials"
         },
         {
+          name: "AWS IAM instance profile",
+          value: "aws-instance-profile"
+        },
+        {
           name: "Ansible",
           value: "ansible"
         },
@@ -91,6 +96,7 @@ export default class IaCGenerator extends Generator {
       "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },
       "aws-eip": { Generator: AWSEIPGenerator, path: "../aws-eip/index.js" },
       "aws-github-idp": { Generator: AWSGithubIdentityProviderGenerator, path: "../aws-github-identity-provider/index.js" },
+      "aws-instance-profile": { Generator: AWSInstanceProfileGenerator, path: "../aws-instance-profile/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
       "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },

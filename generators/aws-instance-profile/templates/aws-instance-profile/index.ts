@@ -23,7 +23,7 @@ export = async () => {
   });
 
   const role = new Role(
-    config.name,
+    config.roleName,
     {
       path: "/",
       assumeRolePolicy: assumeRolePolicy.then(policy => policy.json),
@@ -36,7 +36,7 @@ export = async () => {
   );
 
   const instanceProfile = new InstanceProfile(
-    config.name,
+    config.profileName,
     {
       role,
     },

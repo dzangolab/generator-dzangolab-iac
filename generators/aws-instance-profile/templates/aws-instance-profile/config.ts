@@ -6,13 +6,17 @@ export const getConfig = async () => {
     const stack = getStack();
     const stackConfig = new Config();
 
-    const name = stackConfig.get("name") || `${organization}-${stack}`
+    const forceDetachPolicies = stackConfig.getBoolean("forceDetachPolicies") || true;
+    const profileName = stackConfig.get("profileName") || `${organization}-${stack}`;
+    const roleName = stackConfig.get("roleName") || `${organization}-${stack}`;
 
     return {
+        forceDetachPolicies, 
         managedPolicyArns: stackConfig.requireObject<string[]>("managedPolicyArns"),
-        name,
+        profileName,
         protect: stackConfig.getBoolean("protect"),
         retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
+        roleName,
     };
 };
 

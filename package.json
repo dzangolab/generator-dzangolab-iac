@@ -2,10 +2,7 @@
   "name": "generator-dzangolab-iac",
   "version": "0.1.0",
   "description": "",
-  "keywords": [
-    "devops",
-    "yeoman-generator"
-  ],
+  "keywords": ["devops", "yeoman-generator"],
   "homepage": "",
   "repository": "generator-dzangolab-iac",
   "license": "MIT",
@@ -16,9 +13,7 @@
   },
   "type": "module",
   "exports": "./generators/app/index.js",
-  "files": [
-    "generators"
-  ],
+  "files": ["generators"],
   "scripts": {
     "commitlint": "node @commitlint/prompt-cli/cli.js",
     "lint": "eslint",
@@ -26,7 +21,8 @@
     "prepare": "husky",
     "sort-package": "npx sort-package-json",
     "pretest": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "release": "shipjs prepare"
   },
   "jest": {
     "testEnvironment": "node"
@@ -56,6 +52,7 @@
     "jest": "29.7.0",
     "lint-staged": "15.2.2",
     "prettier": "3.2.5",
+    "shipjs": "0.26.3",
     "typescript": "5.4.5",
     "typescript-eslint": "7.6.0",
     "yeoman-assert": "3.1.1",

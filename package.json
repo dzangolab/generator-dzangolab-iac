@@ -1,8 +1,11 @@
 {
   "name": "generator-dzangolab-iac",
-  "version": "0.1.0",
+  "version": "1.0.0-rc1",
   "description": "",
-  "keywords": ["devops", "yeoman-generator"],
+  "keywords": [
+    "devops",
+    "yeoman-generator"
+  ],
   "homepage": "",
   "repository": "generator-dzangolab-iac",
   "license": "MIT",
@@ -13,7 +16,9 @@
   },
   "type": "module",
   "exports": "./generators/app/index.js",
-  "files": ["generators"],
+  "files": [
+    "generators"
+  ],
   "scripts": {
     "commitlint": "node @commitlint/prompt-cli/cli.js",
     "lint": "eslint",

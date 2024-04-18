@@ -1,0 +1,11 @@
+{
+  "name": "aws-instance-profile",
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/awsx": "^2.6",
+    "@pulumi/pulumi": "^3"
+  },
+  "devDependencies": {
+    "@types/node": "20"
+  }
+}

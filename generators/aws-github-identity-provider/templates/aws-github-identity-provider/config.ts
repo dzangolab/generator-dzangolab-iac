@@ -7,7 +7,7 @@ export const getConfig = async () => {
     const stackConfig = new Config();
 
     return {
-        policies: stackConfig.getObject<string[]>("policyArns"), 
+        policies: stackConfig.requireObject<string[]>("policyArns"), 
         protect: stackConfig.getBoolean("protect"),
         repos: stackConfig.requireObject<string[]>("repos"),
         retainOnDelete: stackConfig.getBoolean("retainOnDelete"),

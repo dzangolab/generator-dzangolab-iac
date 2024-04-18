@@ -1,0 +1,4 @@
+config:
+  aws-security-group:protect: false
+  aws-security-group:retainOnDelete: false
+  aws-security-group:suffix: "YYYYMMDD"

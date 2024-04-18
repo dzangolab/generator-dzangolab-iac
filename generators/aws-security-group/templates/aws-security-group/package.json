@@ -1,0 +1,11 @@
+{
+  "name": "aws-security-group",
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/aws": "^6",
+    "@pulumi/pulumi": "^3"
+  },
+  "devDependencies": {
+    "@types/node": "20"
+  }
+}

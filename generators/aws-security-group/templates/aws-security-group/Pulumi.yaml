@@ -1,0 +1,6 @@
+name: aws-security-group
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: AWS security group

@@ -1,0 +1,3 @@
+config:
+  aws-security-group:protect: false
+  aws-security-group:retainOnDelete: false

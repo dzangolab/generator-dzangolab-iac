@@ -25,64 +25,64 @@ export default class IaCGenerator extends Generator {
 			type: "list",
       choices: [
         {
-          name: "SSH key folder",
-          value: "ssh-key-folder"
-        },
-        {
-          name: "DigitalOcean SSH keys",
-          value: "do-ssh-keys"
-        },
-        {
-          name: "DigitalOcean resources",
-          value: "do-resources"
-        },
-        {
-          name: "AWS ECR",
-          value: "aws-ecr"
-        },
-        {
-          name: "AWS EIP",
-          value: "aws-eip"
-        },
-        {
-          name: "AWS SSH key pairs",
-          value: "aws-ssh-keypairs"
-        },
-        {
-          name: "AWS Github identity provider",
-          value: "aws-github-idp"
-        },
-        {
-          name: "AWS resources",
-          value: "aws-resources"
+          name: "Ansible",
+          value: "ansible"
         },
         {
           name: "AWS credentials",
           value: "aws-credentials"
         },
         {
-          name: "AWS IAM instance profile",
-          value: "aws-instance-profile"
-        },
-        {
-          name: "Ansible",
-          value: "ansible"
-        },
-        {
           name: "AWS Docker swarm leader",
           value: "aws-swarm-leader"
         },
         {
-          name: "DigitalOcean Docker swarm leader",
-          value: "do-swarm-leader"
+          name: "AWS EIP",
+          value: "aws-eip"
+        },
+        {
+          name: "AWS ECR",
+          value: "aws-ecr"
+        },
+        {
+          name: "AWS Github identity provider",
+          value: "aws-github-idp"
+        },
+        {
+          name: "AWS IAM instance profile",
+          value: "aws-instance-profile"
+        },
+        {
+          name: "AWS resources",
+          value: "aws-resources"
+        },
+        {
+          name: "AWS SSH key pairs",
+          value: "aws-ssh-keypairs"
         },
         {
           name: "Cloudflare DNS",
           value: "cloudflare-dns"
         },
         {
-          name: "DigitalOcean Database cluster",
+          name: "DigitalOcean database cluster",
           value: "do-database-cluster"
+        },
+        {
+          name: "DigitalOcean Docker swarm leader",
+          value: "do-swarm-leader"
+        },
+        {
+          name: "DigitalOcean resources",
+          value: "do-resources"
+        },
+        {
+          name: "DigitalOcean SSH keys",
+          value: "do-ssh-keys"
+        },
+        {
+          name: "SSH key folder",
+          value: "ssh-key-folder"
         }
       ],
       required: true

@@ -9,6 +9,7 @@ import AWSEIPGenerator from "../aws-eip/index.js";
 import AWSGithubIdentityProviderGenerator from "../aws-github-identity-provider/index.js";
 import AWSInstanceProfileGenerator from "../aws-instance-profile/index.js";
 import AWSResourcesGenerator from "../aws-resources/index.js";
+import AWSSecurityGroupGenerator from "../aws-security-group/index.js";
 import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
 import AWSVPCGenerator from "../aws-vpc/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
@@ -58,6 +59,10 @@ export default class IaCGenerator extends Generator {
           value: "aws-resources"
         },
         {
+          name: "AWS security group",
+          value: "aws-security-group"
+        },
+        {
           name: "AWS SSH key pairs",
           value: "aws-ssh-keypairs"
         },
@@ -103,6 +108,7 @@ export default class IaCGenerator extends Generator {
       "aws-github-idp": { Generator: AWSGithubIdentityProviderGenerator, path: "../aws-github-identity-provider/index.js" },
       "aws-instance-profile": { Generator: AWSInstanceProfileGenerator, path: "../aws-instance-profile/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
+      "aws-security-group": { Generator: AWSSecurityGroupGenerator, path: "../aws-security-group/index.js" },
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
       "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },
       "aws-vpc": { Generator: AWSVPCGenerator, path: "../aws-vpc/index.js" },

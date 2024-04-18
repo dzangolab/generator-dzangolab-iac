@@ -29,18 +29,50 @@ export const getConfig = async () => {
   const eipIdOutput = await eipStack.getOutputDetails("eipId");
   const eipId = getValue<string>(eipIdOutput);
 
-  /** Get Availabblity zone **/ 
-  const availabilityZoneOutput = await resourcesStack.getOutputDetails("availabilityZone");
-  const availabilityZone = getValue<string>(availabilityZoneOutput);
+  /** Get Availability zone **/ 
+  let availabilityZone = stackConfig.require("availabilityZone");
 
-  const securityGroupIdOutput = await resourcesStack.getOutputDetails("securityGroupId");
-  const securityGroupId = getValue<string>(securityGroupIdOutput);
+  if (!availabilityZone) {
+    const vpcProject= stackConfig.get("vpcProject") || "aws-vpc";
+    const vpcStack = new StackReference(
+      `${organization}/${vpcProject}/${stack}`,
+    );
 
-  const subnetIdsOutput = await resourcesStack.getOutputDetails("publicSubnetIds");
-  const subnetId = getValue<string[]>(subnetIdsOutput)[0];
+    const availabilityZonesOutput = await.vpcStack.getOutputDetails("availabtilityZones");
+    const availabilityZones = getValue<string[]>(availabilityZonesOutput);
 
-  const volumeIdOutput = await resourcesStack.getOutputDetails("volumeId");
-  const volumeId = getValue<string>(volumeIdOutput);
+    availabilityZone = availabilityZones[0];
+  }
+
+  /** Get subnet id **/
+  const subnetId = stackConfig.require("subnetId");
+  
+  /** Gets security group id */
+  let securityGroupId = stackConfig.get("securityGroupId");
+
+  if (!securityGroupId) {
+    const securityGroupProject= stackConfig.get("securityGroupProject") || "aws-security-group";
+    const securityGroupStack = new StackReference(
+      `${organization}/${securityGroupProject}/${stack}`,
+    );
+
+    const securityGroupIdOutput = await securityGroupStack.getOutputDetails("id");
+    securityGroupId = getValue<string>(securityGroupIdOutput);
+  }
+
+  /** Get volume **/
+  // const volumeIdOutput = await resourcesStack.getOutputDetails("volumeId");
+  // const volumeId = getValue<string>(volumeIdOutput);
+
+  /** Get instance profile */
+  const instanceProfileProject = stackConfig.get("instanceProfileProject") || "aws-instance-profile";
+
+  const instanceProfileStack = new StackReference(
+    `${organization}/${instanceProfileProject}/${stack}`,
+  );
+
+  const profileNameOutput = await instanceProfileStack.getOutputDetails("name");
+  const profileName = getValue<string>(profileNameOutput);
 
   /** Get key pairs */
   const keypairsProject = stackConfig.get("keypairsProject") || "aws-ssh-keypairs"
@@ -93,6 +125,7 @@ export const getConfig = async () => {
     eip,
     eipId,
     group,
+    instanceProfile: profileName, 
     instanceType: stackConfig.require("instanceType"),
     keyName,
     monitoring: stackConfig.getBoolean("monitoring"),
@@ -104,6 +137,7 @@ export const getConfig = async () => {
     },
     securityGroupId,
     subnetId,
+    suffix: stackConfig.require("suffix"),
     userData,
     username,
     volumeId,

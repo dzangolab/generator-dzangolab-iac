@@ -21,7 +21,7 @@ export = async () => {
       availabilityZoneNames: config.availabilityZoneNames,
       cidrBlock: config.cidrBlock,
       enableDnsHostnames: config.enableDnsHostnames,
-      enableDnsSupport: config.enableDnsHostnames,
+      enableDnsSupport: config.enableDnsSupport,
       natGateways: {
         strategy: config.natGatewayStrategy as NatGatewayStrategy
       },

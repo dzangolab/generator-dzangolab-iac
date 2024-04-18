@@ -18,7 +18,7 @@ export const getConfig = async () => {
     availabilityZoneNames: stackConfig.getObject<string[]>("availabilityZoneNames"),
     cidrBlock: stackConfig.get("cidrBlock") || "10.0.0.0/16",
     enableDnsHostnames: stackConfig.getBoolean("enableDnsHostnames") || false,
-    enableDnsSupport: stackConfig.getBoolean("enableDnsSupport") || false,
+    enableDnsSupport: stackConfig.getBoolean("enableDnsSupport") || true,
     name: stack,
     natGatewayStrategy: stackConfig.get<NatGatewayStrategy>("natGatewayStrategy") || "None",
     protect: stackConfig.getBoolean("protect"),

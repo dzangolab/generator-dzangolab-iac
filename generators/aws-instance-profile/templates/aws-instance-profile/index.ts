@@ -47,9 +47,9 @@ export = async () => {
   );
 
   return {
-    instanceProfileArn: interpolate`${instanceProfile.arn}`,
-    instanceProfileId: interpolate`${instanceProfile.id}`,
-    instanceProfileName: interpolate`${instanceProfile.name}`,
+    arn: interpolate`${instanceProfile.arn}`,
+    id: interpolate`${instanceProfile.id}`,
+    name: interpolate`${instanceProfile.name}`,
     roleArn: interpolate`${role.arn}`,
   };
 

@@ -1,5 +1,5 @@
 config:
   aws-instance-profile:managedPolicyArns: 
-    - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnlyUser
+    - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
   aws-instance-profile:protect: false
   aws-instance-profile:retainOnDelete: false  

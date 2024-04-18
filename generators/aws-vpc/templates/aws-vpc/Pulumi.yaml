@@ -1,0 +1,6 @@
+name: aws-vpc
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: AWS VPC

@@ -36,6 +36,6 @@ export = async () => {
 
   return {
     eips: interpolate`${vpc.eips}`,
-    vpc: interpolate`${vpc.vpc}`
+    vpcId: interpolate`${vpc.vpcId}`
   };
 }

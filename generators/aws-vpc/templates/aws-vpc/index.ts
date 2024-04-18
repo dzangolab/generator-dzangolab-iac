@@ -36,6 +36,8 @@ export = async () => {
 
   return {
     eips: interpolate`${vpc.eips}`,
+    privateSubnetIds: interpolate`${vpc.privateSubnetIds}`,
+    publicSubnetIds: interpolate`${vpc.publicSubnetIds}`,
     vpcId: interpolate`${vpc.vpcId}`
   };
 }

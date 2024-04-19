@@ -54,6 +54,7 @@ export = async () => {
   );
 
   outputs["reservedIpId"] = interpolate`${reservedIp.id}`;
+  outputs["ip"] = interpolate`${reservedIp.id}`;
 
   if (config.dataVolumeSize) {
     const volume = new Volume(

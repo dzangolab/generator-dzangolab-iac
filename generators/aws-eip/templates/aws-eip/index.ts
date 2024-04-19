@@ -23,6 +23,7 @@ export = async () => {
 
   return {
     eip: interpolate`${eip.publicIp}`,
-    eipId: interpolate`${eip.id}`
+    eipId: interpolate`${eip.id}`,
+    ip: interpolate`${eip.publicIp}`
   };
 }

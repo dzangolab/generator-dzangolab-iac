@@ -1,0 +1,6 @@
+name: aws-ebs
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: AWS Elastic block storage

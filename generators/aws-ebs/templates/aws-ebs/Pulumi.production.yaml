@@ -1,0 +1,3 @@
+config:
+  aws-ebs:protect: false
+  aws-ebs:retainOnDelete: false

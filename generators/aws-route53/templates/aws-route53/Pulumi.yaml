@@ -1,0 +1,6 @@
+name: aws-route53
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: AWS Route53 resources

@@ -1,0 +1,6 @@
+config:
+  aws-route53:aliases: 
+    - "*"
+  aws-route53:domain: MYDOMAIN.COM
+  aws-route53:protect: false
+  aws-route53:retainOnDelete: false

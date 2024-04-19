@@ -4,6 +4,7 @@ import Generator from "yeoman-generator";
 import AnsibleGenerator from "../ansible/index.js";
 import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSDockerSwarmLeaderGenerator from "../aws-swarm-leader/index.js";
+import AWSEBSGenerator from "../aws-ebs/index.js";
 import AWSECRGenerator from "../aws-ecr/index.js";
 import AWSEIPGenerator from "../aws-eip/index.js";
 import AWSGithubIdentityProviderGenerator from "../aws-github-identity-provider/index.js";
@@ -37,6 +38,10 @@ export default class IaCGenerator extends Generator {
         {
           name: "AWS Docker swarm leader",
           value: "aws-swarm-leader"
+        },
+        {
+          name: "AWS EBS",
+          value: "aws-ebs"
         },
         {
           name: "AWS EIP",
@@ -103,6 +108,7 @@ export default class IaCGenerator extends Generator {
     const generators = {
       "ansible": { Generator: AnsibleGenerator, path: "../ansible/index.js" },
       "aws-credentials": { Generator: AWSCredentialsGenerator, path: "../aws-credentials/index.js" },
+      "aws-ebs": { Generator: AWSEBSGenerator, path: "../aws-ebs/index.js" },
       "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },
       "aws-eip": { Generator: AWSEIPGenerator, path: "../aws-eip/index.js" },
       "aws-github-idp": { Generator: AWSGithubIdentityProviderGenerator, path: "../aws-github-identity-provider/index.js" },

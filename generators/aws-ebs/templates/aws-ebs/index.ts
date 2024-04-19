@@ -35,10 +35,8 @@ export = async () => {
     volumes.push(volume);
   }
 
-  return volumes.map(volume => {
-    return {
-      arn: interpolate`${volume.arn}`,
-      id: interpolate`${volume.id}`
-    };
-  });
+  return {
+    arns: volumes.map(volume => interpolate`${volume.arn}`),
+    ids: volumes.map(volume => interpolate`${volume.id}`),
+  };
 }

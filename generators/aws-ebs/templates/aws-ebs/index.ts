@@ -12,7 +12,7 @@ export = async () => {
   };
 
   const availabilityZones = config.availabilityZones as string[];
-  const count = config.count;
+  const count = availabilityZones.length;
   const sizes = config.sizes as number[];
   const volumes: Volume[] = [];
 

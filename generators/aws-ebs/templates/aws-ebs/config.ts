@@ -9,9 +9,9 @@ export const getConfig = async () => {
   const stack = getStack();
   const stackConfig = new Config();
 
-  const availabilityZones = stackConfig.getObject<string[]>("availabilityZones");
+  const availabilityZones = stackConfig.requireObject<string[]>("availabilityZones");
   
-  const count = stackConfig.getNumber("count") || 1;
+  const count = availabilityZones.length;
   
   let sizes = stackConfig.getObject<number | number[]>("sizes") || 5;
 
@@ -27,7 +27,6 @@ export const getConfig = async () => {
   
   return {
       availabilityZones: stackConfig.getObject<string[]>("availabilityZones"),
-      count,
       name: stack,
       protect: stackConfig.getBoolean("protect"),
       retainOnDelete: stackConfig.getBoolean("retainOnDelete"),

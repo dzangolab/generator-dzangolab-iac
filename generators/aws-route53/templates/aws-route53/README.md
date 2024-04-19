@@ -105,3 +105,4 @@ If a `subdomain` is configured, the CNAME record name will be int he form of  `a
 | protect | boolean  | false | Protect resources from accidental deletion |
 | retainOnDelete | boolean | false | Retain resources when destroyed |
 | subdomain      | string  |       | Subdomain if any |
+| ttl            | number  | 3600  | Time to live to set on DNS records |

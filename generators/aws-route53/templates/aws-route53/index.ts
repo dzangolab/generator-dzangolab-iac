@@ -20,7 +20,7 @@ export = async () => {
     {
       name: hostname,
       records: [
-        config.ip
+        config.ip,
       ],
       type: RecordType.A,
       ttl: config.ttl,
@@ -36,9 +36,11 @@ export = async () => {
       `${alias}.${config.domain}`,
       {
         name: alias,
+        records: [
+          `${hostname}.${config.domain}`,
+        ],
         type: RecordType.CNAME,
         ttl: config.ttl,
-        value: `${hostname}.${config.domain}`,
         zoneId: zone.then(zone => zone.zoneId),
       },
       options

@@ -2,11 +2,8 @@ config:
   aws-swarm-leader:ami: ami-XXXXXXXXXXXXXXXXX
   aws-swarm-leader:availabilityZone: ap-southeast-1c
   aws-swarm-leader:disableApiTermination: false
-  aws-swarm-leader:instanceType: t2.micro
+  aws-swarm-leader:instanceType: t3.micro
   aws-swarm-leader:keyName: KEYNAME
-  aws-swarm-leader:monitoring: false
-  aws-swarm-leader:publicKeyNames:
-    - KEYNAME
   aws-swarm-leader:retainOnDelete: false
   aws-swarm-leader:rootBlockDeviceSize: 20
   aws-swarm-leader:subnetId: subnet-XXXXXXXXXXXXXXXX

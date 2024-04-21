@@ -8,23 +8,9 @@ Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="cloud-config.txt"
 
 #cloud-config
-users:
-{% for user in users %}
-  - name: {{ user.username }}
-    groups: {{ user.groups }}
-    shell: /bin/bash
-    sudo: 'ALL=(ALL) NOPASSWD:ALL'
-    ssh-authorized-keys: 
-{% for key in user.publicKeys %}
-      - {{ key }}
-{% endfor %}
-{% endfor %}
 
+{% if packages %}
 packages: 
-  - apt-transport-https
-  - ca-certificates
-  - curl
-  - software-properties-common
 {% for package in packages %}
   - {{ package }}
 {% endfor %}
@@ -32,51 +18,67 @@ packages:
 package_update: true
 package_upgrade: true
 package_reboot_if_required: true
-
-{% if swapSize > 0 -%}
-swap:
-  filename: {{ swapFile }}
-  size: {{ swapSize }}
-{%- endif %}
+{% endif %}
 
 runcmd:
-  - sed -i -e '$aAllowUsers {% for user in users %}{{ user.username }}{% endfor %}' /etc/ssh/sshd_config
-  - service ssh restart
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-  - apt -qy update
-  - apt-cache policy docker-ce
-  - apt -qy install docker-ce
-  - docker swarm init --advertise-addr $(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
+  - yum install docker -y
+  - systemctl start docker
+  - systemctl enable docker
+  - usermod -a -G docker ec2-user
+  - yum install cronie -y
+  - systemctl start crond.service
+  - systemctl enable crond.service
 
 --//
 Content-Type: text/x-shellscript; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="userdata.txt"
+Content-Disposition: attachment; filename="userdata1.txt"
+
+#!/bin/bash
+docker swarm init --advertise-addr $(cloud-init query ds.meta-data.local-ipv4)
+
+--//
+Content-Type: text/x-shellscript; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="userdata2.txt"
+
+# Mount EBS volumes
+# https://kodeweich.com/blogs/automate-ebs-volume-mounting-using-user-data-script-on-ec2
 
 #!/bin/bash
 {% for volume in volumes %}
-# Wait for the EBS Volume to be available
-while [ ! -e {{ volume.device }} ]; do sleep 1; done
-# Create a filesystem if needed
-if [ "$(file -s {{ volume.device }})" == "{{ volume.device }}: data" ]
+
+VOLUME_NAME=$(lsblk | grep disk | awk '{print $1}' | while read disk; do echo -n "$disk " && sudo ebsnvme-id -b /dev/$disk; done | grep {{ volume.device }} | awk '{print $1}')
+echo "VOLUME_NAME - $VOLUME_NAME"
+
+MOUNT_POINT=$(lsblk -o MOUNTPOINT -nr /dev/$VOLUME_NAME)
+if [[ -z "$MOUNT_POINT" ]]
 then
-    mkfs -t ext4 {{ volume.device }}
+  MOUNT_POINT={{ volume.path }}
+  FILE_SYSTEM=$(lsblk -o FSTYPE -nr /dev/$VOLUME_NAME)
+  echo "FILE_SYSTEM - $FILE_SYSTEM"
+
+  if [[ $FILE_SYSTEM != '{{ volume.filesystem }}' ]]
+  then
+      mkfs -t {{ volume.filesystem }} /dev/$VOLUME_NAME
+  fi
+
+  mkdir -p $MOUNT_POINT
+  mount /dev/$VOLUME_NAME $MOUNT_POINT
+
+  cp /etc/fstab /etc/fstab.orig
+  VOLUME_ID=$(lsblk -o UUID -nr /dev/$VOLUME_NAME)
+
+  if [[ ! -z $VOLUME_ID ]]
+  then
+    tee -a /etc/fstab <<EOF
+    UUID=$VOLUME_ID  $MOUNT_POINT  {{ volume.filesystem }}  defaults,nofail  0  2
+EOF
+  fi
 fi
-
-# Create the mount directory
-if [ ! -e {{ volume.path }} ]; then
-    mkdir {{ volume.path }}
-fi
-
-# Add an entry to /etc/fstab to mount this volume at startup
-echo '{{ volume.device }}  {{ volume.path }}  ext4  defaults  0 0' | tee -a /etc/fstab
-
-# Mount the volume
-mount {{ volume.path }}
-
-# Change permissions
-chown -R {{ volume.user }}:{{ volume.group }} {{ volume.path }}
+echo "EBS Volume Mounted Successfully."
 {% endfor %}
+
 --//--

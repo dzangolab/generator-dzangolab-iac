@@ -4,7 +4,6 @@ import {
   VolumeAttachment
 } from "@pulumi/aws/ec2";
 import { local } from "@pulumi/command";
-
 import { interpolate } from "@pulumi/pulumi";
 
 import { getConfig } from "./config";
@@ -21,7 +20,7 @@ export = async () => {
     config.name,
     {
       ami: config.ami,
-      associatePublicIpAddress: true,
+      associatePublicIpAddress: config.associatePublicIpAddress,
       availabilityZone: config.availabilityZone,
       disableApiTermination: config.disableApiTermination,
       iamInstanceProfile: config.instanceProfile,
@@ -37,6 +36,7 @@ export = async () => {
       subnetId: config.subnetId,
       tags: {
         Name: `${config.name}-${config.suffix}`,
+        ...config.tags,
       },
       userData: config.userData,
       userDataReplaceOnChange: true,
@@ -57,18 +57,20 @@ new EipAssociation(
   },
 );
 
-new VolumeAttachment(
-  config.name,
-  {
-    instanceId: instance.id,
-    volumeId: config.volumeId,
-    deviceName: "/dev/xvdf",
-  },
-  {
-    protect: config.protect,
-    retainOnDelete: config.retainOnDelete,
-  },
-);
+if (config.volumeId) {
+  new VolumeAttachment(
+    config.name,
+    {
+      instanceId: instance.id,
+      volumeId: config.volumeId,
+      deviceName: "/dev/xvdf",
+    },
+    {
+      protect: config.protect,
+      retainOnDelete: config.retainOnDelete,
+    }
+  );
+}
 
 new local.Command(
   "addOrRemoveDropletToOrFromKnownHosts",
@@ -89,5 +91,4 @@ return {
   privateIp: interpolate`${instance.privateIp}`,
   publicIp: config.eip,
   userData: config.userData,
-};
 };

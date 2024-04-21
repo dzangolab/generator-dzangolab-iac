@@ -68,6 +68,10 @@ setup.traefik:
 	@printf "\033[0;3ansible/2m>>> Set up traefik\033[0m\n"
 	ansible-playbook plays/traefik.yml
 
+ssh-keys:
+	@printf "\033[0;3ansible/2m>>> Update SSH keys\033[0m\n"
+	ansible-playbook plays/ssh-keys.yml
+
 traefik.down:
 	@printf "\033[0;32m>>> Stop traefik\033[0m\n"
 	ansible-playbook plays/traefik.yml --extra-vars="traefik__state=stopped"

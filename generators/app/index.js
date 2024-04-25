@@ -1,7 +1,8 @@
 import chalk from "chalk";
 import Generator from "yeoman-generator";
 
-import AnsibleGenerator from "../ansible/index.js";
+import AnsibleDOGenerator from "../ansible-do/index.js";
+import AnsibleAWSGenerator from "../ansible-aws/index.js";
 import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSDockerSwarmLeaderGenerator from "../aws-swarm-leader/index.js";
 import AWSEBSGenerator from "../aws-ebs/index.js";
@@ -29,8 +30,12 @@ export default class IaCGenerator extends Generator {
 			type: "list",
       choices: [
         {
-          name: "Ansible",
-          value: "ansible"
+          name: "Ansible for DigitalOcean swarm",
+          value: "ansible-do"
+        },
+        {
+          name: "Ansible for AWS swarm",
+          value: "ansible-aws"
         },
         {
           name: "AWS credentials",
@@ -111,7 +116,8 @@ export default class IaCGenerator extends Generator {
 
   writing() {
     const generators = {
-      "ansible": { Generator: AnsibleGenerator, path: "../ansible/index.js" },
+      "ansible-do": { Generator: AnsibleDOGenerator, path: "../ansible-do/index.js" },
+      "ansible-aws": { Generator: AnsibleAWSGenerator, path: "../ansible-aws/index.js" },
       "aws-credentials": { Generator: AWSCredentialsGenerator, path: "../aws-credentials/index.js" },
       "aws-ebs": { Generator: AWSEBSGenerator, path: "../aws-ebs/index.js" },
       "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },

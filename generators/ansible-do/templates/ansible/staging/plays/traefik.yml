@@ -1,0 +1,21 @@
+---
+- name: Get secrets
+  hosts: all
+  tasks:
+    - shell: "aws secretsmanager get-secret-value --output text --query SecretString --secret-id {{ aws_secrets_id }}"
+      delegate_to: 127.0.0.1
+      register: secrets
+
+- name: Compute traefik htpasswd
+  hosts: traefik
+  tasks:
+    - shell: "htpasswd -bn admin \"{{ (secrets.stdout | from_json)[\"traefik-dashboard-password\"] }}\" | sed -e 's/\\$/\\$\\$/g'"
+      delegate_to: 127.0.0.1
+      register: traefik_dashboard_basicauth_password
+
+- name: Deploy traefik
+  hosts: traefik
+  roles:
+    - role: dzangolab.docker_traefik
+  vars:
+    - traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]

@@ -1,0 +1,10 @@
+aws_region: ap-southeast-1
+awscli_users:
+  - user: ec2-user
+    state: present
+    profiles:
+      - name: default
+        aws_access_key_id: "{{ (secrets.stdout | from_json)[\"aws-access-key-id\"] }}"
+        aws_secret_access_key: "{{ (secrets.stdout | from_json)[\"aws-secret-access-key\"] }}"
+        output: json
+        region: ap-southeast-1

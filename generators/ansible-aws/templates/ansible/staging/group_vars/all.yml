@@ -1,0 +1,19 @@
+aws_secrets_id: SECRET_ID
+
+deploy_dir: /mnt/data
+deploy_group: adm
+deploy_user: ec2-user
+
+domain: DOMAIN
+
+minio_enabled: false
+
+network_private: private
+network_traefik: traefik
+
+postgres_version: 16
+
+ssh_key_folder: ../../../../ssh-keys
+ssh_keys:
+ - SSH_KEY_1
+ - SSH_KEY_2

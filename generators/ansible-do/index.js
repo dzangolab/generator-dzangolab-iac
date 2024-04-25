@@ -1,6 +1,6 @@
 import Generator from "yeoman-generator";
 
-export default class AnsibleGenerator extends Generator {
+export default class AnsibleDOGenerator extends Generator {
   writing() {
     this.copyTemplate(
       "ansible",

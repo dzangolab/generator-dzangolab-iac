@@ -1,0 +1,22 @@
+---
+- name: Update ssh keys
+  hosts: all
+
+  tasks:
+    - name: Read SSH keys
+      ansible.builtin.set_fact:
+        keys: |-
+          [
+          {% for key in ssh_keys %}
+            "{{ lookup('file', [ssh_key_folder, '/', key, '.pub'] | join('')) }}",
+          {% endfor %}
+          ]
+    - name: Set SSH keys
+      ansible.posix.authorized_key:
+        exclusive: true
+        key: "{{ keys | join(newline) }}"
+        manage_dir: false
+        state: present
+        user: "{{ deploy_user }}"
+      vars:
+        - newline: "\n"

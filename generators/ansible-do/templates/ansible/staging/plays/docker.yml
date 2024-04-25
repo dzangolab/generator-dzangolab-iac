@@ -5,8 +5,8 @@
     - command: "docker network create -d overlay --attachable {{ item }}"
       ignore_errors: yes
       with_items:
-        - "{{ network }}"
-        - db
+        - "{{ network_private }}"
+        - "{{ network_traefik }}"
   tags:
     - docker-network
 

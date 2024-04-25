@@ -1,3 +1,29 @@
+# 1.0.0-rc2 (2024-04-25)
+
+
+### Bug Fixes
+
+* add consistent 'ip' output for do reserved ip and aws eip b50719b
+* **ansible:** update ssh-keys playbook 7b53650
+* **aws/ebs:** fix aws ebs generator 46633b6
+* **aws/ebs:** fix aws ebs generator default config 2c0cbc0
+* **aws/ebs:** fix output for aws/ebs generator 7fc9605
+* **aws/route53:** fix AWS route 53 generator b12a110
+* **aws/swarm-leader:** fix aws swarm leader generator a5e766a
+* **aws/swarm-leader:** fix aws swarm leader generator 368e778
+* **aws/swarm-leader:** update default stack configs 8ca2037
+* **aws/vpc:** fix vpc dns attributes a49857a
+
+
+### Features
+
+* **aws/ebs:** add aws ebs generator 68978e4
+* **aws/ebs:** add aws ebs generator 2889d44
+* **aws/route53:** add aws route53 generator 6a974b2
+* update ansible generators bec35cc
+
+
+
 # 1.0.0-rc1 (2024-04-15)
 
 

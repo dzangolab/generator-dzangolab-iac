@@ -1,7 +1,7 @@
 aws_secrets_id: SECRET_ID
 
 deploy_dir: /mnt/data
-deploy_group: adm
+deploy_group: USERNAME
 deploy_user: USERNAME
 
 domain: DOMAIN

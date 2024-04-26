@@ -104,4 +104,3 @@
         state: absent
   tags:
     - docker-volume-driver
-

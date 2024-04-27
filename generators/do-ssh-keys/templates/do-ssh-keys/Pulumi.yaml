@@ -1,4 +1,4 @@
-name: digitalocean-ssh-keys
+name: <%= projectName %>
 runtime:
   name: nodejs
   options:

@@ -1,8 +1,8 @@
 config:
-  digitalocean-ssh-keys:key-folder: "../ssh-keys"
-  digitalocean-ssh-keys:key-names:
+  <%= projectName %>:key-folder: "../ssh-keys"
+  <%= projectName %>:key-names:
     - key1 
     - key2 
     - ...
-  digitalocean-ssh-keys:protect: "true"
-  digitalocean-ssh-keys:retainOnDelete: "true"
+  <%= projectName %>:protect: "true"
+  <%= projectName %>:retainOnDelete: "true"

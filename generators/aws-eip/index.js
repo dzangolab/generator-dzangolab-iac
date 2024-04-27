@@ -1,11 +1,36 @@
-import Generator from "yeoman-generator";
+import chalk from "chalk";
 
-export default class AWSEIPGenerator extends Generator {
-  writing() {
-    this.copyTemplate(
-      "aws-eip",
-      "aws-eip",
-      { globOptions: { dot: true } }
-    );
+import PulumiGenerator from "../pulumi/index.js";
+
+export default class AWSEIPGenerator extends PulumiGenerator {
+  constructor(args, opts) {
+    super(args, opts);
+
+    this.displayName = "AWS EIP";
+    this.name = "aws-eip";
   }
+
+  async prompting() {
+    this.props = await this.prompt([
+      {
+        default: this._getDefaultProjectName(),
+        message: "Enter the name of the pulumi project",
+        name: "projectName",
+        type: "input",
+      }
+    ]);
+  };
+
+  writing() {
+    const message = `Generating IaC code for ${this.displayName}`;
+    this.log(`${chalk.green(message)}`);
+
+    this.fs.copyTpl(
+      this.templatePath(this.name),
+      this.destinationPath(this.props.projectName),
+      this.props,
+      null,
+      { globOptions: { dot: true } },
+    );
+  };
 }

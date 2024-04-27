@@ -1,3 +1,3 @@
-name: cloudflare-dns
+name: <%= projectName %>
 runtime: nodejs
 description: Provision DNS records

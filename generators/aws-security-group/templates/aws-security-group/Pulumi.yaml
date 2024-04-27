@@ -1,4 +1,4 @@
-name: aws-security-group
+name: <%= projectName %>
 runtime:
   name: nodejs
   options:

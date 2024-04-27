@@ -1,5 +1,5 @@
 config:
-  aws-resources:protect: "true"
-  aws-resources:retainOnDelete: "true"
-  aws-resources:secretRecoveryWindowInDays: 7
-  aws-resources:useSesSmtp: false
+  <%= projectName %>:protect: "true"
+  <%= projectName %>:retainOnDelete: "true"
+  <%= projectName %>:secretRecoveryWindowInDays: 7
+  <%= projectName %>:useSesSmtp: false

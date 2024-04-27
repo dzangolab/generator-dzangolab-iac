@@ -24,94 +24,113 @@ import SSHKeyFolderGenerator from "../ssh-key-folder/index.js";
 
 export default class IaCGenerator extends Generator {
   async prompting() {
-    this.props = await this.prompt({
-      message: "What IaC code do you wish to generate?",
-			name: "action",
-			type: "list",
-      choices: [
-        {
-          name: "Ansible for DigitalOcean swarm",
-          value: "ansible-do"
-        },
-        {
-          name: "Ansible for AWS swarm",
-          value: "ansible-aws"
-        },
-        {
-          name: "AWS credentials",
-          value: "aws-credentials"
-        },
-        {
-          name: "AWS Docker swarm leader",
-          value: "aws-swarm-leader"
-        },
-        {
-          name: "AWS EBS",
-          value: "aws-ebs"
-        },
-        {
-          name: "AWS EIP",
-          value: "aws-eip"
-        },
-        {
-          name: "AWS ECR",
-          value: "aws-ecr"
-        },
-        {
-          name: "AWS Github identity provider",
-          value: "aws-github-idp"
-        },
-        {
-          name: "AWS IAM instance profile",
-          value: "aws-instance-profile"
-        },
-        {
-          name: "AWS resources",
-          value: "aws-resources"
-        },
-        {
-          name: "AWS Route53",
-          value: "aws-route53"
-        },
-        {
-          name: "AWS security group",
-          value: "aws-security-group"
-        },
-        {
-          name: "AWS SSH key pairs",
-          value: "aws-ssh-keypairs"
-        },
-        {
-          name: "AWS VPC",
-          value: "aws-vpc"
-        },
-        {
-          name: "Cloudflare DNS",
-          value: "cloudflare-dns"
-        },
-        {
-          name: "DigitalOcean database cluster",
-          value: "do-database-cluster"
-        },
-        {
-          name: "DigitalOcean Docker swarm leader",
-          value: "do-swarm-leader"
-        },
-        {
-          name: "DigitalOcean resources",
-          value: "do-resources"
-        },
-        {
-          name: "DigitalOcean SSH keys",
-          value: "do-ssh-keys"
-        },
-        {
-          name: "SSH key folder",
-          value: "ssh-key-folder"
-        }
-      ],
-      required: true
-    });
+    this.props = await this.prompt([
+      {
+        default: this.config.get("infra") || this.appname,
+        message: "What is the name of this infrastructure project?",
+        name: "infra",
+        store: true,
+        type: "input",
+      },
+      {
+        default: this.config.get("resources"),
+        message: "What IaC code do you wish to generate?",
+        name: "resources",
+        type: "checkbox",
+        choices: [
+          {
+            name: "Ansible for DigitalOcean swarm",
+            value: "ansible-do"
+          },
+          {
+            name: "Ansible for AWS swarm",
+            value: "ansible-aws"
+          },
+          { type: "separator" },
+          {
+            name: "AWS credentials",
+            value: "aws-credentials"
+          },
+          {
+            name: "AWS Docker swarm leader",
+            value: "aws-swarm-leader"
+          },
+          {
+            name: "AWS EBS",
+            value: "aws-ebs"
+          },
+          {
+            name: "AWS EIP",
+            value: "aws-eip"
+          },
+          {
+            name: "AWS ECR",
+            value: "aws-ecr"
+          },
+          {
+            name: "AWS Github identity provider",
+            value: "aws-github-idp"
+          },
+          {
+            name: "AWS IAM instance profile",
+            value: "aws-instance-profile"
+          },
+          {
+            name: "AWS resources",
+            value: "aws-resources"
+          },
+          {
+            name: "AWS Route53",
+            value: "aws-route53"
+          },
+          {
+            name: "AWS security group",
+            value: "aws-security-group"
+          },
+          {
+            name: "AWS SSH key pairs",
+            value: "aws-ssh-keypairs"
+          },
+          {
+            name: "AWS VPC",
+            value: "aws-vpc"
+          },
+          { type: "separator" },
+          {
+            name: "Cloudflare DNS",
+            value: "cloudflare-dns"
+          },
+          { type: "separator" },
+          {
+            name: "DigitalOcean database cluster",
+            value: "do-database-cluster"
+          },
+          {
+            name: "DigitalOcean Docker swarm leader",
+            value: "do-swarm-leader"
+          },
+          {
+            name: "DigitalOcean resources",
+            value: "do-resources"
+          },
+          {
+            name: "DigitalOcean SSH keys",
+            value: "do-ssh-keys"
+          },
+          { type: "separator" },
+          {
+            name: "SSH key folder",
+            value: "ssh-key-folder"
+          }
+        ],
+        required: true,
+        store: true,
+      },
+    ]);
+
+    this.config.set(this.props);
+
+    this.config.save();
   };
 
   writing() {
@@ -138,10 +157,14 @@ export default class IaCGenerator extends Generator {
       "ssh-key-folder": { Generator: SSHKeyFolderGenerator, path: "../ssh-key-folder/index.js" },
     };
 
-    if (generators[this.props.action]) {
-      this.composeWith(generators[this.props.action]);
-    } else {
-      this.log(`${chalk.green(JSON.stringify(this.props.action))}`);
+    for (const resource of this.props.resources) {
+      this.composeWith(
+        generators[resource],
+        {
+          prefix: this.props.infra,
+        }
+      );
     }
+
   }
 };

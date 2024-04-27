@@ -1,4 +1,4 @@
-name: aws-route53
+name: <%= projectName %>
 runtime:
   name: nodejs
   options:

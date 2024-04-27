@@ -1,8 +1,8 @@
 config:
-  aws-ecr:images: 
+  <%= projectName %>:images: 
     - {scope}/admin
     - {scope}/api
     - {scope}/app
     - {scope}/test-db
-  aws-ecr:protect: false
-  aws-ecr:retainOnDelete: false  
+  <%= projectName %>:protect: false
+  <%= projectName %>:retainOnDelete: false  

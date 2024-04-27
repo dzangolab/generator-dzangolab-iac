@@ -1,5 +1,5 @@
 {
-    "name": "aws-github-identity-provider",
+    "name": "<%= projectName %>",
     "main": "index.ts",
     "dependencies": {
         "@dzangolab/pulumi": "^0.28",

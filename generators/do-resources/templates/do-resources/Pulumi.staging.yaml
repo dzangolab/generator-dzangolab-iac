@@ -1,7 +1,7 @@
 config:
-  swarm-do-resources:dataVolumeSize: 10
-  swarm-do-resources:environment: development
-  swarm-do-resources:nameSuffix: "YYYYMMDD"
-  swarm-do-resources:protect: "false"
-  swarm-do-resources:region: sgp1
-  swarm-do-resources:retainOnDelete: "false"
+  <%= projectName %>:dataVolumeSize: 10
+  <%= projectName %>:environment: development
+  <%= projectName %>:nameSuffix: "YYYYMMDD"
+  <%= projectName %>:protect: "false"
+  <%= projectName %>:region: sgp1
+  <%= projectName %>:retainOnDelete: "false"

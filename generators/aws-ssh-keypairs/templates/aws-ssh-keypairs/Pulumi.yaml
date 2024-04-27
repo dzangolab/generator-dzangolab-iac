@@ -1,4 +1,4 @@
-name: aws-ssh-keypairs
+name: <%= projectName %>
 runtime:
   name: nodejs
   options:

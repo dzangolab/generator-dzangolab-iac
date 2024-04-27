@@ -1,4 +1,4 @@
 config:
-  aws-resources:protect: "true"
-  aws-resources:retainOnDelete: "true"
-  aws-resources:sesSmtpUser: true
+  <%= projectName %>:protect: "true"
+  <%= projectName %>:retainOnDelete: "true"
+  <%= projectName %>:sesSmtpUser: true

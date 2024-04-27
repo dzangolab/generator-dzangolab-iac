@@ -1,8 +1,8 @@
 config:
-  aws-ebs:availabilityZones: 
+  <%= projectName %>:availabilityZones: 
     - ap-southeast-1a
     - ap-southeast-1b
     - ap-southeast-1c
-  aws-ebs:protect: false
-  aws-ebs:retainOnDelete: false
-  aws-ebs:suffix: "YYYYMMDD"
+  <%= projectName %>:protect: false
+  <%= projectName %>:retainOnDelete: false
+  <%= projectName %>:suffix: "YYYYMMDD"

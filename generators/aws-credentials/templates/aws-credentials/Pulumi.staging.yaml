@@ -1,10 +1,10 @@
 config:
-  aws-credentials:passwords:
+  <%= projectName %>:passwords:
     # - mariadb-root
     - minio-root
     # - nocodb
     - postgres
     - traefik-dashboard
-  aws-credentials:protect: "false"
-  aws-credentials:retainOnDelete: "false"
-  aws-credentials:timestamp: "YYYYMMDDHHSS"
+  <%= projectName %>:protect: "false"
+  <%= projectName %>:retainOnDelete: "false"
+  <%= projectName %>:timestamp: "YYYYMMDDHHSS"

@@ -1,10 +1,10 @@
 config:
-  aws-swarm-leader:ami: ami-XXXXXXXXXXXXXXXXX
-  aws-swarm-leader:availabilityZone: ap-southeast-1c
-  aws-swarm-leader:disableApiTermination: false
-  aws-swarm-leader:instanceType: t3.small
-  aws-swarm-leader:keyName: KEYNAME
-  aws-swarm-leader:retainOnDelete: false
-  aws-swarm-leader:rootBlockDeviceSize: 20
-  aws-swarm-leader:subnetId: subnet-XXXXXXXXXXXXXXXX
-  aws-swarm-leader:suffix: "YYYYMMDD"
+  <%= projectName %>:ami: ami-XXXXXXXXXXXXXXXXX
+  <%= projectName %>:availabilityZone: ap-southeast-1c
+  <%= projectName %>:disableApiTermination: false
+  <%= projectName %>:instanceType: t3.small
+  <%= projectName %>:keyName: KEYNAME
+  <%= projectName %>:retainOnDelete: false
+  <%= projectName %>:rootBlockDeviceSize: 20
+  <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
+  <%= projectName %>:suffix: "YYYYMMDD"

@@ -1,8 +1,8 @@
 config:
-  cloudflare-dns:aliases:
+  <%= projectName %>:aliases:
     - "*"
-  cloudflare-dns:domain: DOMAIN
-  cloudflare-dns:host: HOST
-  cloudflare-dns:ip: IP_ADDRESS
-  cloudflare-dns:protect: "true"
-  cloudflare-dns:retainOnDelete: "true"
+  <%= projectName %>:domain: DOMAIN
+  <%= projectName %>:host: HOST
+  <%= projectName %>:ip: IP_ADDRESS
+  <%= projectName %>:protect: "true"
+  <%= projectName %>:retainOnDelete: "true"

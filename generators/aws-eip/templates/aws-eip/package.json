@@ -1,5 +1,5 @@
 {
-  "name": "aws-eip",
+  "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
     "@pulumi/aws": "^6",

@@ -1,5 +1,5 @@
 {
-    "name": "digitalocean-ssh-keys",
+    "name": "<%= projectName %>",
     "main": "index.ts",
     "dependencies": {
         "@pulumi/digitalocean": "^4",

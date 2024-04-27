@@ -1,4 +1,4 @@
-name: digitalocean-swarm-leader
+name: <%= projectName %>
 runtime:
   name: nodejs
   options:

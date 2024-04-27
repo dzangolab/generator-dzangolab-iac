@@ -1,4 +1,4 @@
-name: aws-instance-profile
+name: <%= projectName %>
 runtime:
   name: nodejs
   options:

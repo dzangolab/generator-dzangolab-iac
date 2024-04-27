@@ -1,11 +1,36 @@
-import Generator from "yeoman-generator";
+import chalk from "chalk";
 
-export default class DigitalOceanDockerSwarmLeaderGenerator extends Generator {
-  writing() {
-    this.copyTemplate(
-      "do-swarm-leader",
-      "do-swarm-leader",
-      { globOptions: { dot: true } }  
-    );
+import PulumiGenerator from "../pulumi/index.js";
+
+export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenerator {
+  constructor(args, opts) {
+    super(args, opts);
+
+    this.displayName = "DigitalOcean swarm leader";
+    this.name = "do-swarm-leader";
   }
+
+  async prompting() {
+    this.props = await this.prompt([
+      {
+        default: this._getDefaultProjectName(),
+        message: "Enter the name of the pulumi project",
+        name: "projectName",
+        type: "input",
+      }
+    ]);
+  };
+
+  writing() {
+    const message = `Generating IaC code for ${this.displayName}`;
+    this.log(`${chalk.green(message)}`);
+
+    this.fs.copyTpl(
+      this.templatePath(this.name),
+      this.destinationPath(this.props.projectName),
+      this.props,
+      null,
+      { globOptions: { dot: true } },
+    );
+  };
 }

@@ -1,5 +1,5 @@
 {
-  "name": "aws-route53",
+  "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
     "@pulumi/aws": "^6",

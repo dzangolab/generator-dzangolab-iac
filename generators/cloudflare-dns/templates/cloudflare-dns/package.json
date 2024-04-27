@@ -1,5 +1,5 @@
 {
-  "name": "dns",
+  "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
     "@dzangolab/pulumi": "^0.22",

@@ -1,5 +1,5 @@
 {
-  "name": "aws-instance-profile",
+  "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
     "@pulumi/awsx": "^2.6",

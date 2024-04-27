@@ -1,5 +1,5 @@
 {
-  "name": "digitalocean-swarm-leader",
+  "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
     "@dzangolab/pulumi": "^0.28",

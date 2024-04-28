@@ -62,6 +62,7 @@ pulumi destroy
 | cidrBlock | string | 10.0.0.0/16 | The CIDR block for the VPC |
 | enableDnsHostnames | boolean | false | A boolean flag to enable/disable DNS hostnames in the VPC |
 | enableDnsSupport  | boolean | false | A boolean flag to enable/disable DNS support in the VPC |
+| name | string | `stack` | The name  of the VPC |
 | natGatewayStrategy | string \| `awsx.ec2.NatGatewayStrategy` | None | None, Single, OnePerAZ |
 | protect | boolean | false | Protect resources from accidental deletion |
 | retainOnDelete | boolean | false | Retain resoruces when destroyed |

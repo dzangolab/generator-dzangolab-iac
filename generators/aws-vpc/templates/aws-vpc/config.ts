@@ -19,7 +19,7 @@ export const getConfig = async () => {
     cidrBlock: stackConfig.get("cidrBlock") || "10.0.0.0/16",
     enableDnsHostnames: stackConfig.getBoolean("enableDnsHostnames") || false,
     enableDnsSupport: stackConfig.getBoolean("enableDnsSupport") || true,
-    name: stack,
+    name: stackConfig.get("name") || stack,
     natGatewayStrategy: stackConfig.get<NatGatewayStrategy>("natGatewayStrategy") || "None",
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),

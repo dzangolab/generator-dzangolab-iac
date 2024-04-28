@@ -26,11 +26,11 @@ export const getConfig = async () => {
   }
   
   return {
-      name: stack,
-      protect: stackConfig.getBoolean("protect"),
-      retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
-      suffix: stackConfig.require("suffix"),
-      vpcId
+    name: stackConfig.get("name") || stack,
+    protect: stackConfig.getBoolean("protect"),
+    retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
+    suffix: stackConfig.require("suffix"),
+    vpcId
   };
 };
 

@@ -1,3 +1,19 @@
+# [1.0.0-rc5](/compare/v1.0.0-rc4...v1.0.0-rc5) (2024-04-28)
+
+
+### Bug Fixes
+
+* **ansible/do:** fix GROUP group var 8327082
+* **cloudflare-dns:** rename prod stack to production d17c373
+* fix misc issues 18ae6f4
+
+
+### Features
+
+* convert action (select) toresources (checkbox) a6636e9
+
+
+
 # [1.0.0-rc4](/compare/1.0.0-rc2...1.0.0-rc4) (2024-04-25)
 
 

@@ -1,0 +1,10 @@
+config:
+  <%= projectName %>:ami: ami-0dc44e17251b74325
+  <%= projectName %>:availabilityZone: ap-southeast-1c
+  <%= projectName %>:disableApiTermination: false
+  <%= projectName %>:instanceType: t3.large
+  <%= projectName %>:keyName: op@mbam3
+  <%= projectName %>:retainOnDelete: false
+  <%= projectName %>:rootBlockDeviceSize: 75
+  <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
+  <%= projectName %>:suffix: "YYYYMMDD"

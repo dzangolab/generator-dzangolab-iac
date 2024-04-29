@@ -1,0 +1,6 @@
+config:
+  <%= projectName %>:buckets: 
+    - BUCKET
+    - ...
+  <%= projectName %>:protect: false
+  <%= projectName %>:retainOnDelete: false  

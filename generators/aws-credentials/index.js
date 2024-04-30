@@ -27,7 +27,7 @@ class AWSCredentialsGenerator extends PulumiGenerator {
 
     this.fs.copyTpl(
       this.templatePath(this.name),
-      this.destinationPath(this.props.projectName),
+      this.destinationPath(this.name),
       this.props,
       null,
       { globOptions: { dot: true } },
@@ -38,5 +38,3 @@ class AWSCredentialsGenerator extends PulumiGenerator {
 // Object.setPrototypeOf(AWSCredentialsGenerator.prototype, PulumiGenerator);
 
 export default AWSCredentialsGenerator;
-
-

@@ -27,7 +27,7 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
 
     this.fs.copyTpl(
       this.templatePath(this.name),
-      this.destinationPath(this.props.projectName),
+      this.destinationPath(this.name),
       this.props,
       null,
       { globOptions: { dot: true } },

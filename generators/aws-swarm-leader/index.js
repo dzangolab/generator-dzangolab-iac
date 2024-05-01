@@ -22,7 +22,7 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
   };
 
   writing() {
-    const message = `Generating IaC code for ${resource}`;
+    const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
     this.fs.copyTpl(

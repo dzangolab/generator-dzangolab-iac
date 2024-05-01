@@ -6,7 +6,7 @@ export const getConfig = async () => {
     const stackConfig = new Config();
 
     return {
-        name: stack,
+        name: stackConfig.get("name") || stack,
         protect: stackConfig.getBoolean("protect"),
         retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     };

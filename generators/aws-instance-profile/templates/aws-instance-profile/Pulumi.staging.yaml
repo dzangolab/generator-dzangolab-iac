@@ -1,5 +1,5 @@
 config:
-  <%= projectName %>:managedPolicyArns: 
+  <%= projectName %>:managedPoliciesArns: 
     - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false

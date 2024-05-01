@@ -22,7 +22,7 @@ export = async () => {
     const bucket = new aws.S3Bucket(
       bucketName,
       {
-        folders: folders[name],
+        folders: folders ? folders[name] : [],
       },
       options
     );

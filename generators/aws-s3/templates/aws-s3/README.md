@@ -1,6 +1,6 @@
 # AWS ECR Repositories
 
-Provisions AWS ECR repositories.
+Provisions one or more AWAS S3 buckets.
 
 ## Requirements
 
@@ -54,14 +54,58 @@ Unfortunately, existing ECR repositories cannot be imported into this IaC.
 
 ## Resources provisioned
 
-### AWS ECR Repositories
+### S3Bucket 
 
-1 AWS ECR repository is provisioned for each value of the `images` stack config setting.
+One instance of `dzangolab:aws:S3Bucket` per bucket. See https://github.com/dzangolab/pulumi/blob/main/docs/aws/s3-bucket.md.
+
+### AWS S3 buckets
+
+1 AWS S3 bucket for each item under the `buckets` stack config setting.
+
+### AWS S3 objects
+
+For each bucket, 1 AWS S3 object (folder)  for each item under the bucket name's entry under the `folders` stack config setting. If no such setting is present, no folders will be created.
+
+### AWS IAM bucket access policy
+
+For each bucket, an IAM policy granting read/write access to the bucket.
 
 ## Configuration settings
 
-| Setting | Type | Default | Description |
+| Setting | Type | Default | Required | Description |
 |---------|------|---------|-------------|
-| images  | string[] | | The names of the repositories to be provisioned |
-| protect | boolean | false | Protect resources from accidental deletion |
-| retainOnDelete | boolean | false | Retain resources when destroyed |
+| buckets | Object | | Yes | A list of buckets to create, keyed by a name. The name serves as a key to reference the bucket in the project's outputs. |
+| folders | Object | | No  |A list of folders for each bucket. The buckets are referenced by the same key used in the `buckets` settig |
+| protect | boolean | false | No | Protect resources from accidental deletion |
+| retainOnDelete | boolean | false | No | Retain resources when destroyed |
+
+### Example
+
+```yaml
+aws-s3:buckets:
+    postgres: postgres-backups
+    redis: redis-backups
+aws-s3:folders:
+  postgres:
+    - 2023
+    - 2023
+  redis:
+    - 2023
+    - 2024
+```
+
+## Outputs
+
+For each bucket, where `{name}` refers to the key for the bucket in the stack config's `buckets` setting:
+
+| Output | Description |
+|--------|-------------|
+| `{name}-bucket-arn` | the arn of the bucket  |
+| `{name}-bucket-policy-arn` | the arn of the IAM read/write policy associated with the bucket |  
+
+In the example above, the outputs would be:
+
+* `postgres-bucket-arn`
+* `postgres-bucket-;olicy-arn`
+* `redis-bucket-arn`
+* `redis-bucket-policy-arn`

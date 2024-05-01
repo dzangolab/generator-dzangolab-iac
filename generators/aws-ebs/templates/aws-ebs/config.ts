@@ -27,7 +27,7 @@ export const getConfig = async () => {
   
   return {
       availabilityZones: stackConfig.getObject<string[]>("availabilityZones"),
-      name: stack,
+      name: stackConfig.get("name") || stack,
       protect: stackConfig.getBoolean("protect"),
       retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
       sizes,

@@ -1,0 +1,10 @@
+config:
+  <%= projectName %>:buckets: 
+    NAME: BUCKET_NAME
+    ...
+  <%= projectName %>:folders: 
+    NAME:
+      - ...
+      - ...
+  <%= projectName %>:protect: false
+  <%= projectName %>:retainOnDelete: false  

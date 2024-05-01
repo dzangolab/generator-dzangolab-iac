@@ -1,4 +1,5 @@
 import { aws } from "@dzangolab/pulumi";
+import { interpolate, Output } from "@pulumi/pulumi";
 
 import { getConfig } from "./config";
 
@@ -10,23 +11,25 @@ export = async () => {
     retainOnDelete: config.retainOnDelete,
   };
 
-  const bucketNames = config.buckets;
+  const buckets = config.buckets;
+  const folders = config.folders;
 
-  const buckets = {} as { [key: string]: string };
+  const outputs = {} as { [key: string]: Output<string> };
 
-  for (let i = 0; i < bucketNames.length; i++) {
-    const name = bucketNames[i];
+  for (const name in buckets) {
+    const bucketName = buckets[name];
 
     const bucket = new aws.S3Bucket(
-      name,
+      bucketName,
       {
-        name: name
+        folders: folders[name],
       },
       options
     );
 
-    buckets[name] = bucket.arn;
+    outputs[`${name}-bucket-arn`] = interpolate`${bucket.arn}`;
+    outputs[`${name}-bucket-policy-arn`] = interpolate`${bucket.policyArn}`;
   }
 
-  return buckets;
+  return outputs;
 }

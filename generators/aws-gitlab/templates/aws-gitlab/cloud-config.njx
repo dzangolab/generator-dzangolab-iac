@@ -16,8 +16,8 @@ package_reboot_if_required: true
 
 runcmd:
   - dnf install -y policycoreutils-python-utils openssh-server openssh-clients perl
-  - curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash
-  - EXTERNAL_URL="https://gitlab.example.com" dnf install -y gitlab-ee
+  - curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+  - EXTERNAL_URL="{{ gitlabUrl }}" dnf install -y gitlab-ce
 
 --//
 Content-Type: text/x-shellscript; charset="utf-8"

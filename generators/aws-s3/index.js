@@ -2,12 +2,12 @@ import chalk from "chalk";
 
 import PulumiGenerator from "../pulumi/index.js";
 
-export default class AWSResourcesGenerator extends PulumiGenerator {
+export default class AWSS3Generator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.displayName = "AWS resources";
-    this.name = "aws-resources";
+    this.displayName = "AWS S3";
+    this.name = "aws-s3";
   }
 
   async prompting() {

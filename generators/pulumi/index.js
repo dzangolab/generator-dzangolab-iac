@@ -13,6 +13,12 @@ class PulumiGenerator extends Generator {
       defaults: "",
       desc: "String to prefix the default project name with."
     });
+
+    this.option("usePrefixInFolderName", {
+      type: Boolean,
+      defaults: false,
+      desc: "Whether to use the prefix in the project folder name."
+    });
   }
 
   async prompting() {
@@ -42,6 +48,17 @@ class PulumiGenerator extends Generator {
       `${this.options.prefix}-${this.name}` : 
       `${this.name}`;
   };
+
+  _getFolderName() {
+    const projectName = this.props.projectName;
+    const prefixed = projectName.startsWith(this.options.prefix);
+
+    if (!this.options.usePrefixInFolderName && prefixed) {
+      return projectName.substr(this.options.prefix.length + 1);
+    }
+
+    return this.props.projectName;
+  }
 }
 
 // inherits(PulumiGenerator, Generator);

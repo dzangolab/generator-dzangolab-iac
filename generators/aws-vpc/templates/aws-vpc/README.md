@@ -1,6 +1,6 @@
 # AWS VPC
 
-Provisions a VPC in aws EC2.
+Provisions a AWS VPC.
 
 ## Requirements
 

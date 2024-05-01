@@ -12,6 +12,7 @@ import AWSGithubIdentityProviderGenerator from "../aws-github-identity-provider/
 import AWSInstanceProfileGenerator from "../aws-instance-profile/index.js";
 import AWSResourcesGenerator from "../aws-resources/index.js";
 import AWSRoute53Generator from "../aws-route53/index.js";
+import AWSS3Generator from "../aws-s3/index.js";
 import AWSSecurityGroupGenerator from "../aws-security-group/index.js";
 import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
 import AWSVPCGenerator from "../aws-vpc/index.js";
@@ -31,6 +32,13 @@ export default class IaCGenerator extends Generator {
         name: "infra",
         store: true,
         type: "input",
+      },
+      {
+        default: false,
+        message: "Use prefix in folder names?",
+        name: "usePrefixInFolderName",
+        store: true,
+        type: "boolean",
       },
       {
         default: this.config.get("resources"),
@@ -82,6 +90,10 @@ export default class IaCGenerator extends Generator {
           {
             name: "AWS Route53",
             value: "aws-route53"
+          },
+          {
+            name: "AWS S3",
+            value: "aws-s3"
           },
           {
             name: "AWS security group",
@@ -145,6 +157,7 @@ export default class IaCGenerator extends Generator {
       "aws-instance-profile": { Generator: AWSInstanceProfileGenerator, path: "../aws-instance-profile/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
       "aws-route53": { Generator: AWSRoute53Generator, path: "../aws-route53/index.js" },
+      "aws-s3": { Generator: AWSS3Generator, path: "../aws-s3/index.js" },
       "aws-security-group": { Generator: AWSSecurityGroupGenerator, path: "../aws-security-group/index.js" },
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
       "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },
@@ -161,7 +174,8 @@ export default class IaCGenerator extends Generator {
       this.composeWith(
         generators[resource],
         {
-          prefix: this.props.infra,
+          prefix: this.props.infra.toLowerCase().replace(/[^a-z\d]/g, "-"),
+          usePrefixInFolderName: this.props.usePrefixInFolderName,
         }
       );
     }

@@ -56,7 +56,11 @@ An AWS security group is provisioned.
 
 ## Configuration settings
 
-| Setting | Type | Default | Description |
-|---------|------|---------|-------------|
-| protect | boolean | false | Protect resources from accidental deletion |
+| Setting | Type    | Default | Description |
+|---------|---------|---------|-------------|
+| name    | string  | `stack` | The name of the security group |
+| protect | boolean | false   | Protect resources from accidental deletion |
 | retainOnDelete | boolean | false | Retain resources when destroyed |
+| suffix  | string  |         | A suffix to append to the resource name |
+| vpcProject | string | `aws-vpc` | The name of the project that provisions the AWS VPC to which this security group will belong. Ignored if `vpcId` is defined |
+| vpcId   | string |          | The id of the AWS VPC top which this security group belongs. Takes precedence over `vpcProject` | 

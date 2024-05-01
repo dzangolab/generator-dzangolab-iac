@@ -167,7 +167,7 @@ export default class IaCGenerator extends Generator {
       this.composeWith(
         generators[resource],
         {
-          prefix: this.props.infra,
+          prefix: this.props.infra.toLowerCase().replace(/[^a-z\d]/g, "-"),
         }
       );
     }

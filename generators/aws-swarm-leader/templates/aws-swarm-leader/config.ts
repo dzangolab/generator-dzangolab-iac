@@ -13,7 +13,7 @@ export const getConfig = async () => {
   const stack = getStack();
   const stackConfig = new Config();
 
-  const name = `${organization}-${stack}`;
+  const name = stackConfig.get("name") || `${organization}-${stack}`;
 
   /** Get Availability zone **/ 
   let availabilityZone = stackConfig.require("availabilityZone");

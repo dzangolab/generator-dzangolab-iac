@@ -33,11 +33,4 @@ export default class AWSSSHKeypairsGenerator extends PulumiGenerator {
       { globOptions: { dot: true } },
     );
   };
-  writing() {
-    this.copyTemplate(
-      "aws-ssh-keypairs",
-      "aws-ssh-keypairs",
-      { globOptions: { dot: true } }  
-    );
-  }
 }

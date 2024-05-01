@@ -6,7 +6,7 @@ export const getConfig = async () => {
 
   return {
     buckets: stackConfig.requireObject<{ [key: string]: string }>("buckets"),
-    folders: stackConfig.requireObject<{ [key: string]: string[] }>("folders"),
+    folders: stackConfig.getObject<{ [key: string]: string[] }>("folders"),
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
   };

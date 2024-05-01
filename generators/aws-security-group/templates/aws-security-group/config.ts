@@ -15,7 +15,7 @@ export const getConfig = async () => {
   let vpcId = stackConfig.get("vpcId");
 
   if (!vpcId) {
-    const vpcProject = stackConfig.get("aws-vpc-project") || "aws-vpc";
+    const vpcProject = stackConfig.get("vpcProject") || "aws-vpc";
 
     const vpcStack =   new StackReference(
       `${organization}/${vpcProject}/${stack}`,

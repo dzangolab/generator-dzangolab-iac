@@ -34,6 +34,13 @@ export default class IaCGenerator extends Generator {
         type: "input",
       },
       {
+        default: false,
+        message: "Use prefix in folder names?",
+        name: "usePrefixInFolderName",
+        store: true,
+        type: "boolean",
+      },
+      {
         default: this.config.get("resources"),
         message: "What IaC code do you wish to generate?",
         name: "resources",
@@ -168,6 +175,7 @@ export default class IaCGenerator extends Generator {
         generators[resource],
         {
           prefix: this.props.infra.toLowerCase().replace(/[^a-z\d]/g, "-"),
+          usePrefixInFolderName: this.props.usePrefixInFolderName,
         }
       );
     }

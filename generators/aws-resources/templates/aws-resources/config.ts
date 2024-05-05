@@ -11,15 +11,14 @@ export const getConfig = async () => {
   const stackConfig = new Config();
 
   return {
-    name: stack,
+    name: stackConfig.get("name") || stack,
     policies: {
       ecr: "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
     },
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     secretRecoveryWindowInDays: stackConfig.requireNumber("secretRecoveryWindowInDays"),
-    useSesSmtp: stackConfig.getBoolean("useSesSmtp"),
-    username: stackConfig.get("username") || stack,
+    useSesSmtp: stackConfig.getBoolean("useSesSmtp")
   };
 };
 

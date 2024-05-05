@@ -27,7 +27,7 @@ export = async () => {
 
   if (config.useSesSmtp) {
     const sesSmtpUser = new aws.User(
-      `{config.username}-ses`,
+      `${config.name}-ses`,
       {
         accessKey: false,
         sesSmtpUser: true,

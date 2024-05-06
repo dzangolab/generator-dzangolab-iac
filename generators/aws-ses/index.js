@@ -25,12 +25,26 @@ export default class AWSSESGenerator extends PulumiGenerator {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
-    this.fs.copyTpl(
+
+    this.fs.copyTplAsync(
       this.templatePath(this.name),
       this.destinationPath(this._getFolderName()),
       this.props,
-      null,
-      { globOptions: { dot: true } },
+      {},
+      { 
+        globOptions: { 
+          dot: true,
+          ignore: "**/Pulumi.stack.yaml",
+        }
+      },
     );
+
+    if (this.options.createStackConfig) {
+      this.fs.copyTplAsync(
+        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
+        this.props,
+      );
+    }
   };
 }

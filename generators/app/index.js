@@ -50,6 +50,14 @@ export default class IaCGenerator extends Generator {
         type: "input",
       },
       {
+        default: true,
+        message: "Generate stack config?",
+        name: "createStackConfig",
+        store: true,
+        type: "boolean",
+      },
+
+      {
         choices: [
           {
             name: "Ansible for DigitalOcean swarm",
@@ -145,17 +153,15 @@ export default class IaCGenerator extends Generator {
           }
         ],
         message: "What IaC code do you wish to generate?",
-        name: "resources",
+        name: "project",
         required: true,
-        type: "select",
+        type: "list",
       },
     ]);
-
-    /*
+    
     this.config.set(this.props);
 
     this.config.save();
-    */
   };
 
   writing() {
@@ -184,15 +190,19 @@ export default class IaCGenerator extends Generator {
       "ssh-key-folder": { Generator: SSHKeyFolderGenerator, path: "../ssh-key-folder/index.js" },
     };
 
-    for (const resource of this.props.resources) {
-      this.composeWith(
-        generators[resource],
-        {
-          prefix: this.props.infra.toLowerCase().replace(/[^a-z\d]/g, "-"),
-          usePrefixInFolderName: this.props.usePrefixInFolderName,
-        }
-      );
-    }
+    const prefix = this.props.infra === "\"\""
+      ? undefined
+      : this.props.infra.toLowerCase().replace(/[^a-z\d]/g, "-");
+
+    this.composeWith(
+      generators[this.props.project],
+      {
+        createStackConfig: this.props.createStackConfig,
+        environment: this.props.environment,
+        prefix,
+        usePrefixInFolderName: this.props.usePrefixInFolderName,
+      }
+    );
 
   }
 };

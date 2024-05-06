@@ -7,4 +7,4 @@ config:
     - traefik-dashboard
   <%= projectName %>:protect: "false"
   <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:timestamp: "YYYYMMDDHHSS"
+  <%= projectName %>:timestamp: "YYYYMMDD"

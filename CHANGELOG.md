@@ -1,3 +1,31 @@
+# [1.0.0-rc6](/compare/v1.0.0-rc5...v1.0.0-rc6) (2024-05-06)
+
+
+### Bug Fixes
+
+* **aws/ebs:** allow custom name a1437f1
+* **aws/s3:** fix s3 generator 90284b3
+* **aws/s3:** fixaws security group generator 0b18689
+* **aws/s3:** refactor AWS S3 generator a2ea04b
+* **aws/s3:** refactor AWS S3 generator 1e849a3
+* **aws/ssh-keypairs:** fix typo ee829b8
+* **aws/swarm-leader:** allow custom name 32ba922
+* **aws/swarm-leader:** fix AWS swarm leader generator 7c08a9a
+* **aws/vpc:** update docs for aws vpc generator 9acab6a
+* fix aws generators f09535d
+* misc minor updates and fixes 39727b3
+
+
+### Features
+
+* allow prefixed to be ignored for folder names 11e48aa
+* **aws/s3:** add aws s3 generator a19b9da
+* **aws/ses:** add aws ses generator d95304e
+* **gitlab:** add aws-gitlab generator 7364f4f
+* **prefix:** convert unsupported characters 683fdae
+
+
+
 # [1.0.0-rc5](/compare/v1.0.0-rc4...v1.0.0-rc5) (2024-04-28)
 
 

@@ -42,10 +42,14 @@ export default class IaCGenerator extends Generator {
         type: "boolean",
       },
       {
-        default: this.config.get("resources"),
-        message: "What IaC code do you wish to generate?",
-        name: "resources",
-        type: "checkbox",
+        // default: this.config.get("environment"),
+        message: "What environment are you generating this project for?",
+        name: "environment",
+        required: true,
+        store: true,
+        type: "input",
+      },
+      {
         choices: [
           {
             name: "Ansible for DigitalOcean swarm",
@@ -140,14 +144,18 @@ export default class IaCGenerator extends Generator {
             value: "ssh-key-folder"
           }
         ],
+        message: "What IaC code do you wish to generate?",
+        name: "resources",
         required: true,
-        store: true,
+        type: "select",
       },
     ]);
 
+    /*
     this.config.set(this.props);
 
     this.config.save();
+    */
   };
 
   writing() {

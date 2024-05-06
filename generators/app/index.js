@@ -14,6 +14,7 @@ import AWSResourcesGenerator from "../aws-resources/index.js";
 import AWSRoute53Generator from "../aws-route53/index.js";
 import AWSS3Generator from "../aws-s3/index.js";
 import AWSSecurityGroupGenerator from "../aws-security-group/index.js";
+import AWSSESGenerator from "../aws-ses/index.js";
 import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
 import AWSVPCGenerator from "../aws-vpc/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
@@ -100,6 +101,10 @@ export default class IaCGenerator extends Generator {
             value: "aws-security-group"
           },
           {
+            name: "AWS SES",
+            value: "aws-ses"
+          },
+          {
             name: "AWS SSH key pairs",
             value: "aws-ssh-keypairs"
           },
@@ -159,6 +164,7 @@ export default class IaCGenerator extends Generator {
       "aws-route53": { Generator: AWSRoute53Generator, path: "../aws-route53/index.js" },
       "aws-s3": { Generator: AWSS3Generator, path: "../aws-s3/index.js" },
       "aws-security-group": { Generator: AWSSecurityGroupGenerator, path: "../aws-security-group/index.js" },
+      "aws-ses": { Generator: AWSSESGenerator, path: "../aws-ses/index.js" },
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
       "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },
       "aws-vpc": { Generator: AWSVPCGenerator, path: "../aws-vpc/index.js" },

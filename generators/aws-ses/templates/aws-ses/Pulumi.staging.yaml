@@ -1,0 +1,5 @@
+config:
+  <%= projectName %>:protect: "true"
+  <%= projectName %>:retainOnDelete: "true"
+  <%= projectName %>:secretRecoveryWindowInDays: 7
+  <%= projectName %>:useSesSmtp: false

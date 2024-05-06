@@ -1,0 +1,6 @@
+config:
+  <%= projectName %>:domains: 
+    - DOMAIN
+    - ...
+  <%= projectName %>:protect: "true"
+  <%= projectName %>:retainOnDelete: "true"

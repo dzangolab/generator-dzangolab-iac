@@ -42,10 +42,22 @@ export default class IaCGenerator extends Generator {
         type: "boolean",
       },
       {
-        default: this.config.get("resources"),
-        message: "What IaC code do you wish to generate?",
-        name: "resources",
-        type: "checkbox",
+        // default: this.config.get("environment"),
+        message: "What environment are you generating this project for?",
+        name: "environment",
+        required: true,
+        store: true,
+        type: "input",
+      },
+      {
+        default: true,
+        message: "Generate stack config?",
+        name: "createStackConfig",
+        store: true,
+        type: "boolean",
+      },
+
+      {
         choices: [
           {
             name: "Ansible for DigitalOcean swarm",
@@ -140,11 +152,13 @@ export default class IaCGenerator extends Generator {
             value: "ssh-key-folder"
           }
         ],
+        message: "What IaC code do you wish to generate?",
+        name: "project",
         required: true,
-        store: true,
+        type: "list",
       },
     ]);
-
+    
     this.config.set(this.props);
 
     this.config.save();
@@ -176,15 +190,19 @@ export default class IaCGenerator extends Generator {
       "ssh-key-folder": { Generator: SSHKeyFolderGenerator, path: "../ssh-key-folder/index.js" },
     };
 
-    for (const resource of this.props.resources) {
-      this.composeWith(
-        generators[resource],
-        {
-          prefix: this.props.infra.toLowerCase().replace(/[^a-z\d]/g, "-"),
-          usePrefixInFolderName: this.props.usePrefixInFolderName,
-        }
-      );
-    }
+    const prefix = this.props.infra === "\"\""
+      ? undefined
+      : this.props.infra.toLowerCase().replace(/[^a-z\d]/g, "-");
+
+    this.composeWith(
+      generators[this.props.project],
+      {
+        createStackConfig: this.props.createStackConfig,
+        environment: this.props.environment,
+        prefix,
+        usePrefixInFolderName: this.props.usePrefixInFolderName,
+      }
+    );
 
   }
 };

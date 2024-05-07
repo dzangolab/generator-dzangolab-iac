@@ -1,9 +1,0 @@
-config:
-  <%= projectName %>:engine: "pg"
-  <%= projectName %>:nameSuffix: "YYYYMMDD"
-  <%= projectName %>:nodeCount: 1
-  <%= projectName %>:protect: "false"
-  <%= projectName %>:region: "sgp1"
-  <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:size: "db-s-1vcpu-1gb"
-  <%= projectName %>:version: "16"

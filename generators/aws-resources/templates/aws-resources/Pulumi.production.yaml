@@ -1,4 +1,0 @@
-config:
-  <%= projectName %>:protect: "true"
-  <%= projectName %>:retainOnDelete: "true"
-  <%= projectName %>:sesSmtpUser: true

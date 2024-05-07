@@ -1,7 +1,0 @@
-config:
-  <%= projectName %>:dataVolumeSize: 10
-  <%= projectName %>:environment: development
-  <%= projectName %>:nameSuffix: "YYYYMMDD"
-  <%= projectName %>:protect: "false"
-  <%= projectName %>:region: sgp1
-  <%= projectName %>:retainOnDelete: "false"

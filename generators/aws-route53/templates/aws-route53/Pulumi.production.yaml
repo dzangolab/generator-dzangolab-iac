@@ -1,4 +1,0 @@
-config:
-  <%= projectName %>:domain: MYDOMAIN.COM
-  <%= projectName %>:protect: false
-  <%= projectName %>:retainOnDelete: false

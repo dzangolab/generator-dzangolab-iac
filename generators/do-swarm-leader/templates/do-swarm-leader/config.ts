@@ -13,9 +13,9 @@ export const getConfig = async () => {
   const stack = getStack();
   const stackConfig = new Config();
 
-  const doResourcesStack = stackConfig.get("do-resources-stack") || "do-resources";
+  const doResourcesProject = stackConfig.get("doResourcesProject") || "do-resources";
 
-  const resourcesStack = new StackReference(`${organization}/${doResourcesStack}/${stack}`);
+  const resourcesStack = new StackReference(`${organization}/${doResourcesProject}/${stack}`);
 
   const projectIdOutput = await resourcesStack.getOutputDetails("projectId");
   const projectId = getValue<string>(projectIdOutput);
@@ -39,7 +39,7 @@ export const getConfig = async () => {
 
   return {
     image: stackConfig.require("image"),
-    name: stack,
+    name: stackConfig.get("name") || stack,
     projectId,
     protect: stackConfig.getBoolean("protect"),
     region: stackConfig.require("region"),

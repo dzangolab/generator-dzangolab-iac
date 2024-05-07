@@ -2,7 +2,16 @@ config:
   <%= projectName %>:aliases:
     - "*"
   <%= projectName %>:domain: DOMAIN
+
+  # Use ONE of the following 3 settings
   <%= projectName %>:host: HOST
+  <%= projectName %>:hostProject: <%= prefix %>-aws-swarm-leader 
+  <%= projectName %>:hostProject: <%= prefix %>-do-swarm-leader 
+
+  # Use ONE of the following 3 settings
   <%= projectName %>:ip: IP_ADDRESS
+  <%= projectName %>:ipProject: <%= prefix %>-aws-eip 
+  <%= projectName %>:ipProject: <%= prefix %>-do-resources 
+
   <%= projectName %>:protect: "true"
   <%= projectName %>:retainOnDelete: "true"

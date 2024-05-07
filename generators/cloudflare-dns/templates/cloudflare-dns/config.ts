@@ -15,18 +15,18 @@ export const getConfig = async () => {
   let ip = stackConfig.get("ip");
 
   if (!ip) {
-    const doResourcesProject = stackConfig.get("do-resources-stack") || "do-resources";
-    const resourcesStack = new StackReference(`${organization}/${doResourcesProject}/${stack}`);
-    const reservedIpIdOutput = await resourcesStack.getOutputDetails("reservedIpId");
-    ip = getValue<string>(reservedIpIdOutput);
+    const ipProject = stackConfig.get("ipProject") || "do-resources";
+    const resourcesStack = new StackReference(`${organization}/${ipProject}/${stack}`);
+    const ipOutput = await resourcesStack.getOutputDetails("ip");
+    ip = getValue<string>(ipOutput);
   }
 
   let host = stackConfig.get("host");
 
   if (!host) {
-    const doSwarmLeaderProject = stackConfig.get("do-swarm-leader-stack") || "do-swarm-leader";
-    const swarmLeaderStack = new StackReference(`${organization}/${doSwarmLeaderProject}/${stack}`);
-    const hostOutput = await swarmLeaderStack.getOutputDetails("name");
+    const hostProject = stackConfig.get("hostProject") || "do-swarm-leader";
+    const hostStack = new StackReference(`${organization}/${hostProject}/${stack}`);
+    const hostOutput = await hostStack.getOutputDetails("name");
     host = getValue<string>(hostOutput);
   }
 

@@ -1,3 +1,22 @@
+# [1.0.0-rc7](/compare/v1.0.0-rc6...v1.0.0-rc7) (2024-05-07)
+
+
+### Bug Fixes
+
+* **aws/instance-profile:** fix generator 30bf8f3
+* fix generators 6de1235
+* fix generators 3f3c45a
+* fix generators 4124cf0
+* fix generators e2a2b85
+* fix generators fd23f90
+* fix generators b4b2ee6
+* fix generators 08c364d
+* fix generators bccfd0f
+* fix name stackconfig setting 7f3afc2
+* fix name stackconfig setting c1079c3
+
+
+
 # [1.0.0-rc6](/compare/v1.0.0-rc5...v1.0.0-rc6) (2024-05-06)
 
 

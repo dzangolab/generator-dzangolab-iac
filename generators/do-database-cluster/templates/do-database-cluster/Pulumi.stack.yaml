@@ -1,5 +1,6 @@
 config:
   <%= projectName %>:engine: "pg"
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:nameSuffix: "YYYYMMDD"
   <%= projectName %>:nodeCount: 1
   <%= projectName %>:protect: "false"

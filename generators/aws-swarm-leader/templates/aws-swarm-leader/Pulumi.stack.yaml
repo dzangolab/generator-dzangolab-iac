@@ -4,6 +4,7 @@ config:
   <%= projectName %>:disableApiTermination: false
   <%= projectName %>:instanceType: t3.small
   <%= projectName %>:keyName: KEYNAME
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:rootBlockDeviceSize: 20
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX

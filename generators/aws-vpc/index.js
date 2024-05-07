@@ -29,7 +29,10 @@ export default class AWSVPCGenerator extends PulumiGenerator {
     this.fs.copyTplAsync(
       this.templatePath(this.name),
       this.destinationPath(this._getFolderName()),
-      this.props,
+      {
+        ...this.props,
+        ...this.options,
+      },
       {},
       { 
         globOptions: { 

@@ -28,7 +28,10 @@ class AWSCredentialsGenerator extends PulumiGenerator {
     this.fs.copyTplAsync(
       this.templatePath(this.name),
       this.destinationPath(this._getFolderName()),
-      this.props,
+      {
+        ...this.props,
+        ...this.options,
+      },
       {},
       { 
         globOptions: { 
@@ -42,7 +45,10 @@ class AWSCredentialsGenerator extends PulumiGenerator {
       this.fs.copyTplAsync(
         `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
-        this.props,
+        {
+          ...this.props,
+          ...this.options,
+        }
       );
     }
   };

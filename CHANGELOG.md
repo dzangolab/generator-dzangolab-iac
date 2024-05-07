@@ -1,3 +1,12 @@
+# [1.0.0-rc8](/compare/v1.0.0-rc6...v1.0.0-rc8) (2024-05-07)
+
+
+### Bug Fixes
+
+* **do/database-cluster:** fix generator 6a0e01d
+
+
+
 # [1.0.0-rc7](/compare/v1.0.0-rc6...v1.0.0-rc7) (2024-05-07)
 
 

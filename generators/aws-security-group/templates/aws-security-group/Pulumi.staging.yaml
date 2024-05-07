@@ -1,4 +1,0 @@
-config:
-  <%= projectName %>:protect: false
-  <%= projectName %>:retainOnDelete: false
-  <%= projectName %>:suffix: "YYYYMMDD"

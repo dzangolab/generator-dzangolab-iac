@@ -1,7 +1,9 @@
 config:
+  <%= projectName %>:database: <%= prefix %>-<%= environment %>
+  <%= projectName %>:database: <%= prefix %>-<%= environment %>
+  <%= projectName %>:doResourcesProject: <%= prefix %>-do-resources
   <%= projectName %>:engine: "pg"
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
-  <%= projectName %>:nameSuffix: "YYYYMMDD"
   <%= projectName %>:nodeCount: 1
   <%= projectName %>:protect: "false"
   <%= projectName %>:region: "sgp1"

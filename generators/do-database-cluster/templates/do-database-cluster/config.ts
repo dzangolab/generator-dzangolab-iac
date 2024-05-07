@@ -10,11 +10,10 @@ export const getConfig = async () => {
   const organization = getOrganization();
   const stack = getStack();
   const stackConfig = new Config();
-  const nameSuffix = stackConfig.require("nameSuffix");
 
-  const doResourcesStack = stackConfig.get("do-resources-stack") || "do-resources";
+  const doResourcesProject = stackConfig.get("doResourcesProject") || "do-resources";
 
-  const resourcesStack = new StackReference(`${organization}/${doResourcesStack}/${stack}`);
+  const resourcesStack = new StackReference(`${organization}/${doResourcesProject}/${stack}`);
 
   const projectIdOutput = await resourcesStack.getOutputDetails("projectId");
   const projectId = getValue<string>(projectIdOutput);
@@ -29,7 +28,7 @@ export const getConfig = async () => {
     database: stackConfig.get("database") || `${organization}`,
     databaseUsername: stackConfig.get("databaseUsername") || `${organization}`,
     engine: stackConfig.get("engine") || "pg",
-    name: `${stack}-${nameSuffix}`,
+    name: stackConfig.get("name") || stack,
     nodeCount: stackConfig.getNumber("nodeCount") || 1,
     projectId,
     protect: stackConfig.getBoolean("protect"),

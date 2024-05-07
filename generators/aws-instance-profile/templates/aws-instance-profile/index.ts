@@ -52,5 +52,4 @@ export = async () => {
     name: interpolate`${instanceProfile.name}`,
     roleArn: interpolate`${role.arn}`,
   };
-
 }

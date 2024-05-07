@@ -35,7 +35,7 @@ export = async () => {
       },
       subnetId: config.subnetId,
       tags: {
-        Name: `${config.name}-${config.suffix}`,
+        Name: `${config.name}`,
         ...config.tags,
       },
       userData: config.userData,

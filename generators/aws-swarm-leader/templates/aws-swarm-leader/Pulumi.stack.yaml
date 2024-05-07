@@ -2,10 +2,15 @@ config:
   <%= projectName %>:ami: ami-XXXXXXXXXXXXXXXXX
   <%= projectName %>:availabilityZone: ap-southeast-1c
   <%= projectName %>:disableApiTermination: false
+  <%= projectName %>:ebsProject>: <%= prefix %>-aws-ebs
+  <%= projectName %>:eipProject>: <%= prefix %>-aws-eip
+  <%= projectName %>:instanceProfileProject>: <%= prefix %>-aws-instance-profile
   <%= projectName %>:instanceType: t3.small
   <%= projectName %>:keyName: KEYNAME
+  <%= projectName %>:keypairsProject>: <%= prefix %>-aws-ssh-keypairs
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:rootBlockDeviceSize: 20
+  <%= projectName %>:securityGroupProject>: <%= prefix %>-aws-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
-  <%= projectName %>:suffix: "YYYYMMDD"
+  <%= projectName %>:vpcProject>: <%= prefix %>-aws-vpc

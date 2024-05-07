@@ -1,4 +1,5 @@
 config:
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:policyArns:
     - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser
   <%= projectName %>:protect: false

@@ -2,5 +2,6 @@ config:
   <%= projectName %>:aliases: 
     - "*"
   <%= projectName %>:domain: MYDOMAIN.COM
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false

@@ -34,7 +34,7 @@ export const getConfig = async () => {
   const username = getValue<string>(usernameOutput);
 
   let config: { [key: string]: any } = {
-    name: stack,
+    name: stackConfig.get("name") || stack,
     passwordLength: stackConfig.getNumber("passwordLength"),
     passwords: stackConfig.requireObject<string[]>("passwords"),
     protect: stackConfig.getBoolean("protect"),

@@ -38,7 +38,7 @@ export const getConfig = async () => {
     domain: stackConfig.require("domain"),
     host,
     ip,
-    name: stack,
+    name: stackConfig.get("name") || stack,
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     subdomain: stackConfig.get("subdomain"),

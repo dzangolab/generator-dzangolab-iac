@@ -3,6 +3,7 @@ config:
     - ap-southeast-1a
     - ap-southeast-1b
     - ap-southeast-1c
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:suffix: "YYYYMMDD"

@@ -15,7 +15,7 @@ export = async () => {
     protect: config.protect,
     retainOnDelete: config.retainOnDelete,
   };
-  
+
   const instance = new Instance(
     config.name,
     {
@@ -45,50 +45,44 @@ export = async () => {
     options
   );
 
-new EipAssociation(
-  config.name,
-  {
-    instanceId: instance.id,
-    allocationId: config.eipId,
-  },
-  {
-    protect: config.protect,
-    retainOnDelete: config.retainOnDelete,
-  },
-);
-
-if (config.volumeId) {
-  new VolumeAttachment(
+  new EipAssociation(
     config.name,
     {
       instanceId: instance.id,
-      volumeId: config.volumeId,
-      deviceName: "/dev/xvdf",
+      allocationId: config.eipId,
     },
-    {
-      protect: config.protect,
-      retainOnDelete: config.retainOnDelete,
-    }
+    options
   );
 
-  new local.Command(
-    "addOrRemoveDropletToOrFromKnownHosts",
-    {
-      create: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
-      delete: interpolate`sed -i -e '/^${config.eip} .*/d' ~/.ssh/known_hosts`,
-      update: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
-    },
-    {
-      dependsOn: instance,
-    },
-  );
+  if (config.volumeId) {
+    new VolumeAttachment(
+      config.name,
+      {
+        instanceId: instance.id,
+        volumeId: config.volumeId,
+        deviceName: "/dev/xvdf",
+      },
+      options
+    );
 
-  return {
-    arn: interpolate`${instance.arn}`,
-    availabilityZone: interpolate`${instance.availabilityZone}`,
-    id: interpolate`${instance.id}`,
-    privateIp: interpolate`${instance.privateIp}`,
-    publicIp: config.eip,
-    userData: config.userData,
-  };
-}
+    new local.Command(
+      "addOrRemoveDropletToOrFromKnownHosts",
+      {
+        create: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
+        delete: interpolate`sed -i -e '/^${config.eip} .*/d' ~/.ssh/known_hosts`,
+        update: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
+      },
+      {
+        dependsOn: instance,
+      },
+    );
+
+    return {
+      arn: interpolate`${instance.arn}`,
+      availabilityZone: interpolate`${instance.availabilityZone}`,
+      id: interpolate`${instance.id}`,
+      privateIp: interpolate`${instance.privateIp}`,
+      publicIp: config.eip,
+      userData: config.userData,
+    };
+  }

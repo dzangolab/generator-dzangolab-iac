@@ -64,25 +64,26 @@ export = async () => {
       },
       options
     );
-
-    new local.Command(
-      "addOrRemoveDropletToOrFromKnownHosts",
-      {
-        create: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
-        delete: interpolate`sed -i -e '/^${config.eip} .*/d' ~/.ssh/known_hosts`,
-        update: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
-      },
-      {
-        dependsOn: instance,
-      },
-    );
-
-    return {
-      arn: interpolate`${instance.arn}`,
-      availabilityZone: interpolate`${instance.availabilityZone}`,
-      id: interpolate`${instance.id}`,
-      privateIp: interpolate`${instance.privateIp}`,
-      publicIp: config.eip,
-      userData: config.userData,
-    };
   }
+
+  new local.Command(
+    "addOrRemoveDropletToOrFromKnownHosts",
+    {
+      create: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
+      delete: interpolate`sed -i -e '/^${config.eip} .*/d' ~/.ssh/known_hosts`,
+      update: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
+    },
+    {
+      dependsOn: instance,
+    },
+  );
+
+  return {
+    arn: interpolate`${instance.arn}`,
+    availabilityZone: interpolate`${instance.availabilityZone}`,
+    id: interpolate`${instance.id}`,
+    privateIp: interpolate`${instance.privateIp}`,
+    publicIp: config.eip,
+    userData: config.userData,
+  };
+}

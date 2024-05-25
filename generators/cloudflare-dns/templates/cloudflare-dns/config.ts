@@ -31,7 +31,7 @@ export const getConfig = async () => {
   }
 
   return {
-    aliases: stackConfig.requireObject<string[]>("aliases"),
+    aliases: stackConfig.getObject<string[]>("aliases") || [],
     domain: stackConfig.require("domain"),
     host,
     ip,

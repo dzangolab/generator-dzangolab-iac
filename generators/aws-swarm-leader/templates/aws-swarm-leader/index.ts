@@ -82,6 +82,7 @@ export = async () => {
     arn: interpolate`${instance.arn}`,
     availabilityZone: interpolate`${instance.availabilityZone}`,
     id: interpolate`${instance.id}`,
+    name: config.name,
     privateIp: interpolate`${instance.privateIp}`,
     publicIp: config.eip,
     userData: config.userData,

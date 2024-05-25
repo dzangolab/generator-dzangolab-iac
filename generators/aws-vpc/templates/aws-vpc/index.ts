@@ -1,4 +1,4 @@
-import { 
+import {
   NatGatewayStrategy,
   SubnetAllocationStrategy,
   Vpc
@@ -16,7 +16,7 @@ export = async () => {
   };
 
   const vpc = new Vpc(
-    config.name,
+    `${config.name}-${config.suffix}`,
     {
       availabilityZoneNames: config.availabilityZoneNames,
       cidrBlock: config.cidrBlock,

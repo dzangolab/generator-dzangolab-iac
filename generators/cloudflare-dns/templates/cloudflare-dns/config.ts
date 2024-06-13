@@ -17,7 +17,7 @@ export const getConfig = async () => {
   let ip = null;
 
   if (createHostRecord) {
-    let ip = stackConfig.get("ip");
+    ip = stackConfig.get("ip");
 
     if (!ip) {
       const ipProject = stackConfig.get("ipProject") || "do-resources";

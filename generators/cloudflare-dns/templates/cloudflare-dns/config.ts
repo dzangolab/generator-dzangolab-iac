@@ -12,13 +12,19 @@ export const getConfig = async () => {
   const stack = getStack();
   const stackConfig = new Config();
 
-  let ip = stackConfig.get("ip");
+  const createHostRecord = stackConfig.getBoolean("createHostRecord");
 
-  if (!ip) {
-    const ipProject = stackConfig.get("ipProject") || "do-resources";
-    const resourcesStack = new StackReference(`${organization}/${ipProject}/${stack}`);
-    const ipOutput = await resourcesStack.getOutputDetails("ip");
-    ip = getValue<string>(ipOutput);
+  let ip = null;
+
+  if (createHostRecord) {
+    let ip = stackConfig.get("ip");
+
+    if (!ip) {
+      const ipProject = stackConfig.get("ipProject") || "do-resources";
+      const resourcesStack = new StackReference(`${organization}/${ipProject}/${stack}`);
+      const ipOutput = await resourcesStack.getOutputDetails("ip");
+      ip = getValue<string>(ipOutput);
+    }
   }
 
   let host = stackConfig.get("host");

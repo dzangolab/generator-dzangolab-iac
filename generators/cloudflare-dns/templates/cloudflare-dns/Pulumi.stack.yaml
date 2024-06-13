@@ -1,6 +1,9 @@
 config:
   <%= projectName %>:aliases:
     - "*"
+
+  <%= projectName %>:createHostRecord: true
+
   <%= projectName %>:domain: DOMAIN
 
   # Use ONE of the following 3 settings
@@ -8,7 +11,7 @@ config:
   <%= projectName %>:hostProject: <%= prefix %>-aws-swarm-leader 
   <%= projectName %>:hostProject: <%= prefix %>-do-swarm-leader 
 
-  # Use ONE of the following 3 settings
+  # Use ONE of the following 3 settings ONLY if `createHostRecord` is true 
   <%= projectName %>:ip: IP_ADDRESS
   <%= projectName %>:ipProject: <%= prefix %>-aws-eip 
   <%= projectName %>:ipProject: <%= prefix %>-do-resources 

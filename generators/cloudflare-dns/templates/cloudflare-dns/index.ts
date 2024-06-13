@@ -15,18 +15,24 @@ export = async () => {
 
   const hostname = getHostname(config.host, config.subdomain)
 
-  const host = new Record(
-    `${hostname}.${config.domain}`,
-    {
-      name: hostname,
-      proxied: false,
-      type: "A",
-      ttl: config.ttl,
-      value: config.ip,
-      zoneId: zone.then((zone) => zone.id),
-    },
-    options
-  );
+  const outputs: { [key: string]: any } = {};
+
+  if (config.ip) {
+    const host = new Record(
+      `${hostname}.${config.domain}`,
+      {
+        name: hostname,
+        proxied: false,
+        type: "A",
+        ttl: config.ttl,
+        value: config.ip,
+        zoneId: zone.then((zone) => zone.id),
+      },
+      options
+    );
+
+    outputs["a"] = interpolate`${host}`;
+  }
 
   for (let i = 0, aliases = config.aliases; i < aliases.length; i++) {
     const alias = getHostname(aliases[i], config.subdomain);
@@ -46,7 +52,7 @@ export = async () => {
   }
 
   return {
-    a: interpolate`${host}`,
+    ...outputs,
     domain: config.domain,
   };
 }

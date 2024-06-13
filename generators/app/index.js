@@ -39,7 +39,7 @@ export default class IaCGenerator extends Generator {
         message: "Use prefix in folder names?",
         name: "usePrefixInFolderName",
         store: true,
-        type: "boolean",
+        type: "confirm",
       },
       {
         // default: this.config.get("environment"),
@@ -54,7 +54,7 @@ export default class IaCGenerator extends Generator {
         message: "Generate stack config?",
         name: "createStackConfig",
         store: true,
-        type: "boolean",
+        type: "confirm",
       },
 
       {

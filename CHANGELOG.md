@@ -1,3 +1,20 @@
+# [1.0.0-rc9](/compare/v1.0.0-rc7...v1.0.0-rc9) (2024-06-13)
+
+
+### Bug Fixes
+
+* **aws/eip:** fix name in AWS EIP generator 9393bbc
+* **aws/eip:** fix name in AWS EIP generator 34c6a1a
+* **aws/security-group:** fix name in AWS security group generator 38045fa
+* **aws/swarm-leader:** cleanup code c0160ba
+* **aws/swarm-leader:** fix code 5a58f59
+* **aws/vpc:** fix AWS VPC generator 774d461
+* **cloudflare-dns:** fix generator 0e7bfba
+* fix boolean prompts 8a54d0c
+* minor fixes 9f215ce
+
+
+
 # [1.0.0-rc7](/compare/v1.0.0-rc6...v1.0.0-rc7) (2024-05-07)
 
 

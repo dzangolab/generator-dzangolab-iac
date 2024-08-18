@@ -44,10 +44,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="userdata2.txt"
 
+#!/bin/bash
+
 # Mount EBS volumes
 # https://kodeweich.com/blogs/automate-ebs-volume-mounting-using-user-data-script-on-ec2
 
-#!/bin/bash
 {% for volume in volumes %}
 while [[ ! -e {{ volume.device }} ]]; do sleep 1; done
 

@@ -1,4 +1,5 @@
-**/.env
+**/.env*
+!**.env.example
 coverage
 node_modules
 **/package-lock.json

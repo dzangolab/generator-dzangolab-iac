@@ -19,11 +19,11 @@ outdated:
 
 publish:
 	@printf "\033[0;32m>>> Publish packages\033[0m\n"
-	shipjs trigger
+	npx shipjs trigger
 
 release:
 	@printf "\033[0;32m>>> Prepare packages for release\033[0m\n"
-	shipjs prepare
+	npx shipjs prepare
 
 sort-package:
 	@printf "\033[0;32m>>> Format package.json\033[0m\n"

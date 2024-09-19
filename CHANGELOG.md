@@ -1,3 +1,9 @@
+## 1.0.0-rc11 (2024-09-19)
+
+* chore: fixed code style e63bfac
+
+
+
 ## 1.0.0-rc10 (2024-09-19)
 
 * chore: fix makefile 7e66780

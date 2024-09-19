@@ -1,0 +1,4 @@
+config:
+  <%= projectName %>:forceDestroy: false
+  <%= projectName %>:protect: false
+  <%= projectName %>:retainOnDelete: false  

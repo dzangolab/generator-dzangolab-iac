@@ -22,6 +22,7 @@ import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.j
 import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js";
 import DigitalOceanResourcesGenerator from "../do-resources/index.js";
 import DigitalOceanSSHKeysGenerator from "../do-ssh-keys/index.js";
+import PulumiS3BackendGenerator from "../pulumi-s3-backend/index.js";
 import SSHKeyFolderGenerator from "../ssh-key-folder/index.js";
 
 export default class IaCGenerator extends Generator {
@@ -148,6 +149,11 @@ export default class IaCGenerator extends Generator {
           },
           { type: "separator" },
           {
+            name: "Pulumi S3 Backend",
+            value: "pulumi-s3-backend"
+          },
+          { type: "separator" },
+          {
             name: "SSH key folder",
             value: "ssh-key-folder"
           }
@@ -187,6 +193,7 @@ export default class IaCGenerator extends Generator {
       "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: "../do-ssh-keys/index.js" },
       "do-swarm-leader": { Generator: DigitalOceanDockerSwarmLeaderGenerator, path: "../do-swarm-leader/index.js" },
       "do-resources": { Generator: DigitalOceanResourcesGenerator, path: "../do-resources/index.js" },
+      "pulumi-s3-backend": { Generator: PulumiS3BackendGenerator, path: "../pulumi-s3-backend/index.js" },
       "ssh-key-folder": { Generator: SSHKeyFolderGenerator, path: "../ssh-key-folder/index.js" },
     };
 

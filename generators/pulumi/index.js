@@ -1,5 +1,5 @@
 import Generator from "yeoman-generator";
-import { inherits } from "util";
+// import { inherits } from "util";
 
 class PulumiGenerator extends Generator {
   DEFAULT_PROJECT_NAME;

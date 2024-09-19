@@ -1,4 +1,3 @@
-import chalk from "chalk";
 import Generator from "yeoman-generator";
 
 import AnsibleDOGenerator from "../ansible-do/index.js";

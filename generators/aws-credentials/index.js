@@ -36,7 +36,7 @@ class AWSCredentialsGenerator extends PulumiGenerator {
       { 
         globOptions: { 
           dot: true,
-          ignore: "**/Pulumi.stack.yaml",
+          ignore: ["**/Pulumi.stack.yaml"],
         }
       },
     );

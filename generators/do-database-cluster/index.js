@@ -37,7 +37,7 @@ export default class DigitalOceanDatabaseClusterGenerator extends PulumiGenerato
       { 
         globOptions: { 
           dot: true,
-          ignore: "**/Pulumi.stack.yaml",
+          ignore: ["**/Pulumi.stack.yaml"],
         }
       },
     );

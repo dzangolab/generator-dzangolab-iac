@@ -37,7 +37,7 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
       { 
         globOptions: { 
           dot: true,
-          ignore: "**/Pulumi.stack.yaml",
+          ignore: ["**/Pulumi.stack.yaml"],
         }
       },
     );

@@ -37,7 +37,7 @@ export default class AWSGithubIdentityProviderGenerator extends PulumiGenerator 
       { 
         globOptions: { 
           dot: true,
-          ignore: "**/Pulumi.stack.yaml",
+          ignore: ["**/Pulumi.stack.yaml"],
         }
       },
     );

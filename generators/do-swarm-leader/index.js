@@ -37,7 +37,7 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
       { 
         globOptions: { 
           dot: true,
-          ignore: "**/Pulumi.stack.yaml",
+          ignore: ["**/Pulumi.stack.yaml"],
         }
       },
     );

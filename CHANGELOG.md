@@ -1,3 +1,14 @@
+## 1.0.0-rc10 (2024-09-19)
+
+* chore: fix makefile 7e66780
+* fix: fix aws-ecr generator 4c027fd
+* fix: fix generators da4fc1b
+* fix: fix husky config e80276f
+* fix(aws-swarm-leader): fix user data 3ea0b73
+* feat: add pulumi-s3-backend generator 8742cba
+
+
+
 # [1.0.0-rc9](/compare/v1.0.0-rc7...v1.0.0-rc9) (2024-06-13)
 
 

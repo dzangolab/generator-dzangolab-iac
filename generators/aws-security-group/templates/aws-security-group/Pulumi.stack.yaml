@@ -3,4 +3,4 @@ config:
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:suffix: "YYYYMMDD"
-  <%= projectName %>:vpcProject>: <%= prefix %>-aws-vpc
+  <%= projectName %>:vpcProject: <%= prefix %>-aws-vpc

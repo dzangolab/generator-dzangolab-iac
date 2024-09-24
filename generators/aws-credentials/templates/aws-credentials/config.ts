@@ -10,8 +10,8 @@ export const getConfig = async () => {
   const organization = getOrganization();
   const stack = getStack();
   const stackConfig = new Config();
-  const awsResourcesProject = stackConfig.get("aws-resources-project") || "aws-resources";
-  const doDatabaseClusterProject = stackConfig.get("do-database-cluster-project");
+  const awsResourcesProject = stackConfig.get("awsResourcesProject") || "aws-resources";
+  const doDatabaseClusterProject = stackConfig.get("doDatabaseClusterProject");
 
   const resourcesStack = new StackReference(
     `${organization}/${awsResourcesProject}/${stack}`,

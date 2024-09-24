@@ -7,8 +7,8 @@
     "@pulumi/pulumi": "^3",
     "@types/nunjucks": "^3",
     "nunjucks": "^3"
-},
+  },
   "devDependencies": {
-    "@types/node": "20"
+    "@types/node": "^22"
   }
 }

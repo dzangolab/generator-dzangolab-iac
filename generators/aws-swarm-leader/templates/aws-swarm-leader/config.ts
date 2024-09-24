@@ -5,7 +5,7 @@ import {
   StackReference
 } from "@pulumi/pulumi";
 import { Environment, FileSystemLoader } from "nunjucks";
-  
+
 import type { StackReferenceOutputDetails } from "@pulumi/pulumi";
 
 export const getConfig = async () => {
@@ -15,16 +15,16 @@ export const getConfig = async () => {
 
   const name = stackConfig.get("name") || `${organization}-${stack}`;
 
-  /** Get Availability zone **/ 
+  /** Get Availability zone **/
   let availabilityZone = stackConfig.require("availabilityZone");
 
   if (!availabilityZone) {
-    const vpcProject= stackConfig.get("vpcProject") || "aws-vpc";
+    const vpcProject = stackConfig.get("vpcProject") || "aws-vpc";
     const vpcStack = new StackReference(
       `${organization}/${vpcProject}/${stack}`,
     );
 
-    const availabilityZonesOutput = await vpcStack.getOutputDetails("availabtilityZones");
+    const availabilityZonesOutput = await vpcStack.getOutputDetails("availabilityZones");
     const availabilityZones = getValue<string[]>(availabilityZonesOutput);
 
     availabilityZone = availabilityZones[0];
@@ -33,7 +33,7 @@ export const getConfig = async () => {
   /** Get EIP */
   let eip = stackConfig.get("eip");
   let eipId = stackConfig.get("eipId");
-  
+
   if (!eip || !eipId) {
     const eipProject = stackConfig.get("eipProject") || "aws-eip";
 
@@ -47,7 +47,7 @@ export const getConfig = async () => {
     const eipIdOutput = await eipStack.getOutputDetails("eipId");
     eipId = getValue<string>(eipIdOutput);
   }
-  
+
   /** Get instance profile */
   let instanceProfile = stackConfig.get("instanceProfile");
 
@@ -92,7 +92,7 @@ export const getConfig = async () => {
   let volumeId = stackConfig.get("volumeId");
 
   if (!volumeId) {
-    const ebsProject= stackConfig.get("ebsProject") || "aws-ebs";
+    const ebsProject = stackConfig.get("ebsProject") || "aws-ebs";
     const ebsStack = new StackReference(
       `${organization}/${ebsProject}/${stack}`,
     );
@@ -110,7 +110,7 @@ export const getConfig = async () => {
         {
           device: stackConfig.get("volumeDevice") || "/dev/xvdf",
           filesystem: stackConfig.get("volumeFilesystem") || "ext4",
-          label: stackConfig.get("volumeLabel") || "data", 
+          label: stackConfig.get("volumeLabel") || "data",
           path: "/mnt/data"
         }
       ],
@@ -124,7 +124,7 @@ export const getConfig = async () => {
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     eip,
     eipId,
-    instanceProfile, 
+    instanceProfile,
     instanceType: stackConfig.require("instanceType"),
     keyName,
     monitoring: stackConfig.getBoolean("monitoring"),

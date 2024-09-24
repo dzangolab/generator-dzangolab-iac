@@ -13,6 +13,8 @@ network_traefik: traefik
 
 postgres_version: 16
 
+private_ip: LEADER_PRIVATE_IP
+
 ssh_key_folder: ../../../../ssh-keys
 ssh_keys:
  - SSH_KEY_1

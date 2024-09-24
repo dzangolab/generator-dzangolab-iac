@@ -17,8 +17,10 @@ leader
 [portainer]
 leader
 
-[swarm_init]
+[managers]
 leader
 
 [traefik]
 leader
+
+[workers]

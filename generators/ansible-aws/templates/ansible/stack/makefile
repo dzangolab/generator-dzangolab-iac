@@ -28,13 +28,13 @@ portainer.down:
 	@printf "\033[0;32m>>> Set up portainer\033[0m\n"
 	ansible-playbook plays/portainer.yml --extra-vars="portainer__state=stopped"
 
-setup.docker:
-	@printf "\033[0;3ansible/2m>>> Set up docker swarm\033[0m\n"
-	ansible-playbook plays/docker.yml
-
 setup.awscli:
 	@printf "\033[0;3ansible/2m>>> Set up awscli\033[0m\n"
 	ansible-playbook plays/awscli.yml --tags "awscli"
+
+setup.docker:
+	@printf "\033[0;3ansible/2m>>> Set up docker swarm\033[0m\n"
+	ansible-playbook plays/docker.yml
 
 setup.docker-labels:
 	@printf "\033[0;3ansible/2m>>> Set up docker labels\033[0m\n"
@@ -63,6 +63,10 @@ setup.docker-volume-driver:
 setup.portainer:
 	@printf "\033[0;3ansible/2m>>> Set up portainer\033[0m\n"
 	ansible-playbook plays/portainer.yml
+
+setup.swarm:
+	@printf "\033[0;3ansible/2m>>> Set up docekr swarm\033[0m\n"
+	ansible-playbook -vvv plays/swarm.yml
 
 setup.traefik:
 	@printf "\033[0;3ansible/2m>>> Set up traefik\033[0m\n"

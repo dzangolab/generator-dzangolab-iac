@@ -13,4 +13,5 @@ config:
   <%= projectName %>:rootBlockDeviceSize: 20
   <%= projectName %>:securityGroupProject: <%= prefix %>-aws-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
+  <%= projectName %>:suffix: "20240922"
   <%= projectName %>:vpcProject: <%= prefix %>-aws-vpc

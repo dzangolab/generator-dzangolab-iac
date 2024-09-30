@@ -1,3 +1,9 @@
+## 1.0.0-rc13 (2024-09-30)
+
+* fix(aws/ansible): fix aws ansible generator 966ebcc
+
+
+
 ## 1.0.0-rc12 (2024-09-30)
 
 * feat: update dependencies verion 3224784

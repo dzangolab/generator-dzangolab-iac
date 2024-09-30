@@ -1,3 +1,9 @@
+## 1.0.0-rc15 (2024-09-30)
+
+* fix(ansible/aws): fix ansible aws generator 9a42b06
+
+
+
 ## 1.0.0-rc14 (2024-09-30)
 
 * fix(ansible/aws): fix ansible aws generator ddf9245

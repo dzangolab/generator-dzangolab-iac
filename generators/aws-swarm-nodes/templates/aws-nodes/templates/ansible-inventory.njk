@@ -1,0 +1,13 @@
+swarm:
+  children:
+    managers:
+      hosts:{%- for manager in managers %}
+        {{ manager.publicIp }}:{%- if loop.first %}
+          labels:
+            - traefik
+            - portainer
+            - db{%- endif -%}{%- endfor %}
+    workers:
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    ansible_user: ec2-user

@@ -1,3 +1,16 @@
+## 1.0.0-rc12 (2024-09-30)
+
+* feat: update dependencies verion 3224784
+* feat(aws/ansible): update playbooks 076fa4a
+* feat(aws/swarm-leader): update docker config d39f13e
+* feat(aws/swarm-leader): update docker config 56a3531
+* feat(aws/swarm-nodes): add generator for docker swarm nodes on aws 56cd01e
+* fix: misc fixes 0c9162b
+* fix(aws/security-group): fix typo bf5e2bd
+* fix(aws/vpc): fix config 0e667f1
+
+
+
 ## 1.0.0-rc11 (2024-09-19)
 
 * chore: fixed code style e63bfac

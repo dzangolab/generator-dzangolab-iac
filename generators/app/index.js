@@ -16,6 +16,7 @@ import AWSSecurityGroupGenerator from "../aws-security-group/index.js";
 import AWSSESGenerator from "../aws-ses/index.js";
 import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
 import AWSVPCGenerator from "../aws-vpc/index.js";
+import AWSSwarmNodes from "../aws-swarm-nodes/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
 import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
 import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js";
@@ -121,6 +122,10 @@ export default class IaCGenerator extends Generator {
             value: "aws-ssh-keypairs"
           },
           {
+            name: "AWS Swarm nodes",
+            value: "aws-swarm-nodes"
+          },
+          {
             name: "AWS VPC",
             value: "aws-vpc"
           },
@@ -186,6 +191,7 @@ export default class IaCGenerator extends Generator {
       "aws-ses": { Generator: AWSSESGenerator, path: "../aws-ses/index.js" },
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
       "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },
+      "aws-swarm-nodes": { Generator: AWSSwarmNodes, path: "../aws-swarm-nodes/index.js" },
       "aws-vpc": { Generator: AWSVPCGenerator, path: "../aws-vpc/index.js" },
       "cloudflare-dns": { Generator: CloudflareDNSGenerator, path: "../cloudflare-dns/index.js" },
       "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },
@@ -207,6 +213,14 @@ export default class IaCGenerator extends Generator {
         environment: this.props.environment,
         prefix,
         usePrefixInFolderName: this.props.usePrefixInFolderName,
+        versions: {
+          dzangolab: "^0.29",
+          pulumi: "^3",
+          pulumi_aws: "^6",
+          pulumi_awsx: "^2.7",
+          pulumi_cloudflare: "^5",
+          types_node: "^22",
+        }
       }
     );
 

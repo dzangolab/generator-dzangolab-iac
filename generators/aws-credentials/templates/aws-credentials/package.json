@@ -2,10 +2,10 @@
   "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
-    "@dzangolab/pulumi": "^0.28",
-    "@pulumi/pulumi": "^3"
+    "@dzangolab/pulumi": "<%= versions.dzangolab %>",
+    "@pulumi/pulumi": "<%= versions.pulumi %>"
   },
   "devDependencies": {
-    "@types/node": "^22"
+    "@types/node": "<%= versions.types_node %>"
   }
 }

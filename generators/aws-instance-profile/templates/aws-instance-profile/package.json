@@ -2,10 +2,10 @@
   "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
-    "@pulumi/awsx": "^2.6",
-    "@pulumi/pulumi": "^3"
+    "@pulumi/awsx": "<%= versions.pulumi_awsx %>",
+    "@pulumi/pulumi": "<%= versions.pulumi %>"
   },
   "devDependencies": {
-    "@types/node": "^22"
+    "@types/node": "<%= versions.types_node %>"
   }
 }

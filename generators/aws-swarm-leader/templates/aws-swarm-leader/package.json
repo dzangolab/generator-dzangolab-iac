@@ -2,13 +2,13 @@
   "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
-    "@pulumi/aws": "^6.0",
+    "@pulumi/aws": "<%= versions.pulumi_aws %>",
     "@pulumi/command": "^0.9",
-    "@pulumi/pulumi": "^3",
+    "@pulumi/pulumi": "<%= versions.pulumi %>"
     "@types/nunjucks": "^3",
     "nunjucks": "^3"
   },
   "devDependencies": {
-    "@types/node": "^22"
+    "@types/node": "<%= versions.types_node %>"
   }
 }

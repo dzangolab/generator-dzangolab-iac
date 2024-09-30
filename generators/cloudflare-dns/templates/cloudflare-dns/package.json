@@ -2,11 +2,11 @@
   "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
-    "@dzangolab/pulumi": "^0.22",
-    "@pulumi/cloudflare": "^5",
-    "@pulumi/pulumi": "^3"
+    "@dzangolab/pulumi": "<%= versions.dzangolab %>",
+    "@pulumi/cloudflare": "<%= versions.pulumi_cloudflare %>",
+    "@pulumi/pulumi": "<%= versions.pulumi %>"
   },
   "devDependencies": {
-    "@types/node": "^20"
+    "@types/node": "<%= versions.types_node %>"
   }
 }

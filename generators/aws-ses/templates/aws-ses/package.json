@@ -2,11 +2,11 @@
   "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
-    "@pulumi/aws": "^6",
-    "@pulumi/cloudflare": "^5",
-    "@pulumi/pulumi": "^3"
+    "@pulumi/aws": "<%= versions.pulumi_aws %>",
+    "@pulumi/cloudflare": "<%= versions.pulumi_cloudflare %>",
+    "@pulumi/pulumi": "<%= versions.pulumi %>"
   },
   "devDependencies": {
-    "@types/node": "^20"
+    "@types/node": "<%= versions.types_node %>"
   }
 }

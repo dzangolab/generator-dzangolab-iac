@@ -20,6 +20,17 @@ package_upgrade: true
 package_reboot_if_required: true
 {% endif %}
 
+write_files:
+- content: |
+    {
+      "log-driver": "json-file",
+      "log-opts": {
+        "max-size": "10m",
+        "max-file": "5",
+      }
+    }
+  path: /etc/docker/daemon.json
+
 runcmd:
   - dnf install docker -y
   - systemctl start docker

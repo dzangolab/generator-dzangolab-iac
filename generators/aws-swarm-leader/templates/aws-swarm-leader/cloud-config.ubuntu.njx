@@ -39,6 +39,17 @@ swap:
   size: {{ swapSize }}
 {%- endif %}
 
+write_files:
+- content: |
+    {
+      "log-driver": "json-file",
+      "log-opts": {
+        "max-size": "10m",
+        "max-file": "5",
+      }
+    }
+  path: /etc/docker/daemon.json
+
 runcmd:
   - sed -i -e '$aAllowUsers {% for user in users %}{{ user.username }}{% endfor %}' /etc/ssh/sshd_config
   - service ssh restart
@@ -47,7 +58,6 @@ runcmd:
   - apt -qy update
   - apt-cache policy docker-ce
   - apt -qy install docker-ce
-  - docker swarm init --advertise-addr $(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
 
 --//
 Content-Type: text/x-shellscript; charset="utf-8"

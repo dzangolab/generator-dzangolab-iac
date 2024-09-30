@@ -23,7 +23,7 @@
   tags:
     - docker-labels
 
-- name: Setup cron jobs
+- name: Prune system daily
   hosts: managers[0]
   become: true
   roles:

@@ -4,4 +4,6 @@
 - src: https://github.com/dzangolab/ansible-docker-traefik
   version: "4.4"
   name: dzangolab.docker_traefik
-- src: dzangolab.awscli2
+- src: https://github.com/vlcty/ansible-systemd-timers
+  version: master
+  name: victy.ansible-systemd-timers

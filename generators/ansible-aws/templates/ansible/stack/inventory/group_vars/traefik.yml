@@ -1,12 +1,8 @@
-traefik__acme_email: op+staging@dzango.com
+traefik__acme_email: EMAIL
 traefik__deploy_dir: "{{ deploy_dir }}/traefik"
 traefik__deploy_group: "{{ deploy_group }}"
 traefik__deploy_user: "{{ deploy_user }}"
-traefik__dns:
-  - 1.1.1.1
-  - 8.8.8.8
 traefik__domain: "traefik.{{ domain }}"
 traefik__label: "traefik"
-traefik__log_level: "ERROR"
 traefik__network: "{{ network_traefik }}"
 traefik__state: "started"

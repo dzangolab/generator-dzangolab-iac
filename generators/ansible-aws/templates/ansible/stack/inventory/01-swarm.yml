@@ -1,0 +1,11 @@
+swarm:
+  children:
+    managers:
+      hosts:
+        13.37.78.159:
+          labels:
+            - traefik
+            - portainer
+            - db
+    workers:
+

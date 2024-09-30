@@ -44,21 +44,9 @@ setup.docker-cron:
 	@printf "\033[0;3ansible/2m>>> Set up docker logrotate\033[0m\n"
 	ansible-playbook plays/docker.yml --tags "docker-cron"
 
-setup.docker-logrotate:
-	@printf "\033[0;3ansible/2m\>>> Set up docker logrotate\033[0m\n"
-	ansible-playbook plays/docker.yml --tags "docker-logrotate"
-
-setup.docker-network:
+setup.docker-networks:
 	@printf "\033[0;3ansible/2m>>> Set up docker network\033[0m\n"
-	ansible-playbook plays/docker.yml --tags "docker-network"
-
-setup.docker-swarm:
-	@printf "\033[0;3ansible/2m>>> Set up docker swarm\033[0m\n"
-	ansible-playbook plays/docker.yml --tags "docker-swarm"
-
-setup.docker-volume-driver:
-	@printf "\033[0;3ansible/2m>>> Set up docker local-persist volume driver\033[0m\n"
-	ansible-playbook plays/docker.yml --tags "docker-volume-driver"
+	ansible-playbook plays/docker.yml --tags "docker-networks"
 
 setup.portainer:
 	@printf "\033[0;3ansible/2m>>> Set up portainer\033[0m\n"
@@ -66,7 +54,7 @@ setup.portainer:
 
 setup.swarm:
 	@printf "\033[0;3ansible/2m>>> Set up docekr swarm\033[0m\n"
-	ansible-playbook -vvv plays/swarm.yml
+	ansible-playbook plays/swarm.yml
 
 setup.traefik:
 	@printf "\033[0;3ansible/2m>>> Set up traefik\033[0m\n"

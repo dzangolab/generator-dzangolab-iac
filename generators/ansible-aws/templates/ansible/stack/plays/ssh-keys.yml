@@ -19,4 +19,4 @@
         state: present
         user: "{{ deploy_user }}"
       vars:
-        - newline: "\n"
+        newline: "\n"

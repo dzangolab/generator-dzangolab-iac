@@ -2,6 +2,10 @@
 - name: Setup docker swarm
   hosts: all
   tasks:
+    - name: install python docker module
+      ansible.builtin.pip:
+        name: docker
+
     - name: check/init swarm
       docker_swarm:
         state: present

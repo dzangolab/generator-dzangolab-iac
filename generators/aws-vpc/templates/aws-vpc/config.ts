@@ -1,4 +1,4 @@
-import { 
+import {
   NatGatewayStrategy,
   SubnetAllocationStrategy
 } from "@pulumi/awsx/ec2";
@@ -16,8 +16,8 @@ export const getConfig = async () => {
 
   return {
     availabilityZoneNames: stackConfig.getObject<string[]>("availabilityZoneNames"),
-    cidrBlock: stackConfig.get("cidrBlock") || "10.0.0.0/16",
-    enableDnsHostnames: stackConfig.getBoolean("enableDnsHostnames") || false,
+    cidrBlock: stackConfig.get("cidrBlock") || "172.16.0.0/16",
+    enableDnsHostnames: stackConfig.getBoolean("enableDnsHostnames") || true,
     enableDnsSupport: stackConfig.getBoolean("enableDnsSupport") || true,
     name: stackConfig.get("name") || stack,
     natGatewayStrategy: stackConfig.get<NatGatewayStrategy>("natGatewayStrategy") || "None",
@@ -26,7 +26,7 @@ export const getConfig = async () => {
     subnetSpecs: stackConfig.getObject<any | undefined>("subnetSpecs"),
     subnetStrategy: stackConfig.get<SubnetAllocationStrategy>("subnetStrategy") || "Auto",
     suffix: stackConfig.require("suffix"),
-    tags: stackConfig.getObject<{[key: string]: string}>("tags")
+    tags: stackConfig.getObject<{ [key: string]: string }>("tags")
   };
 };
 

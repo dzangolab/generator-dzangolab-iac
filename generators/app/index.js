@@ -19,6 +19,7 @@ import AWSVPCGenerator from "../aws-vpc/index.js";
 import AWSSwarmNodes from "../aws-swarm-nodes/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
 import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
+import DigitalOceanDockerSwarmGenerator from "../do-swarm/index.js";
 import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js";
 import DigitalOceanResourcesGenerator from "../do-resources/index.js";
 import DigitalOceanSSHKeysGenerator from "../do-ssh-keys/index.js";
@@ -60,6 +61,10 @@ export default class IaCGenerator extends Generator {
 
       {
         choices: [
+          {
+            name: "DigitalOcean swarm",
+            value: "do-swarm"
+          },
           {
             name: "Ansible for DigitalOcean swarm",
             value: "ansible-do"
@@ -196,6 +201,7 @@ export default class IaCGenerator extends Generator {
       "cloudflare-dns": { Generator: CloudflareDNSGenerator, path: "../cloudflare-dns/index.js" },
       "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },
       "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: "../do-ssh-keys/index.js" },
+      "do-swarm": { Generator: DigitalOceanDockerSwarmGenerator, path: "../do-swarm/index.js" },     
       "do-swarm-leader": { Generator: DigitalOceanDockerSwarmLeaderGenerator, path: "../do-swarm-leader/index.js" },
       "do-resources": { Generator: DigitalOceanResourcesGenerator, path: "../do-resources/index.js" },
       "pulumi-s3-backend": { Generator: PulumiS3BackendGenerator, path: "../pulumi-s3-backend/index.js" },

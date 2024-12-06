@@ -22,7 +22,7 @@ docker.data-folder:
 
 install:
 	@printf "\033[0;32m>>> Install ansible roles\033[0m\n"
-	ansible-galaxy install -r requirements.yml --force
+	ansible-galaxy collection install dzangolab.ansible --force
 
 portainer.down:
 	@printf "\033[0;32m>>> Set up portainer\033[0m\n"

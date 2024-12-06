@@ -15,7 +15,9 @@
 
 - name: Deploy traefik
   hosts: traefik
+  collections:
+    - dzangolab.ansible
   roles:
-    - role: dzangolab.docker_traefik
+    - docker_traefik
   vars:
     - traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]

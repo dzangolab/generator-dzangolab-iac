@@ -2,5 +2,7 @@
 
 - name: Deploy portainer
   hosts: all
+  collections:
+    - dzangolab.ansible
   roles:
-    - role: dzangolab.docker_portainer
+    - docker_portainer

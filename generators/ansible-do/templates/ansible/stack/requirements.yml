@@ -1,7 +1,0 @@
-- src: https://github.com/dzangolab/ansible-docker-portainer
-  version: "1.3"
-  name: dzangolab.docker_portainer
-- src: https://github.com/dzangolab/ansible-docker-traefik
-  version: "4.4"
-  name: dzangolab.docker_traefik
-- src: dzangolab.awscli2

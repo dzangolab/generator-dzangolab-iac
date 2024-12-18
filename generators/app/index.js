@@ -197,6 +197,7 @@ export default class IaCGenerator extends Generator {
       "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },
       "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: "../do-ssh-keys/index.js" },
       "do-swarm-leader": { Generator: DigitalOceanDockerSwarmLeaderGenerator, path: "../do-swarm-leader/index.js" },
+      "do-swarm-workers": { Generator: DigitalOceanDockerSwarmWorkersGenerator, path: "../do-swarm-workers/index.js" },
       "do-resources": { Generator: DigitalOceanResourcesGenerator, path: "../do-resources/index.js" },
       "pulumi-s3-backend": { Generator: PulumiS3BackendGenerator, path: "../pulumi-s3-backend/index.js" },
       "ssh-key-folder": { Generator: SSHKeyFolderGenerator, path: "../ssh-key-folder/index.js" },

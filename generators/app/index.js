@@ -20,6 +20,7 @@ import AWSSwarmNodes from "../aws-swarm-nodes/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
 import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
 import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js";
+import DigitalOceanDockerSwarmWorkersGenerator from "../do-swarm-workers/index.js";
 import DigitalOceanResourcesGenerator from "../do-resources/index.js";
 import DigitalOceanSSHKeysGenerator from "../do-ssh-keys/index.js";
 import PulumiS3BackendGenerator from "../pulumi-s3-backend/index.js";
@@ -142,6 +143,10 @@ export default class IaCGenerator extends Generator {
           {
             name: "DigitalOcean Docker swarm leader",
             value: "do-swarm-leader"
+          },
+          {
+            name: "DigitalOcean Docker swarm workers",
+            value: "do-swarm-workers"
           },
           {
             name: "DigitalOcean resources",

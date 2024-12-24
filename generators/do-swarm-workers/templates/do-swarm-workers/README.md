@@ -1,8 +1,8 @@
 # DigitalOcean Docker swarm workers
 
-Provisions resources in DigitalOcean for the Docker swarm workers.
+Provisions resources in DigitalOcean for the Docker swarm.
 
-Note: This project does NOT provision the Docker swarm itself. The Docker swarm is provisioned separately in the [swarm-droplets](../droplets/README.md) project. 
+Note: This project does NOT provision the Docker workers itself. The workers is provisioned separately in ansible-do generator by modifying the inventory "hosts" and using the command make setup.swarm. 
 
 ## Requirements
 
@@ -14,7 +14,7 @@ Note: This project does NOT provision the Docker swarm itself. The Docker swarm 
 
 ## Usage
 
-* Cd into the `do-swarm-leader` folder.
+* Cd into the `do-swarm-workers` folder.
 
 * Install dependencies 
 
@@ -49,23 +49,7 @@ pulumi destroy
 
 ## Resources provisioned
 
-### Project
-
-A DigitalOcean project to store resources in.
-
-### Reserved IP address
-
-A reserved IP address (formerly known as Floating IP address).
-
-Due to limitations of the DigitalOcean API, this reserved IP address cannot be associated to the project.
-
-### Volume
-
-Block volume. The volume is associated to the project.
-
-### VPC
-
-A VPC to isolate resources in the project.
+### TODO
 
 ## Resource names
 

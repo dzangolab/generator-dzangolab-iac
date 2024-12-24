@@ -2,7 +2,7 @@
 
 - name: Deploy portainer
   hosts: all
-  collections:
-    - dzangolab.ansible
-  roles:
-    - docker_portainer
+  tasks:
+    - name: Import portainer from dzangolab collection
+      ansible.builtin.import_role:
+        name: dzangolab.ansible.docker_portainer

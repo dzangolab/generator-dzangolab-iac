@@ -18,7 +18,6 @@ package_reboot_if_required: true
 packages: 
   - python3-pip
 
-packages: 
 {% for package in packages %}
   - {{ package }}
 {% endfor %}

@@ -11,14 +11,18 @@ users:
 {% endfor %}
 {% endfor %}
 
-packages: 
-{% for package in packages %}
-  - {{ package }}
-{% endfor %}
 
 package_update: true
 package_upgrade: true
 package_reboot_if_required: true
+
+packages: 
+  - python3-pip
+
+packages: 
+{% for package in packages %}
+  - {{ package }}
+{% endfor %}
 
 bootcmd:
 {% for volume in volumes %}
@@ -44,4 +48,3 @@ runcmd:
  in volumes %}
   - chown -R {{ volume.user }}:{{ volume.group }} {{ volume.path }}
 {% endfor %}
-  - apt update && apt install -y python3-pip

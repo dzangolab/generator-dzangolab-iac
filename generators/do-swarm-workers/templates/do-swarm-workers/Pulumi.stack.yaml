@@ -1,6 +1,6 @@
 config:
   aws:region: ap-southeast-1
-  <%= projectName %>:doResourcesProject: <%= prefix %>-do-swarm-wokers
+  <%= projectName %>:doResourcesProject: <%= prefix %>-do-resources
   <%= projectName %>:image: docker-20-04
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: "false"

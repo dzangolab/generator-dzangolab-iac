@@ -1,12 +1,10 @@
 # DigitalOcean Docker swarm workers
 
-Provisions resources in DigitalOcean for the Docker swarm.
-
-Note: This project does NOT provision the Docker workers itself. The workers is provisioned separately in ansible-do generator by modifying the inventory "hosts" and using the command make setup.swarm. 
+This project provisions nodes in DigitalOcean for a Docker Swarm cluster. The Docker Swarm workers are provisioned separately using the ansible-do generator by modifying the inventory file (hosts) and running the command make setup.swarm.
 
 ## Requirements
 
-* node >= 16.0.0
+* node >= 20.0.0
 * [pulumi >= 3](https://www.pulumi.com/docs/install/)
 * A DigitalOcean account
 * A DigitalOcean Personal Access Token
@@ -53,18 +51,21 @@ pulumi destroy
 
 ## Resource names
 
-Resources are given a unique physical name by adding a suffix common to all names. This ensures that physical names are unique but also that they are related. It becomes easy to understand which resources werer created as part of the same batch. Because the suffix is used in the volume name,m it must be lowercase and alphanumeric. We recommend using a datestamp in the form of `YYYYMMDD`. 
+Resources are given a unique physical name by adding a suffix common to all names. This ensures that physical names are unique but also that they are related. It becomes easy to understand which resources werer created as part of the same batch. Because the suffix is used in the volume name, it must be lowercase and alphanumeric. We recommend using a datestamp in the form of `YYYYMMDD`. 
 
 ## Configuration settings
 
-| Setting | Type | Default | Description |
-|---------|------|---------|-------------|
-| dataVolumeSize | number | | Size of block volume to create |
-| description | string | `{stack}` infrastructure | DO project description |
-| environment | string | `{stack}` | DO project environment |
-| ipRange | string | null | VPC custom IP range (eg `10.10.10.0/24`) |
-| name | string | `{stack}` | DO project name | 
-| nameSuffix | string |  |  `YYYYMMDD` |
-| protect | boolean | false | Protect resources from accidental deletion |
-| region | string | | DO region |
-| retainOnDelete | boolean | false | Retain resources when destroyed |
+# DigitalOcean Project Settings
+
+| Setting         | Type    | Default                          | Description                                     |
+|------------------|---------|----------------------------------|-------------------------------------------------|
+| `doResourcesProject`          | string  | `prefix-do-resources`                   | do-resources project name |
+| `image`          | string  | `docker-20.04`                   | Image used |
+| `name`          | string  | `stack-name ` | DO project name                                |                     |
+| `protect`       | string  | `"false"`                       | Protect resources from accidental deletion     |
+| `publicKeyNames`| array   | `- KEY_NAME`                    | Public SSH key names                           |
+| `region`        | string  | `sgp1`                          | DO region                                      |
+| `retainOnDelete`| string  | `"false"`                       | Retain resources when destroyed               |
+| `size`          | string  | `s-1vcpu-1gb`                   | Size of block volume to create                 |   
+| `username`      | string  | `USERNAME`                      | User for resource access                       |
+

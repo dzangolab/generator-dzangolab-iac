@@ -11,14 +11,17 @@ users:
 {% endfor %}
 {% endfor %}
 
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+packages: 
+  - python3-pip
+
 packages: 
 {% for package in packages %}
   - {{ package }}
 {% endfor %}
-
-package_update: true
-package_upgrade: true
-package_reboot_if_required: true
 
 bootcmd:
 {% for volume in volumes %}
@@ -44,4 +47,3 @@ runcmd:
  in volumes %}
   - chown -R {{ volume.user }}:{{ volume.group }} {{ volume.path }}
 {% endfor %}
-  - docker swarm init --advertise-addr $(curl -s http://169.254.169.254/metadata/v1/interfaces/private/0/ipv4/address)

@@ -64,6 +64,10 @@ setup.portainer:
 	@printf "\033[0;3ansible/2m>>> Set up portainer\033[0m\n"
 	ansible-playbook plays/portainer.yml
 
+setup.swarm:
+	@printf "\033[0;3ansible/2m>>> Set up docker swarm\033[0m\n"
+	ansible-playbook plays/swarm.yml
+
 setup.traefik:
 	@printf "\033[0;3ansible/2m>>> Set up traefik\033[0m\n"
 	ansible-playbook plays/traefik.yml

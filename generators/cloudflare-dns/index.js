@@ -8,6 +8,13 @@ export default class CloudflareDNSGenerator extends PulumiGenerator {
 
     this.displayName = "Cloudflare DNS";
     this.name = "cloudflare-dns";
+
+    this.option("domain", {
+      type: String,
+      required: true,
+      default: "DOMAIN",
+      desc: "domain name."
+    });
   }
 
   async prompting() {

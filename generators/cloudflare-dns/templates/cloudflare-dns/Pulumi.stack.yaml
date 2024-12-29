@@ -4,7 +4,7 @@ config:
 
   <%= projectName %>:createHostRecord: true
 
-  <%= projectName %>:domain: DOMAIN
+  <%= projectName %>:domain: <%= domain %>
 
   # Use ONE of the following 3 settings
   <%= projectName %>:host: HOST

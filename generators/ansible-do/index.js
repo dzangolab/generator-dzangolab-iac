@@ -23,6 +23,13 @@ export default class AnsibleDOGenerator extends Generator {
       desc: "deploy_user name."
     });
 
+    this.option("ansible_user", {
+      type: String,
+      required: true,
+      default: "USERNAME",
+      desc: "ansible_user name."
+    });
+
     this.fs.copyTplAsync(
       this.templatePath("ansible/stack"),
       this.destinationPath(`ansible/${this.options.environment}`),

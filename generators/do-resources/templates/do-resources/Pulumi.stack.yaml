@@ -2,7 +2,7 @@ config:
   <%= projectName %>:dataVolumeSize: 10
   <%= projectName %>:environment: development
   <%= projectName %>:name: <%= prefix %>-<%= resources_environment %>
-  <%= projectName %>:nameSuffix: <%= nameSuffix %>
+  <%= projectName %>:nameSuffix: "<%= nameSuffix %>"
   <%= projectName %>:protect: "false"
   <%= projectName %>:region: <%= region %>
   <%= projectName %>:retainOnDelete: "false"

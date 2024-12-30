@@ -20,6 +20,6 @@ config:
   <%= projectName %>:sshKeyNames: 
     - ...
   <%= projectName %>:userGroups: group1,group2
-  <%= projectName %>:username: <% managers_username %>
+  <%= projectName %>:username: <%= managers_username %>
 #  <%= projectName %>:vpcUuid: VPC UUID
 #  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

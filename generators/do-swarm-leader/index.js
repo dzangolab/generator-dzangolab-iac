@@ -26,7 +26,7 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
     this.option("managers_size", {
       type: String,
       required: true,
-      default: "s-1vcpu-1gb",
+      default: "s-2vcpu-2gb",
       desc: "managers_size."
     });
 

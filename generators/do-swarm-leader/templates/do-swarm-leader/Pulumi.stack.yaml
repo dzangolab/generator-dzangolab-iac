@@ -10,4 +10,4 @@ config:
   <%= projectName %>:region: <%= region %>
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:size: <%= managers_size %>
-  <%= projectName %>:username: <% managers_username %>
+  <%= projectName %>:username: <%= managers_username %>

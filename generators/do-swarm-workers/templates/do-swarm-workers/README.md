@@ -1,6 +1,6 @@
 # DigitalOcean Docker swarm workers
 
-This project provisions nodes in DigitalOcean for a Docker Swarm cluster. The Docker Swarm workers are provisioned separately using the ansible-do generator by modifying the inventory file (hosts) and running the command make setup.swarm.
+This project provisions worker nodes in DigitalOcean for a Docker Swarm. The worker nodes are assigned to a manager node using the ansible-do generator by modifying the inventory file (hosts) and running the command make setup.swarm
 
 ## Requirements
 

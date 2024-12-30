@@ -37,7 +37,7 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         type: "input",
       },
       {
-        default: "1",
+        default: 1,
         message: "Enter the number of managers",
         name: "managers_count",
         type: "input",

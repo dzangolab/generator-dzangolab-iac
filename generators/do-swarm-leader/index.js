@@ -12,7 +12,7 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
     this.option("managers_count", {
       type: String,
       required: true,
-      default: "1",
+      default: 1,
       desc: "managers_count."
     });
 

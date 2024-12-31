@@ -23,11 +23,11 @@ export default class DigitalOceanResourcesGenerator extends PulumiGenerator {
       desc: "region name."
     });
 
-    this.option("resources_environment", {
+    this.option("environment", {
       type: String,
       required: true,
       default: "staging",
-      desc: "resources_environment."
+      desc: "environment."
     });
   }
 

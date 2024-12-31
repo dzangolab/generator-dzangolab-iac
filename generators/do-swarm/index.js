@@ -1,8 +1,8 @@
 import chalk from "chalk";
 
-import PulumiGenerator from "../pulumi/index.js";
+import Generator from "yeoman-generator";
 
-export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
+export default class DigitalOceanDockerSwarmGenerator extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
@@ -31,57 +31,21 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         type: "input",
       },
       {
-        default: "staging",
-        message: "Enter the name of the do-resources environment",
-        name: "resources_environment",
-        type: "input",
-      },
-      {
-        default: 1,
-        message: "Enter the number of managers",
-        name: "managers_count",
-        type: "input",
-      },
-      {
-        default: "staging",
-        message: "Enter the name of the managers environment",
-        name: "managers_environment",
-        type: "input",
-      },
-      {
         default: "s-2vcpu-2gb",
         message: "Enter the size for the managers node",
-        name: "managers_size",
+        name: "leader_size",
         type: "input",
       },
       {
-        default: "dzangolab",
-        message: "Enter the username of the user for managers",
-        name: "managers_username",
+        default: "USERNAME",
+        message: "Enter the username of the user for the swarm-leader and the ansible deploy_user/group and ansible_user",
+        name: "username",
         type: "input",
       },
       {
         default: "DOMAIN",
         message: "Enter the domain name for cloudflare-dns and ansible",
         name: "domain",
-        type: "input",
-      },
-      {
-        default: "dzangolab",
-        message: "Enter the deploy_group for ansible",
-        name: "deploy_group",
-        type: "input",
-      },
-      {
-        default: "dzangolab",
-        message: "Enter the deploy_user for ansible",
-        name: "deploy_user",
-        type: "input",
-      },
-      {
-        default: "dzangolab",
-        message: "Enter the ansible_user for ansible",
-        name: "ansible_user",
         type: "input",
       },
     ]);
@@ -91,25 +55,39 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
-    // Define the generators
-    const generators = {
-      "do-resources": "../do-resources/index.js",
-      "do-swarm-leader": "../do-swarm-leader/index.js",
-      "cloudflare-dns": "../cloudflare-dns/index.js",
-      "ansible-do": "../ansible-do/index.js"
+    // Define specific properties for each generator
+    const generatorsProps = {
+      "do-resources": {
+        environment: this.props.environment,
+        nameSuffix: this.props.nameSuffix,
+        region: this.props.region,
+      },
+      "do-swarm-leader": {
+        environment: this.props.environment,
+        region: this.props.region,
+        size: this.props.leader_size,
+        username: this.props.username,
+      },
+      "cloudflare-dns": {
+        domain: this.props.domain,
+        environment: this.props.environment,
+      },
+      "ansible-do": {
+        environment: this.props.environment,
+        domain: this.props.domain,
+        username: this.props.username,
+      }
     };
 
     // Compose with each resource generator
-    for (const resource of this.resourcesList) {
-      const generatorPath = generators[resource];
-      if (generatorPath) {
-        this.composeWith(generatorPath, {
-          ...this.props,
-          ...this.options,
-        });
-      } else {
-        this.log(chalk.red(`No generator found for resource: ${resource}`));
-      }
-    }
+    this.resourcesList.forEach(resource => {
+      const generatorPath = `../${resource}/index.js`;
+      const resourceProps = generatorsProps[resource] || {};
+
+      this.composeWith(generatorPath, {
+        ...resourceProps,
+        ...this.options,
+      });
+    });
   }
 }

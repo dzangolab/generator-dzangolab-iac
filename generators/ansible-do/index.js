@@ -9,25 +9,11 @@ export default class AnsibleDOGenerator extends Generator {
       desc: "domain name."
     });
 
-    this.option("deploy_group", {
+    this.option("username", {
       type: String,
       required: true,
       default: "USERNAME",
-      desc: "deploy_group name."
-    });
-
-    this.option("deploy_user", {
-      type: String,
-      required: true,
-      default: "USERNAME",
-      desc: "deploy_user name."
-    });
-
-    this.option("ansible_user", {
-      type: String,
-      required: true,
-      default: "USERNAME",
-      desc: "ansible_user name."
+      desc: "username used for ansible, ansible_user deploy_group deploy_user"
     });
 
     this.fs.copyTplAsync(

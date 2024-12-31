@@ -8,6 +8,30 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
 
     this.displayName = "DigitalOcean swarm leader";
     this.name = "do-swarm-leader";
+
+    this.option("environment", {
+      type: String,
+      default: "staging",
+      desc: "environment."
+    });
+
+    this.option("region", {
+      type: String,
+      default: "sgp1",
+      desc: "region."
+    });
+
+    this.option("size", {
+      type: String,
+      default: "s-2vcpu-2gb",
+      desc: "size."
+    });
+
+    this.option("username", {
+      type: String,
+      default: "",
+      desc: "username."
+    });
   }
 
   async prompting() {

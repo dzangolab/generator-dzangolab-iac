@@ -11,28 +11,24 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
 
     this.option("environment", {
       type: String,
-      required: true,
       default: "staging",
       desc: "environment."
     });
 
     this.option("region", {
       type: String,
-      required: true,
-      default: "staging",
-      desc: "environment."
+      default: "sgp1",
+      desc: "region."
     });
 
     this.option("size", {
       type: String,
-      required: true,
       default: "s-2vcpu-2gb",
       desc: "size."
     });
 
     this.option("username", {
       type: String,
-      required: true,
       default: "",
       desc: "username."
     });

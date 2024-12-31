@@ -11,8 +11,7 @@ export default class CloudflareDNSGenerator extends PulumiGenerator {
 
     this.option("domain", {
       type: String,
-      required: true,
-      default: "DOMAIN",
+      default: "",
       desc: "domain name."
     });
   }

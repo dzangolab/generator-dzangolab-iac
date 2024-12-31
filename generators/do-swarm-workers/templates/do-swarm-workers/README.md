@@ -59,7 +59,7 @@ Resources are given a unique physical name by adding a suffix common to all name
 
 | Setting         | Type    | Default                          | Description                                     |
 |------------------|---------|----------------------------------|-------------------------------------------------|
-| `doResourcesProject`          | string  | `prefix-do-resources`                   | do-resources project name |
+| `doResourcesProject`          | string  | `<%=prefix%>-do-resources`                   | do-resources project name |
 | `image`          | string  | `docker-20.04`                   | Image used |
 | `name`          | string  | `stack-name ` | DO project name                                |                     |
 | `protect`       | string  | `"false"`                       | Protect resources from accidental deletion     |

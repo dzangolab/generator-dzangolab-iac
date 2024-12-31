@@ -1,11 +1,10 @@
 config:
   aws:region: ap-southeast-1
-#  <%= projectName %>:count: <%= managers_count %>
-  <%= projectName %>:blockVolumeId: BLOCK VOLUME ID 
+#  <%= projectName %>:blockVolumeId: BLOCK VOLUME ID 
 #  <%= projectName %>:blockVolumeName: BLOCK NOLUME NAME
 #  <%= projectName %>:blockVolumeStack: <%= prefix %>-do-resources 
   <%= projectName %>:image: docker-20-04
-  <%= projectName %>:name: <%= prefix %>-<%= managers_environment %>
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"
 #  <%= projectName %>:projectId: DO PROJECT ID
 #  <%= projectName %>:projectStack: <%= prefix %>-do-resources
@@ -16,10 +15,10 @@ config:
 #  <%= projectName %>:reservedIpId: RESERVED IP
 #  <%= projectName %>:reservedIpStack: <%= prefix %>-do-resources
   <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:size: <%= managers_size %>
+  <%= projectName %>:size: <%= size %>
   <%= projectName %>:sshKeyNames: 
     - ...
   <%= projectName %>:userGroups: group1,group2
-  <%= projectName %>:username: <%= managers_username %>
+  <%= projectName %>:username: <%= username %>
 #  <%= projectName %>:vpcUuid: VPC UUID
 #  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

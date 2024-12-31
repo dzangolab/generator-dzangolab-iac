@@ -9,32 +9,32 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
     this.displayName = "DigitalOcean swarm leader";
     this.name = "do-swarm-leader";
 
-    this.option("managers_count", {
-      type: String,
-      required: true,
-      default: 1,
-      desc: "managers_count."
-    });
-
-    this.option("managers_environment", {
+    this.option("environment", {
       type: String,
       required: true,
       default: "staging",
-      desc: "managers_environment."
+      desc: "environment."
     });
 
-    this.option("managers_size", {
+    this.option("region", {
+      type: String,
+      required: true,
+      default: "staging",
+      desc: "environment."
+    });
+
+    this.option("size", {
       type: String,
       required: true,
       default: "s-2vcpu-2gb",
-      desc: "managers_size."
+      desc: "size."
     });
 
-    this.option("managers_username", {
+    this.option("username", {
       type: String,
       required: true,
-      default: "dzangolab",
-      desc: "managers_username."
+      default: "",
+      desc: "username."
     });
   }
 

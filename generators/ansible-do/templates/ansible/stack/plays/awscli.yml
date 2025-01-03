@@ -8,5 +8,7 @@
 
 - name: Install aws-cli
   hosts: awscli
-  roles:
-    - role: dzangolab.awscli2
+  tasks:
+    - name: Import awscli2 from dzangolab collection
+      ansible.builtin.import_role:
+        name: dzangolab.ansible.awscli2

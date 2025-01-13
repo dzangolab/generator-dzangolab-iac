@@ -2,3 +2,5 @@ config:
   <%= projectName %>:forceDestroy: false
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false  
+  <%= projectName %>:aws-account-arns: 
+    - AWS-ACCOUNT-ARNS

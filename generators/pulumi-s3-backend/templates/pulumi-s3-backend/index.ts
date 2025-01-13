@@ -1,7 +1,8 @@
-import { getCallerIdentity } from "@pulumi/aws";
+import { getCallerIdentity, iam } from "@pulumi/aws";
 import { Key } from "@pulumi/aws/kms";
 import {
   Bucket,
+  BucketPolicy,
   BucketPublicAccessBlock,
   BucketServerSideEncryptionConfigurationV2,
   BucketVersioningV2
@@ -28,6 +29,47 @@ export = async () => {
       forceDestroy: config.forceDestroy,
     },
     options
+  );
+
+
+  const awsAccountArns: string[] = Array.isArray(config.awsAccountArns) ? config.awsAccountArns : [];
+
+  const accountArns = awsAccountArns.map((arns: string) => `arn:aws:iam::${arns}`);
+
+  // Create a bucket policy allowing access from multiple accounts
+  const allowAccessFromAnotherAccount = iam.getPolicyDocumentOutput({
+    statements: [
+      {
+        principals: [
+          {
+            type: "AWS",
+            identifiers: accountArns,
+          },
+        ],
+        actions: [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject",
+          "s3:ListBucket",
+        ],
+        resources: [
+          bucket.arn,
+          interpolate`${bucket.arn}/*`,
+        ],
+      },
+    ],
+  });
+
+
+  // Apply the policy to the bucket
+  new BucketPolicy(
+    "allowAccessFromAnotherAccountBucketPolicy",
+    {
+      bucket: bucket.id,
+      policy: allowAccessFromAnotherAccount.apply(
+        (allowAccessFromAnotherAccount) => allowAccessFromAnotherAccount.json
+      ),
+    }
   );
 
   new BucketServerSideEncryptionConfigurationV2(

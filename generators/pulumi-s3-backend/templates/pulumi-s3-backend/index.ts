@@ -113,7 +113,7 @@ export = async () => {
     options,
   );
 
-  const awsAccountId = getCallerIdentity().accountId
+  const awsAccountId = (await getCallerIdentity()).accountId
 
   const secretsEncryptionKey = new Key(
     `${name}-secrets-encryption-key`,

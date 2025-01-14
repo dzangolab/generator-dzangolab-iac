@@ -1,6 +1,6 @@
 config:
+  <%= projectName %>:aws-account-arns: 
+    -
   <%= projectName %>:forceDestroy: false
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false  
-  <%= projectName %>:aws-account-arns: 
-    -

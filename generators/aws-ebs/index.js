@@ -8,6 +8,13 @@ export default class AWSEBSGenerator extends PulumiGenerator {
 
     this.displayName = "AWS EBS";
     this.name = "aws-ebs";
+
+    this.option("environment", {
+      type: String,
+      required: true,
+      default: "staging",
+      desc: "environment."
+    });
   }
 
   async prompting() {

@@ -10,7 +10,14 @@ export default class AWSSwarmGenerator extends Generator {
     this.name = "aws-swarm";
     this.resourcesList = [
         "aws-credentials",
+        "aws-ebs",
+        "aws-eip",
+        "aws-instance-profile",
         "aws-resources",
+        "aws-vpc",
+        "aws-security-group",
+        "aws-ssh-keypairs",
+        "aws-swarm-leader"
     ];
   }
 
@@ -28,7 +35,28 @@ export default class AWSSwarmGenerator extends Generator {
       "aws-credentials": {
         environment: this.props.environment,
       },
+      "aws-ebs": {
+        environment: this.props.environment,
+      },
+      "aws-eip": {
+        environment: this.props.environment,
+      },
+      "aws-instance-profile": {
+        environment: this.props.environment,
+      },
       "aws-resources": {
+        environment: this.props.environment,
+      },
+      "aws-vpc": {
+        environment: this.props.environment,
+      },
+      "aws-security-group": {
+        environment: this.props.environment,
+      },
+      "aws-ssh-keypairs": {
+        environment: this.props.environment,
+      },
+      "aws-swarm-leader": {
         environment: this.props.environment,
       }
     };

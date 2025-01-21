@@ -8,6 +8,13 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
 
     this.displayName = "AWS swarm leader";
     this.name = "aws-swarm-leader";
+
+    this.option("environment", {
+      type: String,
+      required: true,
+      default: "staging",
+      desc: "environment."
+    });
   }
 
   async prompting() {

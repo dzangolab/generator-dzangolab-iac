@@ -5,6 +5,7 @@ export const getConfig = async () => {
   const stackConfig = new Config();
 
   return {
+    awsAccountArns: stackConfig.requireObject("aws-account-arns") as string[],
     forceDestroy: stackConfig.getBoolean("forceDestroy"),
     name: stackConfig.get("name") || [getOrganization(), "pulumi-state"].join("-"),
     protect: stackConfig.getBoolean("protect"),

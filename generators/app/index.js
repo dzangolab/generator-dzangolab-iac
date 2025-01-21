@@ -15,6 +15,7 @@ import AWSS3Generator from "../aws-s3/index.js";
 import AWSSecurityGroupGenerator from "../aws-security-group/index.js";
 import AWSSESGenerator from "../aws-ses/index.js";
 import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
+import AWSSwarmGenerator from "../aws-swarm/index.js";
 import AWSVPCGenerator from "../aws-vpc/index.js";
 import AWSSwarmNodes from "../aws-swarm-nodes/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
@@ -60,6 +61,10 @@ export default class IaCGenerator extends Generator {
 
       {
         choices: [
+          {
+            name: "Aws swarm",
+            value: "aws-swarm"
+          },
           {
             name: "Ansible for DigitalOcean swarm",
             value: "ansible-do"
@@ -190,6 +195,7 @@ export default class IaCGenerator extends Generator {
       "aws-security-group": { Generator: AWSSecurityGroupGenerator, path: "../aws-security-group/index.js" },
       "aws-ses": { Generator: AWSSESGenerator, path: "../aws-ses/index.js" },
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
+      "aws-swarm": { Generator: AWSSwarmGenerator, path: "../aws-swarm/index.js" },
       "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },
       "aws-swarm-nodes": { Generator: AWSSwarmNodes, path: "../aws-swarm-nodes/index.js" },
       "aws-vpc": { Generator: AWSVPCGenerator, path: "../aws-vpc/index.js" },

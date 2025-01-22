@@ -14,10 +14,10 @@ export default class AWSSwarmGenerator extends Generator {
         "aws-eip",
         "aws-instance-profile",
         "aws-resources",
-        "aws-vpc",
         "aws-security-group",
         "aws-ssh-keypairs",
-        "aws-swarm-leader"
+        "aws-swarm-leader",
+        "aws-vpc",
     ];
   }
 
@@ -47,9 +47,6 @@ export default class AWSSwarmGenerator extends Generator {
       "aws-resources": {
         environment: this.props.environment,
       },
-      "aws-vpc": {
-        environment: this.props.environment,
-      },
       "aws-security-group": {
         environment: this.props.environment,
       },
@@ -58,7 +55,10 @@ export default class AWSSwarmGenerator extends Generator {
       },
       "aws-swarm-leader": {
         environment: this.props.environment,
-      }
+      },
+      "aws-vpc": {
+        environment: this.props.environment,
+      },
     };
 
     // Compose with each resource generator

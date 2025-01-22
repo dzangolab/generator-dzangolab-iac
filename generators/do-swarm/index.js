@@ -9,6 +9,8 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
     this.displayName = "DigitalOcean swarm";
     this.name = "do-swarm";
     this.resourcesList = [
+      "aws-credentials",
+      "aws-resources",
       "do-resources",
       "do-swarm-leader",
       "cloudflare-dns",
@@ -55,6 +57,12 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
 
     // Define specific properties for each generator
     const generatorsProps = {
+      "aws-credentials": {
+        environment: this.props.environment,
+      },
+      "aws-resources": {
+        environment: this.props.environment,
+      },
       "do-resources": {
         environment: this.props.environment,
         nameSuffix: this.props.nameSuffix,

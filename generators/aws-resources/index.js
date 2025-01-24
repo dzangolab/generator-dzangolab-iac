@@ -11,7 +11,6 @@ export default class AWSResourcesGenerator extends PulumiGenerator {
 
     this.option("environment", {
       type: String,
-      required: true,
       default: "staging",
       desc: "environment."
     });

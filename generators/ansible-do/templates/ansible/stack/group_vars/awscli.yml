@@ -1,6 +1,6 @@
 aws_region: ap-southeast-1
 awscli_users:
-  - user: USERNAME
+  - user: <%= username %>
     state: present
     profiles:
       - name: default

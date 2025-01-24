@@ -4,13 +4,19 @@ export default class AnsibleDOGenerator extends Generator {
   writing() {
     this.option("domain", {
       type: String,
-      default: "",
+      default: "DOMAIN",
       desc: "domain name."
     });
 
     this.option("username", {
       type: String,
-      default: "",
+      default: "USERNAME",
+      desc: "username used for ansible, ansible_user deploy_group deploy_user"
+    });
+
+    this.option("email", {
+      type: String,
+      default: "EMAIL",
       desc: "username used for ansible, ansible_user deploy_group deploy_user"
     });
 

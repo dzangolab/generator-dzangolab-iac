@@ -34,7 +34,7 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
       },
       {
         default: "s-2vcpu-2gb",
-        message: "Enter the size for the managers node",
+        message: "Enter the size of the leader node",
         name: "leader_size",
         type: "input",
       },
@@ -48,6 +48,12 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
         name: "domain",
         type: "input",
       },
+      {
+        default: "YYYYMMDD",
+        message: "Enter a timestamp",
+        name: "timestamp",
+        type: "input",
+      },
     ]);
   };
 
@@ -59,6 +65,7 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
     const generatorsProps = {
       "aws-credentials": {
         environment: this.props.environment,
+        timestamp: this.props.timestamp,
       },
       "aws-resources": {
         environment: this.props.environment,

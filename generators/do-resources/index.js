@@ -11,21 +11,18 @@ export default class DigitalOceanResourcesGenerator extends PulumiGenerator {
 
     this.option("nameSuffix", {
       type: String,
-      required: true,
       default: this.DEFAULT_PROJECT_NAME,
       desc: "nameSuffix."
     });
 
     this.option("region", {
       type: String,
-      required: true,
       default: "sgp1",
       desc: "region name."
     });
 
     this.option("environment", {
       type: String,
-      required: true,
       default: "staging",
       desc: "environment."
     });

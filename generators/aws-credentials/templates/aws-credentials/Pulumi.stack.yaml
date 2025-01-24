@@ -2,7 +2,7 @@ config:
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:passwords:
     # - mariadb-root
-    - minio-root
+    # - minio-root
     # - nocodb
     - postgres
     - traefik-dashboard

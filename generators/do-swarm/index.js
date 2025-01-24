@@ -40,7 +40,7 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
       },
       {
         default: "USERNAME",
-        message: "Enter the username of the user for the swarm-leader and the ansible deploy_user/group and ansible_user",
+        message: "Enter the username for the user of the swarm-leader and ansible",
         name: "username",
         type: "input",
       },
@@ -51,9 +51,9 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
         type: "input",
       },
       {
-        default: "YYYYMMDD",
-        message: "Enter a timestamp",
-        name: "timestamp",
+        default: "",
+        message: "Enter the traefik ACME email for ansible",
+        name: "email",
         type: "input",
       },
     ]);
@@ -67,7 +67,7 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
     const generatorsProps = {
       "aws-credentials": {
         environment: this.props.environment,
-        timestamp: this.props.timestamp,
+        timestamp: this.props.nameSuffix,
       },
       "aws-resources": {
         environment: this.props.environment,
@@ -88,6 +88,7 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
         environment: this.props.environment,
       },
       "ansible-do": {
+        email: this.props.email,
         environment: this.props.environment,
         domain: this.props.domain,
         username: this.props.username,
@@ -104,5 +105,19 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
         ...this.options,
       });
     });
+
+    this.fs.copyTpl(
+      this.templatePath("../README.md"),
+      this.destinationPath("README.md"),
+      {
+        projectName: this.props.nameSuffix || "Project",
+        nameSuffix: this.props.nameSuffix,
+        region: this.props.region,
+        leaderSize: this.props.leader_size,
+        username: this.props.username,
+        domain: this.props.domain,
+        email: this.props.email,
+      }
+    );
   }
 }

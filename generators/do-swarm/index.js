@@ -39,11 +39,13 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
         type: "input",
       },
       {
+        default: "USERNAME",
         message: "Enter the username of the user for the swarm-leader and the ansible deploy_user/group and ansible_user",
         name: "username",
         type: "input",
       },
       {
+        default: "DOMAIN",
         message: "Enter the domain name for cloudflare-dns and ansible",
         name: "domain",
         type: "input",

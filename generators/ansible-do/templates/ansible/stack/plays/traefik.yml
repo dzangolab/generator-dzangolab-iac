@@ -20,4 +20,4 @@
       ansible.builtin.import_role:
         name: dzangolab.ansible.docker_traefik
   vars:
-    - traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]
+    traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]

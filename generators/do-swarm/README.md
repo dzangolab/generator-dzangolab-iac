@@ -57,6 +57,9 @@ Using the prompt of the generator, most variables will have a value, but some st
 
 #### hosts:
 Update ansible_host with the IP_ADDRESS after using do-swarm-leader with the provisioned ip address
+```
+ansible_host=PUBLIC_IP_ADDRESS
+```
 
 #### group_vars/all.yml:
 ```
@@ -76,8 +79,6 @@ pulumi up
 ```
 
 ### aws-resources
-
-For aws-credentials to work, it might be needed to change the name of the Pulumi.yml file to "aws-resources", and the variables name in Pulumi."stack".yml
 
 * Install dependencies 
 
@@ -151,7 +152,6 @@ pulumi login --local (for local backend)
 pulumi login s3://<bucket> (for aws bucket)
 ```
 
-
 ### 1. Deploy DigitalOcean resources
 
 ### 2. Deploy the Swarm leader
@@ -208,7 +208,7 @@ make setup.swarm
 make setup.docker
 ```
 
-Note: if you have the error fatal: [leader]: FAILED! => {"changed": false, "msg": "Unable to find any of pip3 to use.  pip needs to be installed."}, wait a few minutes for it to be installed.
+Note: if you have the error fatal: [leader]: FAILED! => {"changed": false, "msg": "Unable to find any of pip3 to use.  pip needs to be installed."}, wait a few moments for it to be installed.
 
 ### 2. Traefik
 

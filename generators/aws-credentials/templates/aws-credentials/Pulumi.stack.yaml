@@ -6,6 +6,7 @@ config:
     # - nocodb
     - postgres
     - traefik-dashboard
+  <%= projectName %>:awsResourcesProject: <%= prefix %>-aws-resources
   <%= projectName %>:protect: "false"
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:timestamp: "<%= timestamp %>"

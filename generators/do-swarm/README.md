@@ -77,6 +77,8 @@ pulumi up
 
 ### aws-resources
 
+For aws-credentials to work, it might be needed to change the name of the Pulumi.yml file to "aws-resources", and the variables name in Pulumi."stack".yml
+
 * Install dependencies 
 
 ```

@@ -66,20 +66,21 @@ Note that this works for the user running the `pulumi up` or `pulumi destroy` co
 
 ## Configuration settings
 
+The configuration settings include all the input defined by the `digitalocean.Droplet` resource  (see https://www.pulumi.com/registry/packages/digitalocean/api-docs/droplet/#inputs) with the exception of the `image` input, which will be ignored. 
+
+The following additional configuration settings are supported:
+
+
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
 | dataVolumeSize | number | | Size of block volume to create |
 | doBlockVolumeStacks | string[] | [] | Strings identifying the stack where this droplet's volumes are provisioned |
-| doProjectStack | string | String identifying the stack where this droplet DO project is provisioned |
-| doVpcStack | string | | String identifying the stack where this droplet' VPC is provisioned |
-| name | string | `{stack}` | DO project name | 
+| doProjectStack | string | String identifying the stack where this droplet's associated DO project is provisioned |
+| doVpcStack | string | | String identifying the stack where this droplet's associated  DO VPC is provisioned |
 | nameSuffix | string |  |  `YYYYMMDD` |
-| projectId | string | | Id of DO project to which this droplet is attached |
-| protect | boolean | false | Protect resources from accidental deletion |
-| region | string | | DO region |
-| retainOnDelete | boolean | false | Retain resources when destroyed |
-| size | string | 
+| projectId | string | | Id of DO project associated with this droplet |
 | username | string | | Name of user to create on the droplet |
+| vpcUuid | string | | UUID of VPC associated with this droplet | 
 
 ### Associating the droplet with a DigitalOcean project
 

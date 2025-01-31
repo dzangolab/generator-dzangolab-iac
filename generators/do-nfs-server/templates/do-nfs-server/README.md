@@ -12,7 +12,7 @@ This project allows you to create and maintain shared network storage for your a
 
 ## Usage
 
-* Cd into the `do-swarm-leader` folder.
+* Cd into the `do-nfs-server` folder.
 
 * Install dependencies 
 
@@ -39,43 +39,6 @@ pulumi stack select [staging|production]
 
 * Run `pulumi up`
 
-### Configuring NFS Server in a VPC Network
-
-Official documents: [droplet-nfs-server](https://docs.digitalocean.com/products/marketplace/catalog/droplet-nfs-server/)
-
-The first step is to change the ownership of the volume folder to allow any NFS client to use it:
-
-In the server:
-```
-chown -R nobody:nogroup /mnt/nfs/
-```
-
-Next, export the volume folder to the NFS server so the NFS server can use it. Open /etc/exports file in your preferred editor:
-
-```
-nano /etc/exports
-```
-
-Append to the end of the file:
-```
-/mnt/nfs *(rw,sync,no_subtree_check) 
-```
-Save and exit the file. 
-
-Now, restart the NFS server to apply the previous changes:
-```
-systemctl restart nfs-kernel-server
-```
-
-Next, create a firewall rule to allow access to the NFS only from the VPC network.
-
-In the network setting of your NFS droplet find the VPC IP range.
-
-Create a firewall rule allowing access to the NFS server from any IP from your VPC network:
-
-```
-ufw allow in on eth1 from <vpc_ip_range> to any port nfs
-```
 
 ### To destroy resources:
 
@@ -87,13 +50,7 @@ pulumi destroy
 
 ### Project
 
-A DigitalOcean project to store resources in.
-
-### Reserved IP address
-
-A reserved IP address (formerly known as Floating IP address).
-
-Due to limitations of the DigitalOcean API, this reserved IP address cannot be associated to the project.
+A DigitalOcean project where a nfs server is installed.
 
 ### Volume
 

@@ -15,6 +15,8 @@ export const getConfig = async () => {
 
   const doResourcesProject = stackConfig.get("doResourcesProject") || "do-resources";
 
+  const imageNfs = "sharklabs-dropletnfsserver";
+
   const resourcesStack = new StackReference(`${organization}/${doResourcesProject}/${stack}`);
 
   const projectIdOutput = await resourcesStack.getOutputDetails("projectId");
@@ -35,7 +37,7 @@ export const getConfig = async () => {
   const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../ssh-keys";
 
   return {
-    image: stackConfig.require("image"),
+    image: imageNfs,
     name: stackConfig.get("name") || stack,
     projectId,
     protect: stackConfig.getBoolean("protect"),

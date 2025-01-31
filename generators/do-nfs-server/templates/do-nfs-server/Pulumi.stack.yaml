@@ -1,7 +1,6 @@
 config:
   aws:region: ap-southeast-1
   <%= projectName %>:doResourcesProject: <%= prefix %>-do-resources
-  <%= projectName %>:image: sharklabs-dropletnfsserver
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: "false"
   <%= projectName %>:publicKeyNames:

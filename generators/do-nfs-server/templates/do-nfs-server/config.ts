@@ -9,13 +9,13 @@ import {
 import getPublicKeys from "./public-keys";
 
 export const getConfig = async () => {
+  const image = "sharklabs-dropletnfsserver";
+
   const organization = getOrganization();
   const stack = getStack();
   const stackConfig = new Config();
 
   const doResourcesProject = stackConfig.get("doResourcesProject") || "do-resources";
-
-  const imageNfs = "sharklabs-dropletnfsserver";
 
   const resourcesStack = new StackReference(`${organization}/${doResourcesProject}/${stack}`);
 
@@ -37,7 +37,7 @@ export const getConfig = async () => {
   const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../ssh-keys";
 
   return {
-    image: imageNfs,
+    image,
     name: stackConfig.get("name") || stack,
     projectId,
     protect: stackConfig.getBoolean("protect"),
@@ -48,7 +48,7 @@ export const getConfig = async () => {
     users: [
       {
         username,
-        groups: "sudo, docker",
+        groups: "sudo",
         publicKeys: getPublicKeys(publicKeyNames, pathToSshKeysFolder)
         
       },

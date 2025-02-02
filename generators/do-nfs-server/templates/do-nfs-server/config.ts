@@ -61,15 +61,21 @@ export const getConfig = async () => {
   }
   
   let vpcId = stackConfig.get("vpcId");
+  let vpcIpRange = undefined as unknown as string;
 
   if (!vpcId) {
     const outputs = await getOutputs(
       "vpcStack",
-      "vpcId"
+      "vpcId,vpcIpRange"
     );
 
-    vpcId = outputs ? outputs[0]: undefined;
+    if (outputs) {
+      vpcId = outputs[0] as string;
+      vpcIpRange = outputs[1] as string;
+    }
   }
+
+  console.log(vpcIpRange);
 
   return {
     image: stackConfig.require("image"),
@@ -101,6 +107,7 @@ export const getConfig = async () => {
       },
     ] : [],
     vpcId,
+    vpcIpRange,
   };
 };
 

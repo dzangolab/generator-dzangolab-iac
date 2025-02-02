@@ -157,6 +157,7 @@ If none are defined, then root access will be password-based.
 | blockVolumeStack | string | | Name of the Pulumi project in which the block volume was provisioned |
 | image | string | `ubuntu-24-10-x64` | DO dropletimage |
 | name | string | `{stack}` | DO droplet name | 
+| packages | string[] | | Packages to install on the droplet |
 | pathToSshKeysFolder | string | `../../ssh-keys` | Path to folder containing public key files |
 | projectId | string |  | Id of the DigitalOcean project to which the droplet is associated |
 | projectStack | string |  | Name of the Pulumi project where the DigitalOcean project was provisioned |
@@ -170,6 +171,7 @@ If none are defined, then root access will be password-based.
 | sshKeyNames | string[] | | Names of DigitalOcean SSH keys associated with the root user | 
 | swapFile | string |  | Path to the swap file |
 | swapSize | number |  | Size of the swap file |
+| userDataTemplate | string | `./cloud-config.njx` | Path to user data template |
 | userGroups | comma-separated strings |  | Groups to which the user belongs |
 | username | string |  | Name of the user to create in the droplet |
 | vpcId | string |  | Id of the DigitalOcean VPC to which the droplet is associated |

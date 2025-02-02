@@ -40,6 +40,8 @@ export const getConfig = async () => {
 
   const sshKeyNames = stackConfig.requireObject("sshKeyNames") as string[];
 
+  const userDataTemplate = stackConfig.get("userDataTemplate") || "./cloud-config.njx";
+
   const username = stackConfig.require("username");
 
   const userGroups = stackConfig.get("userGroups");
@@ -80,7 +82,7 @@ export const getConfig = async () => {
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     size: stackConfig.require("size"),
     sshKeyNames,
-    userDataTemplate: "./cloud-config.njx",
+    userDataTemplate,
     users: [
       {
         username,

@@ -8,6 +8,12 @@ export default class AWSResourcesGenerator extends PulumiGenerator {
 
     this.displayName = "AWS resources";
     this.name = "aws-resources";
+
+    this.option("environment", {
+      type: String,
+      default: "staging",
+      desc: "environment."
+    });
   }
 
   async prompting() {

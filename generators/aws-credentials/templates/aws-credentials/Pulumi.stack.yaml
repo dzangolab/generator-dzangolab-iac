@@ -2,10 +2,11 @@ config:
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:passwords:
     # - mariadb-root
-    - minio-root
+    # - minio-root
     # - nocodb
     - postgres
     - traefik-dashboard
+  <%= projectName %>:awsResourcesProject: <%= prefix %>-aws-resources
   <%= projectName %>:protect: "false"
   <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:timestamp: "YYYYMMDD"
+  <%= projectName %>:timestamp: "<%= timestamp %>"

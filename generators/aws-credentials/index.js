@@ -8,6 +8,18 @@ class AWSCredentialsGenerator extends PulumiGenerator {
 
     this.displayName = "AWS credentials";
     this.name = "aws-credentials";
+
+    this.option("environment", {
+      type: String,
+      default: "staging",
+      desc: "environment."
+    });
+    
+    this.option("timestamp", {
+      type: String,
+      default: "YYYYMMDD",
+      desc: "timestamp."
+    });
   }
 
   async prompting() {

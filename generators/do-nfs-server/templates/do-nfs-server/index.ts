@@ -30,7 +30,9 @@ export = async () => {
     options
   );
   
-  const dropletId = parseInt(droplet.id);
+  const dropletId = droplet.id.apply(id => {
+    return parseInt(id);
+  });
 
   const firewall = new Firewall(
     config.name,

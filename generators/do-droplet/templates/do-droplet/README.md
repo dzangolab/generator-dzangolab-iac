@@ -55,6 +55,8 @@ A DigitalOcean droplet.
 
 If `projectId` or `projectStack` are set in the stack config, the corresponding project will be associated with the droplet.
 
+If neither are defined, the droplet will be associated with the default project.
+
 If `projectId` is defined, then it will be assumed to be the id of the project.
 
 If `projectId` is not defined, then `projectStack` is examined.
@@ -70,6 +72,8 @@ The organization and stack of the project are assumed to be identical to the dro
 
 If `reservedIpId` or `reservedIpStack` are set in the stack config, the corresponding reserved IP address will be associated with the droplet.
 
+If neither are defined, the droplet will not be associated with any reserved IP.
+
 If `reservedIpId` is defined, then it will be assumed to be the id of the reserved IP.
 
 If `reservedIpId` is not defined, then `reservedIpStack` is examined. 
@@ -84,6 +88,8 @@ The organization and stack of the reserved IP are assumed to be identical to the
 ### Block volume
 
 If `blockVolumeId` or `blockVolumeStack` are set in the stack config, the volume will be attached to the droplet.
+
+If neither are defined, the droplet will not be associated with any block volume.
 
 The block volume is mounted in the `/mnt/data` folder. 
 
@@ -103,13 +109,15 @@ The organization and stack of the volume are assumed to be identical to the drop
 
 If `vpcUuid` or `vpcStack` are set in the stack config, the droplet will be attached to the VPC.
 
+If neither are defined, the droplet will be associated with the region's default VPC.
+
 If `vpcId` is defined, then it will be assumed to be the id of the VPC.
 
 If `vpcId` is not defined, then `vpcStack` is examined. 
 
 `vpcStack` is expected to be in the form of `[project][:id_output`]`, where:
 
-* `project` is the name of the Pulumi project where the VPC was provisioned. The default value is `<%= prefix %>-do-resources`.
+* `project` is the name of the Pulumi project where the VPC was provisioned.
 * `id_output` is the name of the output that represents the VPC's id. The default value is `vpcId`.
 
 The organization and stack of the VPC are assumed to be identical to the droplet's organization and stack.
@@ -147,7 +155,7 @@ If none are defined, then root access will be password-based.
 | blockVolumeId | string | | Id of the block volume to attached to the droplet |
 | blockVolumeName | string | | Name of the block volume to attached to the droplet |
 | blockVolumeStack | string | | Name of the Pulumi project in which the block volume was provisioned |
-| image | string | | DO dropletimage |
+| image | string | `ubuntu-24-10-x64` | DO dropletimage |
 | name | string | `{stack}` | DO droplet name | 
 | pathToSshKeysFolder | string | `../../ssh-keys` | Path to folder containing public key files |
 | projectId | string |  | Id of the DigitalOcean project to which the droplet is associated |

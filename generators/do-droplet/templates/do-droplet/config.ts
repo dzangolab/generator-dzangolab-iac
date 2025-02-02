@@ -21,11 +21,10 @@ export const getConfig = async () => {
   if (!projectId) {
     const outputs = await getOutputs(
       "projectStack",
-      "<%= prefix %>-do-resources",
       "projectId"
     );
     
-    projectId = outputs[0];
+    projectId = outputs ? outputs[0] : undefined;
   }
 
   let reservedIpId = stackConfig.get("reservedIpId");
@@ -33,32 +32,32 @@ export const getConfig = async () => {
   if (!reservedIpId) {
     const outputs = await getOutputs(
       "reservedIpStack",
-      "<%= prefix %>-do-resources",
       "reservedIpId"
     );
 
-    reservedIpId = outputs[0];
+    reservedIpId = outputs ? outputs[0] : undefined;
   }
 
   const sshKeyNames = stackConfig.requireObject("sshKeyNames") as string[];
+
+  const userDataTemplate = stackConfig.get("userDataTemplate") || "./cloud-config.njx";
 
   const username = stackConfig.require("username");
 
   const userGroups = stackConfig.get("userGroups");
   const groups = userGroups ? `sudo,${userGroups}` : "sudo";
 
-  let blockVolumeId = stackConfig.get("blockVolumeId") as string;
-  let blockVolumeName = stackConfig.get("blockVolumeName") as string;
+  let blockVolumeId = stackConfig.get("blockVolumeId") as string | undefined;
+  let blockVolumeName = stackConfig.get("blockVolumeName") as string | undefined;
 
   if (!blockVolumeId) {
     const outputs = await getOutputs(
       "blockVolumeStack",
-      "<%= prefix %>-do-resources",
       "volumeId,volumeName"
     );
 
-    blockVolumeId = outputs[0];
-    blockVolumeName = outputs[1];
+    blockVolumeId = outputs ? outputs[0] : undefined;
+    blockVolumeName = outputs ? outputs[1] : undefined;
   }
   
   let vpcId = stackConfig.get("vpcId");
@@ -66,11 +65,10 @@ export const getConfig = async () => {
   if (!vpcId) {
     const outputs = await getOutputs(
       "vpcStack",
-      "<%= prefix %>-do-resources",
       "vpcId"
     );
 
-    vpcId = outputs[0];
+    vpcId = outputs ? outputs[0]: undefined;
   }
 
   return {
@@ -84,7 +82,7 @@ export const getConfig = async () => {
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     size: stackConfig.require("size"),
     sshKeyNames,
-    userDataTemplate: "./cloud-config.njx",
+    userDataTemplate,
     users: [
       {
         username,
@@ -93,15 +91,15 @@ export const getConfig = async () => {
         
       },
     ],
-    volumeIds: [blockVolumeId],
-    volumes: [
+    volumeIds: blockVolumeId ? [blockVolumeId] : [],
+    volumes: blockVolumeId ? [
       {
         group: username,
-        name: blockVolumeName,
+        name: blockVolumeName as string,
         path: "/mnt/data",
         user: username
       },
-    ],
+    ] : [],
     vpcId,
   };
 };
@@ -125,24 +123,31 @@ function getValue<T>(input: StackReferenceOutputDetails, defaultValue?: T): T {
 const stacks: { [key: string]: StackReference } = {};
 
 async function getOutputs(
-  stackConfigVar: string, 
-  defaultProject: string, 
+  stackConfigVar: string,
   defaultOutputs: string
-): Promise<string[]> {
+): Promise<undefined | string[]> {
   const organization = getOrganization();
   const stack = getStack();
   const stackConfig = new Config();
 
-  const config = stackConfig.get(stackConfigVar) || "";
+  const config = stackConfig.get(stackConfigVar);
+
+  if (!config) {
+    return undefined;
+  }
 
   let [project, outputNamesString] = config.split(":");
 
   if (!project) {
-    project = defaultProject;
+    return undefined;
   }
   
   if (!outputNamesString) {
-    outputNamesString = defaultOutputs || "";
+    outputNamesString = defaultOutputs;
+  }
+
+  if (!outputNamesString) {
+    return undefined;
   }
   
   const outputNames = outputNamesString.split(","); 

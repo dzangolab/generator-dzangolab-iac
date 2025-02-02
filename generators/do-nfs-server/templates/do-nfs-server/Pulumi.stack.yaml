@@ -1,11 +1,23 @@
 config:
-  aws:region: ap-southeast-1
-  <%= projectName %>:doResourcesProject: <%= prefix %>-do-resources
+#  <%= projectName %>:blockVolumeId: BLOCK VOLUME ID 
+#  <%= projectName %>:blockVolumeName: BLOCK NOLUME NAME
+#  <%= projectName %>:blockVolumeStack: <%= prefix %>-do-resources 
+  <%= projectName %>:image: ubuntu-22-04-x64
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"
+#  <%= projectName %>:projectId: DO PROJECT ID
+#  <%= projectName %>:projectStack: <%= prefix %>-do-resources
   <%= projectName %>:protect: "false"
   <%= projectName %>:publicKeyNames:
     - KEY_NAME
-  <%= projectName %>:region: <%= region %>
+  <%= projectName %>:region: sgp1
+#  <%= projectName %>:reservedIpId: RESERVED IP
+#  <%= projectName %>:reservedIpStack: <%= prefix %>-do-resources
   <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:size: <%= size %>
-  <%= projectName %>:username: <%= username %>
+  <%= projectName %>:size: s-1vcpu-1gb
+  <%= projectName %>:sshKeyNames: 
+    - ...
+  <%= projectName %>:userGroups: group1,group2
+  <%= projectName %>:username: USERNAME
+#  <%= projectName %>:vpcUuid: VPC UUID
+#  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

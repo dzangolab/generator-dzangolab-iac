@@ -17,12 +17,14 @@ export = async () => {
       image: config.image,
       projectId: config.projectId,
       region: config.region,
+      reservedIpId: config.reservedIpId,
       size: config.size,
+      sshKeyNames: config.sshKeyNames,
       userDataTemplate: config.userDataTemplate,
       users: config.users,
       volumeIds: config.volumeIds,
       volumes: config.volumes,
-      vpcUuid: config.vpcUuid,
+      vpcUuid: config.vpcId,
     },
     options
   );
@@ -34,4 +36,3 @@ export = async () => {
     name: interpolate`${droplet.name}`
   };
 };
-

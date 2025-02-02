@@ -9,60 +9,96 @@ import {
 import getPublicKeys from "./public-keys";
 
 export const getConfig = async () => {
-  const image = "sharklabs-dropletnfsserver";
-
-  const organization = getOrganization();
   const stack = getStack();
   const stackConfig = new Config();
 
-  const doResourcesProject = stackConfig.get("doResourcesProject") || "do-resources";
+  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../ssh-keys";
 
-  const resourcesStack = new StackReference(`${organization}/${doResourcesProject}/${stack}`);
+  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
 
-  const projectIdOutput = await resourcesStack.getOutputDetails("projectId");
-  const projectId = getValue<string>(projectIdOutput);
+  let projectId = stackConfig.get("projectId");
+
+  if (!projectId) {
+    const outputs = await getOutputs(
+      "projectStack",
+      "projectId"
+    );
+    
+    projectId = outputs ? outputs[0] : undefined;
+  }
+
+  let reservedIpId = stackConfig.get("reservedIpId");
+
+  if (!reservedIpId) {
+    const outputs = await getOutputs(
+      "reservedIpStack",
+      "reservedIpId"
+    );
+
+    reservedIpId = outputs ? outputs[0] : undefined;
+  }
+
+  const sshKeyNames = stackConfig.requireObject("sshKeyNames") as string[];
 
   const username = stackConfig.require("username");
 
-  const dataVolumeIdOutput = await resourcesStack.getOutputDetails("volumeId");
-  const dataVolumeId = getValue<string>(dataVolumeIdOutput);
+  const userGroups = stackConfig.get("userGroups");
+  const groups = userGroups ? `sudo,${userGroups}` : "sudo";
 
-  const dataVolumeNameOutput = await resourcesStack.getOutputDetails("volumeName");
-  const dataVolumeName = getValue<string>(dataVolumeNameOutput);
+  let blockVolumeId = stackConfig.get("blockVolumeId") as string | undefined;
+  let blockVolumeName = stackConfig.get("blockVolumeName") as string | undefined;
 
-  const vpcUuidOutput = await resourcesStack.getOutputDetails("vpcId");
-  const vpcUuid = getValue<string>(vpcUuidOutput);
+  if (!blockVolumeId) {
+    const outputs = await getOutputs(
+      "blockVolumeStack",
+      "volumeId,volumeName"
+    );
 
-  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
-  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../ssh-keys";
+    blockVolumeId = outputs ? outputs[0] : undefined;
+    blockVolumeName = outputs ? outputs[1] : undefined;
+  }
+  
+  let vpcId = stackConfig.get("vpcId");
+
+  if (!vpcId) {
+    const outputs = await getOutputs(
+      "vpcStack",
+      "vpcId"
+    );
+
+    vpcId = outputs ? outputs[0]: undefined;
+  }
 
   return {
-    image,
+    image: stackConfig.require("image"),
     name: stackConfig.get("name") || stack,
+    pathToSshKeysFolder,
     projectId,
     protect: stackConfig.getBoolean("protect"),
     region: stackConfig.require("region"),
+    reservedIpId,
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     size: stackConfig.require("size"),
+    sshKeyNames,
     userDataTemplate: "./cloud-config.njx",
     users: [
       {
         username,
-        groups: "sudo",
+        groups,
         publicKeys: getPublicKeys(publicKeyNames, pathToSshKeysFolder)
         
       },
     ],
-    volumeIds: [dataVolumeId],
-    volumes: [
+    volumeIds: blockVolumeId ? [blockVolumeId] : [],
+    volumes: blockVolumeId ? [
       {
         group: username,
-        name: dataVolumeName,
+        name: blockVolumeName as string,
         path: "/mnt/nfs",
         user: username
       },
-    ],
-    vpcUuid,
+    ] : [],
+    vpcId,
   };
 };
 
@@ -80,4 +116,55 @@ function getValue<T>(input: StackReferenceOutputDetails, defaultValue?: T): T {
   }
 
   return defaultValue;
+}
+
+const stacks: { [key: string]: StackReference } = {};
+
+async function getOutputs(
+  stackConfigVar: string,
+  defaultOutputs: string
+): Promise<undefined | string[]> {
+  const organization = getOrganization();
+  const stack = getStack();
+  const stackConfig = new Config();
+
+  const config = stackConfig.get(stackConfigVar);
+
+  if (!config) {
+    return undefined;
+  }
+
+  let [project, outputNamesString] = config.split(":");
+
+  if (!project) {
+    return undefined;
+  }
+  
+  if (!outputNamesString) {
+    outputNamesString = defaultOutputs;
+  }
+
+  if (!outputNamesString) {
+    return undefined;
+  }
+  
+  const outputNames = outputNamesString.split(","); 
+
+  const stackName = `${organization}/${project}/${stack}`;
+  let otherStack = stacks[stackName];
+
+  if (!otherStack) {
+    otherStack = new StackReference(stackName);
+    stacks[stackName] = otherStack;
+  }
+
+  let outputs = [];
+
+  for (var i = 0, name = null; name = outputNames[i]; i++) {
+    const output = await otherStack.getOutputDetails(name);
+    
+    outputs.push(getValue<string>(output) as string)
+  }
+
+  return outputs;
 }

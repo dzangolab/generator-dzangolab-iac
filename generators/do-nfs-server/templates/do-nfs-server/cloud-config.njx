@@ -16,7 +16,7 @@ package_upgrade: true
 package_reboot_if_required: true
 
 packages: 
-  - python3-pip
+  - nfs-kernel-server
 {% for package in packages %}
   - {{ package }}
 {% endfor %}
@@ -32,26 +32,21 @@ mounts:
   - [ "/dev/disk/by-id/scsi-0DO_Volume_{{ volume.name }}", "{{ volume.path }}", auto, "discard,defaults,noatime" ]
 {% endfor %}
 
-{% if swap_size > 0 %}
-swap:
-  filename: {{ swap_file }}
-  size: {{ swap_size }}
-{% endif %}
-
 write_files:
   - path: /etc/exports
     content: |
-      /mnt/nfs *(rw,sync,no_subtree_check,no_root_squash)
+{% for volume in volumes %}
+      {{ volume.path }} *(rw,sync,no_subtree_check,no_root_squash)
+{% endfor %}
     append: true
 
-
 runcmd:
+{% if users %}
   - sed -i -e '$aAllowUsers {% for user in users %}{{ user.username }} {% endfor %}' /etc/ssh/sshd_config
   - service ssh restart
-{% for volume
- in volumes %}
+{% endif %}
+{% for volume in volumes %}
   - chown -R nobody:nogroup {{ volume.path }}
 {% endfor %}
-  - sleep 10 
   - ufw allow in on eth1 from $(ip -4 route | grep eth1 | awk '{print $1}') to any port nfs
   - systemctl restart nfs-kernel-server

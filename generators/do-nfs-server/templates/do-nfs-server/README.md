@@ -142,7 +142,7 @@ If none are defined, then root access will be password-based.
 
 ### Firewall
 
-A DigitalOcean firewall is provisioned and assocaited with the droplet.
+A DigitalOcean firewall is provisioned and associated with the droplet.
 
 The inbound rules restrict ingress to port 2049 to the droplet's VPC.
 

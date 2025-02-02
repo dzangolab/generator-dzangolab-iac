@@ -155,7 +155,7 @@ If none are defined, then root access will be password-based.
 | blockVolumeId | string | | Id of the block volume to attached to the droplet |
 | blockVolumeName | string | | Name of the block volume to attached to the droplet |
 | blockVolumeStack | string | | Name of the Pulumi project in which the block volume was provisioned |
-| image | string | `ubuntu-22-04-x64` | DO dropletimage |
+| image | string | `ubuntu-24-10-x64` | DO dropletimage |
 | name | string | `{stack}` | DO droplet name | 
 | pathToSshKeysFolder | string | `../../ssh-keys` | Path to folder containing public key files |
 | projectId | string |  | Id of the DigitalOcean project to which the droplet is associated |

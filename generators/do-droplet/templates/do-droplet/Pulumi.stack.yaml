@@ -17,7 +17,8 @@ config:
   <%= projectName %>:size: s-1vcpu-1gb
   <%= projectName %>:sshKeyNames: 
     - ...
-  <%= projectName %>:userGroups: group1,group2
+#  <%= projectName %>:userDataTemplate: "./cloud-config.njx"
+#  <%= projectName %>:userGroups: GROUP1,GROUP2
   <%= projectName %>:username: USERNAME
 #  <%= projectName %>:vpcUuid: VPC UUID
 #  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

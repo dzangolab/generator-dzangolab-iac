@@ -12,6 +12,8 @@ export const getConfig = async () => {
   const stack = getStack();
   const stackConfig = new Config();
 
+  const packages = stackConfig.getObject<string[]>("packages") || [];
+
   const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../ssh-keys";
 
   const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
@@ -74,6 +76,7 @@ export const getConfig = async () => {
   return {
     image: stackConfig.require("image"),
     name: stackConfig.get("name") || stack,
+    packages,
     pathToSshKeysFolder,
     projectId,
     protect: stackConfig.getBoolean("protect"),

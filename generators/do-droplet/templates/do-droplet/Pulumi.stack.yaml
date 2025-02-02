@@ -4,6 +4,9 @@ config:
 #  <%= projectName %>:blockVolumeStack: <%= prefix %>-do-resources 
   <%= projectName %>:image: ubuntu-24-10-x64
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
+#  <%= projectName %>:packages: 
+#    - PACKAGE1
+#    - PACKAGE2 
   <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"
 #  <%= projectName %>:projectId: DO PROJECT ID
 #  <%= projectName %>:projectStack: <%= prefix %>-do-resources

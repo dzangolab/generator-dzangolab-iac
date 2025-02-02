@@ -15,6 +15,7 @@ export = async () => {
     config.name,
     {
       image: config.image,
+      packages: config.packages,
       projectId: config.projectId,
       region: config.region,
       reservedIpId: config.reservedIpId,

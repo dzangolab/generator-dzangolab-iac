@@ -140,15 +140,23 @@ DigitalOcean SSH keys will be added to the root account. The names of the SSH ke
 
 If none are defined, then root access will be password-based.
 
+### Firewall
+
+A DigitalOcean firewall is provisioned and assocaited with the droplet.
+
+The inbound rules restrict ingress to port 2049 to the droplet's VPC.
+
 ## Configuration settings
+
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
 | blockVolumeId | string | | Id of the block volume to attached to the droplet |
 | blockVolumeName | string | | Name of the block volume to attached to the droplet |
 | blockVolumeStack | string | | Name of the Pulumi project in which the block volume was provisioned |
-| image | string | `ubuntu-22-04-x64` | DO dropletimage |
+| image | string | `ubuntu-24-10-x64` | DO dropletimage |
 | name | string | `{stack}` | DO droplet name | 
+| packages | string[] | | Packages to install on the droplet |
 | pathToSshKeysFolder | string | `../../ssh-keys` | Path to folder containing public key files |
 | projectId | string |  | Id of the DigitalOcean project to which the droplet is associated |
 | projectStack | string |  | Name of the Pulumi project where the DigitalOcean project was provisioned |
@@ -162,6 +170,7 @@ If none are defined, then root access will be password-based.
 | sshKeyNames | string[] | | Names of DigitalOcean SSH keys associated with the root user | 
 | swapFile | string |  | Path to the swap file |
 | swapSize | number |  | Size of the swap file |
+| userDataTemplate | string | `./cloud-config.njx` | Path to user data template |
 | userGroups | comma-separated strings |  | Groups to which the user belongs |
 | username | string |  | Name of the user to create in the droplet |
 | vpcId | string |  | Id of the DigitalOcean VPC to which the droplet is associated |

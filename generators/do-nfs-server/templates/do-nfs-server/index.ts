@@ -16,6 +16,7 @@ export = async () => {
     config.name,
     {
       image: config.image,
+      packages: config.packages,
       projectId: config.projectId,
       region: config.region,
       reservedIpId: config.reservedIpId,
@@ -30,7 +31,9 @@ export = async () => {
     options
   );
   
-  const dropletId = parseInt(droplet.id);
+  const dropletId = droplet.id.apply(id => {
+    return parseInt(id);
+  });
 
   const firewall = new Firewall(
     config.name,

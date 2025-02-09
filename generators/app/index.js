@@ -232,7 +232,7 @@ export default class IaCGenerator extends Generator {
         prefix,
         usePrefixInFolderName: this.props.usePrefixInFolderName,
         versions: {
-          dzangolab: "^0.29",
+          dzangolab: "^0.33",
           pulumi: "^3",
           pulumi_aws: "^6",
           pulumi_awsx: "^2.7",

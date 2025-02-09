@@ -93,9 +93,9 @@ export = async () => {
   );
 
   return {
-    firewallId: interpolate(firewall.id),
-    firewallName: interpolate(firewall.name),
-    firewallStatus: interpolate(firewall.status),
+    firewallId: interpolate`$(firewall.id)`,
+    firewallName: interpolate`$(firewall.name)`,
+    firewallStatus: interpolate`$(firewall.status)`,
     id: interpolate`${droplet.id}`,
     ipv4Address: interpolate`${droplet.ipv4Address}`,
     ipv4AddressPrivate: interpolate`${droplet.ipv4AddressPrivate}`,

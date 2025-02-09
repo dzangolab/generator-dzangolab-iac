@@ -77,8 +77,6 @@ export const getConfig = async () => {
     }
   }
 
-  console.log(vpcIpRange);
-
   return {
     image: stackConfig.require("image"),
     name: stackConfig.get("name") || stack,

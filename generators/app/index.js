@@ -65,10 +65,6 @@ export default class IaCGenerator extends Generator {
       {
         choices: [
           {
-            name: "DigitalOcean swarm",
-            value: "do-swarm"
-          },
-          {
             name: "Ansible for DigitalOcean swarm",
             value: "ansible-do"
           },
@@ -170,6 +166,10 @@ export default class IaCGenerator extends Generator {
           {
             name: "DigitalOcean SSH keys",
             value: "do-ssh-keys"
+          },
+          {
+            name: "DigitalOcean swarm",
+            value: "do-swarm"
           },
           { type: "separator" },
           {

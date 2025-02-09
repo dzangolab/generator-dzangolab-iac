@@ -12,7 +12,13 @@ export default class AWSResourcesGenerator extends PulumiGenerator {
     this.option("environment", {
       type: String,
       default: "staging",
-      desc: "environment."
+      desc: "environment"
+    });
+
+    this.option("projectName", {
+      default: this._getDefaultProjectName(),
+      desc: "Pulumi project name",
+      type: String,
     });
   }
 

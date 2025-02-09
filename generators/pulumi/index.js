@@ -7,6 +7,17 @@ class PulumiGenerator extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
+    this.option("createStackConfig", {
+      type: Boolean,
+      defaults: true,
+      desc: "Whether to generate the stack config."
+    });
+
+    this.option("environment", {
+      type: String,
+      desc: "Environment (stack)."
+    });
+
     this.option("prefix", {
       type: String,
       required: false,
@@ -18,17 +29,6 @@ class PulumiGenerator extends Generator {
       type: Boolean,
       defaults: false,
       desc: "Whether to use the prefix in the project folder name."
-    });
-
-    this.option("environment", {
-      type: String,
-      desc: "Environment (stack)."
-    });
-
-    this.option("createStackConfig", {
-      type: Boolean,
-      defaults: true,
-      desc: "Whether to generate the stack config."
     });
   }
 

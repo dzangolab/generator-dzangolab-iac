@@ -1,8 +1,8 @@
 import chalk from "chalk";
 
-import Generator from "yeoman-generator";
+import PulumiGenerator from "../pulumi/index.js";
 
-export default class DigitalOceanDockerSwarmGenerator extends Generator {
+export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
@@ -10,11 +10,12 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
     this.name = "do-swarm";
     this.resourcesList = [
       "aws-credentials",
-      "aws-resources",
-      "do-resources",
-      "do-swarm-leader",
-      "cloudflare-dns",
-      "ansible-do"
+      // "aws-resources",
+      // "do-resources",
+      // "do-nfs-server",
+      // "do-swarm-leader",
+      // "cloudflare-dns",
+      // "ansible-do"
     ];
   }
 
@@ -28,7 +29,7 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
       },
       {
         default: "sgp1",
-        message: "Enter the name of the do-resrouces and do-swarm-leader DigitalOcean region",
+        message: "In what region should the resources be provisioned?",
         name: "region",
         type: "input",
       },
@@ -39,19 +40,16 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
         type: "input",
       },
       {
-        default: "USERNAME",
         message: "Enter the username for the user of the swarm-leader and ansible",
         name: "username",
         type: "input",
       },
       {
-        default: "DOMAIN",
         message: "Enter the domain name for cloudflare-dns and ansible",
         name: "domain",
         type: "input",
       },
       {
-        default: "",
         message: "Enter the traefik ACME email for ansible",
         name: "email",
         type: "input",
@@ -65,17 +63,22 @@ export default class DigitalOceanDockerSwarmGenerator extends Generator {
 
     // Define specific properties for each generator
     const generatorsProps = {
+      "aws-resources": {
+        ...this.options,
+        ...this.props,
+        projectName: `${this.options.prefix}-aws-resources`,
+      },
       "aws-credentials": {
         environment: this.props.environment,
         timestamp: this.props.nameSuffix,
-      },
-      "aws-resources": {
-        environment: this.props.environment,
       },
       "do-resources": {
         environment: this.props.environment,
         nameSuffix: this.props.nameSuffix,
         region: this.props.region,
+      },
+      "do-nfs-server": {
+
       },
       "do-swarm-leader": {
         environment: this.props.environment,

@@ -15,13 +15,17 @@ export = async () => {
     config.name,
     {
       image: config.image,
+      packages: config.packages,
       projectId: config.projectId,
       region: config.region,
       reservedIpId: config.reservedIpId,
       size: config.size,
+      sshKeyNames: config.sshKeyNames,
       userDataTemplate: config.userDataTemplate,
       users: config.users,
-      vpcUuid: config.vpcUuid,
+      volumeIds: config.volumeIds,
+      volumes: config.volumes,
+      vpcUuid: config.vpcId,
     },
     options
   );

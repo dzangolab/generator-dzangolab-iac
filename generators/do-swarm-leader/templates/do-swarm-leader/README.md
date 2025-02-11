@@ -6,7 +6,7 @@ Note: This project does NOT provision the Docker swarm itself. The Docker swarm 
 
 ## Requirements
 
-* node >= 16.0.0
+* node >= 22.0.0
 * [pulumi >= 3](https://www.pulumi.com/docs/install/)
 * A DigitalOcean account
 * A DigitalOcean Personal Access Token
@@ -49,6 +49,10 @@ pulumi destroy
 
 ## Resources provisioned
 
+### DigitalOcean droplet
+
+A DigitalOcean droplet.
+
 ### DigitalOcean project
 
 If `projectId` or `projectStack` are set in the stack config, the corresponding project will be associated with the droplet.
@@ -64,9 +68,6 @@ If `projectId` is not defined, then `projectStack` is examined.
 
 The organization and stack of the project are assumed to be identical to the droplet's organization and stack.
 
-### Project
-
-A DigitalOcean project to store resources in.
 
 ### Reserved IP address
 
@@ -142,20 +143,33 @@ DigitalOcean SSH keys will be added to the root account. The names of the SSH ke
 
 If none are defined, then root access will be password-based.
 
-## Resource names
-
-Resources are given a unique physical name by adding a suffix common to all names. This ensures that physical names are unique but also that they are related. It becomes easy to understand which resources werer created as part of the same batch. Because the suffix is used in the volume name,m it must be lowercase and alphanumeric. We recommend using a datestamp in the form of `YYYYMMDD`. 
-
 ## Configuration settings
+
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| dataVolumeSize | number | | Size of block volume to create |
-| description | string | `{stack}` infrastructure | DO project description |
-| environment | string | `{stack}` | DO project environment |
-| ipRange | string | null | VPC custom IP range (eg `10.10.10.0/24`) |
-| name | string | `{stack}` | DO project name | 
-| nameSuffix | string |  |  `YYYYMMDD` |
+| blockVolumeId | string | | Id of the block volume to attached to the droplet |
+| blockVolumeName | string | | Name of the block volume to attached to the droplet |
+| blockVolumeStack | string | | Name of the Pulumi project in which the block volume was provisioned |
+| image | string | `ubuntu-24-10-x64` | DO dropletimage |
+| name | string | `{stack}` | DO droplet name | 
+| packages | string[] | | Packages to install on the droplet |
+| pathToSshKeysFolder | string | `../../ssh-keys` | Path to folder containing public key files |
+| projectId | string |  | Id of the DigitalOcean project to which the droplet is associated |
+| projectStack | string |  | Name of the Pulumi project where the DigitalOcean project was provisioned |
 | protect | boolean | false | Protect resources from accidental deletion |
+| publicKeyNames | string[] |  | Names of public SSH keys to attach to the droplet's user |
 | region | string | | DO region |
+| reservedIpId | string |  | Id of the DigitalOcean reserved IP to which the droplet is associated |
+| reservedIpStack | string |  | Name of the Pulumi project where the DigitalOcean reserved IP was provisioned |
 | retainOnDelete | boolean | false | Retain resources when destroyed |
+| size | number | `s-1vcpu-1gb` | Size of the droplet |
+| sshKeyNames | string[] | | Names of DigitalOcean SSH keys associated with the root user | 
+| swapFile | string |  | Path to the swap file |
+| swapSize | number |  | Size of the swap file |
+| userDataTemplate | string | `./cloud-config.njx` | Path to user data template |
+| userGroups | comma-separated strings |  | Groups to which the user belongs |
+| username | string |  | Name of the user to create in the droplet |
+| vpcId | string |  | Id of the DigitalOcean VPC to which the droplet is associated |
+| vpcStack | string |  | Name of the Pulumi project where the DigitalOcean VPC was provisioned |
+

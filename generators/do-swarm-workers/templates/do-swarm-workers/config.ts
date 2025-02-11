@@ -29,17 +29,6 @@ export const getConfig = async () => {
     projectId = outputs ? outputs[0] : undefined;
   }
 
-  let reservedIpId = stackConfig.get("reservedIpId");
-
-  if (!reservedIpId) {
-    const outputs = await getOutputs(
-      "reservedIpStack",
-      "reservedIpId"
-    );
-
-    reservedIpId = outputs ? outputs[0] : undefined;
-  }
-
   const sshKeyNames = stackConfig.requireObject("sshKeyNames") as string[];
 
   const userDataTemplate = stackConfig.get("userDataTemplate") || "./cloud-config.njx";
@@ -49,19 +38,6 @@ export const getConfig = async () => {
   const userGroups = stackConfig.get("userGroups");
   const groups = userGroups ? `sudo,${userGroups}` : "sudo";
 
-  let blockVolumeId = stackConfig.get("blockVolumeId") as string | undefined;
-  let blockVolumeName = stackConfig.get("blockVolumeName") as string | undefined;
-
-  if (!blockVolumeId) {
-    const outputs = await getOutputs(
-      "blockVolumeStack",
-      "volumeId,volumeName"
-    );
-
-    blockVolumeId = outputs ? outputs[0] : undefined;
-    blockVolumeName = outputs ? outputs[1] : undefined;
-  }
-  
   let vpcId = stackConfig.get("vpcId");
   let vpcIpRange = undefined as unknown as string;
 
@@ -78,6 +54,7 @@ export const getConfig = async () => {
   }
 
   return {
+    count: stackConfig.require("count"),
     image: stackConfig.require("image"),
     name: stackConfig.get("name") || stack,
     packages,
@@ -85,7 +62,6 @@ export const getConfig = async () => {
     projectId,
     protect: stackConfig.getBoolean("protect"),
     region: stackConfig.require("region"),
-    reservedIpId,
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     size: stackConfig.require("size"),
     sshKeyNames,
@@ -98,15 +74,6 @@ export const getConfig = async () => {
         
       },
     ],
-    volumeIds: blockVolumeId ? [blockVolumeId] : [],
-    volumes: blockVolumeId ? [
-      {
-        group: username,
-        name: blockVolumeName as string,
-        path: "/mnt/data",
-        user: username
-      },
-    ] : [],
     vpcId,
     vpcIpRange,
   };

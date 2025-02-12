@@ -1,4 +1,4 @@
-# DigitalOcean NFS Server
+# DigitalOcean swarm workers
 
 Provisions one or multiple DigitalOcean droplets.
 

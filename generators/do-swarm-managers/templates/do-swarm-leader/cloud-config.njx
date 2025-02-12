@@ -1,0 +1,48 @@
+#cloud-config
+users:
+{% for user in users %}
+  - name: {{ user.username }}
+    groups: {{ user.groups }}
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys: 
+{% for key in user.publicKeys %}
+      - {{ key }}
+{% endfor %}
+{% endfor %}
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+packages: 
+  - python3-pip
+
+{% for package in packages %}
+  - {{ package }}
+{% endfor %}
+
+bootcmd:
+{% for volume in volumes %}
+  - mkdir {{ volume.path }}
+  - mount -o discard,defaults,noatime /dev/disk/by-id/scsi-0DO_Volume_{{ volume.name }} {{ volume.path }}
+{% endfor %}
+
+mounts:
+{% for volume in volumes %}
+  - [ "/dev/disk/by-id/scsi-0DO_Volume_{{ volume.name }}", "{{ volume.path }}", auto, "discard,defaults,noatime" ]
+{% endfor %}
+
+{% if swap_size > 0 %}
+swap:
+  filename: {{ swap_file }}
+  size: {{ swap_size }}
+{% endif %}
+
+runcmd:
+  - sed -i -e '$aAllowUsers {% for user in users %}{{ user.username }} {% endfor %}' /etc/ssh/sshd_config
+  - service ssh restart
+{% for volume
+ in volumes %}
+  - chown -R {{ volume.user }}:{{ volume.group }} {{ volume.path }}
+{% endfor %}

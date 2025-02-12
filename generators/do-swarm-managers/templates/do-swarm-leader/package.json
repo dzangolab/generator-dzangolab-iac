@@ -1,0 +1,12 @@
+{
+  "name": "<%= projectName %>",
+  "main": "index.ts",
+  "dependencies": {
+    "@dzangolab/pulumi": "<%= versions.dzangolab %>",
+    "@pulumi/digitalocean": "<%= versions.digitalocean %>",
+    "@pulumi/pulumi": "<%= versions.pulumi %>"
+  },
+  "devDependencies": {
+    "@types/node": "<%= versions.types_node %>"
+  }
+}

@@ -2,12 +2,36 @@ import chalk from "chalk";
 
 import PulumiGenerator from "../pulumi/index.js";
 
-export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenerator {
+export default class DigitalOceanNFSServerGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.displayName = "DigitalOcean swarm leader";
-    this.name = "do-swarm-leader";
+    this.displayName = "DigitalOcean NFS server";
+    this.name = "do-nfs-server";
+
+    this.option("environment", {
+      type: String,
+      default: "staging",
+      desc: "environment."
+    });
+
+    this.option("region", {
+      type: String,
+      default: "sgp1",
+      desc: "region."
+    });
+
+    this.option("size", {
+      type: String,
+      default: "s-2vcpu-2gb",
+      desc: "size."
+    });
+
+    this.option("username", {
+      type: String,
+      default: "USERNAME",
+      desc: "username."
+    });
   }
 
   async prompting() {

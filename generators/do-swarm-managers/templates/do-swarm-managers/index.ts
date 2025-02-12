@@ -14,6 +14,17 @@ export = async () => {
   for (let i = 1; i <= count; i++) {
     const name = `${config.name}-manager-${i}`; // Ensure unique worker names
 
+    const reservedIp = new ReservedIp(
+      config.name,
+      {
+        region: config.region,
+      },
+      options
+    );
+  
+    outputs["reservedIpId"] = interpolate`${reservedIp.id}`;
+    outputs["ip"] = interpolate`${reservedIp.id}`;
+  
     if (config.dataVolumeSize) {
       const volume = new Volume(
         config.name,
@@ -30,6 +41,7 @@ export = async () => {
       outputs["volumeId"] = interpolate`${volume.id}`;
       outputs["volumeName"] = interpolate`${volume.name}`;
     }
+
     const droplet = new digitalocean.Droplet(
       config.name,
       {
@@ -42,8 +54,8 @@ export = async () => {
         sshKeyNames: config.sshKeyNames,
         userDataTemplate: config.userDataTemplate,
         users: config.users,
-        volumeIds: config.volumeIds,
-        volumes: config.volumes,
+        volumeIds: volume.id,
+        volumes: volume,
         vpcUuid: config.vpcId,
       },
       options

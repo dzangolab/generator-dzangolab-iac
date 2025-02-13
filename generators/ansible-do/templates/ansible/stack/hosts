@@ -6,11 +6,11 @@ leader ansible_host=PUBLIC_IP_ADDRESS
 
 [nfs:vars]
 ansible_python_interpreter=/usr/bin/python3
-ansible_user=dzangolab
+ansible_user=USERNAME
 
 [swarm:vars]
 ansible_python_interpreter=/usr/bin/python3
-ansible_user=dzangolab
+ansible_user=USERNAME
 
 [apps:children]
 swarm

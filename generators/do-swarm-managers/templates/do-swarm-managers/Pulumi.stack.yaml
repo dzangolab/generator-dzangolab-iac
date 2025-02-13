@@ -1,7 +1,6 @@
 config:
-#  <%= projectName %>:blockVolumeId: BLOCK VOLUME ID 
-#  <%= projectName %>:blockVolumeName: BLOCK NOLUME NAME
-#  <%= projectName %>:blockVolumeStack: <%= prefix %>-do-resources 
+  <%= projectName %>:count: "1"
+  <%= projectName %>:dataVolumeSize: 10
   <%= projectName %>:image: ubuntu-24-10-x64
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"
@@ -10,14 +9,14 @@ config:
   <%= projectName %>:protect: "false"
   <%= projectName %>:publicKeyNames:
     - KEY_NAME
-  <%= projectName %>:region: sgp1
+  <%= projectName %>:region: <%= region %>
 #  <%= projectName %>:reservedIpId: RESERVED IP
 #  <%= projectName %>:reservedIpStack: <%= prefix %>-do-resources
   <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:size: s-1vcpu-1gb
+  <%= projectName %>:size: <%= size %>
   <%= projectName %>:sshKeyNames: 
     - ...
   <%= projectName %>:userGroups: group1,group2
-  <%= projectName %>:username: USERNAME
+  <%= projectName %>:username: <%= username %>
 #  <%= projectName %>:vpcUuid: VPC UUID
 #  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

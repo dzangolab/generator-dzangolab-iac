@@ -2,12 +2,12 @@ import chalk from "chalk";
 
 import PulumiGenerator from "../pulumi/index.js";
 
-export default class DigitalOceanNFSServerGenerator extends PulumiGenerator {
+export default class DigitalOceanDockerSwarmManagersGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.displayName = "DigitalOcean NFS server";
-    this.name = "do-nfs-server";
+    this.displayName = "DigitalOcean swarm managers";
+    this.name = "do-swarm-managers";
 
     this.option("environment", {
       type: String,

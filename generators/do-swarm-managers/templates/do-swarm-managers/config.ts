@@ -29,17 +29,6 @@ export const getConfig = async () => {
     projectId = outputs ? outputs[0] : undefined;
   }
 
-  let reservedIpId = stackConfig.get("reservedIpId");
-
-  if (!reservedIpId) {
-    const outputs = await getOutputs(
-      "reservedIpStack",
-      "reservedIpId"
-    );
-
-    reservedIpId = outputs ? outputs[0] : undefined;
-  }
-
   const sshKeyNames = stackConfig.requireObject("sshKeyNames") as string[];
 
   const userDataTemplate = stackConfig.get("userDataTemplate") || "./cloud-config.njx";
@@ -78,6 +67,8 @@ export const getConfig = async () => {
   }
 
   return {
+    count: stackConfig.require("count"),
+    dataVolumeSize: stackConfig.requireNumber("dataVolumeSize"),
     image: stackConfig.require("image"),
     name: stackConfig.get("name") || stack,
     packages,
@@ -85,7 +76,6 @@ export const getConfig = async () => {
     projectId,
     protect: stackConfig.getBoolean("protect"),
     region: stackConfig.require("region"),
-    reservedIpId,
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     size: stackConfig.require("size"),
     sshKeyNames,
@@ -94,19 +84,9 @@ export const getConfig = async () => {
       {
         username,
         groups,
-        publicKeys: getPublicKeys(publicKeyNames, pathToSshKeysFolder)
-        
+        publicKeys: getPublicKeys(publicKeyNames, pathToSshKeysFolder)   
       },
     ],
-    volumeIds: blockVolumeId ? [blockVolumeId] : [],
-    volumes: blockVolumeId ? [
-      {
-        group: username,
-        name: blockVolumeName as string,
-        path: "/mnt/nfs",
-        user: username
-      },
-    ] : [],
     vpcId,
     vpcIpRange,
   };

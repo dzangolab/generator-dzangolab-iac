@@ -1,9 +1,16 @@
+[nfs]
+nfs_server ansible_host=PUBLIC_NFS_IP_ADDRESS
+
 [swarm]
 leader ansible_host=PUBLIC_IP_ADDRESS
 
+[nfs:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_user=dzangolab
+
 [swarm:vars]
 ansible_python_interpreter=/usr/bin/python3
-ansible_user=USERNAME
+ansible_user=dzangolab
 
 [apps:children]
 swarm

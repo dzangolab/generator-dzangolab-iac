@@ -8,6 +8,24 @@ export default class DigitalOceanResourcesGenerator extends PulumiGenerator {
 
     this.displayName = "DigitalOcean resources";
     this.name = "do-resources";
+
+    this.option("nameSuffix", {
+      type: String,
+      default: this.DEFAULT_PROJECT_NAME,
+      desc: "nameSuffix."
+    });
+
+    this.option("region", {
+      type: String,
+      default: "sgp1",
+      desc: "region name."
+    });
+
+    this.option("environment", {
+      type: String,
+      default: "staging",
+      desc: "environment."
+    });
   }
 
   async prompting() {
@@ -25,8 +43,7 @@ export default class DigitalOceanResourcesGenerator extends PulumiGenerator {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
-
-    this.fs.copyTplAsync(
+      this.fs.copyTplAsync(
       this.templatePath(this.name),
       this.destinationPath(this._getFolderName()),
       {

@@ -6,7 +6,7 @@ config:
   <%= projectName %>:protect: "false"
   <%= projectName %>:publicKeyNames:
     - KEY_NAME
-  <%= projectName %>:region: sgp1
+  <%= projectName %>:region: <%= region %>
   <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:size: s-1vcpu-1gb
-  <%= projectName %>:username: USERNAME
+  <%= projectName %>:size: <%= size %>
+  <%= projectName %>:username: <%= username %>

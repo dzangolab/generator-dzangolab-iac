@@ -1,4 +1,4 @@
-traefik__acme_email: op+staging@dzango.com
+traefik__acme_email: <%= email %>
 traefik__deploy_dir: "{{ deploy_dir }}/traefik"
 traefik__deploy_group: "{{ deploy_group }}"
 traefik__deploy_user: "{{ deploy_user }}"

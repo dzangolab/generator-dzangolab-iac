@@ -10,7 +10,7 @@ config:
   <%= projectName %>:protect: "false"
   <%= projectName %>:publicKeyNames:
     - KEY_NAME
-  <%= projectName %>:region: sgp1
+  <%= projectName %>:region: <%= region %>
 #  <%= projectName %>:reservedIpId: RESERVED IP
 #  <%= projectName %>:reservedIpStack: <%= prefix %>-do-resources
   <%= projectName %>:retainOnDelete: "false"
@@ -18,6 +18,6 @@ config:
   <%= projectName %>:sshKeyNames: 
     - ...
   <%= projectName %>:userGroups: group1,group2
-  <%= projectName %>:username: USERNAME
+  <%= projectName %>:username: <%= username %>
 #  <%= projectName %>:vpcUuid: VPC UUID
 #  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

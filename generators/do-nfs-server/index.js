@@ -21,12 +21,6 @@ export default class DigitalOceanNFSServerGenerator extends PulumiGenerator {
       desc: "region."
     });
 
-    this.option("size", {
-      type: String,
-      default: "s-2vcpu-2gb",
-      desc: "size."
-    });
-
     this.option("username", {
       type: String,
       default: "USERNAME",

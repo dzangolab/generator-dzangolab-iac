@@ -10,12 +10,12 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
     this.name = "do-swarm";
     this.resourcesList = [
       "aws-credentials",
-      // "aws-resources",
-      // "do-resources",
-      // "do-nfs-server",
-      // "do-swarm-leader",
-      // "cloudflare-dns",
-      // "ansible-do"
+      "aws-resources",
+      "do-resources",
+      "do-nfs-server",
+      "do-swarm-leader",
+      "cloudflare-dns",
+      "ansible-do"
     ];
   }
 
@@ -78,7 +78,9 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         region: this.props.region,
       },
       "do-nfs-server": {
-
+        environment: this.props.environment,
+        region: this.props.region,
+        username: this.props.username,
       },
       "do-swarm-leader": {
         environment: this.props.environment,
@@ -110,7 +112,7 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
     });
 
     this.fs.copyTpl(
-      this.templatePath("../README.md"),
+      this.templatePath("do-swarm/README.md"),
       this.destinationPath("README.md"),
       {
         projectName: this.props.nameSuffix || "Project",

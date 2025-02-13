@@ -1,12 +1,13 @@
-# <%= projectName %>
+# DigitalOcean Project docker swarm
 
-This project was generated using the **DigitalOcean Docker Swarm Generator**.
+Provisions all the necessary projects for a DigitalOcean docker swarm project
 
-It is a combination of multiple projects:
+This project is a combination of multiple projects:
 - ansible-do
 - aws-credentials
 - aws-resources
 - cloudfalre-dns
+- do-nfs-server
 - do-resources
 - do-swarm-leader
 

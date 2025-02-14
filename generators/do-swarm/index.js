@@ -34,9 +34,27 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         type: "input",
       },
       {
+        default: "docker-20-04",
+        message: "Enter the name of the leader image",
+        name: "manager_image",
+        type: "input",
+      },
+      {
         default: "s-2vcpu-2gb",
         message: "Enter the size of the leader node",
-        name: "leader_size",
+        name: "manager_size",
+        type: "input",
+      },
+      {
+        default: "ubuntu-24-10-x64",
+        message: "Enter the name of the nfs server image",
+        name: "nfs_server_image",
+        type: "input",
+      },
+      {
+        default: "s-2vcpu-2gb",
+        message: "Enter the size of the nfs server",
+        name: "nfs_server_size",
         type: "input",
       },
       {
@@ -79,13 +97,16 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       },
       "do-nfs-server": {
         environment: this.props.environment,
+        image: this.props.nfs_server_image,
         region: this.props.region,
+        size: this.props.nfs_server_size,
         username: this.props.username,
       },
       "do-swarm-leader": {
         environment: this.props.environment,
+        image: this.props.manager_image,
         region: this.props.region,
-        size: this.props.leader_size,
+        size: this.props.manager_size,
         username: this.props.username,
       },
       "cloudflare-dns": {

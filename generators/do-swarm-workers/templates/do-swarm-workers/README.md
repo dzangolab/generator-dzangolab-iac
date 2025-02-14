@@ -1,6 +1,6 @@
 # DigitalOcean swarm workers
 
-Provisions one or multiple DigitalOcean droplets .
+One or multiple DigitalOcean droplets worker, configured as worker nodes to be attached to an existing Docker Swarm.
 
 ## Requirements
 

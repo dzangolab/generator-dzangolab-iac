@@ -37,19 +37,6 @@ export const getConfig = async () => {
 
   const userGroups = stackConfig.get("userGroups");
   const groups = userGroups ? `sudo,${userGroups}` : "sudo";
-
-  let blockVolumeId = stackConfig.get("blockVolumeId") as string | undefined;
-  let blockVolumeName = stackConfig.get("blockVolumeName") as string | undefined;
-
-  if (!blockVolumeId) {
-    const outputs = await getOutputs(
-      "blockVolumeStack",
-      "volumeId,volumeName"
-    );
-
-    blockVolumeId = outputs ? outputs[0] : undefined;
-    blockVolumeName = outputs ? outputs[1] : undefined;
-  }
   
   let vpcId = stackConfig.get("vpcId");
   let vpcIpRange = undefined as unknown as string;

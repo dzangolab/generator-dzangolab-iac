@@ -1,6 +1,8 @@
 config:
+#  <%= projectName %>:blockVolumeId: BLOCK VOLUME ID 
+#  <%= projectName %>:blockVolumeName: BLOCK NOLUME NAME
+#  <%= projectName %>:blockVolumeStack: <%= prefix %>-do-resources 
   <%= projectName %>:count: "1"
-  <%= projectName %>:dataVolumeSize: 10
   <%= projectName %>:image: ubuntu-24-10-x64
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"

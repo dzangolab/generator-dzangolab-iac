@@ -1,6 +1,6 @@
-# DigitalOcean NFS Server
+# DigitalOcean swarm managers
 
-Provisions a NFS server on DigitalOcean.
+One or multiple DigitalOcean droplets, configured as managers nodes to be attached to a Docker Swarm.
 
 ## Requirements
 
@@ -12,7 +12,7 @@ Provisions a NFS server on DigitalOcean.
 
 ## Usage
 
-All commands must be run frominside the Pulumi project folder.
+All commands must be run from inside the Pulumi project folder.
 
 * Install dependencies 
 
@@ -47,9 +47,9 @@ pulumi destroy
 
 ## Resources provisioned
 
-### NFS Server
+### DigitalOcean swarm managers
 
-A DigitalOcean droplet.
+One or multiple DigitalOcean droplets, configured as managers nodes to be attached to a Docker Swarm.
 
 ### DigitalOcean project
 
@@ -154,6 +154,7 @@ The inbound rules restrict ingress to port 2049 to the droplet's VPC.
 | blockVolumeId | string | | Id of the block volume to attached to the droplet |
 | blockVolumeName | string | | Name of the block volume to attached to the droplet |
 | blockVolumeStack | string | | Name of the Pulumi project in which the block volume was provisioned |
+| count | string | `1` | Number of managers nodes |
 | image | string | `ubuntu-24-10-x64` | DO dropletimage |
 | name | string | `{stack}` | DO droplet name | 
 | packages | string[] | | Packages to install on the droplet |

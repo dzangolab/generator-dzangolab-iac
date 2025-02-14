@@ -15,9 +15,21 @@ export default class DigitalOceanNFSServerGenerator extends PulumiGenerator {
       desc: "environment."
     });
 
+    this.option("image", {
+      type: String,
+      default: "ubuntu-24-10-x64",
+      desc: "region."
+    });
+
     this.option("region", {
       type: String,
       default: "sgp1",
+      desc: "region."
+    });
+
+    this.option("size", {
+      type: String,
+      default: "s-2vcpu-2gb",
       desc: "region."
     });
 

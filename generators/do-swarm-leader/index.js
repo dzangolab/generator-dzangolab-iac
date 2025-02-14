@@ -15,6 +15,12 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
       desc: "environment."
     });
 
+    this.option("image", {
+      type: String,
+      default: "docker-20-04",
+      desc: "region."
+    });
+
     this.option("region", {
       type: String,
       default: "sgp1",

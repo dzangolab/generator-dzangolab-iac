@@ -3,7 +3,7 @@ config:
 #  <%= projectName %>:blockVolumeId: BLOCK VOLUME ID 
 #  <%= projectName %>:blockVolumeName: BLOCK NOLUME NAME
 #  <%= projectName %>:blockVolumeStack: <%= prefix %>-do-resources 
-  <%= projectName %>:image: docker-20-04
+  <%= projectName %>:image: <%= image %>
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"
 #  <%= projectName %>:projectId: DO PROJECT ID

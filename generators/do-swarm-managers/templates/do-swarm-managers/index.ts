@@ -1,6 +1,5 @@
 import {
   ReservedIp,
-  Volume,
 } from "@pulumi/digitalocean";
 import { digitalocean } from "@dzangolab/pulumi";
 import { interpolate } from "@pulumi/pulumi";
@@ -47,6 +46,8 @@ export = async () => {
         sshKeyNames: config.sshKeyNames,
         userDataTemplate: config.userDataTemplate,
         users: config.users,
+        volumeIds: config.volumeIds,
+        volumes: config.volumes,
         vpcUuid: config.vpcId,
       },
       options

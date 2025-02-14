@@ -15,10 +15,10 @@ export = async () => {
     retainOnDelete: config.retainOnDelete,
   };
 
-   // Desired manager count
-   const count = Number(config.count) || 1;
+  // Desired manager count
+  const count = Number(config.count) || 1;
 
-   const managers = [];
+  const managers = [];
 
   for (let i = 1; i <= count; i++) {
     const name = `${config.name}-manager-${i}`; // Ensure unique worker names
@@ -31,20 +31,9 @@ export = async () => {
       options
     );
   
-    const volume = new Volume(
-      name,
-      {
-        description: `Block-storage volume for ${config.name}-manager-${i}`,
-        initialFilesystemType: "ext4",
-        name:name,
-        region: config.region,
-        size: config.dataVolumeSize,
-      },
-      options
-    );
+
     const outputs: { [key: string]: any } = {};
     outputs["reservedIpId"] = interpolate`${reservedIp.id}`
-    outputs["volumeId"] = interpolate`${volume.id}`;
 
     const droplet = new digitalocean.Droplet(
       name,
@@ -58,7 +47,6 @@ export = async () => {
         sshKeyNames: config.sshKeyNames,
         userDataTemplate: config.userDataTemplate,
         users: config.users,
-        volumeIds: [outputs["volumeId"]],
         vpcUuid: config.vpcId,
       },
       options

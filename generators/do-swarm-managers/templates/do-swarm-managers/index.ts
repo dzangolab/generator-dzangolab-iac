@@ -24,7 +24,7 @@ export = async () => {
     const name = `${config.name}-manager-${i}`; // Ensure unique worker names
 
     const reservedIp = new ReservedIp(
-      config.name,
+      name,
       {
         region: config.region,
       },
@@ -32,20 +32,19 @@ export = async () => {
     );
   
     const volume = new Volume(
-      config.name,
+      name,
       {
         description: `Block-storage volume for ${config.name}-manager-${i}`,
         initialFilesystemType: "ext4",
-        name:config.name,
+        name:name,
         region: config.region,
         size: config.dataVolumeSize,
       },
       options
     );
-    
-    const reservedIpId = reservedIp.id.toString();
-    const volumeId = volume.id.toString();
-
+    const outputs: { [key: string]: any } = {};
+    outputs["reservedIpId"] = interpolate`${reservedIp.id}`
+    outputs["volumeId"] = interpolate`${volume.id}`;
 
     const droplet = new digitalocean.Droplet(
       name,
@@ -54,12 +53,12 @@ export = async () => {
         packages: config.packages,
         projectId: config.projectId,
         region: config.region,
-        reservedIpId: reservedIpId,
+        reservedIpId: outputs["reservedIpId"],
         size: config.size,
         sshKeyNames: config.sshKeyNames,
         userDataTemplate: config.userDataTemplate,
         users: config.users,
-        volumeIds: [volumeId],
+        volumeIds: [outputs["volumeId"]],
         vpcUuid: config.vpcId,
       },
       options

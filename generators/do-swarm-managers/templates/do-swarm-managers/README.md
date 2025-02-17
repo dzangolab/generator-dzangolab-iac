@@ -1,6 +1,8 @@
 # DigitalOcean swarm managers
 
-One or multiple DigitalOcean droplets, configured as managers nodes to be attached to a Docker Swarm.
+Provisions one or more DigitalOcean droplets to be used as Docker swarm worker nodes.
+
+The droplets are not joined to a Docker swarm. This is expected to be handled by an Ansible playbook.
 
 ## Requirements
 
@@ -31,11 +33,11 @@ pulumi org set-default {your organization}
 * Initialize and select the appropriate stack
 
 ```bash
-pulumi stack init [staging|production]
-pulumi stack select [staging|production]
+pulumi stack init {stack}
+pulumi stack select {stack}
 ```
 
-* Update the stack config `Pulimi.[staging|production].yaml` with the appropriate values for your project.
+* Update the stack config `Pulimi.{stack}.yaml` with the appropriate values for your project.
 
 * Run `pulumi up`
 
@@ -51,7 +53,7 @@ pulumi destroy
 
 One or multiple DigitalOcean droplets, configured as managers nodes to be attached to a Docker Swarm.
 
-### DigitalOcean project
+### DigitalOcean project resource
 
 If `projectId` or `projectStack` are set in the stack config, the corresponding project will be associated with the droplet.
 

@@ -2,23 +2,23 @@ config:
 #  <%= projectName %>:blockVolumeId: BLOCK VOLUME ID 
 #  <%= projectName %>:blockVolumeName: BLOCK NOLUME NAME
 #  <%= projectName %>:blockVolumeStack: <%= prefix %>-do-resources 
-  <%= projectName %>:count: "1"
+#  <%= projectName %>:count: 2
   <%= projectName %>:image: ubuntu-24-10-x64
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
-  <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"
+  <%= projectName %>:pathToSshKeysFolder: "../infrastructure/ssh-keys"
 #  <%= projectName %>:projectId: DO PROJECT ID
 #  <%= projectName %>:projectStack: <%= prefix %>-do-resources
   <%= projectName %>:protect: "false"
   <%= projectName %>:publicKeyNames:
-    - KEY_NAME
+    - op@mbam3
   <%= projectName %>:region: <%= region %>
 #  <%= projectName %>:reservedIpId: RESERVED IP
 #  <%= projectName %>:reservedIpStack: <%= prefix %>-do-resources
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:size: <%= size %>
   <%= projectName %>:sshKeyNames: 
-    - ...
-  <%= projectName %>:userGroups: group1,group2
-  <%= projectName %>:username: <%= username %>
+    - op@mbam3
+#  <%= projectName %>:userGroups: group1,group2
+  <%= projectName %>:username: dzangolab
 #  <%= projectName %>:vpcUuid: VPC UUID
 #  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

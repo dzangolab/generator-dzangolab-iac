@@ -15,7 +15,7 @@ export = async () => {
   };
 
   // Desired manager count
-  const count = Number(config.count) || 1;
+  const count = config.count;
 
   const managers = [];
 
@@ -30,10 +30,8 @@ export = async () => {
       options
     );
   
-
     const outputs: { [key: string]: any } = {};
-    outputs["reservedIpId"] = interpolate`${reservedIp.id}`
-
+    
     const droplet = new digitalocean.Droplet(
       name,
       {
@@ -41,7 +39,6 @@ export = async () => {
         packages: config.packages,
         projectId: config.projectId,
         region: config.region,
-        reservedIpId: outputs["reservedIpId"],
         size: config.size,
         sshKeyNames: config.sshKeyNames,
         userDataTemplate: config.userDataTemplate,

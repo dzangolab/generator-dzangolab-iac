@@ -1,6 +1,3 @@
-import {
-  ReservedIp,
-} from "@pulumi/digitalocean";
 import { digitalocean } from "@dzangolab/pulumi";
 import { interpolate } from "@pulumi/pulumi";
 
@@ -21,16 +18,6 @@ export = async () => {
 
   for (let i = 1; i <= count; i++) {
     const name = `${config.name}-manager-${i}`; // Ensure unique worker names
-
-    const reservedIp = new ReservedIp(
-      name,
-      {
-        region: config.region,
-      },
-      options
-    );
-  
-    const outputs: { [key: string]: any } = {};
     
     const droplet = new digitalocean.Droplet(
       name,
@@ -43,8 +30,6 @@ export = async () => {
         sshKeyNames: config.sshKeyNames,
         userDataTemplate: config.userDataTemplate,
         users: config.users,
-        volumeIds: config.volumeIds,
-        volumes: config.volumes,
         vpcUuid: config.vpcId,
       },
       options

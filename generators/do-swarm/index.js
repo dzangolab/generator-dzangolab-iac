@@ -9,13 +9,14 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
     this.displayName = "DigitalOcean swarm";
     this.name = "do-swarm";
     this.resourcesList = [
+      "ansible-do",
       "aws-credentials",
       "aws-resources",
+      "cloudflare-dns",
       "do-resources",
       "do-nfs-server",
       "do-swarm-leader",
-      "cloudflare-dns",
-      "ansible-do"
+      "do-swarm-workers",
     ];
   }
 
@@ -43,6 +44,18 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         default: "s-2vcpu-2gb",
         message: "Enter the size of the leader node",
         name: "manager_size",
+        type: "input",
+      },
+      {
+        default: "s-2vcpu-2gb",
+        message: "Enter the sizes of workers nodes",
+        name: "workers_size",
+        type: "input",
+      },
+      {
+        default: "1",
+        message: "Enter the number of workers nodes",
+        name: "workers_count",
         type: "input",
       },
       {
@@ -81,6 +94,12 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
 
     // Define specific properties for each generator
     const generatorsProps = {
+      "ansible-do": {
+        email: this.props.email,
+        environment: this.props.environment,
+        domain: this.props.domain,
+        username: this.props.username,
+      },
       "aws-resources": {
         ...this.options,
         ...this.props,
@@ -89,6 +108,10 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       "aws-credentials": {
         environment: this.props.environment,
         timestamp: this.props.nameSuffix,
+      },
+      "cloudflare-dns": {
+        domain: this.props.domain,
+        environment: this.props.environment,
       },
       "do-resources": {
         environment: this.props.environment,
@@ -109,16 +132,13 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         size: this.props.manager_size,
         username: this.props.username,
       },
-      "cloudflare-dns": {
-        domain: this.props.domain,
+      "do-swarm-workers": {
+        count: this.props.workers_count,
         environment: this.props.environment,
-      },
-      "ansible-do": {
-        email: this.props.email,
-        environment: this.props.environment,
-        domain: this.props.domain,
+        region: this.props.region,
+        size: this.props.workers_size,
         username: this.props.username,
-      }
+      },
     };
 
     // Compose with each resource generator

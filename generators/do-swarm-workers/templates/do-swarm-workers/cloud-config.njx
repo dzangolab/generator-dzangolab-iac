@@ -2,7 +2,7 @@
 users:
 {% for user in users %}
   - name: {{ user.username }}
-    groups: {{ user.groups }}
+    groups: docker{% if user.groups %},{{ user.groups }}{% endif %}
     shell: /bin/bash
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh-authorized-keys: 

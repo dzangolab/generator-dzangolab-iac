@@ -1,5 +1,5 @@
 config:
-#  <%= projectName %>:count: "1"
+#  <%= projectName %>:count: 2
   <%= projectName %>:image: docker-20-04
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"

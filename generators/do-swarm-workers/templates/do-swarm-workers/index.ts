@@ -12,7 +12,7 @@ export = async () => {
   };
 
   // Desired worker count
-  const count = Number(config.count) || 1;
+  const count = config.count || 1;
 
   const workers = [];
 
@@ -47,4 +47,3 @@ export = async () => {
     workers,
   };
 };
-

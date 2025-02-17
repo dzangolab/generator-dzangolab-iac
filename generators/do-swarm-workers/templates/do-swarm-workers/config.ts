@@ -54,7 +54,7 @@ export const getConfig = async () => {
   }
 
   return {
-    count: stackConfig.require("count"),
+    count: stackConfig.requireNumber("count"),
     image: stackConfig.require("image"),
     name: stackConfig.get("name") || stack,
     packages,

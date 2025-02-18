@@ -57,5 +57,6 @@
       community.docker.docker_swarm:
         state: join
         advertise_addr: "{{ private_ip }}"
-        join_token: "{{ hostvars[groups['swarm_leader'][0]]['swarm_worker_token'] }}"
-        remote_addrs: ["{{ hostvars[groups['swarm_leader'][0]]['private_ip'] }}:2377"]
+        join_token: "{{ hostvars['leader']['swarm_worker_token'] }}"
+        remote_addrs: ["{{ hostvars['leader']['private_ip'] }}:2377"]
+      - name: Join worker nodes to Swarm

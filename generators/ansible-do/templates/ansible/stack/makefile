@@ -60,6 +60,10 @@ setup.docker-volume-driver:
 	@printf "\033[0;3ansible/2m>>> Set up docker local-persist volume driver\033[0m\n"
 	ansible-playbook plays/docker.yml --tags "docker-volume-driver"
 
+setup.nfs:
+	@printf "\033[0;3ansible/2m>>> Set up nfs directories\033[0m\n"
+	ansible-playbook plays/nfs.yml
+	
 setup.portainer:
 	@printf "\033[0;3ansible/2m>>> Set up portainer\033[0m\n"
 	ansible-playbook plays/portainer.yml

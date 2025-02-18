@@ -1,8 +1,26 @@
 ---
+- name: Deploy Portainer with NFS Volume
+  hosts: leader
+  become: true
 
-- name: Deploy portainer
-  hosts: all
   tasks:
-    - name: Import portainer from dzangolab collection
+    - name: Ensure NFS utilities are installed
+      ansible.builtin.apt:
+        name: nfs-common
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Create Portainer data volume with NFS
+      community.docker.docker_volume:
+        name: portainer_data
+        driver_options:
+          type: "nfs"
+          o: "addr={{ nfs_server_ip }},nfsvers=4,rw"
+          device: ":/mnt/nfs/portainer"
+
+    - name: Deploy Portainer
       ansible.builtin.import_role:
-        name: dzangolab.ansible.docker_portainer
+        name: "/home/ant/projet/ansible/roles/docker_portainer"
+      vars:
+        nfs__ip: "{{ nfs_server_ip }}"
+        use_nfs_server: true

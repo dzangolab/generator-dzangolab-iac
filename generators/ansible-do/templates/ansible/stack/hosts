@@ -1,23 +1,44 @@
-[swarm]
-leader ansible_host=PUBLIC_IP_ADDRESS
+; [swarm]
+; leader ansible_host=PUBLIC_IP_ADDRESS
 
-[swarm:vars]
+; [swarm:vars]
+; ansible_python_interpreter=/usr/bin/python3
+; ansible_user=USERNAME
+
+; [apps:children]
+; swarm
+
+; [awscli:children]
+; swarm
+
+; [db]
+; leader
+
+; [portainer]
+; leader
+
+; [swarm_init]
+; leader
+
+; [traefik]
+; leader
+leader ansible_host=64.225.75.74
+
+[nfs]
+nfs_server ansible_host=209.38.99.165
+
+[swarm_workers]
+worker1 ansible_host=159.65.192.116
+
+[all:vars]
 ansible_python_interpreter=/usr/bin/python3
-ansible_user=USERNAME
-
-[apps:children]
-swarm
-
-[awscli:children]
-swarm
+ansible_user=dzangolab
+nfs_server_ip=10.110.16.2
 
 [db]
 leader
 
 [portainer]
-leader
-
-[swarm_init]
 leader
 
 [traefik]

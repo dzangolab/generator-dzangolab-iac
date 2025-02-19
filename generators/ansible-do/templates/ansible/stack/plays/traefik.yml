@@ -19,5 +19,8 @@
     - name: Import traefik from dzangolab collection
       ansible.builtin.import_role:
         name: dzangolab.ansible.docker_traefik
+      vars:
+        nfs__ip: "{{ nfs_server_ip }}"
+        use_nfs_server: true
   vars:
     traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]

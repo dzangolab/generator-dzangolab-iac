@@ -1,0 +1,29 @@
+---
+- name: Create Portainer repository on the NFS server
+  hosts: nfs_server
+  become: yes
+  tasks:
+    - name: Ensure the Portainer directory exists
+      file:
+        path: /mnt/nfs/portainer
+        state: directory
+        mode: '0755'
+
+- name: Create Traefik repository on the NFS server
+  hosts: nfs_server
+  become: yes
+  tasks:
+    - name: Ensure the Traefik directory exists
+      file:
+        path: /mnt/nfs/traefik
+        state: directory
+        mode: '0755'
+
+- name: Install NFS utilities
+  hosts: leader
+  become: true
+  tasks:
+    - name: Ensure NFS utilities are installed
+      ansible.builtin.apt:
+        name: nfs-common
+        state: present

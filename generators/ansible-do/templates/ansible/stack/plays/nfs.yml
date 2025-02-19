@@ -18,7 +18,17 @@
         path: /mnt/nfs/traefik
         state: directory
         mode: '0755'
-
+    - name: Ensure the Traefik log directory exists
+      file:
+        path: /mnt/nfs/traefik/log
+        state: directory
+        mode: '0755'
+    - name: Ensure the Traefik acme directory exists
+      file:
+        path: /mnt/nfs/traefik/acme
+        state: directory
+        mode: '0755'
+      
 - name: Install NFS utilities
   hosts: leader
   become: true

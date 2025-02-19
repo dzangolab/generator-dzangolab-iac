@@ -47,7 +47,7 @@
     - docker-labels
 
 - name: Setup cron jobs
-  hosts: all
+  hosts: leader
   become: true
   tasks:
     - cron:
@@ -61,7 +61,7 @@
     - docker-cron
 
 - name: Setup logrotate for docker container logs
-  hosts: all
+  hosts: leader
   become: true
   tasks:
     - blockinfile:
@@ -83,7 +83,7 @@
     - docker-logrotate
 
 - name: Install local-persist docker volume driver
-  hosts: all
+  hosts: leader
   become: true
   gather_facts: no
   handlers:

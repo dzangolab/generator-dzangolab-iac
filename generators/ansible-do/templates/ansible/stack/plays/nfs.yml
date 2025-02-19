@@ -18,3 +18,12 @@
         path: /mnt/nfs/traefik
         state: directory
         mode: '0755'
+
+- name: Install NFS utilities
+  hosts: leader
+  become: true
+  tasks:
+    - name: Ensure NFS utilities are installed
+      ansible.builtin.apt:
+        name: nfs-common
+        state: present

@@ -1,6 +1,6 @@
 ---
 - name: Get secrets
-  hosts: all
+  hosts: traefik
   tasks:
     - shell: "aws secretsmanager get-secret-value --output text --query SecretString --secret-id {{ aws_secrets_id }}"
       delegate_to: 127.0.0.1

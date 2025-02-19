@@ -1,6 +1,6 @@
 ---
 - name: Setup Docker Swarm Leader
-  hosts: swarm_leader
+  hosts: leader
   tasks:
     - name: Install Python Docker module
       ansible.builtin.pip:
@@ -43,20 +43,9 @@
       ansible.builtin.pip:
         name: docker
 
-    - name: Fetch IP of the droplet
-      ansible.builtin.uri:
-        url: http://169.254.169.254/metadata/v1/interfaces/private/0/ipv4/address
-        return_content: yes
-      register: metadata_response
-
-    - name: Set IP as a fact
-      ansible.builtin.set_fact:
-        private_ip: "{{ metadata_response.content | trim }}"
-
     - name: Join worker nodes to Swarm
       community.docker.docker_swarm:
         state: join
-        advertise_addr: "{{ private_ip }}"
+        advertise_addr: "{{ hostvars['leader']['private_ip']  }}"
         join_token: "{{ hostvars['leader']['swarm_worker_token'] }}"
         remote_addrs: ["{{ hostvars['leader']['private_ip'] }}:2377"]
-      - name: Join worker nodes to Swarm

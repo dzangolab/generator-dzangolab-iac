@@ -21,6 +21,6 @@
         name: dzangolab.ansible.docker_traefik
       vars:
         nfs__ip: "{{ nfs_server_ip }}"
-        use_nfs_server: true
+        traefik__use_nfs: "{{ use_nfs_server }}"
   vars:
     traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]

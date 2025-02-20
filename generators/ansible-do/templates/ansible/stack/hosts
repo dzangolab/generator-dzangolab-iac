@@ -9,6 +9,7 @@ worker2 ansible_host=PUBLIC_WORKER2_IP_ADDRESS
 ansible_python_interpreter=/usr/bin/python3
 ansible_user=USERNAME
 nfs_server_ip=PRIVATE_NFS_IP_ADDRESS
+use_nfs_server=false
 
 [db]
 leader

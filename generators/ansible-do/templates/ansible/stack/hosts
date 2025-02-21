@@ -5,8 +5,6 @@ nfs_server ansible_host=PUBLIC_NFS_IP_ADDRESS
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 ansible_user=USERNAME
-nfs_server_ip=PRIVATE_NFS_IP_ADDRESS
-use_nfs_server=false
 
 [db]
 leader

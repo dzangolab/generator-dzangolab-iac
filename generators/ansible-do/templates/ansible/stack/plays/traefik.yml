@@ -13,7 +13,7 @@
       delegate_to: 127.0.0.1
       register: traefik_dashboard_basicauth_password
 
-- name: Create necessary traefik directories on the NFS server
+- name: Create required traefik directories and files on the NFS server
   hosts: nfs_server
   become: yes
   tasks:
@@ -27,18 +27,15 @@
       with_items:
         - "traefik/acme"
         - "traefik/log"
-
-- name: Create acme.json on the NFS server
-  hosts: nfs_server
-  become: yes
-  tasks:
-  - name: Create an empty acme.json
-    file:
-      path: "/mnt/nfs/traefik/acme/acme.json"
-      state: touch
-      owner: "nobody"
-      group: "nogroup"
-      mode: "0600"
+    - name: Create an empty acme.json
+      file:
+        path: "/mnt/nfs/traefik/acme/acme.json"
+        state: touch
+        owner: "nobody"
+        group: "nogroup"
+        mode: "0600"
+  when:
+    - traefik__use_nfs
 
 - name: Deploy traefik
   hosts: traefik
@@ -46,8 +43,5 @@
     - name: Import traefik from dzangolab collection
       ansible.builtin.import_role:
         name: dzangolab.ansible.docker_traefik # Need to be updated, or modified to use "test-nfs-server-portainer" branch from ansible
-      vars:
-        traefik__nfs_ip: "{{ nfs_server_ip }}"
-        traefik__use_nfs: "{{ use_nfs_server }}"
   vars:
     traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]

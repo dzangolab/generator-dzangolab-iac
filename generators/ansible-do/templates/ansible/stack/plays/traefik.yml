@@ -13,6 +13,33 @@
       delegate_to: 127.0.0.1
       register: traefik_dashboard_basicauth_password
 
+- name: Create necessary traefik directories on the NFS server
+  hosts: nfs_server
+  become: yes
+  tasks:
+    - name: Ensure necessary directories exist
+      file:
+        group: "nogroup"
+        owner: "nobody"
+        path: "/mnt/nfs/{{ item }}"
+        state: directory
+        recurse: true
+      with_items:
+        - "traefik/acme"
+        - "traefik/log"
+
+- name: Create acme.json on the NFS server
+  hosts: nfs_server
+  become: yes
+  tasks:
+  - name: Create an empty acme.json
+    file:
+      path: "/mnt/nfs/traefik/acme/acme.json"
+      state: touch
+      owner: "nobody"
+      group: "nogroup"
+      mode: "0600"
+
 - name: Deploy traefik
   hosts: traefik
   tasks:

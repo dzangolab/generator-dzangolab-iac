@@ -1,4 +1,19 @@
 ---
+- name: Create necessary portainer directories on the NFS server
+  hosts: nfs_server
+  become: yes
+  tasks:
+    - name: Ensure necessary directories exist
+      file:
+        group: "nogroup"
+        owner: "nobody"
+        path: "/mnt/nfs/{{ item }}"
+        state: directory
+        recurse: true
+      with_items:
+        - "portainer"
+
+
 - name: Deploy Portainer with NFS Volume
   hosts: leader
   become: true

@@ -1,4 +1,4 @@
-traefik__acme_email: op+staging@dzango.com
+traefik__acme_email: <%= email %>
 traefik__deploy_dir: "{{ deploy_dir }}/traefik"
 traefik__deploy_group: "{{ deploy_group }}"
 traefik__deploy_user: "{{ deploy_user }}"
@@ -6,4 +6,6 @@ traefik__domain: "traefik.{{ domain }}"
 traefik__label: "traefik"
 traefik__log_level: "ERROR"
 traefik__network: "{{ network_traefik }}"
+traefik__nfs_ip: "{{ nfs_server_ip }}"
 traefik__state: "started"
+traefik__use_nfs: "{{ nfs }}"

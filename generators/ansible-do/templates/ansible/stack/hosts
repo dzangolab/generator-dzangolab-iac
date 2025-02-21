@@ -1,15 +1,10 @@
-[swarm]
-leader ansible_host=PUBLIC_IP_ADDRESS
+leader ansible_host=PUBLIC_LEADER_IP_ADDRESS
 
-[swarm:vars]
+nfs_server ansible_host=PUBLIC_NFS_IP_ADDRESS
+
+[all:vars]
 ansible_python_interpreter=/usr/bin/python3
 ansible_user=USERNAME
-
-[apps:children]
-swarm
-
-[awscli:children]
-swarm
 
 [db]
 leader
@@ -17,8 +12,9 @@ leader
 [portainer]
 leader
 
-[swarm_init]
-leader
+[swarm_workers]
+; worker1 ansible_host=PUBLIC_WORKER1_IP_ADDRESS
+; worker2 ansible_host=PUBLIC_WORKER2_IP_ADDRESS
 
 [traefik]
 leader

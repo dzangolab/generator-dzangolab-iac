@@ -1,5 +1,5 @@
 ---
-- name: Create necessary portainer directories on the NFS server
+- name: Create required portainer directories on the NFS server
   hosts: nfs_server
   become: yes
   tasks:
@@ -12,16 +12,13 @@
         recurse: true
       with_items:
         - "portainer"
+  when:
+    - portainer__use_nfs
 
-
-- name: Deploy Portainer with NFS Volume
+- name: Deploy Portainer
   hosts: leader
   become: true
-
   tasks:
     - name: Deploy Portainer
       ansible.builtin.import_role:
         name: dzangolab.ansible.docker_portainer # Need to be updated, or modified to use "test-nfs-server-portainer" branch from ansible
-      vars:
-        nfs__ip: "{{ nfs_server_ip }}"
-        portainer__use_nfs: "{{ use_nfs_server }}"

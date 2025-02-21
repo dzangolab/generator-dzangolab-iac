@@ -20,6 +20,7 @@ import AWSSwarmNodes from "../aws-swarm-nodes/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
 import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
 import DigitalOceanDockerSwarmLeaderGenerator from "../do-swarm-leader/index.js";
+import DigitalOceanDockerSwarmManagersGenerator from "../do-swarm-managers/index.js";
 import DigitalOceanDockerSwarmWorkersGenerator from "../do-swarm-workers/index.js";
 import DigitalOceanDropletGenerator from "../do-droplet/index.js";
 import DigitalOceanNFSServerGenerator from "../do-nfs-server/index.js";
@@ -147,6 +148,10 @@ export default class IaCGenerator extends Generator {
             value: "do-swarm-leader"
           },
           {
+            name: "DigitalOcean Docker swarm managers",
+            value: "do-swarm-managers"
+          },
+          {
             name: "DigitalOcean Docker swarm workers",
             value: "do-swarm-workers"
           },
@@ -215,6 +220,7 @@ export default class IaCGenerator extends Generator {
       "do-resources": { Generator: DigitalOceanResourcesGenerator, path: "../do-resources/index.js" },
       "do-ssh-keys": { Generator: DigitalOceanSSHKeysGenerator, path: "../do-ssh-keys/index.js" },
       "do-swarm-leader": { Generator: DigitalOceanDockerSwarmLeaderGenerator, path: "../do-swarm-leader/index.js" },
+      "do-swarm-managers": { Generator: DigitalOceanDockerSwarmManagersGenerator, path: "../do-swarm-managers/index.js" },
       "do-swarm-workers": { Generator: DigitalOceanDockerSwarmWorkersGenerator, path: "../do-swarm-workers/index.js" },
       "pulumi-s3-backend": { Generator: PulumiS3BackendGenerator, path: "../pulumi-s3-backend/index.js" },
       "ssh-key-folder": { Generator: SSHKeyFolderGenerator, path: "../ssh-key-folder/index.js" },

@@ -66,12 +66,35 @@ One instance of `aws.s3.Bucket`.
 ## Configuration settings
 
 | Setting | Type | Default | Required | Description |
-|---------|------|---------|-------------|
+|---------|------|---------|-------------|----------|
+| aws-account-arns | string | `ARN1` | No | Grants access to the backend for different roles. The format should be <Account ID>:role/<Role Name> for roles <Account ID>:user/<Username> for users. |
 | forceDestroy | Boolean | `false` | No | Indicates whether all objects should be destroyed when the bucket is destroyed. See `aws.s3.Bucket` `forceDestroy` |
 | name | String | `{organization}-pulumi-state` | No | The name of the S3 bucket to provision.  |
 | protect | boolean | false | No | Protect resources from accidental deletion |
 | retainOnDelete | boolean | false | No | Retain resources when destroyed |
 
+### aws-account-arns example
+
+##### Granting access to a role of an account
+< AccountID >:role/< FederatedUser>
+
+For example:
+
+123456789:role/AWSReservedSSO_Devops-AdministratorAccess_ABC123/
+
+##### Granting access to a user of an account
+< AccountID >:user/< Username >
+
+For example:
+
+123456789:user/anthony@dzangolab.com
+
+##### Granting access to an account
+< AccountID >:root
+
+For example:
+
+123456789:root
 
 ## Outputs
 

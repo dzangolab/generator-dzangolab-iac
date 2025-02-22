@@ -81,6 +81,22 @@ export = async () => {
           ],
         },
         {
+          protocol: "tcp",
+          portRange: "80",
+          destinationAddresses: [
+            "0.0.0.0/0",
+            "::/0",
+          ],
+        },
+        {
+          protocol: "tcp",
+          portRange: "443",
+          destinationAddresses: [
+            "0.0.0.0/0",
+            "::/0",
+          ],
+        },
+        {
           protocol: "icmp",
           destinationAddresses: [
               "0.0.0.0/0",

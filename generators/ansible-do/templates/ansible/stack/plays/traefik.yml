@@ -28,7 +28,7 @@
         - "traefik/acme"
         - "traefik/log"
       when:
-        - portainer__use_nfs
+        - traefik_use_nfs
 
     - name: Create an empty acme.json
       file:
@@ -38,7 +38,7 @@
         group: "nogroup"
         mode: "0600"
       when:
-        - nfs
+        - traefik__use_nfs
 
 - name: Deploy traefik
   hosts: traefik

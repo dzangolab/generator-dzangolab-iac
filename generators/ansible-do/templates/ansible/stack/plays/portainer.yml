@@ -12,8 +12,8 @@
         recurse: true
       with_items:
         - "portainer"
-  when:
-    - portainer__use_nfs
+      when:
+        - portainer__use_nfs
 
 - name: Deploy Portainer
   hosts: leader

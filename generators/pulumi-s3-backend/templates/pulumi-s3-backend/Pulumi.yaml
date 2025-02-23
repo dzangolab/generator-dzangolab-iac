@@ -3,4 +3,4 @@ runtime:
   name: nodejs
   options:
     typescript: true
-description: AWS S3 buckets
+description: Provisions an AWS S3 bucket to be used as a self-hosted Pulumi backend.

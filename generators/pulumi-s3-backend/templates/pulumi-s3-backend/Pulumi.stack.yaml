@@ -5,3 +5,4 @@ config:
 #  <%= projectName %>:keyDeletionWindow: 7
   <%= projectName %>:protect: true
   <%= projectName %>:retainOnDelete: true  
+#  <%= projectName %>:secretsProvider: passphrase  

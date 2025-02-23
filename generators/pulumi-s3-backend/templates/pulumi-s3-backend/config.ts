@@ -11,6 +11,7 @@ export const getConfig = async () => {
     name: stackConfig.get("name") || [getOrganization(), "pulumi-state"].join("-"),
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
+    secretsProvider: stackConfig.get("secretsProvider") || "passphrase"
   };
 };
 

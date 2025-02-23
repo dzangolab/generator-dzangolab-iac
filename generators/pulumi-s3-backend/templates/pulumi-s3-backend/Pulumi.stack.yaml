@@ -1,7 +1,7 @@
 config:
   <%= projectName %>:aws-account-arns: 
-    - ARN1
-    - ARN2
+    - 
   <%= projectName %>:forceDestroy: false
-  <%= projectName %>:protect: false
-  <%= projectName %>:retainOnDelete: false  
+#  <%= projectName %>:keyDeletionWindow: 7
+  <%= projectName %>:protect: true
+  <%= projectName %>:retainOnDelete: true  

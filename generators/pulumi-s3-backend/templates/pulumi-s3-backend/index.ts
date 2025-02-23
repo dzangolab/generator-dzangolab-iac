@@ -1,7 +1,7 @@
 import { getCallerIdentity, iam } from "@pulumi/aws";
-import { Key } from "@pulumi/aws/kms";
+import { Alias, Key } from "@pulumi/aws/kms";
 import {
-  Bucket,
+  BucketV2,
   BucketPolicy,
   BucketPublicAccessBlock,
   BucketServerSideEncryptionConfigurationV2,
@@ -21,27 +21,57 @@ export = async () => {
 
   const name = config.name;
 
-  const bucket = new Bucket(
+  const bucket = new BucketV2(
     name,
     {
-      acl: "private",
       bucket: name,
       forceDestroy: config.forceDestroy,
     },
-    options
+    options,
   );
 
+  new BucketPublicAccessBlock(
+    name,
+    {
+      bucket: bucket.id,
+      blockPublicAcls: true,
+      blockPublicPolicy: true,
+      ignorePublicAcls: true,
+      restrictPublicBuckets: true,
+    },
+    options,
+  );
 
-  let awsAccountArns: string[] = Array.isArray(config.awsAccountArns) ? config.awsAccountArns : [];
+  new BucketVersioningV2(
+    name,
+    {
+      bucket: bucket.id,
+      versioningConfiguration: {
+        status: "Enabled",
+      }
+    },
+    options,
+  );
+
+  new BucketServerSideEncryptionConfigurationV2(
+    name,
+    {
+      bucket: bucket.id,
+      rules: [{
+        applyServerSideEncryptionByDefault: {
+          sseAlgorithm: "AES256",
+        },
+      }]
+    },
+    options,
+  );
 
   // Filter out null values and ensure a clean array
-  awsAccountArns = awsAccountArns.filter((arn) => arn !== null && arn !== undefined);
+  const accountArns = config.awsAccountArns.filter((arn) => arn !== null && arn !== undefined);
 
-  if (awsAccountArns.length > 0){
-    const accountArns = awsAccountArns.map((arns: string) => `arn:aws:iam::${arns}`);
-
+  if (accountArns.length > 0){
     // Create a bucket policy allowing access from multiple accounts
-    const allowAccessFromAnotherAccount = iam.getPolicyDocumentOutput({
+    const policy = iam.getPolicyDocumentOutput({
       statements: [
         {
           principals: [
@@ -67,59 +97,23 @@ export = async () => {
 
     // Apply the policy to the bucket
     new BucketPolicy(
-      "allowAccessFromAnotherAccountBucketPolicy",
+      name,
       {
         bucket: bucket.id,
-        policy: allowAccessFromAnotherAccount.apply(
-          (allowAccessFromAnotherAccount) => allowAccessFromAnotherAccount.json
+        policy: policy.apply(
+          (policy: BucketPolicy) => policy.json
         ),
       }
     );
   }
 
-  new BucketServerSideEncryptionConfigurationV2(
-    `${name}-encryption`,
-    {
-      bucket: bucket.id,
-      rules: [{
-        applyServerSideEncryptionByDefault: {
-          sseAlgorithm: "AES256",
-        },
-      }]
-    },
-    options,
-  );
-
-  new BucketVersioningV2(
-    `${name}-versioning`,
-    {
-      bucket: bucket.id,
-      versioningConfiguration: {
-        status: "Enabled",
-      }
-    },
-    options,
-  );
-
-  new BucketPublicAccessBlock(
-    `${name}-public-access-block`,
-    {
-      bucket: bucket.id,
-      blockPublicAcls: true,
-      blockPublicPolicy: true,
-      ignorePublicAcls: true,
-      restrictPublicBuckets: true,
-    },
-    options,
-  );
-
   const awsAccountId = (await getCallerIdentity()).accountId
 
   const secretsEncryptionKey = new Key(
-    `${name}-secrets-encryption-key`,
+    name,
     {
       description: "Key use to encrypt secrets",
-      deletionWindowInDays: 10,
+      deletionWindowInDays: config.keyDeletionWindow,
       policy: JSON.stringify(
         {
           Version: "2012-10-17",
@@ -141,12 +135,22 @@ export = async () => {
     options,
   );
 
+  const alias = new Alias(
+    name,
+    {
+      name: `alias/${name}`,
+      targetKeyId: secretsEncryptionKey.keyId,
+    },
+    options,
+  );
+
   return {
     bucketArn: interpolate`${bucket.arn}`,
     bucketId: interpolate`${bucket.id}`,
     pulumiBackendLoginCommand: interpolate`pulumi login s3://${bucket.id}`,
     pulumiBackendUrl: interpolate`s3://${bucket.id}`,
-    pulumiSecretsProvider: interpolate`awskms:///${secretsEncryptionKey.keyId}`,
+    pulumiSecretsProviderKeyId: interpolate`awskms:///${secretsEncryptionKey.keyId}`,
+    pulumiSecretsProviderKeyAlias: interpolate`awskms:///${alias.name}`,
     pulumiStackInitCommand: interpolate`pulumi stack init --secrets-provider='awskms:///${secretsEncryptionKey.keyId}' <project_name>.<stack_name>`,
   };
 };

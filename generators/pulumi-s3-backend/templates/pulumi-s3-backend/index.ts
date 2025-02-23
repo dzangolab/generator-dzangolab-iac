@@ -115,7 +115,7 @@ export = async () => {
 
   switch (secretsProvider) {
     case "passphrase":
-      outputs["pulumiStackInitCommand"] = "pulumi stack init --secrets-provider=passphrase";
+      outputs["pulumiStackInitCommand"] = "pulumi stack init --secrets-provider=passphrase <project_name>.<stack_name>";
       break;
 
     case "kms": 

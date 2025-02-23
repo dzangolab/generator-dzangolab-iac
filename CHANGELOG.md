@@ -1,3 +1,17 @@
+## 1.0.0-rc17 (2025-02-23)
+
+* chore: branch fixing update-do-swarm-workers (#45) d848ce8, closes #45
+* chore: update dependencies 619875d
+* chore: updated README (#48) 23adf0a, closes #48
+* fix(do): fix @pulumi.digitalocean version 2f1a997
+* fix(do): fix @pulumi.digitalocean version d26ea65
+* fix(do/swarm-workers): fix default count var 5b73f77
+* fix(do/swarm-workers): fix default count var dd793f1
+* Update do-swarm-leader generator (#43) d21f863, closes #43
+* feat: update dependencies 06fcc0d
+
+
+
 ## 1.0.0-rc16 (2025-02-09)
 
 * chore: changed swarm init move from cloud-config to swarm.yml play (#30) 9ed23cf, closes #30

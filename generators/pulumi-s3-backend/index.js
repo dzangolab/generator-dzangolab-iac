@@ -8,6 +8,17 @@ export default class PulumiS3BAckendGenerator extends PulumiGenerator {
 
     this.displayName = "Pulumi S3 Backend";
     this.name = "pulumi-s3-backend";
+
+    this.option("projectName", {
+      type: String,
+      default: this._getDefaultProjectName(),
+      desc: "environment."
+    });
+
+    this.option("awsProfile", {
+      type: String,
+      desc: "Name of AWS profile used to provision resources on AWS."
+    });
   }
 
   async prompting() {
@@ -16,6 +27,11 @@ export default class PulumiS3BAckendGenerator extends PulumiGenerator {
         default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",
         name: "projectName",
+        type: "input",
+      },
+      {
+        message: "What is the AWS profile used to create the AWS resources?",
+        name: "awsProfile",
         type: "input",
       }
     ]);
@@ -30,8 +46,8 @@ export default class PulumiS3BAckendGenerator extends PulumiGenerator {
       this.templatePath(this.name),
       this.destinationPath(this._getFolderName()),
       {
-        ...this.props,
         ...this.options,
+        ...this.props,
       },
       {},
       { 

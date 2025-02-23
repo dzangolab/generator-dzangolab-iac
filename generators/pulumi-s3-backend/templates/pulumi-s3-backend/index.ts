@@ -94,15 +94,12 @@ export = async () => {
       ],
     });
 
-
     // Apply the policy to the bucket
     new BucketPolicy(
       name,
       {
         bucket: bucket.id,
-        policy: policy.apply(
-          (policy: BucketPolicy) => policy.json
-        ),
+        policy: policy.json,
       }
     );
   }

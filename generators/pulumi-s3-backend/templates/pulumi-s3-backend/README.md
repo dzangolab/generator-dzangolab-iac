@@ -9,9 +9,15 @@ Note: The state for this project is expected to be stored on the Pulumi cloud.
 * node >= 20.0.0
 * [pulumi >= 3](https://www.pulumi.com/docs/install/)
 * An AWS profile
-* An existing devops repo
 
 ## Usage (bash scripts)
+
+<% if (!awsProfile) { %>Export the AWS_PROFILE environment variable
+
+```bash
+export AWS_PROFILE=AWS_PROFILE
+```
+<% } %>
 
 ### update.sh
 
@@ -93,7 +99,7 @@ pulumi stack init {stack}
 
 ### Using the backend in another Pulumi project
 
-Touse the backend in another Pulumni project you must login into the backend.
+To use the backend in another Pulumni project you must login into the backend.
 
 The login command to use can be copied from the output of this Pulumi project. 
 
@@ -130,6 +136,8 @@ pulumi stack select {stack}
 
 Update the `protect` and `retainOnDelete` stack config settings to `false`.
 
+If the bucket contains entries, either empty the bucket or update the `forceDestroy` stack config setting to `true`.
+
 * Destroy the resources
 
 ```
@@ -149,10 +157,6 @@ pulumi destroy
 | Key | `aws.kms.Key` | Key used by the Pulumi secrets provider to encrypt secrets |
 | Alias | `aws.kms.Alias` | Key alias |
 
-### `aws.kms.Key`
-
-One instance of `aws.kms.Key`. This is used by the Pulumi secret provider to encrypt Pulumni secrets.
-
 ## Configuration settings
 
 | Setting | Type | Default | Required | Description |
@@ -167,21 +171,30 @@ One instance of `aws.kms.Key`. This is used by the Pulumi secret provider to enc
 ### aws-account-arns example
 
 #### Granting access to a role of an account
-< AccountID >:role/< FederatedUser>
+
+```
+<AccountID>:role/<FederatedUser>
+```
 
 For example:
 
 123456789:role/AWSReservedSSO_Devops-AdministratorAccess_ABC123/
 
 #### Granting access to a user of an account
-< AccountID >:user/< Username >
+
+```
+<AccountID>:user/<Username>
+```
 
 For example:
 
 123456789:user/anthony@dzangolab.com
 
 #### Granting access to an account
-< AccountID >:root
+
+```
+<AccountID>:root
+```
 
 For example:
 

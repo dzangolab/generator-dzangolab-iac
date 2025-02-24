@@ -103,20 +103,23 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       "aws-resources": {
         ...this.options,
         ...this.props,
-        projectName: `${this.options.prefix}-aws-resources`,
+        projectName: `aws-resources`,
       },
       "aws-credentials": {
         environment: this.props.environment,
         timestamp: this.props.nameSuffix,
+        projectName: `aws-credentials`,
       },
       "cloudflare-dns": {
         domain: this.props.domain,
         environment: this.props.environment,
+        projectName: `cloudflare-dns`,
       },
       "do-resources": {
         environment: this.props.environment,
         nameSuffix: this.props.nameSuffix,
         region: this.props.region,
+        projectName: `do-resources`,
       },
       "do-nfs-server": {
         environment: this.props.environment,
@@ -124,6 +127,7 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         region: this.props.region,
         size: this.props.nfs_server_size,
         username: this.props.username,
+        projectName: `do-nfs-server`,
       },
       "do-swarm-leader": {
         environment: this.props.environment,
@@ -131,6 +135,7 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         region: this.props.region,
         size: this.props.manager_size,
         username: this.props.username,
+        projectName: `do-swarm-leader`,
       },
       "do-swarm-workers": {
         count: this.props.workers_count,
@@ -138,6 +143,7 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         region: this.props.region,
         size: this.props.workers_size,
         username: this.props.username,
+        projectName: `do-swarm-workers`,
       },
     };
 

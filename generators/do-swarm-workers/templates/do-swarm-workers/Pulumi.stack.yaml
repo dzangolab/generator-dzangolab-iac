@@ -7,12 +7,12 @@ config:
 #  <%= projectName %>:projectStack: <%= prefix %>-do-resources
   <%= projectName %>:protect: "false"
   <%= projectName %>:publicKeyNames:
-    - KEY_NAME
+    <%= sshKeys %>
   <%= projectName %>:region: <%= region %>
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:size: <%= size %>
   <%= projectName %>:sshKeyNames: 
-    - ...
+    <%= sshKeys %>
   <%= projectName %>:userGroups: docker,group2
   <%= projectName %>:username: <%= username %>
 #  <%= projectName %>:vpcUuid: VPC UUID

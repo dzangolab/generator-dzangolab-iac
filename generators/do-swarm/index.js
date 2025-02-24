@@ -29,9 +29,15 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         type: "input",
       },
       {
+        default: "KEYNAME1,KEYNAME2,KEYNAME3",
+        message: "Enter the names of sshKeys",
+        name: "sshKeys",
+        type: "input",
+      },
+      {
         default: "docker-20-04",
-        message: "Enter the name of the leader image",
-        name: "manager_image",
+        message: "Enter the name of nodes image",
+        name: "image",
         type: "input",
       },
       {
@@ -42,14 +48,14 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       },
       {
         default: "s-2vcpu-2gb",
-        message: "Enter the sizes of workers nodes",
-        name: "workers_size",
+        message: "Enter the size of worker nodes",
+        name: "worker_size",
         type: "input",
       },
       {
         default: "1",
-        message: "Enter the number of workers nodes",
-        name: "workers_count",
+        message: "Enter the number of worker nodes",
+        name: "worker_count",
         type: "input",
       },
       {
@@ -74,22 +80,27 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         name: "domain",
         type: "input",
       },
-      {
-        message: "Enter the traefik ACME email for ansible",
-        name: "email",
-        type: "input",
-      },
     ]);
   };
 
+  
   writing() {
+    // Split the sshKeys string by commas
+    const keysArray = this.props.sshKeys.split(',');
+
+    // Create the formatted string with each key on a new line preceded by a hyphen
+    const sshKeys = keysArray.map(key => `- ${key}`).join('\n');
+
+    if (this.props.prefix == ""){
+      this.props.prefix == this.props.infra.toLowerCase().replace(/[^a-z\d]/g, "-");
+    }
+
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
     // Define specific properties for each generator
     const generatorsProps = {
       "ansible-do": {
-        email: this.props.email,
         environment: this.props.environment,
         domain: this.props.domain,
         username: this.props.username,
@@ -102,42 +113,39 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       "aws-credentials": {
         environment: this.props.environment,
         timestamp: this.props.environment,
-        projectName: `aws-credentials`,
       },
       "cloudflare-dns": {
         domain: this.props.domain,
         environment: this.props.environment,
-        projectName: `cloudflare-dns`,
       },
       "do-resources": {
         environment: this.props.environment,
         nameSuffix: this.props.nameSuffix,
         region: this.props.region,
-        projectName: `do-resources`,
       },
       "do-nfs-server": {
         environment: this.props.environment,
         image: this.props.nfs_server_image,
         region: this.props.region,
         size: this.props.nfs_server_size,
+        sshKeys: sshKeys,
         username: this.props.username,
-        projectName: `do-nfs-server`,
       },
       "do-swarm-leader": {
         environment: this.props.environment,
-        image: this.props.manager_image,
+        image: this.props.image,
         region: this.props.region,
         size: this.props.manager_size,
+        sshKeys: sshKeys,
         username: this.props.username,
-        projectName: `do-swarm-leader`,
       },
       "do-swarm-workers": {
-        count: this.props.workers_count,
+        count: this.props.worker_count,
+        image: this.props.image,
         environment: this.props.environment,
         region: this.props.region,
-        size: this.props.workers_size,
+        size: this.props.worker_size,
         username: this.props.username,
-        projectName: `do-swarm-workers`,
       },
     };
 

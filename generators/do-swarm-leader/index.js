@@ -38,6 +38,12 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
       default: "",
       desc: "username."
     });
+
+    this.option("sshKeys", {
+      type: String,
+      default: "- KEY_NAME",
+      desc: "sshKeys."
+    });
   }
 
   async prompting() {

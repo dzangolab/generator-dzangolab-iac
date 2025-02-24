@@ -14,7 +14,6 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       "aws-resources",
       "cloudflare-dns",
       "do-resources",
-      "do-nfs-server",
       "do-swarm-leader",
       "do-swarm-workers",
     ];
@@ -59,16 +58,11 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         type: "input",
       },
       {
-        default: "ubuntu-24-10-x64",
-        message: "Enter the name of the nfs server image",
-        name: "nfs_server_image",
-        type: "input",
-      },
-      {
-        default: "s-2vcpu-2gb",
-        message: "Enter the size of the nfs server",
-        name: "nfs_server_size",
-        type: "input",
+        default: false,
+        message: "Is nfs used",
+        name: "nfs",
+        store: true,
+        type: "confirm",
       },
       {
         message: "Enter the username for the user of the swarm-leader and ansible",
@@ -91,10 +85,28 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
     // Create the formatted string with each key on a new line preceded by a hyphen
     const sshKeys = keysArray.map(key => `- ${key}`).join('\n');
 
-    if (this.props.prefix == ""){
+    if (this.props.projectName == ""){
       this.props.prefix == this.props.infra.toLowerCase().replace(/[^a-z\d]/g, "-");
     }
 
+    if(this.props.nfs == true){
+      this.resourcesList.push("do-nfs-server");
+      this.props = this.prompt([
+        {
+          default: "ubuntu-24-10-x64",
+          message: "Enter the name of the nfs server image",
+          name: "nfs_server_image",
+          type: "input",
+        },
+        {
+          default: "s-2vcpu-2gb",
+          message: "Enter the size of the nfs server",
+          name: "nfs_server_size",
+          type: "input",
+        },
+      ]);
+    };
+    
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
@@ -120,7 +132,6 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       },
       "do-resources": {
         environment: this.props.environment,
-        nameSuffix: this.props.nameSuffix,
         region: this.props.region,
       },
       "do-nfs-server": {
@@ -134,6 +145,7 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       "do-swarm-leader": {
         environment: this.props.environment,
         image: this.props.image,
+        nfs: this.props.nfs,
         region: this.props.region,
         size: this.props.manager_size,
         sshKeys: sshKeys,
@@ -164,8 +176,6 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       this.templatePath("do-swarm/README.md"),
       this.destinationPath("README.md"),
       {
-        projectName: this.props.nameSuffix || "Project",
-        nameSuffix: this.props.nameSuffix,
         region: this.props.region,
         leaderSize: this.props.leader_size,
         username: this.props.username,

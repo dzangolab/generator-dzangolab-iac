@@ -12,12 +12,10 @@ This project is a combination of multiple projects:
 - do-swarm-leader
 
 ## Configuration
-- **Name Suffix**: <%= nameSuffix %>
 - **Region**: <%= region %>
 - **Leader Node Size**: <%= leaderSize %>
 - **Username**: <%= username %>
 - **Domain**: <%= domain %>
-- **Traefik ACME Email**: <%= email %>
 
 ## Requirements
 

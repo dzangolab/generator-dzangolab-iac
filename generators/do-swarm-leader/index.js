@@ -8,6 +8,12 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
 
     this.displayName = "DigitalOcean swarm leader";
     this.name = "do-swarm-leader";
+
+    this.option("useNfs", {
+      type: Boolean,
+      default: false,
+      desc: "Set to true if the swarm use nfs"
+    });
   }
 
   async prompting() {

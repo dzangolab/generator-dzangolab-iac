@@ -23,12 +23,6 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
   async prompting() {
     this.props = await this.prompt([
       {
-        default: this.DEFAULT_PROJECT_NAME,
-        message: "Enter the name of the do-resources nameSuffix",
-        name: "nameSuffix",
-        type: "input",
-      },
-      {
         default: "sgp1",
         message: "In what region should the resources be provisioned?",
         name: "region",
@@ -107,7 +101,7 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       },
       "aws-credentials": {
         environment: this.props.environment,
-        timestamp: this.props.nameSuffix,
+        timestamp: this.props.environment,
         projectName: `aws-credentials`,
       },
       "cloudflare-dns": {

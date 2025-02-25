@@ -33,12 +33,6 @@ export default class DigitalOceanNFSServerGenerator extends PulumiGenerator {
       desc: "region."
     });
 
-    this.option("sshKeys", {
-      type: String,
-      default: "- KEY_NAME",
-      desc: "sshKeys."
-    });
-
     this.option("username", {
       type: String,
       default: "USERNAME",

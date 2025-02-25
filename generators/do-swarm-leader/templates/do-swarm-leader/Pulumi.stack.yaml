@@ -9,15 +9,15 @@ config:
 #  <%= projectName %>:projectId: DO PROJECT ID
 #  <%= projectName %>:projectStack: <%= prefix %>-do-resources
   <%= projectName %>:protect: "false"
-  <%= projectName %>:publicKeyNames: 
-    <%= sshKeys %>
+  <%= projectName %>:publicKeyNames:
+    - KEY_NAME
   <%= projectName %>:region: <%= region %>
 #  <%= projectName %>:reservedIpId: RESERVED IP
 #  <%= projectName %>:reservedIpStack: <%= prefix %>-do-resources
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:size: <%= size %>
-  <%= projectName %>:sshKeyNames: 
-    <%= sshKeys %>
+  <%= projectName %>:publicKeyNames:
+    - ...
   <%= projectName %>:userGroups: group1,group2
   <%= projectName %>:useNfs: true
   <%= projectName %>:username: <%= username %>

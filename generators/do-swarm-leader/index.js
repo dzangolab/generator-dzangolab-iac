@@ -44,12 +44,6 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
       default: false,
       desc: "If the swarm use nfs"
     });
-
-    this.option("sshKeys", {
-      type: String,
-      default: "- KEY_NAME",
-      desc: "sshKeys."
-    });
   }
 
   async prompting() {

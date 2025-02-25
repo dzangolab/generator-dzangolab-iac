@@ -9,14 +9,14 @@ config:
 #  <%= projectName %>:projectStack: <%= prefix %>-do-resources
   <%= projectName %>:protect: "false"
   <%= projectName %>:publicKeyNames:
-    <%= sshKeys %>
+    - KEY_NAME
   <%= projectName %>:region: <%= region %>
 #  <%= projectName %>:reservedIpId: RESERVED IP
 #  <%= projectName %>:reservedIpStack: <%= prefix %>-do-resources
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:size: <%= size %>
   <%= projectName %>:sshKeyNames: 
-    <%= sshKeys %>
+    - ...
   <%= projectName %>:userGroups: group1,group2
   <%= projectName %>:username: <%= username %>
 #  <%= projectName %>:vpcUuid: VPC UUID

@@ -28,12 +28,6 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         type: "input",
       },
       {
-        default: "KEYNAME1,KEYNAME2,KEYNAME3",
-        message: "Enter the names of sshKeys",
-        name: "sshKeys",
-        type: "input",
-      },
-      {
         default: "docker-20-04",
         message: "Enter the name of nodes image",
         name: "image",
@@ -79,29 +73,24 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
 
   
   writing() {
-    // Split the sshKeys string by commas
-    const keysArray = this.props.sshKeys.split(',');
-
-    // Create the formatted string with each key on a new line preceded by a hyphen
-    const sshKeys = keysArray.map(key => `- ${key}`).join('\n');
-
-    // if(this.props.useNfs == true){
-    //   this.resourcesList.push("do-nfs-server");
-    //   this.props = this.prompt([
-    //     {
-    //       default: "ubuntu-24-10-x64",
-    //       message: "Enter the name of the nfs server image",
-    //       name: "nfs_server_image",
-    //       type: "input",
-    //     },
-    //     {
-    //       default: "s-2vcpu-2gb",
-    //       message: "Enter the size of the nfs server",
-    //       name: "nfs_server_size",
-    //       type: "input",
-    //     },
-    //   ]);
-    // };
+    if (this.props.useNfs) {
+      this.resourcesList.push("do-nfs-server");
+      const nfsProps = this.prompt([
+        {
+          default: "ubuntu-24-10-x64",
+          message: "Enter the name of the nfs server image",
+          name: "nfs_server_image",
+          type: "input",
+        },
+        {
+          default: "s-2vcpu-2gb",
+          message: "Enter the size of the nfs server",
+          name: "nfs_server_size",
+          type: "input",
+        },
+      ]);
+      this.props = { ...this.props, ...nfsProps };
+    }
     
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
@@ -134,7 +123,6 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         image: this.props.nfs_server_image,
         region: this.props.region,
         size: this.props.nfs_server_size,
-        sshKeys: sshKeys,
         username: this.props.username,
       },
       "do-swarm-leader": {
@@ -143,7 +131,6 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         useNfs: this.props.useNfs,
         region: this.props.region,
         size: this.props.manager_size,
-        sshKeys: sshKeys,
         username: this.props.username,
       },
       "do-swarm-workers": {

@@ -8,15 +8,15 @@ export default class AnsibleDOGenerator extends Generator {
       desc: "domain name."
     });
 
+    this.option("useNfs", {
+      type: Boolean,
+      default: false,
+      desc: "If the swarm use nfs"
+    });
+    
     this.option("username", {
       type: String,
       default: "USERNAME",
-      desc: "username used for ansible, ansible_user deploy_group deploy_user"
-    });
-
-    this.option("email", {
-      type: String,
-      default: "EMAIL",
       desc: "username used for ansible, ansible_user deploy_group deploy_user"
     });
 

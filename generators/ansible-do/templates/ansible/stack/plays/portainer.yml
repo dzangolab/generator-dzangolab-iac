@@ -21,4 +21,4 @@
   tasks:
     - name: Deploy Portainer
       ansible.builtin.import_role:
-        name: dzangolab.ansible.docker_portainer # Need to be updated, or modified to use "test-nfs-server-portainer" branch from ansible
+        name: dzangolab.ansible.docker_portainer

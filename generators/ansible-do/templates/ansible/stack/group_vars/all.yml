@@ -11,7 +11,7 @@ minio_enabled: false
 network_private: private
 network_traefik: traefik
 nfs_server_ip: PRIVATE_NFS_IP_ADDRESS
-nfs: false
+nfs: <%= useNfs %>
 
 postgres_version: 16
 

@@ -100,6 +100,7 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       "ansible-do": {
         environment: this.props.environment,
         domain: this.props.domain,
+        useNfs: this.props.useNfs,
         username: this.props.username,
       },
       "aws-resources": {

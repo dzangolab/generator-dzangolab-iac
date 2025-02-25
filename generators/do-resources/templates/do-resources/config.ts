@@ -15,7 +15,7 @@ export const getConfig = async () => {
     description: stackConfig.get("description") || `${stack} infrastructure`,
     environment: stackConfig.get("environment") || stack,
     ipRange: stackConfig.get("ipRange"),
-    name: `$(name)-${stack}`,
+    name: `${name}-${stack}`,
     protect: stackConfig.getBoolean("protect"),
     region: stackConfig.require("region"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),

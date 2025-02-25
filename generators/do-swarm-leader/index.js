@@ -18,7 +18,7 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
     this.option("image", {
       type: String,
       default: "docker-20-04",
-      desc: "region."
+      desc: "node image."
     });
 
     this.option("region", {
@@ -37,6 +37,12 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
       type: String,
       default: "",
       desc: "username."
+    });
+
+    this.option("useNfs", {
+      type: Boolean,
+      default: false,
+      desc: "If the swarm use nfs"
     });
 
     this.option("sshKeys", {

@@ -19,6 +19,7 @@ config:
   <%= projectName %>:sshKeyNames: 
     <%= sshKeys %>
   <%= projectName %>:userGroups: group1,group2
+  <%= projectName %>:useNfs: true
   <%= projectName %>:username: <%= username %>
 #  <%= projectName %>:vpcUuid: VPC UUID
 #  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

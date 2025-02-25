@@ -16,7 +16,7 @@ config:
 #  <%= projectName %>:reservedIpStack: <%= prefix %>-do-resources
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:size: <%= size %>
-  <%= projectName %>:publicKeyNames:
+  <%= projectName %>:sshKeyNames:
     - ...
   <%= projectName %>:userGroups: group1,group2
   <%= projectName %>:useNfs: true

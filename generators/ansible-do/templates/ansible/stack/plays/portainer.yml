@@ -13,7 +13,7 @@
       with_items:
         - "portainer"
   when:
-    - portainer__use_nfs
+    - nfs
 
 - name: Deploy Portainer
   hosts: leader

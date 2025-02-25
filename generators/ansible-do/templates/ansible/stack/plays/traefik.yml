@@ -35,7 +35,7 @@
         group: "nogroup"
         mode: "0600"
   when:
-    - traefik__use_nfs
+    - nfs
 
 - name: Deploy traefik
   hosts: traefik

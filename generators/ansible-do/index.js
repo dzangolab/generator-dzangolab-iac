@@ -2,6 +2,13 @@ import Generator from "yeoman-generator";
 
 export default class AnsibleDOGenerator extends Generator {
   writing() {
+
+    this.option("email", {
+      type: String,
+      default: "",
+      desc: "email"
+    });
+
     this.option("domain", {
       type: String,
       default: "DOMAIN",

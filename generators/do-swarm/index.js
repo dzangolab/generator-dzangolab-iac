@@ -72,10 +72,10 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
   };
 
   
-  writing() {
+  async writing() {
     if (this.props.useNfs) {
       this.resourcesList.push("do-nfs-server");
-      const nfsProps = this.prompt([
+      const nfsProps = await this.prompt([
         {
           default: "ubuntu-24-10-x64",
           message: "Enter the name of the nfs server image",

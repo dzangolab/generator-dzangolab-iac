@@ -16,5 +16,24 @@
         subdirs:
           - "backups"
           - "data"
-      when:
-        - nfs
+  when:
+    - nfs
+
+- name: Create postgres data directories on swarm node
+  hosts: portainer
+  become: true
+  tasks:
+    - file:
+        group: "{{ deploy_group }}"
+        owner: "{{ deploy_user }}"
+        path: "{{ item }}"
+        state: directory
+        recurse: true
+        - "{{ postgres_versions }}"
+        - subdirs
+      vars:
+        subdirs:
+          - "backups"
+          - "data"
+  when:
+    - not nfs

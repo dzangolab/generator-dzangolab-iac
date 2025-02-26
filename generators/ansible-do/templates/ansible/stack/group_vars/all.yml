@@ -1,17 +1,17 @@
 aws_secrets_id: SECRET_ID
 
 deploy_dir: /mnt/data
-deploy_group: <%= username %>
-deploy_user: <%= username %>
+deploy_group: USERNAME
+deploy_user: USERNAME
 
-domain: <%= domain %>
+domain: DOMAIN
 
 minio_enabled: false
 
 network_private: private
 network_traefik: traefik
 nfs_server_ip: PRIVATE_NFS_IP_ADDRESS
-nfs: <%= useNfs %>
+nfs: false
 
 postgres_version: 16
 

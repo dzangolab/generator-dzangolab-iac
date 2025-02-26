@@ -1,5 +1,5 @@
 ---
-- name: Setup Docker Swarm Leader
+- name: Initialize Docker swarm
   hosts: leader
   tasks:
     - name: Install Python Docker module
@@ -12,20 +12,20 @@
         return_content: yes
       register: metadata_response
 
-    - name: Set IP as a fact
+    - name: Set IP address as a fact
       ansible.builtin.set_fact:
         private_ip: "{{ metadata_response.content | trim }}"
 
-    - name: Allow Swarm port 2377 through firewall
+    - name: Allow swarm port 2377 through firewall
       ansible.builtin.command: ufw allow 2377/tcp
       become: yes
 
-    - name: Initialize Docker Swarm on leader
+    - name: Initialize Docker swarm
       community.docker.docker_swarm:
         state: present
         advertise_addr: "{{ private_ip }}"
 
-    - name: Retrieve Swarm worker join token
+    - name: Retrieve swarm worker join token
       ansible.builtin.command: docker swarm join-token -q worker
       register: swarm_worker_token
       changed_when: false
@@ -35,15 +35,14 @@
         swarm_worker_token: "{{ swarm_worker_token.stdout }}"
       run_once: true
 
-
-- name: Setup Docker Swarm Workers
+- name: Join workers to swarm
   hosts: swarm_workers
   tasks:
     - name: Install Python Docker module
       ansible.builtin.pip:
         name: docker
 
-    - name: Join worker nodes to Swarm
+    - name: Join worker nodes to swarm
       community.docker.docker_swarm:
         state: join
         advertise_addr: "{{ hostvars['leader']['private_ip']  }}"

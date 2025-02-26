@@ -42,6 +42,6 @@
   tasks:
     - name: Import traefik from dzangolab collection
       ansible.builtin.import_role:
-        name: dzangolab.ansible.docker_traefik
+        name: dzangolab.ansible.docker_traefik # Need to be updated, or modified to use "test-nfs-server-portainer" branch from ansible
   vars:
     traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]

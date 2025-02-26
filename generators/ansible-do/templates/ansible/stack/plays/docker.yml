@@ -10,18 +10,6 @@
   tags:
     - docker-network
 
-- name: Label db node
-  hosts: db
-  tasks:
-    - name: Get node id
-      command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
-      register: node_id
-    - name: label_node
-      command: "docker node update --label-add db=true {{ node_id.stdout }}"
-      ignore_errors: yes
-  tags:
-    - docker-labels
-
 - name: Label portainer node
   hosts: portainer
   tasks:
@@ -47,7 +35,7 @@
     - docker-labels
 
 - name: Setup cron jobs
-  hosts: leader
+  hosts: all
   become: true
   tasks:
     - cron:
@@ -61,7 +49,7 @@
     - docker-cron
 
 - name: Setup logrotate for docker container logs
-  hosts: leader
+  hosts: all
   become: true
   tasks:
     - blockinfile:

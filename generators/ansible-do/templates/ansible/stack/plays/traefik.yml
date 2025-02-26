@@ -27,6 +27,9 @@
       with_items:
         - "traefik/acme"
         - "traefik/log"
+      when:
+        - nfs
+
     - name: Create an empty acme.json
       file:
         path: "/mnt/nfs/traefik/acme/acme.json"
@@ -34,14 +37,14 @@
         owner: "nobody"
         group: "nogroup"
         mode: "0600"
-  when:
-    - nfs
+      when:
+        - nfs
 
 - name: Deploy traefik
   hosts: traefik
   tasks:
     - name: Import traefik from dzangolab collection
       ansible.builtin.import_role:
-        name: dzangolab.ansible.docker_traefik # Need to be updated, or modified to use "test-nfs-server-portainer" branch from ansible
+        name: dzangolab.ansible.docker_traefik
   vars:
     traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]

@@ -12,37 +12,37 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
     this.option("environment", {
       type: String,
       default: "staging",
-      desc: "environment."
+      desc: "Environment"
     });
 
     this.option("image", {
       type: String,
       default: "docker-20-04",
-      desc: "node image."
+      desc: "Droplet DigitalOcean image"
     });
 
     this.option("region", {
       type: String,
       default: "sgp1",
-      desc: "region."
+      desc: "DigitalOcean region"
     });
 
     this.option("size", {
       type: String,
       default: "s-2vcpu-2gb",
-      desc: "size."
+      desc: "Droplet size"
     });
 
     this.option("username", {
       type: String,
       default: "",
-      desc: "username."
+      desc: "Name of user to create on droplet"
     });
 
     this.option("useNfs", {
       type: Boolean,
       default: false,
-      desc: "If the swarm use nfs"
+      desc: "Whether or not the droplet uses a NFS server for volumes"
     });
   }
 

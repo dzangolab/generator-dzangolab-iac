@@ -12,31 +12,30 @@ export default class DigitalOceanNFSServerGenerator extends PulumiGenerator {
     this.option("environment", {
       type: String,
       default: "staging",
-      desc: "environment."
+      desc: "Droplet environment"
     });
 
     this.option("image", {
       type: String,
       default: "ubuntu-24-10-x64",
-      desc: "region."
+      desc: "Droplet image"
     });
 
     this.option("region", {
       type: String,
       default: "sgp1",
-      desc: "region."
+      desc: "DigitalOcean region"
     });
 
     this.option("size", {
       type: String,
       default: "s-2vcpu-2gb",
-      desc: "region."
+      desc: "Droplet size"
     });
 
     this.option("username", {
       type: String,
-      default: "USERNAME",
-      desc: "username."
+      desc: "Name of user account to create on droplet"
     });
   }
 

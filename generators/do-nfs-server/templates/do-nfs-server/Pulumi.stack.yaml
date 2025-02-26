@@ -17,7 +17,7 @@ config:
   <%= projectName %>:size: <%= size %>
   <%= projectName %>:sshKeyNames: 
     - ...
-  <%= projectName %>:userGroups: group1,group2
+#  <%= projectName %>:userGroups: GROUP!,GROUP2
   <%= projectName %>:username: <%= username %>
 #  <%= projectName %>:vpcUuid: VPC UUID
 #  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

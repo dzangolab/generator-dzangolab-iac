@@ -1,8 +1,24 @@
 ---
-
-- name: Deploy portainer
-  hosts: all
+- name: Create required portainer directories on the NFS server
+  hosts: nfs_server
+  become: yes
   tasks:
-    - name: Import portainer from dzangolab collection
+    - name: Ensure necessary directories exist
+      file:
+        group: "nogroup"
+        owner: "nobody"
+        path: "/mnt/nfs/{{ item }}"
+        state: directory
+        recurse: true
+      with_items:
+        - "portainer"
+  when:
+    - nfs
+
+- name: Deploy Portainer
+  hosts: leader
+  become: true
+  tasks:
+    - name: Deploy Portainer
       ansible.builtin.import_role:
         name: dzangolab.ansible.docker_portainer

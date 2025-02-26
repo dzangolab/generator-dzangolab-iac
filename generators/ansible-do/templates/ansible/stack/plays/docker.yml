@@ -10,18 +10,6 @@
   tags:
     - docker-network
 
-- name: Label db node
-  hosts: db
-  tasks:
-    - name: Get node id
-      command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
-      register: node_id
-    - name: label_node
-      command: "docker node update --label-add db=true {{ node_id.stdout }}"
-      ignore_errors: yes
-  tags:
-    - docker-labels
-
 - name: Label portainer node
   hosts: portainer
   tasks:
@@ -81,26 +69,3 @@
         create: true
   tags:
     - docker-logrotate
-
-- name: Install local-persist docker volume driver
-  hosts: all
-  become: true
-  gather_facts: no
-  handlers:
-    - name: Restart portainer
-      command: "docker stack deploy -c portainer.yml portainer"
-      args:
-        chdir: "{{ deploy_dir }}"
-      ignore_errors: yes
-  tasks:
-    - get_url:
-        dest: "{{ deploy_dir }}/local-persist.sh"
-        mode: "0700"
-        url: https://raw.githubusercontent.com/CWSpear/local-persist/45c5c344d5dfd358c28d7148be48302d20456fac/scripts/install.sh
-      register: local_persist_installer
-    - command: "{{ local_persist_installer.dest }}"
-    - file:
-        path: "{{ local_persist_installer.dest }}"
-        state: absent
-  tags:
-    - docker-volume-driver

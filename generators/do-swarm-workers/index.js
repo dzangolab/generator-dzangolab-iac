@@ -12,43 +12,37 @@ export default class DigitalOceanDockerSwarmWorkersGenerator extends PulumiGener
     this.option("count", {
       type: String,
       default: "2",
-      desc: "workers count."
+      desc: "Number of worker nodes to provision"
     });
 
     this.option("environment", {
       type: String,
       default: "staging",
-      desc: "environment."
+      desc: "Environment"
     });
 
     this.option("image", {
       type: String,
       default: "docker-20-04",
-      desc: "region."
+      desc: "DigitalOcean region"
     });
 
     this.option("region", {
       type: String,
       default: "sgp1",
-      desc: "region."
+      desc: "DigitalOcean region"
     });
 
     this.option("size", {
       type: String,
       default: "s-2vcpu-2gb",
-      desc: "size."
-    });
-
-    this.option("sshKeys", {
-      type: String,
-      default: "- KEY_NAME",
-      desc: "sshKeys."
+      desc: "Droplet size"
     });
 
     this.option("username", {
       type: String,
       default: "",
-      desc: "username."
+      desc: "Name of user to create on droplet"
     });
   }
 

@@ -12,13 +12,13 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
     this.option("environment", {
       type: String,
       default: "staging",
-      desc: "Environment"
+      desc: "Droplet environment"
     });
 
     this.option("image", {
       type: String,
       default: "docker-20-04",
-      desc: "Droplet DigitalOcean image"
+      desc: "Droplet image"
     });
 
     this.option("region", {
@@ -35,8 +35,7 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
 
     this.option("username", {
       type: String,
-      default: "",
-      desc: "Name of user to create on droplet"
+      desc: "Name of user account to create on droplet"
     });
 
     this.option("useNfs", {

@@ -18,13 +18,13 @@ export default class DigitalOceanDockerSwarmWorkersGenerator extends PulumiGener
     this.option("environment", {
       type: String,
       default: "staging",
-      desc: "Environment"
+      desc: "Droplet environment"
     });
 
     this.option("image", {
       type: String,
       default: "docker-20-04",
-      desc: "DigitalOcean region"
+      desc: "Droplet image"
     });
 
     this.option("region", {
@@ -42,7 +42,7 @@ export default class DigitalOceanDockerSwarmWorkersGenerator extends PulumiGener
     this.option("username", {
       type: String,
       default: "",
-      desc: "Name of user to create on droplet"
+      desc: "Name of user account to create on droplet"
     });
   }
 

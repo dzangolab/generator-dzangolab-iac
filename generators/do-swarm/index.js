@@ -23,7 +23,7 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
     this.props = await this.prompt([
       {
         default: "sgp1",
-        message: "In what region should the resources be provisioned?",
+        message: "In what DigitalOcean region should the resources be provisioned?",
         name: "region",
         type: "input",
       },
@@ -41,25 +41,25 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       },
       {
         default: "s-2vcpu-2gb",
-        message: "Enter the size of worker nodes",
+        message: "Size of worker nodes",
         name: "worker_size",
         type: "input",
       },
       {
         default: "1",
-        message: "Enter the number of worker nodes",
+        message: "How many workers nodes do you want to provision",
         name: "worker_count",
         type: "input",
       },
       {
         default: false,
-        message: "Is nfs used",
+        message: "Will you use a NFS server for volumes",
         name: "useNfs",
         store: true,
         type: "confirm",
       },
       {
-        message: "Enter the username for the user of the swarm-leader and ansible",
+        message: "Name of the user account to create on the droplets",
         name: "username",
         type: "input",
       },

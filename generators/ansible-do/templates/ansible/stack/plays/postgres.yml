@@ -1,4 +1,4 @@
-- name: Create required traefik directories and files on the NFS server
+- name: Create required postgres directories on the NFS server
   hosts: nfs_server
   become: yes
   tasks:
@@ -6,18 +6,15 @@
       file:
         group: "nogroup"
         owner: "nobody"
-        path: "/mnt/nfs/{{ item }}"
+        path: "/mnt/nfs/postgres/{{ item }}/{{ subdir }}"
         state: directory
         recurse: true
-      with_items:
-        - "traefik/acme"
-        - "traefik/log"
-    - name: Create an empty acme.json
-      file:
-        path: "/mnt/nfs/traefik/acme/acme.json"
-        state: touch
-        owner: "nobody"
-        group: "nogroup"
-        mode: "0600"
-  when:
-    - nfs
+      with_subelements:
+        - "{{ postgres_versions }}"
+        - subdirs
+      vars:
+        subdirs:
+          - "backups"
+          - "data"
+      when:
+        - nfs

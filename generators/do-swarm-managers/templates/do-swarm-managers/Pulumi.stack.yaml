@@ -1,19 +1,19 @@
 config:
 #  <%= projectName %>:count: 2
-  <%= projectName %>:image: docker-20-04
+  <%= projectName %>:image: ubuntu-24-10-x64
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
-  <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"
+  <%= projectName %>:pathToSshKeysFolder: "../infrastructure/ssh-keys"
 #  <%= projectName %>:projectId: DO PROJECT ID
 #  <%= projectName %>:projectStack: <%= prefix %>-do-resources
   <%= projectName %>:protect: "false"
   <%= projectName %>:publicKeyNames:
-    - KEY_NAME
-  <%= projectName %>:region: sgp1
+    - ...
+  <%= projectName %>:region: <%= region %>
   <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:size: s-1vcpu-1gb
+  <%= projectName %>:size: <%= size %>
   <%= projectName %>:sshKeyNames: 
     - ...
-#  <%= projectName %>:userGroups: GROUP1,GROUP2
-  <%= projectName %>:username: USERNAME
+#  <%= projectName %>:userGroups: group1,group2
+  <%= projectName %>:username: dzangolab
 #  <%= projectName %>:vpcUuid: VPC UUID
 #  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

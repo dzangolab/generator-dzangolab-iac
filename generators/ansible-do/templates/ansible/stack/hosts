@@ -11,8 +11,8 @@ swarm_workers
 [portainer]
 leader
 
-[postgres]
-leader
+; [postgres]
+; leader
 
 [swarm_workers]
 ; worker1 ansible_host=PUBLIC_WORKER1_IP_ADDRESS

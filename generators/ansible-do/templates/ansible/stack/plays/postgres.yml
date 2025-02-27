@@ -37,4 +37,4 @@
           - "backups"
           - "data"
       when:
-        - nfs
+        - not nfs

@@ -20,7 +20,7 @@
         - nfs
 
 - name: Create postgres data directories on swarm node
-  hosts: portainer
+  hosts: postgres
   become: true
   tasks:
     - file:

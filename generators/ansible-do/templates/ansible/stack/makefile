@@ -24,6 +24,10 @@ install:
 	@printf "\033[0;32m>>> Install ansible roles\033[0m\n"
 	ansible-galaxy install -r requirements.yml --force
 
+mariadb:
+	@printf "\033[0;3ansible/2m>>> Set up mariadb data folders\033[0m\n"
+	ansible-playbook plays/mariadb.yml
+
 portainer.down:
 	@printf "\033[0;32m>>> Set up portainer\033[0m\n"
 	ansible-playbook plays/portainer.yml --extra-vars="portainer__state=stopped"

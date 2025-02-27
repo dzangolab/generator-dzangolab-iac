@@ -8,6 +8,9 @@ ansible_user=USERNAME
 [db:children]
 swarm_workers
 
+; [mariadb]
+; leader
+
 [portainer]
 leader
 

@@ -18,6 +18,8 @@
           - "data"
       when:
         - nfs
+  tags:
+    - postgres
 
 - name: Create postgres data directories on swarm node
   hosts: postgres
@@ -38,3 +40,5 @@
           - "data"
       when:
         - not nfs
+  tags:
+    - postgres

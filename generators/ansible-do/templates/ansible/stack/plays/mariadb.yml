@@ -19,7 +19,7 @@
       when:
         - nfs
 
-- name: Create mariadb data directories on swarm node
+- name: Create mariadb data directories on swarm node(s)
   hosts: mariadb
   become: true
   tasks:

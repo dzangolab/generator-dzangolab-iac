@@ -6,11 +6,11 @@
       ignore_errors: yes
       with_items:
         - "{{ network_private }}"
-        - "{{ network_traefik }}"
+        - "{{ network_public }}"
   tags:
-    - docker-network
+    - networks
 
-- name: Label portainer node
+- name: Label portainer node(s)
   hosts: portainer
   tasks:
     - name: Get node id
@@ -20,19 +20,7 @@
       command: "docker node update --label-add portainer=true {{ node_id.stdout }}"
       ignore_errors: yes
   tags:
-    - docker-labels
-
-- name: Label postgres node
-  hosts: postgres
-  tasks:
-    - name: Get node id
-      command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
-      register: node_id
-    - name: label_node
-      command: "docker node update --label-add postgres=true {{ node_id.stdout }}"
-      ignore_errors: yes
-  tags:
-    - docker-labels
+    - labels
     
 - name: Label traefik node
   hosts: traefik
@@ -44,7 +32,7 @@
       command: "docker node update --label-add traefik=true {{ node_id.stdout }}"
       ignore_errors: yes
   tags:
-    - docker-labels
+    - labels
 
 - name: Setup cron jobs
   hosts: all
@@ -58,7 +46,7 @@
         hour: "1"
         job: "docker system prune -a -f --volumes"
   tags:
-    - docker-cron
+    - cron
 
 - name: Setup logrotate for docker container logs
   hosts: all
@@ -80,4 +68,4 @@
           }
         create: true
   tags:
-    - docker-logrotate
+    - logrotate

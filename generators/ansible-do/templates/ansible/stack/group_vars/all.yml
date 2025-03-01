@@ -12,9 +12,9 @@ mariadb_versions:
 minio_enabled: false
 
 network_private: private
-network_traefik: traefik
-nfs_server_ip: PRIVATE_NFS_IP_ADDRESS
+network_public: public
 nfs: false
+nfs_server_ip: PRIVATE_NFS_IP_ADDRESS
 
 postgres_version: 16
 postgres_versions:

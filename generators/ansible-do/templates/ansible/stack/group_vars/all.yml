@@ -6,14 +6,21 @@ deploy_user: USERNAME
 
 domain: DOMAIN
 
+mariadb_versions:
+  - 11
+
 minio_enabled: false
 
 network_private: private
-network_traefik: traefik
-nfs_server_ip: PRIVATE_NFS_IP_ADDRESS
+network_public: public
 nfs: false
+nfs_server_ip: PRIVATE_NFS_IP_ADDRESS
 
 postgres_version: 16
+postgres_versions:
+  - 17
+  - 16
+  - 15
 
 ssh_key_folder: ../../../../ssh-keys
 ssh_keys:

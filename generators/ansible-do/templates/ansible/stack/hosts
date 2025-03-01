@@ -5,11 +5,20 @@ nfs_server ansible_host=PUBLIC_NFS_IP_ADDRESS
 ansible_python_interpreter=/usr/bin/python3
 ansible_user=USERNAME
 
-[db:children]
+; [mariadb]
+; leader
+
+[mariadb:children]
 swarm_workers
 
 [portainer]
 leader
+
+; [postgres]
+; leader
+
+[postgres:children]
+swarm_workers
 
 [swarm_workers]
 ; worker1 ansible_host=PUBLIC_WORKER1_IP_ADDRESS

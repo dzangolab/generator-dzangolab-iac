@@ -2,7 +2,7 @@
   hosts: nfs_server
   become: yes
   tasks:
-    - name: Ensure necessary directories exist
+    - name: Ensure required postgres directories exist
       file:
         group: "nogroup"
         owner: "nobody"
@@ -18,10 +18,8 @@
           - "data"
       when:
         - nfs
-  tags:
-    - postgres
 
-- name: Create postgres data directories on swarm node
+- name: Create postgres data directories on swarm node(s)
   hosts: postgres
   become: true
   tasks:
@@ -40,5 +38,3 @@
           - "data"
       when:
         - not nfs
-  tags:
-    - postgres

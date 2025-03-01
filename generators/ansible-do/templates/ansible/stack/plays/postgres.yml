@@ -1,0 +1,40 @@
+- name: Create required postgres directories on the NFS server
+  hosts: nfs_server
+  become: yes
+  tasks:
+    - name: Ensure required postgres directories exist
+      file:
+        group: "nogroup"
+        owner: "nobody"
+        path: "/mnt/nfs/postgres/{{ item.0 }}/{{ item.1 }}"
+        state: directory
+        recurse: true
+      with_nested:
+        - "{{ postgres_versions }}"
+        - "{{ subdirs }}"
+      vars:
+        subdirs:
+          - "backups"
+          - "data"
+      when:
+        - nfs
+
+- name: Create postgres data directories on swarm node(s)
+  hosts: postgres
+  become: true
+  tasks:
+    - file:
+        group: "{{ deploy_group }}"
+        owner: "{{ deploy_user }}"
+        path: "{{ item.0 }}/{{ item.1 }}"
+        state: directory
+        recurse: true
+      with_nested:
+        - "{{ postgres_versions }}"
+        - "{{ subdirs }}"
+      vars:
+        subdirs:
+          - "backups"
+          - "data"
+      when:
+        - not nfs

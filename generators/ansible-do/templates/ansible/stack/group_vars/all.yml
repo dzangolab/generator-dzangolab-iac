@@ -10,8 +10,14 @@ minio_enabled: false
 
 network_private: private
 network_traefik: traefik
+nfs_server_ip: PRIVATE_NFS_IP_ADDRESS
+nfs: false
 
 postgres_version: 16
+postgres_versions:
+  - 17
+  - 16
+  - 15
 
 ssh_key_folder: ../../../../ssh-keys
 ssh_keys:

@@ -1,6 +1,6 @@
 ---
 - name: Get secrets
-  hosts: all
+  hosts: traefik
   tasks:
     - shell: "aws secretsmanager get-secret-value --output text --query SecretString --secret-id {{ aws_secrets_id }}"
       delegate_to: 127.0.0.1
@@ -13,6 +13,33 @@
       delegate_to: 127.0.0.1
       register: traefik_dashboard_basicauth_password
 
+- name: Create required traefik directories and files on the NFS server
+  hosts: nfs_server
+  become: yes
+  tasks:
+    - name: Ensure necessary directories exist
+      file:
+        group: "nogroup"
+        owner: "nobody"
+        path: "/mnt/nfs/{{ item }}"
+        state: directory
+        recurse: true
+      with_items:
+        - "traefik/acme"
+        - "traefik/log"
+      when:
+        - nfs
+
+    - name: Create an empty acme.json
+      file:
+        path: "/mnt/nfs/traefik/acme/acme.json"
+        state: touch
+        owner: "nobody"
+        group: "nogroup"
+        mode: "0600"
+      when:
+        - nfs
+
 - name: Deploy traefik
   hosts: traefik
   tasks:
@@ -20,4 +47,4 @@
       ansible.builtin.import_role:
         name: dzangolab.ansible.docker_traefik
   vars:
-    - traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]
+    traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]

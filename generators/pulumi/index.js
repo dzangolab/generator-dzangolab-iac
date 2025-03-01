@@ -30,7 +30,7 @@ class PulumiGenerator extends Generator {
       defaults: false,
       desc: "Whether to use the prefix in the project folder name."
     });
-  }
+  };
 
   async prompting() {
     this.props = await this.prompt([

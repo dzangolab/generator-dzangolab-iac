@@ -18,7 +18,7 @@ package_reboot_if_required: true
 packages: 
   - python3-pip
   {% if useNfs %}
-    - nfs-common  # Add nfs-common if useNfs is true
+    - nfs-common
   {% endif %}
 {% for package in packages %}
   - {{ package }}

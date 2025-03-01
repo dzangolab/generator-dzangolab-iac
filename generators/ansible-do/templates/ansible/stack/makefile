@@ -1,15 +1,13 @@
 #!make
+
 awscli:
 	@printf "\033[0;3ansible/2m>>> Set up awscli\033[0m\n"
 	ansible-playbook plays/awscli.yml --tags "awscli"
 
-install:
-	@printf "\033[0;32m>>> Install ansible roles\033[0m\n"
-	ansible-galaxy install -r requirements.yml --force
-
 docker:
 	@printf "\033[0;3ansible/2m>>> Set up docker swarm\033[0m\n"
 	ansible-playbook plays/docker.yml
+
 docker.cron:
 	@printf "\033[0;3ansible/2m>>> Set up docker logrotate\033[0m\n"
 	ansible-playbook plays/docker.yml --tags "cron"
@@ -28,7 +26,11 @@ docker.networks:
 
 docker.swarm:
 	@printf "\033[0;3ansible/2m>>> Set up docker swarm\033[0m\n"
-	ansible-playbook plays/swarm.yml"
+	ansible-playbook plays/swarm.yml
+
+install:
+	@printf "\033[0;32m>>> Install ansible roles\033[0m\n"
+	ansible-galaxy install -r requirements.yml --force
 
 mariadb:
 	@printf "\033[0;3ansible/2m>>> Set up mariadb data folders\033[0m\n"

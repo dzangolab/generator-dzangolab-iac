@@ -1,18 +1,4 @@
 ---
-- name: Get secrets
-  hosts: traefik
-  tasks:
-    - shell: "aws secretsmanager get-secret-value --output text --query SecretString --secret-id {{ aws_secrets_id }}"
-      delegate_to: 127.0.0.1
-      register: secrets
-
-- name: Compute traefik htpasswd
-  hosts: traefik
-  tasks:
-    - shell: "htpasswd -bn admin \"{{ (secrets.stdout | from_json)[\"traefik-dashboard-password\"] }}\" | sed -e 's/\\$/\\$\\$/g'"
-      delegate_to: 127.0.0.1
-      register: traefik_dashboard_basicauth_password
-
 - name: Create required traefik directories and files on the NFS server
   hosts: nfs_server
   become: yes
@@ -43,8 +29,16 @@
 - name: Deploy traefik
   hosts: traefik
   tasks:
-    - name: Import traefik from dzangolab collection
+    - name: Get secrets
+      shell: "aws secretsmanager get-secret-value --output text --query SecretString --secret-id {{ aws_secrets_id }}"
+      delegate_to: 127.0.0.1
+      register: secrets
+    - name: Compute traefik htpasswd
+      shell: "htpasswd -bn admin \"{{ (secrets.stdout | from_json)[\"traefik-dashboard-password\"] }}\" | sed -e 's/\\$/\\$\\$/g'"
+      delegate_to: 127.0.0.1
+      register: traefik_dashboard_basicauth_password
+    - name: Deploy traefik
       ansible.builtin.import_role:
         name: dzangolab.ansible.docker_traefik
-  vars:
-    traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]
+      vars:
+        traefik__dashboard_basicauth_passwords: ["{{ traefik_dashboard_basicauth_password.stdout }}"]

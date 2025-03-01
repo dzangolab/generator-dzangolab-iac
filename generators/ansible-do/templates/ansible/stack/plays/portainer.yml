@@ -12,11 +12,11 @@
         recurse: true
       with_items:
         - "portainer"
-  when:
-    - nfs
+      when:
+        - nfs
 
 - name: Deploy Portainer
-  hosts: leader
+  hosts: portainer
   become: true
   tasks:
     - name: Deploy Portainer

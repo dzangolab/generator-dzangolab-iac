@@ -38,3 +38,15 @@
           - "data"
       when:
         - not nfs
+
+- name: Label postgres node(s)
+  hosts: postgres
+  tasks:
+    - name: Get node id
+      command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
+      register: node_id
+    - name: label_node
+      command: "docker node update --label-add postgres=true {{ node_id.stdout }}"
+      ignore_errors: yes
+  tags:
+    - labels

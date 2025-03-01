@@ -6,6 +6,9 @@ deploy_user: USERNAME
 
 domain: DOMAIN
 
+mariadb_versions:
+  - 11
+
 minio_enabled: false
 
 network_private: private

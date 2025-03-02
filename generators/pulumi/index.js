@@ -1,11 +1,14 @@
 import Generator from "yeoman-generator";
-// import { inherits } from "util";
+
+import optionOrPrompt from "./optionOrPrompt.js";
 
 class PulumiGenerator extends Generator {
   DEFAULT_PROJECT_NAME;
 
   constructor(args, opts) {
     super(args, opts);
+
+    this._optionOrPrompt = optionOrPrompt;
 
     this.option("createStackConfig", {
       type: Boolean,
@@ -33,7 +36,7 @@ class PulumiGenerator extends Generator {
   };
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this.optionOrPrompt([
       {
         default: this.DEFAULT_PROJECT_NAME,
         message: "Enter the name of the pulumi project",

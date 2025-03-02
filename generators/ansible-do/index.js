@@ -1,6 +1,6 @@
-import Generator from "yeoman-generator";
+import PulumiGenerator from "../pulumi/index.js";
 
-export default class AnsibleDOGenerator extends Generator {
+export default class AnsibleDOGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
@@ -27,7 +27,7 @@ export default class AnsibleDOGenerator extends Generator {
   };
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this._optionOrPrompt([
       {
         message: "LetsEncrypt email address",
         name: "email",

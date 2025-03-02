@@ -1,10 +1,10 @@
 aws_secrets_id: SECRET_ID
 
 deploy_dir: /mnt/data
-deploy_group: USERNAME
-deploy_user: USERNAME
+deploy_group: <%= username %>
+deploy_user: <%= username %>
 
-domain: DOMAIN
+domain: <%= domain %>
 
 mariadb_versions:
   - 11

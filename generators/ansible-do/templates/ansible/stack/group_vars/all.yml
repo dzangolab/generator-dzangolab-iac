@@ -13,7 +13,7 @@ minio_enabled: false
 
 network_private: private
 network_public: public
-nfs: false
+nfs: <%+ useNfs %>
 nfs_server_ip: PRIVATE_NFS_IP_ADDRESS
 
 postgres_version: 16

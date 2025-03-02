@@ -21,7 +21,9 @@ export = async () => {
 
   const passwordLength = config.passwordLength || 24;
 
-  for (const p of config.passwords) {
+  for (const p in config.passwords) {
+    const constraints = config.passwords[p];
+
     const password = new RandomPassword(
       `${config.name}-${p}-password`,
       {
@@ -29,6 +31,7 @@ export = async () => {
           timestamp: config.timestamp,
         },
         length: passwordLength,
+        ...constraints,
       },
       options
     );

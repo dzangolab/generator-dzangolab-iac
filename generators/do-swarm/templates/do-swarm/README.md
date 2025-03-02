@@ -1,6 +1,6 @@
-# DigitalOcean Project docker swarm
+# DigitalOcean Docker swarm
 
-Provisions all the necessary projects for a DigitalOcean docker swarm project
+Provisions a Docker swarm in DigitalOcean.
 
 This project is a combination of multiple projects:
 - ansible-do
@@ -52,7 +52,7 @@ export AWS_PROFILE=<profile>
 ## Usage
 Using the prompt of the generator, most variables will have a value, but some still need to be modified manually
 
-### ansible
+### Ansible
 
 #### hosts:
 Update ansible_host with the IP_ADDRESS after using do-swarm-leader with the provisioned ip address

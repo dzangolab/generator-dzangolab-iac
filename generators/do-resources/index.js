@@ -18,18 +18,24 @@ export default class DigitalOceanResourcesGenerator extends PulumiGenerator {
     this.option("region", {
       type: String,
       default: "sgp1",
-      desc: "region name."
+      desc: "DigitalOcean region"
     });
 
     this.option("environment", {
-      type: String,
       default: "staging",
-      desc: "environment."
+      desc: "Droplet environment",
+      type: String,
+    });
+
+    this.option("projectName", {
+      default: this._getDefaultProjectName(),
+      desc: "Pulumi project name",
+      type: String,
     });
   }
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this._optionOrPrompt([
       {
         default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",

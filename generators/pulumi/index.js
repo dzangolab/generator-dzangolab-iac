@@ -12,26 +12,33 @@ class PulumiGenerator extends Generator {
 
     this.option("createStackConfig", {
       type: Boolean,
-      defaults: true,
-      desc: "Whether to generate the stack config."
+      default: true,
+      desc: "Whether to generate the stack config"
     });
 
     this.option("environment", {
       type: String,
-      desc: "Environment (stack)."
+      desc: "Environment (i.e. Pulumi stack)"
     });
 
     this.option("prefix", {
       type: String,
       required: false,
-      defaults: "",
-      desc: "String to prefix the default project name with."
+      default: undefined,
+      desc: "String to prefix the default project name with"
+    });
+
+    this.option("projectName", {
+      type: String,
+      required: false,
+      default: undefined,
+      desc: "Pulumi project name"
     });
 
     this.option("usePrefixInFolderName", {
       type: Boolean,
-      defaults: false,
-      desc: "Whether to use the prefix in the project folder name."
+      default: false,
+      desc: "Whether to use the prefix in the project folder name"
     });
   };
 
@@ -58,9 +65,9 @@ class PulumiGenerator extends Generator {
   };
 
   _getDefaultProjectName() {
-    return this.options.prefix ? 
-      `${this.options.prefix}-${this.name}` : 
-      `${this.name}`;
+    return (!this.options.prefix || this.options.prefix == "") ? 
+    `${this.name}`:
+    `${this.options.prefix}-${this.name}` ;
   };
 
   _getFolderName() {

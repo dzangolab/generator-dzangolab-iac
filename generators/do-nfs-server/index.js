@@ -10,43 +10,67 @@ export default class DigitalOceanNFSServerGenerator extends PulumiGenerator {
     this.name = "do-nfs-server";
 
     this.option("environment", {
-      type: String,
       default: "staging",
-      desc: "Droplet environment"
+      desc: "Droplet environment",
+      type: String,
     });
 
     this.option("image", {
-      type: String,
       default: "ubuntu-24-10-x64",
-      desc: "Droplet image"
+      desc: "Droplet image",
+      type: String,
+    });
+
+    this.option("projectName", {
+      default: this._getDefaultProjectName(),
+      desc: "Pulumi project name",
+      type: String,
     });
 
     this.option("region", {
-      type: String,
       default: "sgp1",
-      desc: "DigitalOcean region"
+      desc: "DigitalOcean region",
+      type: String,
     });
 
     this.option("size", {
-      type: String,
       default: "s-2vcpu-2gb",
-      desc: "Droplet size"
+      desc: "Droplet size",
+      type: String,
     });
 
     this.option("username", {
+      desc: "Name of user account to create on droplet",
       type: String,
-      desc: "Name of user account to create on droplet"
     });
   }
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this._optionOrPrompt([
       {
         default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",
         name: "projectName",
         type: "input",
-      }
+      },
+      {
+        default: "sgp1",
+        message: "In what DigitalOcean region should the resources be provisioned?",
+        name: "region",
+        type: "input",
+      },
+      {
+        default: "ubuntu-24-10-x64",
+        message: "Enter the name of the nfs server image",
+        name: "nfs_server_image",
+        type: "input",
+      },
+      {
+        default: "s-2vcpu-2gb",
+        message: "Enter the size of the nfs server",
+        name: "nfs_server_size",
+        type: "input",
+      },
     ]);
   };
 

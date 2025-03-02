@@ -21,6 +21,12 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
       desc: "Droplet image"
     });
 
+    this.option("projectName", {
+      default: this._getDefaultProjectName(),
+      desc: "Pulumi project name",
+      type: String,
+    });
+
     this.option("region", {
       type: String,
       default: "sgp1",
@@ -46,7 +52,7 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
   }
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this._optionOrPrompt([
       {
         default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",

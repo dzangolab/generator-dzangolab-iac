@@ -20,7 +20,7 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
   }
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this._optionOrPrompt([
       {
         default: "sgp1",
         message: "In what DigitalOcean region should the resources be provisioned?",
@@ -71,25 +71,9 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
     ]);
   };
 
-  
   async writing() {
     if (this.props.useNfs) {
       this.resourcesList.push("do-nfs-server");
-      const nfsProps = await this.prompt([
-        {
-          default: "ubuntu-24-10-x64",
-          message: "Enter the name of the nfs server image",
-          name: "nfs_server_image",
-          type: "input",
-        },
-        {
-          default: "s-2vcpu-2gb",
-          message: "Enter the size of the nfs server",
-          name: "nfs_server_size",
-          type: "input",
-        },
-      ]);
-      this.props = { ...this.props, ...nfsProps };
     }
     
     const message = `Generating IaC code for ${this.displayName}`;
@@ -98,7 +82,6 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
     // Define specific properties for each generator
     const generatorsProps = {
       "ansible-do": {
-        environment: this.props.environment,
         domain: this.props.domain,
         useNfs: this.props.useNfs,
         username: this.props.username,
@@ -108,36 +91,31 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
         ...this.props,
       },
       "aws-credentials": {
-        environment: this.props.environment,
         timestamp: this.props.environment,
       },
       "cloudflare-dns": {
         domain: this.props.domain,
-        environment: this.props.environment,
+        projectName: `cloudflare-dns-${this.props.domain}`,
       },
       "do-resources": {
-        environment: this.props.environment,
         region: this.props.region,
       },
       "do-nfs-server": {
-        environment: this.props.environment,
         image: this.props.nfs_server_image,
         region: this.props.region,
         size: this.props.nfs_server_size,
         username: this.props.username,
       },
       "do-swarm-leader": {
-        environment: this.props.environment,
         image: this.props.image,
-        useNfs: this.props.useNfs,
         region: this.props.region,
         size: this.props.manager_size,
+        useNfs: this.props.useNfs,
         username: this.props.username,
       },
       "do-swarm-workers": {
         count: this.props.worker_count,
         image: this.props.image,
-        environment: this.props.environment,
         region: this.props.region,
         size: this.props.worker_size,
         username: this.props.username,
@@ -150,8 +128,9 @@ export default class DigitalOceanDockerSwarmGenerator extends PulumiGenerator {
       const resourceProps = generatorsProps[resource] || {};
 
       this.composeWith(generatorPath, {
-        ...resourceProps,
         ...this.options,
+        ...resourceProps,
+        projectName: resource,
       });
     });
 

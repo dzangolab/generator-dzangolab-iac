@@ -4,10 +4,10 @@ config:
     # mariadb-root: {}
     # minio-root: {}
     # nocodb: {}
-    postgres: {}
-    traefik-dashboard: {
-      special: false
-    }    
+    # postgres: {}
+    # traefik-dashboard: {
+    #  special: false
+    # }    
   <%= projectName %>:protect: "false"
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:timestamp: "YYYYMMDD"

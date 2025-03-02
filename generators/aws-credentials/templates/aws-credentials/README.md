@@ -6,11 +6,10 @@ These resources are provisioned independently so that they may be renewed easily
 
 ## Requirements
 
-* node >= 20.0.0
+* node >= 22.0.0
 * [pulumi >= 3](https://www.pulumi.com/docs/install/)
 * An AWS account
 * An AWS profile
-* An existing devops repo
 
 ## Usage
 

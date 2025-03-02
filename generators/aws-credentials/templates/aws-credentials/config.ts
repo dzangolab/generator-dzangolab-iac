@@ -6,6 +6,21 @@ import {
   StackReferenceOutputDetails
 } from "@pulumi/pulumi";
 
+// See https://www.pulumi.com/registry/packages/random/api-docs/randompassword/#inputs
+type Constraints = {
+  length?: number,
+  lower?: boolean,
+  minLower?: number,
+  minNumeric?: number,
+  minSpecial?: number,
+  minUpper?: number,
+  numeric?: boolean,
+  overrideSpecial?: string,
+  upper?: boolean,
+}
+
+type Passwords = { [key: string]: Constraints };
+
 export const getConfig = async () => {
   const organization = getOrganization();
   const stack = getStack();
@@ -36,7 +51,7 @@ export const getConfig = async () => {
   let config: { [key: string]: any } = {
     name: stackConfig.get("name") || stack,
     passwordLength: stackConfig.getNumber("passwordLength"),
-    passwords: stackConfig.requireObject<string[]>("passwords"),
+    passwords: stackConfig.requireObject<Passwords>("passwords"),
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     secretArn,

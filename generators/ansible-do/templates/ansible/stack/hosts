@@ -3,7 +3,7 @@ nfs_server ansible_host=PUBLIC_NFS_IP_ADDRESS
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
-ansible_user=USERNAME
+ansible_user=<%_ username %>
 
 ; [mariadb]
 ; leader

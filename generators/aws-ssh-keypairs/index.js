@@ -11,7 +11,7 @@ export default class AWSSSHKeypairsGenerator extends PulumiGenerator {
   }
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this._optionOrPrompt([
       {
         default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",

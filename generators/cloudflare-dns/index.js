@@ -8,10 +8,22 @@ export default class CloudflareDNSGenerator extends PulumiGenerator {
 
     this.displayName = "Cloudflare DNS";
     this.name = "cloudflare-dns";
+
+    this.option("domain", {
+      type: String,
+      default: "",
+      desc: "domain name."
+    });
+
+    this.option("projectName", {
+      default: this._getDefaultProjectName(),
+      desc: "Pulumi project name",
+      type: String,
+    });
   }
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this._optionOrPrompt([
       {
         default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",

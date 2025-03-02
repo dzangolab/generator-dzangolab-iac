@@ -1,6 +1,6 @@
 config:
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
-  <%= projectName %>:protect: "true"
-  <%= projectName %>:retainOnDelete: "true"
+  <%= projectName %>:protect: "false"
+  <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:secretRecoveryWindowInDays: 7
   <%= projectName %>:useSesSmtp: false

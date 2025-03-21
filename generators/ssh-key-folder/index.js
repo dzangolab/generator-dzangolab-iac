@@ -8,6 +8,12 @@ export default class SSHKeyFolderGenerator extends Generator {
 
     this.displayName = "SSH keys";
     this.name = "ssh-keys";
+
+    this.option("projectName", {
+      default: this._getDefaultProjectName(),
+      desc: "Pulumi project name",
+      type: String,
+    });
   }
 
   async prompting() {

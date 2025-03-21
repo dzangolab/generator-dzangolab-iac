@@ -3,5 +3,5 @@ config:
   <%= projectName %>:environment: development
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: "false"
-  <%= projectName %>:region: sgp1
+  <%= projectName %>:region: <%= region %>
   <%= projectName %>:retainOnDelete: "false"

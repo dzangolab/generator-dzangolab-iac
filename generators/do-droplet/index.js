@@ -8,10 +8,16 @@ export default class DigitalOceanDropletGenerator extends PulumiGenerator {
 
     this.displayName = "DigitalOcean droplet";
     this.name = "do-droplet";
+
+    this.option("projectName", {
+      default: this._getDefaultProjectName(),
+      desc: "Pulumi project name",
+      type: String,
+    });
   }
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this._optionOrPrompt([
       {
         default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",

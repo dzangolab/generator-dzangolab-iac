@@ -3,7 +3,7 @@ config:
 #  <%= projectName %>:blockVolumeId: BLOCK VOLUME ID 
 #  <%= projectName %>:blockVolumeName: BLOCK NOLUME NAME
 #  <%= projectName %>:blockVolumeStack: <%= prefix %>-do-resources 
-  <%= projectName %>:image: docker-20-04
+  <%= projectName %>:image: <%= image %>
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"
 #  <%= projectName %>:projectId: DO PROJECT ID
@@ -11,15 +11,15 @@ config:
   <%= projectName %>:protect: "false"
   <%= projectName %>:publicKeyNames:
     - KEY_NAME
-  <%= projectName %>:region: sgp1
+  <%= projectName %>:region: <%= region %>
 #  <%= projectName %>:reservedIpId: RESERVED IP
 #  <%= projectName %>:reservedIpStack: <%= prefix %>-do-resources
   <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:size: s-1vcpu-1gb
-  <%= projectName %>:sshKeyNames: 
+  <%= projectName %>:size: <%= size %>
+  <%= projectName %>:sshKeyNames:
     - ...
   <%= projectName %>:userGroups: group1,group2
-  <%= projectName %>:useNfs: <%= useNfs %> 
-  <%= projectName %>:username: USERNAME
+  <%= projectName %>:useNfs: true
+  <%= projectName %>:username: <%= username %>
 #  <%= projectName %>:vpcUuid: VPC UUID
 #  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

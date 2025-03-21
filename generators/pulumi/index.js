@@ -1,5 +1,6 @@
 import Generator from "yeoman-generator";
-// import { inherits } from "util";
+
+import optionOrPrompt from "./optionOrPrompt.js";
 
 class PulumiGenerator extends Generator {
   DEFAULT_PROJECT_NAME;
@@ -7,33 +8,42 @@ class PulumiGenerator extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.option("prefix", {
-      type: String,
-      required: false,
-      defaults: "",
-      desc: "String to prefix the default project name with."
-    });
+    this._optionOrPrompt = optionOrPrompt;
 
-    this.option("usePrefixInFolderName", {
+    this.option("createStackConfig", {
       type: Boolean,
-      defaults: false,
-      desc: "Whether to use the prefix in the project folder name."
+      default: true,
+      desc: "Whether to generate the stack config"
     });
 
     this.option("environment", {
       type: String,
-      desc: "Environment (stack)."
+      desc: "Environment (i.e. Pulumi stack)"
     });
 
-    this.option("createStackConfig", {
-      type: Boolean,
-      defaults: true,
-      desc: "Whether to generate the stack config."
+    this.option("prefix", {
+      type: String,
+      required: false,
+      default: undefined,
+      desc: "String to prefix the default project name with"
     });
-  }
+
+    this.option("projectName", {
+      type: String,
+      required: false,
+      default: undefined,
+      desc: "Pulumi project name"
+    });
+
+    this.option("usePrefixInFolderName", {
+      type: Boolean,
+      default: false,
+      desc: "Whether to use the prefix in the project folder name"
+    });
+  };
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this.optionOrPrompt([
       {
         default: this.DEFAULT_PROJECT_NAME,
         message: "Enter the name of the pulumi project",
@@ -55,9 +65,9 @@ class PulumiGenerator extends Generator {
   };
 
   _getDefaultProjectName() {
-    return this.options.prefix ? 
-      `${this.options.prefix}-${this.name}` : 
-      `${this.name}`;
+    return (!this.options.prefix || this.options.prefix == "") ? 
+    `${this.name}`:
+    `${this.options.prefix}-${this.name}` ;
   };
 
   _getFolderName() {

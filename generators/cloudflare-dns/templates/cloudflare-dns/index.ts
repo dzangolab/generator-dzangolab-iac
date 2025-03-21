@@ -21,11 +21,11 @@ export = async () => {
     const host = new Record(
       `${hostname}.${config.domain}`,
       {
+        content: config.ip,
         name: hostname,
         proxied: false,
         type: "A",
         ttl: config.ttl,
-        value: config.ip,
         zoneId: zone.then((zone) => zone.id),
       },
       options
@@ -40,11 +40,11 @@ export = async () => {
     new Record(
       `${alias}.${config.domain}`,
       {
+        content: `${hostname}.${config.domain}`,
         name: alias,
         proxied: false,
         type: "CNAME",
         ttl: config.ttl,
-        value: `${hostname}.${config.domain}`,
         zoneId: zone.then((zone) => zone.id),
       },
       options

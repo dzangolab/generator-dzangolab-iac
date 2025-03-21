@@ -7,14 +7,15 @@ import {
 export const getConfig = async () => {
   const stack = getStack();
   const stackConfig = new Config();
-  const nameSuffix = stackConfig.require("nameSuffix");
+
+  const name = stackConfig.require(`name`)
 
   return {
     dataVolumeSize: stackConfig.requireNumber("dataVolumeSize"),
     description: stackConfig.get("description") || `${stack} infrastructure`,
     environment: stackConfig.get("environment") || stack,
     ipRange: stackConfig.get("ipRange"),
-    name: `${stack}-${nameSuffix}`,
+    name: `${name}-${stack}`,
     protect: stackConfig.getBoolean("protect"),
     region: stackConfig.require("region"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),

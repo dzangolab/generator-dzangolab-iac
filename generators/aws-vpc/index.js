@@ -8,6 +8,18 @@ export default class AWSVPCGenerator extends PulumiGenerator {
 
     this.displayName = "AWS VPC";
     this.name = "aws-vpc";
+
+    this.option("projectName", {
+      default: this._getDefaultProjectName(),
+      desc: "Pulumi project name",
+      type: String,
+    });
+
+    this.option("suffix", {
+      type: String,
+      default: "YYYYMMDD",
+      desc: "Timestamp using as suffix"
+    });
   }
 
   async prompting() {
@@ -22,6 +34,8 @@ export default class AWSVPCGenerator extends PulumiGenerator {
   };
 
   writing() {
+    this.log(`${chalk.green("message")}`);
+
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 

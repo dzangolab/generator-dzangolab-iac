@@ -1,8 +1,8 @@
 import chalk from "chalk";
 
-import Generator from "yeoman-generator";
+import PulumiGenerator from "../pulumi/index.js";
 
-export default class AWSSwarmGenerator extends Generator {
+export default class AWSSwarmGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
@@ -20,12 +20,12 @@ export default class AWSSwarmGenerator extends Generator {
         // "aws-route53",
         // "aws-security-group",
         // "aws-swarm-leader",
-        "aws-vpc",
+      "aws-vpc",
     ];
   }
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this._optionOrPrompt([
       {
         default: "YYYYMMDD",
         message: "What is the suffix used for the project",
@@ -35,7 +35,7 @@ export default class AWSSwarmGenerator extends Generator {
     ]);
   };
 
-  writing() {
+  async writing() {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
@@ -65,9 +65,9 @@ export default class AWSSwarmGenerator extends Generator {
       // "aws-swarm-leader": {
       //   environment: this.props.environment,
       // },
-      // "aws-vpc": {
-      //   environment: this.props.environment,
-      // },
+      "aws-vpc": {
+        suffix: this.props.suffix
+      },
     };
 
     // Compose with each resource generator
@@ -78,7 +78,15 @@ export default class AWSSwarmGenerator extends Generator {
       this.composeWith(generatorPath, {
         ...resourceProps,
         ...this.options,
+        projectName: resource,
       });
+
+      this.fs.copyTpl(
+        this.templatePath("aws-swarm/README.md"),
+        this.destinationPath("README.md"),
+        {
+        }
+      );
     });
   }
 }

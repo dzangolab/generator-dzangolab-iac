@@ -9,15 +9,15 @@ export default class AWSSwarmGenerator extends Generator {
     this.displayName = "Aws swarm";
     this.name = "aws-swarm";
     this.resourcesList = [
-        "ansible-aws",
-        "aws-ebs",
-        "aws-eip",
+        // "ansible-aws",
+        // "aws-ebs",
+        // "aws-eip",
         // aws-nfs-server
-        "aws-resources",
-        "aws-route53",
-        "aws-security-group",
-        "aws-swarm-leader",
-        "aws-vpc",
+        // "aws-resources",
+        // "aws-route53",
+        // "aws-security-group",
+        // "aws-swarm-leader",
+        // "aws-vpc",
     ];
   }
 
@@ -32,33 +32,33 @@ export default class AWSSwarmGenerator extends Generator {
 
     // Define specific properties for each generator
     const generatorsProps = {
-      "ansible-aws": {
-        environment: this.props.environment,
-      },
-      "aws-ebs": {
-        environment: this.props.environment,
-      },
-      "aws-eip": {
-        environment: this.props.environment,
-      },
+      // "ansible-aws": {
+      //   environment: this.props.environment,
+      // },
+      // "aws-ebs": {
+      //   environment: this.props.environment,
+      // },
+      // "aws-eip": {
+      //   environment: this.props.environment,
+      // },
       // "aws-nfs-server": {
       //   environment: this.props.environment,
       // },
-      "aws-resources": {
-        environment: this.props.environment,
-      },
-      "aws-route53": {
-        environment: this.props.environment,
-      },
-      "aws-security-group": {
-        environment: this.props.environment,
-      },
-      "aws-swarm-leader": {
-        environment: this.props.environment,
-      },
-      "aws-vpc": {
-        environment: this.props.environment,
-      },
+      // "aws-resources": {
+      //   environment: this.props.environment,
+      // },
+      // "aws-route53": {
+      //   environment: this.props.environment,
+      // },
+      // "aws-security-group": {
+      //   environment: this.props.environment,
+      // },
+      // "aws-swarm-leader": {
+      //   environment: this.props.environment,
+      // },
+      // "aws-vpc": {
+      //   environment: this.props.environment,
+      // },
     };
 
     // Compose with each resource generator

@@ -9,17 +9,14 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
     this.displayName = "Aws swarm";
     this.name = "aws-swarm";
     this.resourcesList = [
-        // "ansible-aws",
-        // "aws-ebs",
-        // "aws-eip",
-        // "ansible-aws",
-        // "aws-ebs",
-        // "aws-eip",
-        // aws-nfs-server
-        // "aws-resources",
-        // "aws-route53",
-        // "aws-security-group",
-        // "aws-swarm-leader",
+      // "ansible-aws",
+      // "aws-ebs",
+      // "aws-eip",
+      // aws-nfs-server
+      // "aws-resources",
+      // "aws-route53",
+      // "aws-security-group",
+      // "aws-swarm-leader",
       "aws-vpc",
     ];
   }
@@ -44,9 +41,9 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       // "ansible-aws": {
       //   environment: this.props.environment,
       // },
-      // "aws-ebs": {
-      //   environment: this.props.environment,
-      // },
+      "aws-ebs": {
+        suffix: this.props.suffix
+      },
       // "aws-eip": {
       //   environment: this.props.environment,
       // },

@@ -9,6 +9,18 @@ export default class AWSEBSGenerator extends PulumiGenerator {
     this.displayName = "AWS EBS";
     this.name = "aws-ebs";
 
+    this.option("projectName", {
+      default: this._getDefaultProjectName(),
+      desc: "Pulumi project name",
+      type: String,
+    });
+
+    this.option("suffix", {
+      type: String,
+      default: "YYYYMMDD",
+      desc: "Timestamp using as suffix"
+    });
+    
     this.option("environment", {
       type: String,
       required: true,

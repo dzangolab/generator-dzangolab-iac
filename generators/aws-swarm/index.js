@@ -10,7 +10,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
     this.name = "aws-swarm";
     this.resourcesList = [
       // "ansible-aws",
-      // "aws-ebs",
+      "aws-ebs",
       // "aws-eip",
       // aws-nfs-server
       // "aws-resources",

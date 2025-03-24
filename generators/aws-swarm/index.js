@@ -12,17 +12,26 @@ export default class AWSSwarmGenerator extends Generator {
         // "ansible-aws",
         // "aws-ebs",
         // "aws-eip",
+        // "ansible-aws",
+        // "aws-ebs",
+        // "aws-eip",
         // aws-nfs-server
         // "aws-resources",
         // "aws-route53",
         // "aws-security-group",
         // "aws-swarm-leader",
-        // "aws-vpc",
+        "aws-vpc",
     ];
   }
 
   async prompting() {
     this.props = await this.prompt([
+      {
+        default: "YYYYMMDD",
+        message: "What is the suffix used for the project",
+        name: "suffix",
+        type: "input",
+      },
     ]);
   };
 

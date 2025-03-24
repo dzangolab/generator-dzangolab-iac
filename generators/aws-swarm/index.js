@@ -54,9 +54,6 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       "aws-eip": {
         suffix: this.props.suffix
       },
-      "aws-eip": {
-        suffix: this.props.suffix
-      },
       // "aws-nfs-server": {
       //   environment: this.props.environment,
       // },

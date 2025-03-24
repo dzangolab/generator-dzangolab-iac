@@ -2,5 +2,5 @@ config:
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false
-  <%= projectName %>:suffix: "YYYYMMDD"
+  <%= projectName %>:suffix: <%= suffix %>
   <%= projectName %>:vpcProject: <%= prefix %>-aws-vpc

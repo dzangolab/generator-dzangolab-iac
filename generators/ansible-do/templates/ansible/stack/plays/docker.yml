@@ -1,29 +1,17 @@
 ---
 - name: Create docker networks
-  hosts: leader
+  hosts: swarm_leader
   tasks:
     - command: "docker network create -d overlay --attachable {{ item }}"
       ignore_errors: yes
       with_items:
         - "{{ network_private }}"
-        - "{{ network_traefik }}"
+        - "{{ network_public }}"
   tags:
-    - docker-network
+    - networks
 
-- name: Label db node
-  hosts: db
-  tasks:
-    - name: Get node id
-      command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
-      register: node_id
-    - name: label_node
-      command: "docker node update --label-add db=true {{ node_id.stdout }}"
-      ignore_errors: yes
-  tags:
-    - docker-labels
-
-- name: Label portainer node
-  hosts: portainer
+- name: Label portainer node(s)
+  hosts: swarm_leader
   tasks:
     - name: Get node id
       command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
@@ -32,10 +20,10 @@
       command: "docker node update --label-add portainer=true {{ node_id.stdout }}"
       ignore_errors: yes
   tags:
-    - docker-labels
-
+    - labels
+    
 - name: Label traefik node
-  hosts: traefik
+  hosts: swarm_leader
   tasks:
     - name: Get node id
       command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
@@ -44,7 +32,7 @@
       command: "docker node update --label-add traefik=true {{ node_id.stdout }}"
       ignore_errors: yes
   tags:
-    - docker-labels
+    - labels
 
 - name: Setup cron jobs
   hosts: all
@@ -58,7 +46,7 @@
         hour: "1"
         job: "docker system prune -a -f --volumes"
   tags:
-    - docker-cron
+    - cron
 
 - name: Setup logrotate for docker container logs
   hosts: all
@@ -80,27 +68,4 @@
           }
         create: true
   tags:
-    - docker-logrotate
-
-- name: Install local-persist docker volume driver
-  hosts: all
-  become: true
-  gather_facts: no
-  handlers:
-    - name: Restart portainer
-      command: "docker stack deploy -c portainer.yml portainer"
-      args:
-        chdir: "{{ deploy_dir }}"
-      ignore_errors: yes
-  tasks:
-    - get_url:
-        dest: "{{ deploy_dir }}/local-persist.sh"
-        mode: "0700"
-        url: https://raw.githubusercontent.com/CWSpear/local-persist/45c5c344d5dfd358c28d7148be48302d20456fac/scripts/install.sh
-      register: local_persist_installer
-    - command: "{{ local_persist_installer.dest }}"
-    - file:
-        path: "{{ local_persist_installer.dest }}"
-        state: absent
-  tags:
-    - docker-volume-driver
+    - logrotate

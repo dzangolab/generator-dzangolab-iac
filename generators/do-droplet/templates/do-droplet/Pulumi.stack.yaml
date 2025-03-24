@@ -1,0 +1,27 @@
+config:
+#  <%= projectName %>:blockVolumeId: BLOCK VOLUME ID 
+#  <%= projectName %>:blockVolumeName: BLOCK NOLUME NAME
+#  <%= projectName %>:blockVolumeStack: <%= prefix %>-do-resources 
+  <%= projectName %>:image: ubuntu-24-10-x64
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+#  <%= projectName %>:packages: 
+#    - PACKAGE1
+#    - PACKAGE2 
+  <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"
+#  <%= projectName %>:projectId: DO PROJECT ID
+#  <%= projectName %>:projectStack: <%= prefix %>-do-resources
+  <%= projectName %>:protect: "false"
+  <%= projectName %>:publicKeyNames:
+    - KEY_NAME
+  <%= projectName %>:region: sgp1
+#  <%= projectName %>:reservedIpId: RESERVED IP
+#  <%= projectName %>:reservedIpStack: <%= prefix %>-do-resources
+  <%= projectName %>:retainOnDelete: "false"
+  <%= projectName %>:size: s-1vcpu-1gb
+  <%= projectName %>:sshKeyNames: 
+    - ...
+#  <%= projectName %>:userDataTemplate: "./cloud-config.njx"
+#  <%= projectName %>:userGroups: GROUP1,GROUP2
+  <%= projectName %>:username: USERNAME
+#  <%= projectName %>:vpcUuid: VPC UUID
+#  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

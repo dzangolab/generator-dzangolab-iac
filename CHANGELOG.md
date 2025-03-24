@@ -1,3 +1,37 @@
+## 1.0.0-rc17 (2025-02-23)
+
+* chore: branch fixing update-do-swarm-workers (#45) d848ce8, closes #45
+* chore: update dependencies 619875d
+* chore: updated README (#48) 23adf0a, closes #48
+* fix(do): fix @pulumi.digitalocean version 2f1a997
+* fix(do): fix @pulumi.digitalocean version d26ea65
+* fix(do/swarm-workers): fix default count var 5b73f77
+* fix(do/swarm-workers): fix default count var dd793f1
+* Update do-swarm-leader generator (#43) d21f863, closes #43
+* feat: update dependencies 06fcc0d
+
+
+
+## 1.0.0-rc16 (2025-02-09)
+
+* chore: changed swarm init move from cloud-config to swarm.yml play (#30) 9ed23cf, closes #30
+* chore: update ansible-do generator playbook to use dzangolab ansible collection (#27) 661ec40, closes #27
+* chore(do/nfs-server): clean up code (#41) a60f815, closes #41
+* docs(do/nfs-server): fix typo d1bf08f
+* Do droplet (#35) 95c025d, closes #35
+* Do nfs server (#36) fde35e2, closes #36
+* Do nfs server (#40) 94f424d, closes #40
+* Update pulumi-s3-backend generator to include permissions for other AWS accounts (#32) d1bcfd6, closes #32
+* Update README.md 5ff5ec0
+* feat: added do-swarm-workers generator (#28) dc99480, closes #28
+* feat(do/droplet): add do-droplet generator (#34) cbb8935, closes #34
+* feat(do/droplet): add support for packages (#39) f5b3edf, closes #39
+* feat(do/nfs-server): add firewall (#37) 9e2293f, closes #37
+* fix(aws/swarm-nodes): fix folder name and typo in package.json f0ace6b
+* fix(do/nfs-server): fix firewall droplets (#38) 226a63c, closes #38
+
+
+
 ## 1.0.0-rc15 (2024-09-30)
 
 * fix(ansible/aws): fix ansible aws generator 9a42b06

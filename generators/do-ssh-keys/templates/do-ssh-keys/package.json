@@ -1,11 +1,11 @@
 {
-    "name": "<%= projectName %>",
-    "main": "index.ts",
-    "dependencies": {
-        "@pulumi/digitalocean": "^4",
-        "@pulumi/pulumi": "^3"
-        },
-    "devDependencies": {
-        "@types/node": "^20"
-    }
+  "name": "<%= projectName %>",
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/digitalocean": "<%= versions.digitalocean %>",
+    "@pulumi/pulumi": "<%= versions.pulumi %>"
+  },
+  "devDependencies": {
+    "@types/node": "<%= versions.types_node %>"
+  }
 }

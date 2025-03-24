@@ -1,17 +1,23 @@
 aws_secrets_id: SECRET_ID
 
 deploy_dir: /mnt/data
-deploy_group: USERNAME
-deploy_user: USERNAME
+deploy_group: <%= username %>
+deploy_user: <%= username %>
 
-domain: DOMAIN
+domain: <%= domain %>
 
-minio_enabled: false
+mariadb_versions:
+  - 11
 
 network_private: private
-network_traefik: traefik
+network_public: public
+nfs: <%+ useNfs %>
+nfs_server_ip: NFS_SERVER_PRIVATE_IP
 
-postgres_version: 16
+postgres_versions:
+  - 17
+  - 16
+  - 15
 
 ssh_key_folder: ../../../../ssh-keys
 ssh_keys:

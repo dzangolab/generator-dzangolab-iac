@@ -5,11 +5,13 @@ export const getConfig = async () => {
   const stackConfig = new Config();
 
   return {
-    awsAccountArns: stackConfig.requireObject("aws-account-arns") as string[],
+    awsAccountArns: stackConfig.requireObject<string[]>("aws-account-arns"),
     forceDestroy: stackConfig.getBoolean("forceDestroy"),
+    keyDeletionWindow: stackConfig.getNumber("keyDeletionWindow") || 7,
     name: stackConfig.get("name") || [getOrganization(), "pulumi-state"].join("-"),
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
+    secretsProvider: stackConfig.get("secretsProvider") || "passphrase"
   };
 };
 

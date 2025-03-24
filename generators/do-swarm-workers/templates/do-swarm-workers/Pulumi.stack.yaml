@@ -1,12 +1,19 @@
 config:
-  aws:region: ap-southeast-1
-  <%= projectName %>:doResourcesProject: <%= prefix %>-do-resources
+#  <%= projectName %>:count: <%= count %>
   <%= projectName %>:image: docker-20-04
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"
+#  <%= projectName %>:projectId: DO PROJECT ID
+#  <%= projectName %>:projectStack: <%= prefix %>-do-resources
   <%= projectName %>:protect: "false"
   <%= projectName %>:publicKeyNames:
     - KEY_NAME
-  <%= projectName %>:region: sgp1
+  <%= projectName %>:region: <%= region %>
   <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:size: s-1vcpu-1gb
-  <%= projectName %>:username: USERNAME
+  <%= projectName %>:size: <%= size %>
+  <%= projectName %>:sshKeyNames: 
+    - ...
+  <%= projectName %>:userGroups: docker,group2
+  <%= projectName %>:username: <%= username %>
+#  <%= projectName %>:vpcUuid: VPC UUID
+#  <%= projectName %>:vpcStack: <%= prefix %>-do-resources

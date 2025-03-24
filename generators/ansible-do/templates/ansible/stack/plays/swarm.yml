@@ -1,22 +1,49 @@
 ---
-- name: Setup docker swarm
-  hosts: all
+- name: Initialize Docker swarm
+  hosts: leader
   tasks:
-    - name: install python docker module
+    - name: Install Python Docker module
       ansible.builtin.pip:
         name: docker
 
     - name: Fetch IP of the droplet
-      uri:
+      ansible.builtin.uri:
         url: http://169.254.169.254/metadata/v1/interfaces/private/0/ipv4/address
         return_content: yes
       register: metadata_response
 
-    - name: Set IP as a fact
-      set_fact:
-        private_ip: "{{ metadata_response.content }}"
+    - name: Set IP address as a fact
+      ansible.builtin.set_fact:
+        private_ip: "{{ metadata_response.content | trim }}"
 
-    - name: Check/init Swarm
-      docker_swarm:
+    - name: Allow swarm port 2377 through firewall
+      ansible.builtin.command: ufw allow 2377/tcp
+      become: yes
+
+    - name: Initialize Docker swarm
+      community.docker.docker_swarm:
         state: present
         advertise_addr: "{{ private_ip }}"
+
+    - name: Retrieve swarm worker join token
+      ansible.builtin.command: docker swarm join-token -q worker
+      register: swarm_worker_token
+      changed_when: false
+
+    - name: Share the token with all worker nodes
+      ansible.builtin.set_fact:
+        swarm_worker_token: "{{ swarm_worker_token.stdout }}"
+      run_once: true
+
+- name: Join workers to swarm
+  hosts: swarm_workers
+  tasks:
+    - name: Install Python Docker module
+      ansible.builtin.pip:
+        name: docker
+
+    - name: Join worker nodes to swarm
+      community.docker.docker_swarm:
+        state: join
+        join_token: "{{ hostvars['leader']['swarm_worker_token'] }}"
+        remote_addrs: ["{{ hostvars['leader']['private_ip'] }}:2377"]

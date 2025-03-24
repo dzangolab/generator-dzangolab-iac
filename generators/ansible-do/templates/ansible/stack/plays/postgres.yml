@@ -1,0 +1,52 @@
+- name: Create required postgres directories on the NFS server
+  hosts: nfs_server
+  become: yes
+  tasks:
+    - name: Ensure required postgres directories exist
+      file:
+        group: "nogroup"
+        owner: "nobody"
+        path: "/mnt/nfs/postgres/{{ item.0 }}/{{ item.1 }}"
+        state: directory
+        recurse: true
+      with_nested:
+        - "{{ postgres_versions }}"
+        - "{{ subdirs }}"
+      vars:
+        subdirs:
+          - "backups"
+          - "data"
+      when:
+        - nfs
+
+- name: Create postgres data directories on swarm node(s)
+  hosts: postgres
+  become: true
+  tasks:
+    - file:
+        group: "{{ deploy_group }}"
+        owner: "{{ deploy_user }}"
+        path: "{{ item.0 }}/{{ item.1 }}"
+        state: directory
+        recurse: true
+      with_nested:
+        - "{{ postgres_versions }}"
+        - "{{ subdirs }}"
+      vars:
+        subdirs:
+          - "backups"
+          - "data"
+      when:
+        - not nfs
+
+- name: Label postgres node(s)
+  hosts: postgres
+  tasks:
+    - name: Get node id
+      command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
+      register: node_id
+    - name: label_node
+      command: "docker node update --label-add postgres=true {{ node_id.stdout }}"
+      ignore_errors: yes
+  tags:
+    - labels

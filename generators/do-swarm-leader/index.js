@@ -8,10 +8,51 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
 
     this.displayName = "DigitalOcean swarm leader";
     this.name = "do-swarm-leader";
+
+    this.option("environment", {
+      type: String,
+      default: "staging",
+      desc: "Droplet environment"
+    });
+
+    this.option("image", {
+      type: String,
+      default: "docker-20-04",
+      desc: "Droplet image"
+    });
+
+    this.option("projectName", {
+      default: this._getDefaultProjectName(),
+      desc: "Pulumi project name",
+      type: String,
+    });
+
+    this.option("region", {
+      type: String,
+      default: "sgp1",
+      desc: "DigitalOcean region"
+    });
+
+    this.option("size", {
+      type: String,
+      default: "s-2vcpu-2gb",
+      desc: "Droplet size"
+    });
+
+    this.option("username", {
+      type: String,
+      desc: "Name of user account to create on droplet"
+    });
+
+    this.option("useNfs", {
+      type: Boolean,
+      default: false,
+      desc: "Whether or not the droplet uses a NFS server for volumes"
+    });
   }
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this._optionOrPrompt([
       {
         default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",

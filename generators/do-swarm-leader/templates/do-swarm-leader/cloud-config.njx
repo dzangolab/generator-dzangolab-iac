@@ -2,7 +2,7 @@
 users:
 {% for user in users %}
   - name: {{ user.username }}
-    groups: {{ user.groups }}
+    groups: docker{% if user.groups %},{{ user.groups }}{% endif %}
     shell: /bin/bash
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh-authorized-keys: 
@@ -17,7 +17,9 @@ package_reboot_if_required: true
 
 packages: 
   - python3-pip
-
+  {% if useNfs %}
+    - nfs-common
+  {% endif %}
 {% for package in packages %}
   - {{ package }}
 {% endfor %}

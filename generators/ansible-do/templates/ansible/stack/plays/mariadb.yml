@@ -1,0 +1,40 @@
+- name: Create required mariadb directories on the NFS server
+  hosts: nfs_server
+  become: yes
+  tasks:
+    - name: Ensure necessary directories exist
+      file:
+        group: "nogroup"
+        owner: "nobody"
+        path: "/mnt/nfs/mariadb/{{ item.0 }}/{{ item.1 }}"
+        state: directory
+        recurse: true
+      with_nested:
+        - "{{ mariadb_versions }}"
+        - "{{ subdirs }}"
+      vars:
+        subdirs:
+          - "backups"
+          - "data"
+      when:
+        - nfs
+
+- name: Create mariadb data directories on swarm node(s)
+  hosts: mariadb
+  become: true
+  tasks:
+    - file:
+        group: "{{ deploy_group }}"
+        owner: "{{ deploy_user }}"
+        path: "{{ item.0 }}/{{ item.1 }}"
+        state: directory
+        recurse: true
+      with_nested:
+        - "{{ mariadb_versions }}"
+        - "{{ subdirs }}"
+      vars:
+        subdirs:
+          - "backups"
+          - "data"
+      when:
+        - not nfs

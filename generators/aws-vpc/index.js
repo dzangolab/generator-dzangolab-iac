@@ -34,8 +34,6 @@ export default class AWSVPCGenerator extends PulumiGenerator {
   };
 
   writing() {
-    this.log(`${chalk.green("message")}`);
-
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 

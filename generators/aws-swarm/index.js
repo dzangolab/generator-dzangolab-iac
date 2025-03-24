@@ -72,6 +72,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         suffix: this.props.suffix
       },
       "aws-swarm-leader": {
+        domain: this.props.domain,
         environment: this.props.environment,
       },
       "aws-vpc": {

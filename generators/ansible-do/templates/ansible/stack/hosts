@@ -1,28 +1,37 @@
-leader ansible_host=PUBLIC_LEADER_IP_ADDRESS
-nfs_server ansible_host=PUBLIC_NFS_IP_ADDRESS
+nfs_server ansible_host=NFS_SERVER_PUBLIC_IP_ADDRESS
+swarm_leader ansible_host=LEADER_PUBLIC IP_ADDRESS
+; worker1 ansible_host=WORKER1_PUBLIC_IP_ADDRESS
+; worker2 ansible_host=WORKER2_PUBLIC_IP_ADDRESS
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 ansible_user=<%_ username %>
 
 ; [mariadb]
-; leader
+; swarm_leader
 
 [mariadb:children]
 swarm_workers
 
 [portainer]
-leader
+swarm_leader
 
 ; [postgres]
-; leader
+; swarm_leader
 
 [postgres:children]
 swarm_workers
 
+[swarm:children]
+swarm_managers
+swarm_workers
+
+[swarm_managers]
+swarm_leader
+
 [swarm_workers]
-; worker1 ansible_host=PUBLIC_WORKER1_IP_ADDRESS
-; worker2 ansible_host=PUBLIC_WORKER2_IP_ADDRESS
+; swarm_worker1
+; swarm_worker2
 
 [traefik]
-leader
+swarm_eader

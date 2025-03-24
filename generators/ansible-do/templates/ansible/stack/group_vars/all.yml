@@ -9,14 +9,11 @@ domain: <%= domain %>
 mariadb_versions:
   - 11
 
-minio_enabled: false
-
 network_private: private
 network_public: public
 nfs: <%+ useNfs %>
-nfs_server_ip: PRIVATE_NFS_IP_ADDRESS
+nfs_server_ip: NFS_SERVER_PRIVATE_IP
 
-postgres_version: 16
 postgres_versions:
   - 17
   - 16

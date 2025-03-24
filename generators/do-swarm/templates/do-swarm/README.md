@@ -6,7 +6,7 @@ This project is a combination of multiple projects:
 - ansible-do
 - aws-credentials
 - aws-resources
-- cloudfalre-dns
+- cloudflare-dns
 - do-nfs-server
 - do-resources
 - do-swarm-leader
@@ -55,7 +55,7 @@ Using the prompt of the generator, most variables will have a value, but some st
 ### Ansible
 
 #### hosts:
-Update ansible_host with the IP_ADDRESS after using do-swarm-leader with the provisioned ip address
+Update ansible_host with the public IP_ADDRESS after using do-swarm-leader with the provisioned ip address
 ```
 ansible_host=PUBLIC_IP_ADDRESS
 ```

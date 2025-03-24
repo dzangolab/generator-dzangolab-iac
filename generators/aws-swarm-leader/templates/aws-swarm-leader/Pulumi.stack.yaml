@@ -1,6 +1,6 @@
 config:
   <%= projectName %>:ami: ami-XXXXXXXXXXXXXXXXX
-  <%= projectName %>:availabilityZone: ap-southeast-1c
+  <%= projectName %>:availabilityZone: <%= availabilityZone %>
   <%= projectName %>:disableApiTermination: false
   <%= projectName %>:ebsProject: <%= prefix %>-aws-ebs
   <%= projectName %>:eipProject: <%= prefix %>-aws-eip
@@ -14,5 +14,5 @@ config:
   <%= projectName %>:rootBlockDeviceSize: 20
   <%= projectName %>:securityGroupProject: <%= prefix %>-aws-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
-  <%= projectName %>:suffix: "20240922"
+  <%= projectName %>:suffix: <%= suffix %>
   <%= projectName %>:vpcProject: <%= prefix %>-aws-vpc

@@ -37,7 +37,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       },
       {
         default: "ap-southeast-1a",
-        message: "What zone is available for ebs and swarm-leader",
+        message: "Which zone is available for ebs and swarm-leader",
         name: "availabilityZones",
         type: "input",
       },
@@ -72,8 +72,9 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         suffix: this.props.suffix
       },
       "aws-swarm-leader": {
+        availabilityZone: this.props.availabilityZones,
         domain: this.props.domain,
-        environment: this.props.environment,
+        suffix: this.props.suffix
       },
       "aws-vpc": {
         suffix: this.props.suffix

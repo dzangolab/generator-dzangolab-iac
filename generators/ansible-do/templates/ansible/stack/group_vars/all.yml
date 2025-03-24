@@ -1,22 +1,19 @@
 aws_secrets_id: SECRET_ID
 
 deploy_dir: /mnt/data
-deploy_group: USERNAME
-deploy_user: USERNAME
+deploy_group: <%= username %>
+deploy_user: <%= username %>
 
-domain: DOMAIN
+domain: <%= domain %>
 
 mariadb_versions:
   - 11
 
-minio_enabled: false
-
 network_private: private
 network_public: public
-nfs: false
-nfs_server_ip: PRIVATE_NFS_IP_ADDRESS
+nfs: <%+ useNfs %>
+nfs_server_ip: NFS_SERVER_PRIVATE_IP
 
-postgres_version: 16
 postgres_versions:
   - 17
   - 16

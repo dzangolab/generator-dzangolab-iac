@@ -8,10 +8,22 @@ export default class AWSResourcesGenerator extends PulumiGenerator {
 
     this.displayName = "AWS resources";
     this.name = "aws-resources";
+
+    this.option("environment", {
+      type: String,
+      default: "staging",
+      desc: "environment"
+    });
+
+    this.option("projectName", {
+      default: this._getDefaultProjectName(),
+      desc: "Pulumi project name",
+      type: String,
+    });
   }
 
   async prompting() {
-    this.props = await this.prompt([
+    this.props = await this._optionOrPrompt([
       {
         default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",
@@ -30,8 +42,8 @@ export default class AWSResourcesGenerator extends PulumiGenerator {
       this.templatePath(this.name),
       this.destinationPath(this._getFolderName()),
       {
-        ...this.props,
         ...this.options,
+        ...this.props,
       },
       {},
       { 

@@ -1,6 +1,6 @@
 ---
 - name: Create docker networks
-  hosts: leader
+  hosts: swarm_leader
   tasks:
     - command: "docker network create -d overlay --attachable {{ item }}"
       ignore_errors: yes
@@ -11,7 +11,7 @@
     - networks
 
 - name: Label portainer node(s)
-  hosts: portainer
+  hosts: swarm_leader
   tasks:
     - name: Get node id
       command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
@@ -23,7 +23,7 @@
     - labels
     
 - name: Label traefik node
-  hosts: traefik
+  hosts: swarm_leader
   tasks:
     - name: Get node id
       command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"

@@ -3,4 +3,4 @@ runtime:
   name: nodejs
   options:
     typescript: true
-description: PRovisions a AWS NFS server
+description: Provisions Docker swarm leader and associated resources on AWS

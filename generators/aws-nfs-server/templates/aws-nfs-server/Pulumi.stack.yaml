@@ -1,0 +1,21 @@
+config:
+  <%= projectName %>:ami: ami-xxxxxxxx
+  <%= projectName %>:availabilityZone: <%= availabilityZone %>
+  <%= projectName %>:disableApiTermination: false
+  <%= projectName %>:ebsProject: <%= prefix %>-aws-ebs
+  <%= projectName %>:eipProject: <%= prefix %>-aws-eip
+  <%= projectName %>:elasticIpStack: <%= prefix %>-aws-resources
+  <%= projectName %>:instanceProfileProject: <%= prefix %>-aws-instance-profile
+  <%= projectName %>:instanceType: <%= size %>
+  <%= projectName %>:keyName: KEYNAME
+  <%= projectName %>:keypairsProject: <%= prefix %>-aws-ssh-keypairs
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:pathToSshKeysFolder: "../../ssh-keys"
+  <%= projectName %>:projectStack: <%= prefix %>-aws-resources
+  <%= projectName %>:protect: "false"
+  <%= projectName %>:retainOnDelete: "false"
+  <%= projectName %>:rootBlockDeviceSize: 20
+  <%= projectName %>:securityGroupProject: <%= prefix %>-aws-security-group
+  <%= projectName %>:subnetId: subnet-xxxxxxxxx
+  <%= projectName %>:size: <%= size %>
+  <%= projectName %>:vpcProject: <%= prefix %>-aws-vpc

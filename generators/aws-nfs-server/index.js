@@ -6,42 +6,13 @@ export default class AWSNFSServerGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.displayName = "DigitalOcean NFS server";
-    this.name = "do-nfs-server";
-
-    this.option("environment", {
-      default: "staging",
-      desc: "Droplet environment",
-      type: String,
-    });
-
-    this.option("image", {
-      default: "ubuntu-24-10-x64",
-      desc: "Droplet image",
-      type: String,
-    });
-
-    this.option("projectName", {
-      default: this._getDefaultProjectName(),
-      desc: "Pulumi project name",
-      type: String,
-    });
-
-    this.option("region", {
-      default: "sgp1",
-      desc: "DigitalOcean region",
-      type: String,
-    });
+    this.displayName = "AWS swarm leader";
+    this.name = "aws-swarm-leader";
 
     this.option("size", {
-      default: "s-2vcpu-2gb",
-      desc: "Droplet size",
-      type: String,
-    });
-
-    this.option("username", {
-      desc: "Name of user account to create on droplet",
-      type: String,
+      type: input,
+      default: t3.small,
+      desc: "The size of the server"
     });
   }
 
@@ -52,25 +23,7 @@ export default class AWSNFSServerGenerator extends PulumiGenerator {
         message: "Enter the name of the pulumi project",
         name: "projectName",
         type: "input",
-      },
-      {
-        default: "sgp1",
-        message: "In what DigitalOcean region should the resources be provisioned?",
-        name: "region",
-        type: "input",
-      },
-      {
-        default: "ubuntu-24-10-x64",
-        message: "Enter the name of the nfs server image",
-        name: "nfs_server_image",
-        type: "input",
-      },
-      {
-        default: "s-2vcpu-2gb",
-        message: "Enter the size of the nfs server",
-        name: "nfs_server_size",
-        type: "input",
-      },
+      }
     ]);
   };
 
@@ -102,7 +55,7 @@ export default class AWSNFSServerGenerator extends PulumiGenerator {
         {
           ...this.props,
           ...this.options,
-        },
+        }
       );
     }
   };

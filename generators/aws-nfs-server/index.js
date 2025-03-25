@@ -10,9 +10,9 @@ export default class AWSNFSServerGenerator extends PulumiGenerator {
     this.name = "aws-swarm-leader";
 
     this.option("size", {
-      type: input,
-      default: t3.small,
-      desc: "The size of the server"
+      type: String,
+      default: "t3.small",
+      desc: "Size of the swarm leader"
     });
   }
 

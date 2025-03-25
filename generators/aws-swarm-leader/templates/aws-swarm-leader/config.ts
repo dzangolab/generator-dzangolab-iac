@@ -103,7 +103,7 @@ export const getConfig = async () => {
 
   /** Get user data **/
   const userData = generateUserData(
-    stackConfig.get("userDataTemplate") || "./cloud-config.njx",
+    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
     {
       packages: stackConfig.getObject<string[]>("packages"),
       volumes: [

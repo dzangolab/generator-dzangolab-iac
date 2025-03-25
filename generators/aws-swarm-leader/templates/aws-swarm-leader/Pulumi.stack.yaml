@@ -1,5 +1,5 @@
 config:
-  <%= projectName %>:ami: ami-XXXXXXXXXXXXXXXXX
+  <%= projectName %>:ami: <%= ami %>
   <%= projectName %>:availabilityZone: <%= availabilityZone %>
   <%= projectName %>:disableApiTermination: false
   <%= projectName %>:ebsProject: <%= prefix %>-aws-ebs

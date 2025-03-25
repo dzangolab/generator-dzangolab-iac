@@ -30,7 +30,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         type: "input",
       },
       {
-        default: "t3.small",
+        default: "t4g.small",
         message: "What is the size used for the swarm leader",
         name: "size_leader",
         type: "input",
@@ -45,6 +45,12 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         default: "ap-southeast-1a",
         message: "Which zone is available for ebs and swarm-leader",
         name: "availabilityZones",
+        type: "input",
+      },
+      {
+        default: "ami-0315d75b2c11ff409",
+        message: "What ami is used for swarm-leader (default: Amazon Linux 2023 64-bit (ARM))",
+        name: "ami",
         type: "input",
       },
     ]);
@@ -78,6 +84,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         suffix: this.props.suffix
       },
       "aws-swarm-leader": {
+        ami: this.props.ami,
         availabilityZone: this.props.availabilityZones,
         size: this.props.size_leader,
         suffix: this.props.suffix

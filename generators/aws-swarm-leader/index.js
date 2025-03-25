@@ -9,11 +9,29 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
     this.displayName = "AWS swarm leader";
     this.name = "aws-swarm-leader";
 
+    this.option("availabilityZones", {
+      default: "ap-southeast-1a",
+      desc: "Available zone",
+      type: String,
+    });
+
     this.option("environment", {
       type: String,
       required: true,
       default: "staging",
       desc: "environment."
+    });
+
+    this.option("size", {
+      type: String,
+      default: "t3.small",
+      desc: "Size of the swarm leader"
+    });
+    
+    this.option("suffix", {
+      type: String,
+      default: "YYYYMMDD",
+      desc: "Timestamp using as suffix"
     });
   }
 

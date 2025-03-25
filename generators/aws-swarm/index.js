@@ -30,8 +30,14 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         type: "input",
       },
       {
+        default: "t3.small",
+        message: "What is the size used for the swarm leader",
+        name: "size_leader",
+        type: "input",
+      },
+      {
         default: "MYDOMAIN.COM",
-        message: "What is name of the domain used for route53",
+        message: "What is name of the domain used for route53 and ansible",
         name: "domain",
         type: "input",
       },
@@ -73,7 +79,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       },
       "aws-swarm-leader": {
         availabilityZone: this.props.availabilityZones,
-        domain: this.props.domain,
+        size: this.props.size_leader,
         suffix: this.props.suffix
       },
       "aws-vpc": {

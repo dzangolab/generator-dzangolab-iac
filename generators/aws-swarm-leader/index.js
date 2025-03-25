@@ -24,7 +24,7 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
 
     this.option("size", {
       type: String,
-      default: "t3.small",
+      default: "t4g.small",
       desc: "Size of the swarm leader"
     });
     

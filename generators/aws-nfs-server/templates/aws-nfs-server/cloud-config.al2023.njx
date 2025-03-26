@@ -9,8 +9,8 @@ Content-Disposition: attachment; filename="cloud-config.txt"
 
 #cloud-config
 
-{% if packages %}
 packages: 
+  - nfs-kernel-server
 {% for package in packages %}
   - {{ package }}
 {% endfor %}
@@ -18,7 +18,6 @@ packages:
 package_update: true
 package_upgrade: true
 package_reboot_if_required: true
-{% endif %}
 
 write_files:
 - content: |
@@ -30,12 +29,6 @@ write_files:
       }
     }
   path: /etc/docker/daemon.json
-
-runcmd:
-  - dnf install docker -y
-  - systemctl start docker
-  - systemctl enable docker
-  - usermod -a -G docker ec2-user
 
 --//
 Content-Type: text/x-shellscript; charset="utf-8"

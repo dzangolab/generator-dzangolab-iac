@@ -18,26 +18,12 @@ export = async () => {
     retainOnDelete: config.retainOnDelete,
   };
 
-  // Create security group with NFS-specific rules
-  const securityGroup = new SecurityGroup(
-    `${config.name}-sg`,
-    {
-      name: `${config.name}-sg`,
-      description: "Security group for NFS server",
-      vpcId: config.vpcId,
-      tags: {
-        Name: `${config.name}-sg`,
-        ...config.tags,
-      },
-    },
-    options
-  );
 
-  // Inbound rules (equivalent to DigitalOcean firewall inboundRules)
+  // Inbound rules 
   new SecurityGroupRule(
     `${config.name}-ssh-inbound`,
     {
-      securityGroupId: securityGroup.id,
+      securityGroupId: config.securityGroupId,
       type: "ingress",
       description: "Allow SSH access",
       fromPort: 22,
@@ -51,7 +37,7 @@ export = async () => {
   new SecurityGroupRule(
     `${config.name}-nfs-tcp-inbound`,
     {
-      securityGroupId: securityGroup.id,
+      securityGroupId: config.securityGroupId,
       type: "ingress",
       description: "Allow NFS TCP access",
       fromPort: 2049,
@@ -65,7 +51,7 @@ export = async () => {
   new SecurityGroupRule(
     `${config.name}-nfs-udp-inbound`,
     {
-      securityGroupId: securityGroup.id,
+      securityGroupId: config.securityGroupId,
       type: "ingress",
       description: "Allow NFS UDP access",
       fromPort: 2049,
@@ -79,7 +65,7 @@ export = async () => {
   new SecurityGroupRule(
     `${config.name}-icmp-inbound`,
     {
-      securityGroupId: securityGroup.id,
+      securityGroupId: config.securityGroupId,
       type: "ingress",
       description: "Allow ICMP",
       fromPort: -1,
@@ -94,7 +80,7 @@ export = async () => {
   new SecurityGroupRule(
     `${config.name}-dns-tcp-outbound`,
     {
-      securityGroupId: securityGroup.id,
+      securityGroupId: config.securityGroupId,
       type: "egress",
       description: "Allow DNS TCP outbound",
       fromPort: 53,
@@ -108,7 +94,7 @@ export = async () => {
   new SecurityGroupRule(
     `${config.name}-dns-udp-outbound`,
     {
-      securityGroupId: securityGroup.id,
+      securityGroupId: config.securityGroupId,
       type: "egress",
       description: "Allow DNS UDP outbound",
       fromPort: 53,
@@ -122,7 +108,7 @@ export = async () => {
   new SecurityGroupRule(
     `${config.name}-http-outbound`,
     {
-      securityGroupId: securityGroup.id,
+      securityGroupId: config.securityGroupId,
       type: "egress",
       description: "Allow HTTP outbound",
       fromPort: 80,
@@ -136,7 +122,7 @@ export = async () => {
   new SecurityGroupRule(
     `${config.name}-https-outbound`,
     {
-      securityGroupId: securityGroup.id,
+      securityGroupId: config.securityGroupId,
       type: "egress",
       description: "Allow HTTPS outbound",
       fromPort: 443,
@@ -150,7 +136,7 @@ export = async () => {
   new SecurityGroupRule(
     `${config.name}-icmp-outbound`,
     {
-      securityGroupId: securityGroup.id,
+      securityGroupId: config.securityGroupId,
       type: "egress",
       description: "Allow ICMP outbound",
       fromPort: -1,
@@ -185,12 +171,11 @@ export = async () => {
       },
       userData: config.userData,
       userDataReplaceOnChange: true,
-      vpcSecurityGroupIds: [securityGroup.id], // Use our new security group
+      vpcSecurityGroupIds: [config.securityGroupId], // Use our new security group
     },
     options
   );
 
-  // Rest of your existing code (EIP association, volume attachment, etc.)
   new EipAssociation(
     config.name,
     {
@@ -231,7 +216,7 @@ export = async () => {
     name: config.name,
     privateIp: interpolate`${instance.privateIp}`,
     publicIp: config.eip,
-    securityGroupId: securityGroup.id,
+    securityGroupId: config.securityGroupId,
     userData: config.userData,
   };
 };

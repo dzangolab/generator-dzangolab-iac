@@ -47,6 +47,7 @@ export default class DigitalOceanDockerSwarmWorkersGenerator extends PulumiGener
 
     this.option("username", {
       type: String,
+      default: "USERNAME",
       desc: "Name of user account to create on droplet"
     });
   }

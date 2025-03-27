@@ -56,8 +56,8 @@ export default class AnsibleDOGenerator extends PulumiGenerator {
       this.templatePath("ansible/stack"),
       this.destinationPath(`ansible/${this.options.environment}`),
       {
-        ...this.props,
         ...this.options,
+        ...this.props,
       },
       { globOptions: { dot: true } }  
     );

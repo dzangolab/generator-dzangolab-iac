@@ -36,8 +36,8 @@ export default class DigitalOceanDatabaseClusterGenerator extends PulumiGenerato
       this.templatePath(this.name),
       this.destinationPath(this._getFolderName()),
       {
-        ...this.props,
         ...this.options,
+        ...this.props,
       },
       {},
       { 

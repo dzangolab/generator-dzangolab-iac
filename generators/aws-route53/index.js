@@ -30,8 +30,8 @@ export default class AWSRoute53Generator extends PulumiGenerator {
       this.templatePath(this.name),
       this.destinationPath(this._getFolderName()),
       {
-        ...this.props,
         ...this.options,
+        ...this.props,
       },
       {},
       { 

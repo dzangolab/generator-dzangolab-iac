@@ -6,11 +6,13 @@ export default class AnsibleDOGenerator extends PulumiGenerator {
 
     this.option("email", {
       type: String,
+      default: "",
       desc: "LetsEncrypt email"
     });
 
     this.option("domain", {
       type: String,
+      default: "DOMAIN",
       desc: "Root domain of web services and apps"
     });
 
@@ -22,6 +24,7 @@ export default class AnsibleDOGenerator extends PulumiGenerator {
     
     this.option("username", {
       type: String,
+      default: "USERNAME",
       desc: "Name of user account on droplet"
     });
   };

@@ -41,9 +41,9 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       // "ansible-aws": {
       //   environment: this.props.environment,
       // },
-      "aws-ebs": {
-        suffix: this.props.suffix
-      },
+      // "aws-ebs": {
+      //   environment: this.props.environment,
+      // },
       // "aws-eip": {
       //   environment: this.props.environment,
       // },

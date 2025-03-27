@@ -11,7 +11,7 @@ mariadb_versions:
 
 network_private: private
 network_public: public
-nfs: <%+ useNfs %>
+nfs: <%= useNfs %>
 nfs_server_ip: NFS_SERVER_PRIVATE_IP
 
 postgres_versions:

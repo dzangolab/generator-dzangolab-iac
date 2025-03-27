@@ -1,8 +1,8 @@
 import {
   EipAssociation,
+  getSubnet,
   Instance,
   SecurityGroup,
-  SecurityGroupRule,
   VolumeAttachment
 } from "@pulumi/aws/ec2";
 import { local } from "@pulumi/command";
@@ -18,134 +18,80 @@ export = async () => {
     retainOnDelete: config.retainOnDelete,
   };
 
-
-  // Inbound rules 
-  new SecurityGroupRule(
-    `${config.name}-ssh-inbound`,
-    {
-      securityGroupId: config.securityGroupId,
-      type: "ingress",
-      description: "Allow SSH access",
-      fromPort: 22,
-      toPort: 22,
-      protocol: "tcp",
-      cidrBlocks: ["0.0.0.0/0"], // Consider restricting this to your IP
-    },
-    options
-  );
-
-  new SecurityGroupRule(
-    `${config.name}-nfs-tcp-inbound`,
-    {
-      securityGroupId: config.securityGroupId,
-      type: "ingress",
-      description: "Allow NFS TCP access",
-      fromPort: 2049,
-      toPort: 2049,
-      protocol: "tcp",
-      cidrBlocks: [config.vpcIpRange],
-    },
-    options
-  );
-
-  new SecurityGroupRule(
-    `${config.name}-nfs-udp-inbound`,
-    {
-      securityGroupId: config.securityGroupId,
-      type: "ingress",
-      description: "Allow NFS UDP access",
-      fromPort: 2049,
-      toPort: 2049,
-      protocol: "udp",
-      cidrBlocks: [config.vpcIpRange],
-    },
-    options
-  );
-
-  new SecurityGroupRule(
-    `${config.name}-icmp-inbound`,
-    {
-      securityGroupId: config.securityGroupId,
-      type: "ingress",
-      description: "Allow ICMP",
-      fromPort: -1,
-      toPort: -1,
-      protocol: "icmp",
-      cidrBlocks: ["0.0.0.0/0"],
-    },
-    options
-  );
-
-  // Outbound rules (equivalent to DigitalOcean firewall outboundRules)
-  new SecurityGroupRule(
-    `${config.name}-dns-tcp-outbound`,
-    {
-      securityGroupId: config.securityGroupId,
-      type: "egress",
-      description: "Allow DNS TCP outbound",
-      fromPort: 53,
-      toPort: 53,
-      protocol: "tcp",
-      cidrBlocks: ["0.0.0.0/0"],
-    },
-    options
-  );
-
-  new SecurityGroupRule(
-    `${config.name}-dns-udp-outbound`,
-    {
-      securityGroupId: config.securityGroupId,
-      type: "egress",
-      description: "Allow DNS UDP outbound",
-      fromPort: 53,
-      toPort: 53,
-      protocol: "udp",
-      cidrBlocks: ["0.0.0.0/0"],
-    },
-    options
-  );
-
-  new SecurityGroupRule(
-    `${config.name}-http-outbound`,
-    {
-      securityGroupId: config.securityGroupId,
-      type: "egress",
-      description: "Allow HTTP outbound",
-      fromPort: 80,
-      toPort: 80,
-      protocol: "tcp",
-      cidrBlocks: ["0.0.0.0/0"],
-    },
-    options
-  );
-
-  new SecurityGroupRule(
-    `${config.name}-https-outbound`,
-    {
-      securityGroupId: config.securityGroupId,
-      type: "egress",
-      description: "Allow HTTPS outbound",
-      fromPort: 443,
-      toPort: 443,
-      protocol: "tcp",
-      cidrBlocks: ["0.0.0.0/0"],
-    },
-    options
-  );
-
-  new SecurityGroupRule(
-    `${config.name}-icmp-outbound`,
-    {
-      securityGroupId: config.securityGroupId,
-      type: "egress",
-      description: "Allow ICMP outbound",
-      fromPort: -1,
-      toPort: -1,
-      protocol: "icmp",
-      cidrBlocks: ["0.0.0.0/0"],
-    },
-    options
-  );
+  const subnetId = config.subnetId;
+  const selected = getSubnet({
+      id: subnetId,
+  });
+  const subnetSecurityGroup = new SecurityGroup("subnet_security_group", {
+      vpcId: selected.then(selected => selected.vpcId),
+      ingress: [
+        {
+          description: "Allow SSH access",
+          fromPort: 22,
+          toPort: 22,
+          protocol: "tcp",
+          cidrBlocks: ["0.0.0.0/0"],
+        },
+        {
+          description: "Allow NFS TCP access",
+          fromPort: 2049,
+          toPort: 2049,
+          protocol: "tcp",
+          cidrBlocks: [selected.then(selected => selected.cidrBlock)],
+        },
+        {
+          description: "Allow NFS UDP access",
+          fromPort: 2049,
+          toPort: 2049,
+          protocol: "udp",
+          cidrBlocks: [selected.then(selected => selected.cidrBlock)],
+        },
+        {
+          description: "Allow ICMP",
+          fromPort: -1,
+          toPort: -1,
+          protocol: "icmp",
+          cidrBlocks: ["0.0.0.0/0"],
+        },
+      ],
+      egress: [
+        {
+          description: "Allow DNS TCP outbound",
+          fromPort: 53,
+          toPort: 53,
+          protocol: "tcp",
+          cidrBlocks: ["0.0.0.0/0"],
+        },
+        {
+          description: "Allow DNS UDP outbound",
+          fromPort: 53,
+          toPort: 53,
+          protocol: "udp",
+          cidrBlocks: ["0.0.0.0/0"],
+        },
+        {
+          description: "Allow HTTP outbound",
+          fromPort: 80,
+          toPort: 80,
+          protocol: "tcp",
+          cidrBlocks: ["0.0.0.0/0"],
+        },
+        {
+          description: "Allow HTTPS outbound",
+          fromPort: 443,
+          toPort: 443,
+          protocol: "tcp",
+          cidrBlocks: ["0.0.0.0/0"],
+        },
+        {
+          description: "Allow ICMP outbound",
+          fromPort: -1,
+          toPort: -1,
+          protocol: "icmp",
+          cidrBlocks: ["0.0.0.0/0"],
+        },
+      ],
+  });
 
   const instance = new Instance(
     config.name,
@@ -166,12 +112,12 @@ export = async () => {
       },
       subnetId: config.subnetId,
       tags: {
-        Name: `${config.name}`,
+        Name: config.name,
         ...config.tags,
       },
       userData: config.userData,
       userDataReplaceOnChange: true,
-      vpcSecurityGroupIds: [config.securityGroupId], // Use our new security group
+      vpcSecurityGroupIds: [subnetSecurityGroup.id],
     },
     options
   );
@@ -216,7 +162,7 @@ export = async () => {
     name: config.name,
     privateIp: interpolate`${instance.privateIp}`,
     publicIp: config.eip,
-    securityGroupId: config.securityGroupId,
+    securityGroupId: interpolate`${subnetSecurityGroup.id}`,
     userData: config.userData,
   };
 };

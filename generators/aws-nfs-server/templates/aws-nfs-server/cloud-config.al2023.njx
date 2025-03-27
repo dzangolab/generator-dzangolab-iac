@@ -29,7 +29,15 @@ write_files:
       }
     }
   path: /etc/docker/daemon.json
+- content: |
+    /mnt/nfs *(rw,sync,no_subtree_check)
+  path: /etc/exports
 
+runcmd:
+  - chown -R nobody:nobody /mnt/nfs
+  - systemctl enable nfs-server 
+  - systemctl start nfs-server
+  
 --//
 Content-Type: text/x-shellscript; charset="utf-8"
 MIME-Version: 1.0
@@ -74,5 +82,4 @@ EOF
 fi
 echo "EBS Volume Mounted Successfully."
 {% endfor %}
-
 --//--

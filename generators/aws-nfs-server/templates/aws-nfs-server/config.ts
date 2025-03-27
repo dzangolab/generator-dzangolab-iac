@@ -22,8 +22,6 @@ export const getConfig = async () => {
   const vpcStack = new StackReference(
     `${organization}/${vpcProject}/${stack}`,
   );
-  const vpcCidrOutput = await vpcStack.getOutputDetails("cidrBlock");
-  const vpcIpRange = getValue<string>(vpcCidrOutput);
 
   if (!availabilityZone) {
     const availabilityZonesOutput = await vpcStack.getOutputDetails("availabilityZones");
@@ -67,7 +65,7 @@ export const getConfig = async () => {
   /** Get keyName */
   const keypairsProject = stackConfig.get("keypairsProject") || "aws-ssh-keypairs";
   const keypairsStack = new StackReference(
-    `${organization}/${keypairsProject}/global`,
+    `${organization}/${keypairsProject}/sandbox`,
   );
 
   const publicKeyName = stackConfig.require("keyName");
@@ -142,7 +140,6 @@ export const getConfig = async () => {
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
     volumeId,
-    vpcIpRange,
   };
 };
 

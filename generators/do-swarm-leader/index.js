@@ -71,8 +71,8 @@ export default class DigitalOceanDockerSwarmLeaderGenerator extends PulumiGenera
       this.templatePath(this.name),
       this.destinationPath(this._getFolderName()),
       {
-        ...this.props,
         ...this.options,
+        ...this.props,
       },
       {},
       { 

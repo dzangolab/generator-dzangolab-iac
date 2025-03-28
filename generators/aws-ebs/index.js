@@ -15,23 +15,10 @@ export default class AWSEBSGenerator extends PulumiGenerator {
       type: String,
     });
 
-    this.option("projectName", {
-      default: this._getDefaultProjectName(),
-      desc: "Pulumi project name",
-      type: String,
-    });
-
     this.option("suffix", {
       type: String,
       default: "YYYYMMDD",
       desc: "Timestamp using as suffix"
-    });
-    
-    this.option("environment", {
-      type: String,
-      required: true,
-      default: "staging",
-      desc: "environment."
     });
   }
 

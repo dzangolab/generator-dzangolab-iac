@@ -9,12 +9,6 @@ export default class AWSSecurityGroupGenerator extends PulumiGenerator {
     this.displayName = "AWS security group";
     this.name = "aws-security-group";
 
-    this.option("projectName", {
-      default: this._getDefaultProjectName(),
-      desc: "Pulumi project name",
-      type: String,
-    });
-
     this.option("suffix", {
       type: String,
       default: "YYYYMMDD",

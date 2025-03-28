@@ -11,7 +11,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
     this.resourcesList = [
       // "ansible-aws",
       "aws-ebs",
-      // "aws-eip",
+      "aws-eip",
       // aws-nfs-server
       // "aws-resources",
       // "aws-route53",
@@ -51,9 +51,9 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         availabilityZones: this.props.availabilityZones,
         suffix: this.props.suffix
       },
-      // "aws-eip": {
-      //   environment: this.props.environment,
-      // },
+      "aws-eip": {
+        suffix: this.props.suffix
+      },
       // "aws-nfs-server": {
       //   environment: this.props.environment,
       // },

@@ -9,11 +9,10 @@ export default class AWSEIPGenerator extends PulumiGenerator {
     this.displayName = "AWS EIP";
     this.name = "aws-eip";
 
-    this.option("environment", {
+    this.option("suffix", {
       type: String,
-      required: true,
-      default: "staging",
-      desc: "environment."
+      default: "YYYYMMDD",
+      desc: "Timestamp using as suffix"
     });
   }
 

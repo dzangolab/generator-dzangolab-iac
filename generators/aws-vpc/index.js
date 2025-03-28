@@ -9,12 +9,6 @@ export default class AWSVPCGenerator extends PulumiGenerator {
     this.displayName = "AWS VPC";
     this.name = "aws-vpc";
 
-    this.option("projectName", {
-      default: this._getDefaultProjectName(),
-      desc: "Pulumi project name",
-      type: String,
-    });
-
     this.option("suffix", {
       type: String,
       default: "YYYYMMDD",

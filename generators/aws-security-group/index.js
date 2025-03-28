@@ -8,6 +8,12 @@ export default class AWSSecurityGroupGenerator extends PulumiGenerator {
 
     this.displayName = "AWS security group";
     this.name = "aws-security-group";
+
+    this.option("suffix", {
+      type: String,
+      default: "YYYYMMDD",
+      desc: "Timestamp using as suffix"
+    });
   }
 
   async prompting() {

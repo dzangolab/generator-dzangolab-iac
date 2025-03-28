@@ -8,6 +8,12 @@ export default class AWSRoute53Generator extends PulumiGenerator {
 
     this.displayName = "AWS Route53";
     this.name = "aws-route53";
+
+    this.option("domain", {
+      type: String,
+      default: "MYDOMAIN.COM",
+      desc: "Name of the domain"
+    });
   }
 
   async prompting() {

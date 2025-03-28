@@ -47,8 +47,8 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
         `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
-          ...this.props,
           ...this.options,
+          ...this.props,
         }
       );
     }

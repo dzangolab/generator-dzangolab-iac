@@ -9,7 +9,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
     this.displayName = "Aws swarm";
     this.name = "aws-swarm";
     this.resourcesList = [
-      // "ansible-aws",
+      "ansible-aws",
       "aws-ebs",
       "aws-eip",
       // aws-nfs-server
@@ -50,9 +50,9 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
 
     // Define specific properties for each generator
     const generatorsProps = {
-      // "ansible-aws": {
-      //   environment: this.props.environment,
-      // },
+      "ansible-aws": {
+        domain: this.props.domain,
+      },
       "aws-ebs": {
         availabilityZones: this.props.availabilityZones,
         suffix: this.props.suffix

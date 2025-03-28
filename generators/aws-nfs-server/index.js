@@ -14,14 +14,7 @@ export default class AWSNFSServerGenerator extends PulumiGenerator {
       desc: "Available zone",
       type: String,
     });
-
-    this.option("environment", {
-      type: String,
-      required: true,
-      default: "staging",
-      desc: "environment."
-    });
-
+    
     this.option("size", {
       type: String,
       default: "t4g.small",

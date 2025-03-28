@@ -34,7 +34,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         message: "What is name of the domain used for route53",
         name: "domain",
         type: "input",
-      }
+      },
       {
         default: "ap-southeast-1a",
         message: "What zone is available for ebs and swarm-leader",

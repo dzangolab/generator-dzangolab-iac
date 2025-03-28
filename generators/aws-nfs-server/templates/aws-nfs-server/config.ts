@@ -65,7 +65,7 @@ export const getConfig = async () => {
   /** Get keyName */
   const keypairsProject = stackConfig.get("keypairsProject") || "aws-ssh-keypairs";
   const keypairsStack = new StackReference(
-    `${organization}/${keypairsProject}/sandbox`,
+    `${organization}/${keypairsProject}/global`,
   );
 
   const publicKeyName = stackConfig.require("keyName");

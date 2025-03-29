@@ -1,3 +1,9 @@
+## 1.0.0-rc20 (2025-03-29)
+
+* fix(pulumi-s3-backend): fix project name in generated stack config (#84) c52b761, closes #84
+
+
+
 ## 1.0.0-rc19 (2025-03-29)
 
 * fix(PulumiGenerator): update template prompting code 3727da3

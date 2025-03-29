@@ -8,6 +8,12 @@ export default class AWSVPCGenerator extends PulumiGenerator {
 
     this.displayName = "AWS VPC";
     this.name = "aws-vpc";
+
+    this.option("suffix", {
+      type: String,
+      default: "YYYYMMDD",
+      desc: "Timestamp using as suffix"
+    });
   }
 
   async prompting() {

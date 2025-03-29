@@ -3,6 +3,7 @@ config:
     - 
   <%= projectName %>:forceDestroy: false
 #  <%= projectName %>:keyDeletionWindow: 7
+#  <%= projectName %>:name: 
   <%= projectName %>:protect: true
   <%= projectName %>:retainOnDelete: true  
-#  <%= projectName %>:secretsProvider: passphrase  
+  <%= projectName %>:secretsProvider: passphrase  

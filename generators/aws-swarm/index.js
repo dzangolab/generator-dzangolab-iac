@@ -31,7 +31,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       },
       {
         default: "ap-southeast-1a",
-        message: "What zone is available for ebs and swarm-leader",
+        message: "Availability Zone for ebs and swarm-leader",
         name: "availabilityZones",
         type: "input",
       },

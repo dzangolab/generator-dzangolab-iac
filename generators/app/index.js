@@ -239,6 +239,5 @@ export default class IaCGenerator extends Generator {
         usePrefixInFolderName: this.props.usePrefixInFolderName,
       }
     );
-
   }
 };

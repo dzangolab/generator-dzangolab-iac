@@ -1,3 +1,9 @@
+## 1.0.0-rc19 (2025-03-29)
+
+* fix(PulumiGenerator): update template prompting code 3727da3
+
+
+
 ## 1.0.0-rc18 (2025-03-29)
 
 * feat: add mariadb playbook (#58) ca62248, closes #58

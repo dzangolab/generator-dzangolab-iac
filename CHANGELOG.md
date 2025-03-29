@@ -1,3 +1,9 @@
+## 1.0.0-rc21.0 (2025-03-29)
+
+* fix(pulumi-s3-backend): fix script style (#88) db5fa67, closes #88
+
+
+
 ## 1.0.0-rc21 (2025-03-29)
 
 * feat(pulumi-s3-backend): fix stack config template and docs (#86) 5a15325, closes #86

@@ -10,6 +10,16 @@ class PulumiGenerator extends Generator {
 
     this._optionOrPrompt = optionOrPrompt;
 
+    this.options.versions = {
+      digitalocean: "^4",
+      dzangolab: "^0.33",
+      pulumi: "^3",
+      pulumi_aws: "^6",
+      pulumi_awsx: "^2.7",
+      pulumi_cloudflare: "^5",
+      types_node: "^22",
+    };
+    
     this.option("createStackConfig", {
       type: Boolean,
       default: true,
@@ -18,6 +28,7 @@ class PulumiGenerator extends Generator {
 
     this.option("environment", {
       type: String,
+      default: "staging",
       desc: "Environment (i.e. Pulumi stack)"
     });
 

@@ -237,15 +237,6 @@ export default class IaCGenerator extends Generator {
         environment: this.props.environment,
         prefix,
         usePrefixInFolderName: this.props.usePrefixInFolderName,
-        versions: {
-          digitalocean: "^4",
-          dzangolab: "^0.33",
-          pulumi: "^3",
-          pulumi_aws: "^6",
-          pulumi_awsx: "^2.7",
-          pulumi_cloudflare: "^5",
-          types_node: "^22",
-        }
       }
     );
 

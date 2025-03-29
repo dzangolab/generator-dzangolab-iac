@@ -8,16 +8,18 @@ Note: The state for this project is expected to be stored on the Pulumi cloud.
 
 * node >= 20.0.0
 * [pulumi >= 3](https://www.pulumi.com/docs/install/)
-* An AWS profile
+* An AWS profile 
+
+## Environment variables
+
+The following environment variables must be set:
+
+| Name | Description |
+|------|-------------|
+| `AWS_PROFILE` | An AWS profile that has permission to create an S3 buclket and associated IAM policies. |
+| `PULUMI_ACCESS_TOKEN` | A Pulumi API access token | 
 
 ## Usage (bash scripts)
-
-<% if (!awsProfile) { %>Export the AWS_PROFILE environment variable
-
-```bash
-export AWS_PROFILE=AWS_PROFILE
-```
-<% } %>
 
 ### update.sh
 
@@ -37,34 +39,11 @@ Lists the stack's outputs.
 
 ## Usage (manual)
 
-### Update environment variables
-
-Copy `.env.example` to `env` and update the file as appropriate.
-
-```bash
-cp .env.example .env
-```
-
-The `AWS_PROFILE` env variable should remain set to `pulumi`.
-
-Update runtime environment variables.
-
-```bash
-direnv allow
-```
-
 ### Install dependencies 
 
 ```
 npm install
 ```
-
-* Set the AWS_PROFILE environment variable
-
-```
-export AWS_PROFILE=XXXXXX
-```
-
 
 ### Login to the Pulumi cloud as the backend
 
@@ -73,6 +52,8 @@ If logged in to another backend
 ```bash
 pulumi logout
 ```
+
+Log into the Pulumi cloud
 
 ```bash
 pulumi login
@@ -84,7 +65,6 @@ pulumi login
 pulumi org set-default {your organization}
 ```
 
-
 ### Provisioning resources
 
 * Initialize and select the appropriate stack
@@ -93,7 +73,13 @@ pulumi org set-default {your organization}
 pulumi stack init {stack}
 ```
 
-* Update the stack config `Pulimi.{stack}.yaml` with the appropriate values for your project.
+Or select the appropriate stack if it already exists
+
+```bash
+pulumi stack select {stack}
+```
+
+* Update the stack config `Pulumi.{stack}.yaml` with the appropriate values for your project.
 
 * Run `pulumi up`
 
@@ -159,14 +145,16 @@ pulumi destroy
 
 ## Configuration settings
 
-| Setting | Type | Default | Required | Description |
-|---------|------|---------|-------------|----------|
-| aws-account-arns | string |  | No | AWS accounts to be granted access to the backend for different roles. The format should be <Account ID>:role/<Role Name> for roles <Account ID>:user/<Username> for users. |
-| forceDestroy | Boolean | `false` | No | Indicates whether all objects should be destroyed when the bucket is destroyed. See `aws.s3.Bucket` `forceDestroy` |
-| keyDeletionWindow | number | 7 | No | Deletion widow (in days) for AWS Key |
-| name | String |  | No | The name of the S3 bucket to provision.  |
-| protect | boolean | false | No | Protect resources from accidental deletion |
-| retainOnDelete | boolean | false | No | Retain resources when destroyed |
+
+| Setting | Type | Default | Description |
+|---------|------|---------|-------------|
+| `aws-account-arns` | string |  | AWS accounts to be granted access to the backend for different roles. The format should be <Account ID>:role/<Role Name> for roles <Account ID>:user/<Username> for users. |
+| `forceDestroy` | Boolean | `false` | Indicates whether all objects should be destroyed when the bucket is destroyed. See `aws.s3.Bucket` `forceDestroy` |
+| `keyDeletionWindow` | number | 7 | Deletion widow (in days) for AWS Key |
+| `name` | String |  | The name of the S3 bucket to provision.  |
+| `protect` | boolean | false | Protect resources from accidental deletion |
+| `retainOnDelete` | boolean | false | Retain resources when destroyed |
+| `secretsProvider` | string | "passphrase"  | Type of secrets provider for encrypting secrets in the backend. Acceptable values are `passphrase` or `kms`.  |
 
 ### aws-account-arns example
 
@@ -188,7 +176,7 @@ For example:
 
 For example:
 
-123456789:user/anthony@dzangolab.com
+123456789:user/bob@example.com
 
 #### Granting access to an account
 

@@ -3,8 +3,6 @@ import Generator from "yeoman-generator";
 import optionOrPrompt from "./optionOrPrompt.js";
 
 class PulumiGenerator extends Generator {
-  DEFAULT_PROJECT_NAME;
-
   constructor(args, opts) {
     super(args, opts);
 
@@ -56,7 +54,7 @@ class PulumiGenerator extends Generator {
   async prompting() {
     this.props = await this.optionOrPrompt([
       {
-        default: this.DEFAULT_PROJECT_NAME,
+        default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",
         name: "projectName",
         type: "input",

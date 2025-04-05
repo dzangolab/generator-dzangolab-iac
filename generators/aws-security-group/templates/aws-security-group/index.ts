@@ -12,7 +12,7 @@ export = async () => {
   };
 
   const securityGroup = new SecurityGroup(
-    `${config.name}-${config.suffix}`,
+    config.name,
     {
       description: "Allow TLS inbound traffic",
       egress: [
@@ -66,9 +66,9 @@ export = async () => {
           ipv6CidrBlocks: ["::/0"],
         },
       ],
-      name: `${config.name}-${config.suffix}`,
+      name: config.name,
       tags: {
-        Name: `${config.name}-${config.suffix}`,
+        Name: config.name,
       },
       vpcId: config.vpcId,
     },

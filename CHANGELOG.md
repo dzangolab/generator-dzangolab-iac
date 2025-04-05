@@ -1,3 +1,9 @@
+## 1.0.0-rc21.3 (2025-04-05)
+
+* fix(aws/vpc): remove suffix from stack config a836325
+
+
+
 ## 1.0.0-rc21.2 (2025-04-05)
 
 * fix(aws/vpc): fix bug in stack config generation process 640a534

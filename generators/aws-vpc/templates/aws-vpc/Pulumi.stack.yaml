@@ -16,4 +16,3 @@ config:
       - 172.16.160.0/21
       name: public
       type: Public
-  <%= projectName %>:suffix: <%= suffix %>

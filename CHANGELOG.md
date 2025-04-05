@@ -1,3 +1,9 @@
+## 1.0.0-rc21.7 (2025-04-05)
+
+* fix(aws/security-group): remove suffix from stack config 9435c68
+
+
+
 ## 1.0.0-rc21.6 (2025-04-05)
 
 * fix(aws/ebs): remove suffix from stack config cea555d

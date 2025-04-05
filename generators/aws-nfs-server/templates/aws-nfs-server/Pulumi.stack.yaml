@@ -14,7 +14,6 @@ config:
 #  <%= projectName %>:securityGroupId: 
   <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
   <%= projectName %>:subnetId: subnet-xxxxxxxxx
-  <%= projectName %>:size: <%= size %>
 #  <%= projectName %>:tags:
 #    -
 #    -

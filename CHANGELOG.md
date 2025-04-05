@@ -1,3 +1,28 @@
+## 1.0.0-rc21.5 (2025-04-05)
+
+
+
+
+## 1.0.0-rc21.4 (2025-04-05)
+
+* fix(aws/ebs): fix bug in stack config generation process 6aa32e3
+* fix(aws/ebs): remove suffix from stack config 67bc860
+
+
+
+## 1.0.0-rc21.3 (2025-04-05)
+
+* fix(aws/vpc): remove suffix from stack config a836325
+
+
+
+## 1.0.0-rc21.2 (2025-04-05)
+
+* fix(aws/vpc): fix bug in stack config generation process 640a534
+* fix(aws/vpc): update stack config ca89319
+
+
+
 ## 1.0.0-rc21.1 (2025-04-05)
 
 * fix(aws/ssh-keypairs): fix generator 652592c

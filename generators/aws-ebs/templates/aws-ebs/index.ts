@@ -20,12 +20,12 @@ export = async () => {
     const availabilityZone = availabilityZones[i];
 
     const volume = new Volume(
-      `${config.name}-${config.suffix}-${availabilityZone}`,
+      `${config.name}-${availabilityZone}`,
       {
         availabilityZone,
         size: sizes[i],
         tags: {
-          Name: `${config.name}-${config.suffix}-${availabilityZone}`,
+          Name: `${config.name}-${availabilityZone}`,
           ...config.tags
         }
       },

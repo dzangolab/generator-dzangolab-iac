@@ -1,3 +1,21 @@
+## 1.0.0-rc21.1 (2025-04-05)
+
+* fix(aws/ssh-keypairs): fix generator 652592c
+
+
+
+## 1.0.0-rc21.0 (2025-03-29)
+
+* fix(pulumi-s3-backend): fix script style (#88) db5fa67, closes #88
+
+
+
+## 1.0.0-rc21 (2025-03-29)
+
+* feat(pulumi-s3-backend): fix stack config template and docs (#86) 5a15325, closes #86
+
+
+
 ## 1.0.0-rc20 (2025-03-29)
 
 * fix(pulumi-s3-backend): fix project name in generated stack config (#84) c52b761, closes #84

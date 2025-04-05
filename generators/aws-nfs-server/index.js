@@ -6,7 +6,7 @@ export default class AWSNFSServerGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.displayName = "AWS nfs server";
+    this.displayName = "AWS NFS server";
     this.name = "aws-nfs-server";
 
     this.option("availabilityZone", {
@@ -18,7 +18,7 @@ export default class AWSNFSServerGenerator extends PulumiGenerator {
     this.option("size", {
       type: String,
       default: "t4g.small",
-      desc: "Size of the swarm leader"
+      desc: "Size of the NFS server"
     });
 
     this.option("suffix", {

@@ -16,7 +16,7 @@ export = async () => {
   };
 
   const vpc = new Vpc(
-    `${config.name}-${config.suffix}`,
+    config.name,
     {
       availabilityZoneNames: config.availabilityZoneNames,
       cidrBlock: config.cidrBlock,

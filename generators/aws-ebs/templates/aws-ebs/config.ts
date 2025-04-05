@@ -31,7 +31,6 @@ export const getConfig = async () => {
       protect: stackConfig.getBoolean("protect"),
       retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
       sizes,
-      suffix: stackConfig.require("suffix"),
       tags: stackConfig.getObject<{ [key: string]: string }>("tags")
   };
 };

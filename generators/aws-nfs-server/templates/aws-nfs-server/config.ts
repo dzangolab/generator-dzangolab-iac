@@ -18,71 +18,42 @@ export const getConfig = async () => {
   /** Get Availability zone **/
   let availabilityZone = stackConfig.require("availabilityZone");
 
-  const vpcProject = stackConfig.get("vpcProject") || "aws-vpc";
-  const vpcStack = new StackReference(
-    `${organization}/${vpcProject}/${stack}`,
-  );
-
-  if (!availabilityZone) {
-    const availabilityZonesOutput = await vpcStack.getOutputDetails("availabilityZones");
-    const availabilityZones = getValue<string[]>(availabilityZonesOutput);
-
-    availabilityZone = availabilityZones[0];
-  }
-
-  /** Get EIP */
-  let eip = stackConfig.get("eip");
-  let eipId = stackConfig.get("eipId");
-
-  if (!eip || !eipId) {
-    const eipProject = stackConfig.get("eipProject") || "aws-eip";
-
-    const eipStack = new StackReference(
-      `${organization}/${eipProject}/${stack}`,
-    );
-
-    const eipOutput = await eipStack.getOutputDetails("eip");
-    eip = getValue<string>(eipOutput);
-
-    const eipIdOutput = await eipStack.getOutputDetails("eipId");
-    eipId = getValue<string>(eipIdOutput);
-  }
-
   /** Get instance profile */
   let instanceProfile = stackConfig.get("instanceProfile");
 
   if (!instanceProfile) {
-    const instanceProfileProject = stackConfig.get("instanceProfileProject") || "aws-instance-profile";
-
-    const instanceProfileStack = new StackReference(
-      `${organization}/${instanceProfileProject}/${stack}`,
+    const outputs = await getOutputs(
+      "instanceProfileStack",
+      "id"
     );
 
-    const instanceProfileOutput = await instanceProfileStack.getOutputDetails("name");
-    instanceProfile = getValue<string>(instanceProfileOutput);
+    instanceProfile = outputs ? outputs[0] : undefined;
   }
 
-  /** Get keyName */
-  const keypairsProject = stackConfig.get("keypairsProject") || "aws-ssh-keypairs";
-  const keypairsStack = new StackReference(
-    `${organization}/${keypairsProject}/global`,
-  );
+  /** Get keypair */
+  const keypair = stackConfig.get("keypair");
 
-  const publicKeyName = stackConfig.require("keyName");
-  const keyNameOutput = await keypairsStack.getOutputDetails(publicKeyName);
-  const keyName = getValue<{ [key: string]: string }>(keyNameOutput)["name"];
+  if (!keypair) {
+    const keyName = stackConfig.require("keyName");
+
+    const outputs = await getOutputs(
+      "keypairsStack",
+      keyName
+    );
+
+    keypair = outputs ? outputs[0]["name"] : undefined;
+  }
 
   /** Gets security group id */
   let securityGroupId = stackConfig.get("securityGroupId");
 
   if (!securityGroupId) {
-    const securityGroupProject = stackConfig.get("securityGroupProject") || "aws-security-group";
-    const securityGroupStack = new StackReference(
-      `${organization}/${securityGroupProject}/${stack}`,
+    const outputs = await getOutputs(
+      "securityGroupStack",
+      "id"
     );
 
-    const securityGroupIdOutput = await securityGroupStack.getOutputDetails("id");
-    securityGroupId = getValue<string>(securityGroupIdOutput);
+    securityGroupId = outputs ? outputs[0] : undefined;
   }
 
   /** Get subnet id **/
@@ -92,13 +63,12 @@ export const getConfig = async () => {
   let volumeId = stackConfig.get("volumeId");
 
   if (!volumeId) {
-    const ebsProject = stackConfig.get("ebsProject") || "aws-ebs";
-    const ebsStack = new StackReference(
-      `${organization}/${ebsProject}/${stack}`,
+    const outputs = await getOutputs(
+      "volumeStack",
+      "ids"
     );
 
-    const volumeIdsOutput = await ebsStack.getOutputDetails("ids");
-    volumeId = getValue<string[]>(volumeIdsOutput)[0];
+    volumeId = outputs ? outputs[0][0] : undefined;
   }
 
   /** Get user data **/
@@ -157,6 +127,57 @@ function getValue<T>(input: StackReferenceOutputDetails, defaultValue?: T): T {
   }
 
   return defaultValue;
+}
+
+const stacks: { [key: string]: StackReference } = {};
+
+async function getOutputs(
+  stackConfigVar: string,
+  defaultOutputs: string
+): Promise<undefined | string[]> {
+  const organization = getOrganization();
+  const stack = getStack();
+  const stackConfig = new Config();
+
+  const config = stackConfig.get(stackConfigVar);
+
+  if (!config) {
+    return undefined;
+  }
+
+  let [project, outputNamesString] = config.split(":");
+
+  if (!project) {
+    return undefined;
+  }
+
+  if (!outputNamesString) {
+    outputNamesString = defaultOutputs;
+  }
+
+  if (!outputNamesString) {
+    return undefined;
+  }
+
+  const outputNames = outputNamesString.split(",");
+
+  const stackName = `${organization}/${project}/${stack}`;
+  let otherStack = stacks[stackName];
+
+  if (!otherStack) {
+    otherStack = new StackReference(stackName);
+    stacks[stackName] = otherStack;
+  }
+
+  let outputs = [];
+
+  for (var i = 0, name = null; name = outputNames[i]; i++) {
+    const output = await otherStack.getOutputDetails(name);
+
+    outputs.push(getValue<string>(output) as string)
+  }
+
+  return outputs;
 }
 
 function generateUserData(

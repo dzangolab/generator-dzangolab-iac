@@ -7,7 +7,7 @@ export default class AWSNFSServerGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS NFS server";
-    this.name = "aws-nfs-server";
+    this.name = "nfs-server";
 
     this.option("availabilityZone", {
       default: "ap-southeast-1a",
@@ -19,12 +19,6 @@ export default class AWSNFSServerGenerator extends PulumiGenerator {
       type: String,
       default: "t4g.small",
       desc: "Size of the NFS server"
-    });
-
-    this.option("suffix", {
-      type: String,
-      default: "YYYYMMDD",
-      desc: "Timestamp using as suffix"
     });
   }
 
@@ -45,7 +39,7 @@ export default class AWSNFSServerGenerator extends PulumiGenerator {
 
 
     this.fs.copyTplAsync(
-      this.templatePath(this.name),
+      this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -62,7 +56,7 @@ export default class AWSNFSServerGenerator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       this.fs.copyTplAsync(
-        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
           ...this.options,

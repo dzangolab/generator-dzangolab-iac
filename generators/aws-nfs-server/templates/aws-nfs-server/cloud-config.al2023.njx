@@ -11,24 +11,12 @@ Content-Disposition: attachment; filename="cloud-config.txt"
 
 packages: 
   - nfs-kernel-server
-{% for package in packages %}
-  - {{ package }}
-{% endfor %}
 
 package_update: true
 package_upgrade: true
 package_reboot_if_required: true
 
 write_files:
-- content: |
-    {
-      "log-driver": "json-file",
-      "log-opts": {
-        "max-size": "10m",
-        "max-file": "5",
-      }
-    }
-  path: /etc/docker/daemon.json
 - content: |
     /mnt/nfs *(rw,sync,no_subtree_check)
   path: /etc/exports

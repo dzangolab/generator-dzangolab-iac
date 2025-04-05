@@ -20,77 +20,7 @@ export = async () => {
 
   const subnetId = config.subnetId;
   const selected = getSubnet({
-      id: subnetId,
-  });
-  const subnetSecurityGroup = new SecurityGroup("subnet_security_group", {
-      vpcId: selected.then(selected => selected.vpcId),
-      ingress: [
-        {
-          description: "Allow SSH access",
-          fromPort: 22,
-          toPort: 22,
-          protocol: "tcp",
-          cidrBlocks: ["0.0.0.0/0"],
-        },
-        {
-          description: "Allow NFS TCP access",
-          fromPort: 2049,
-          toPort: 2049,
-          protocol: "tcp",
-          cidrBlocks: [selected.then(selected => selected.cidrBlock)],
-        },
-        {
-          description: "Allow NFS UDP access",
-          fromPort: 2049,
-          toPort: 2049,
-          protocol: "udp",
-          cidrBlocks: [selected.then(selected => selected.cidrBlock)],
-        },
-        {
-          description: "Allow ICMP",
-          fromPort: -1,
-          toPort: -1,
-          protocol: "icmp",
-          cidrBlocks: ["0.0.0.0/0"],
-        },
-      ],
-      egress: [
-        {
-          description: "Allow DNS TCP outbound",
-          fromPort: 53,
-          toPort: 53,
-          protocol: "tcp",
-          cidrBlocks: ["0.0.0.0/0"],
-        },
-        {
-          description: "Allow DNS UDP outbound",
-          fromPort: 53,
-          toPort: 53,
-          protocol: "udp",
-          cidrBlocks: ["0.0.0.0/0"],
-        },
-        {
-          description: "Allow HTTP outbound",
-          fromPort: 80,
-          toPort: 80,
-          protocol: "tcp",
-          cidrBlocks: ["0.0.0.0/0"],
-        },
-        {
-          description: "Allow HTTPS outbound",
-          fromPort: 443,
-          toPort: 443,
-          protocol: "tcp",
-          cidrBlocks: ["0.0.0.0/0"],
-        },
-        {
-          description: "Allow ICMP outbound",
-          fromPort: -1,
-          toPort: -1,
-          protocol: "icmp",
-          cidrBlocks: ["0.0.0.0/0"],
-        },
-      ],
+    id: subnetId,
   });
 
   const instance = new Instance(
@@ -117,16 +47,7 @@ export = async () => {
       },
       userData: config.userData,
       userDataReplaceOnChange: true,
-      vpcSecurityGroupIds: [subnetSecurityGroup.id],
-    },
-    options
-  );
-
-  new EipAssociation(
-    config.name,
-    {
-      instanceId: instance.id,
-      allocationId: config.eipId,
+      vpcSecurityGroupIds: [securityGroupId],
     },
     options
   );
@@ -161,8 +82,7 @@ export = async () => {
     id: interpolate`${instance.id}`,
     name: config.name,
     privateIp: interpolate`${instance.privateIp}`,
-    publicIp: config.eip,
-    securityGroupId: interpolate`${subnetSecurityGroup.id}`,
-    userData: config.userData,
+    publicIp: interpolate`${instance.publicIp}`,
+    securityGroupId: config.securityGroupId,
   };
 };

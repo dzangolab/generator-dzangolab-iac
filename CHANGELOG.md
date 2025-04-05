@@ -1,3 +1,9 @@
+## 1.0.0-rc21.1 (2025-04-05)
+
+* fix(aws/ssh-keypairs): fix generator 652592c
+
+
+
 ## 1.0.0-rc21.0 (2025-03-29)
 
 * fix(pulumi-s3-backend): fix script style (#88) db5fa67, closes #88

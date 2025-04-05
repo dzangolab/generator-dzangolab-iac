@@ -1,3 +1,53 @@
+## 1.0.0-rc21.1 (2025-04-05)
+
+* fix(aws/ssh-keypairs): fix generator 652592c
+
+
+
+## 1.0.0-rc21.0 (2025-03-29)
+
+* fix(pulumi-s3-backend): fix script style (#88) db5fa67, closes #88
+
+
+
+## 1.0.0-rc21 (2025-03-29)
+
+* feat(pulumi-s3-backend): fix stack config template and docs (#86) 5a15325, closes #86
+
+
+
+## 1.0.0-rc20 (2025-03-29)
+
+* fix(pulumi-s3-backend): fix project name in generated stack config (#84) c52b761, closes #84
+
+
+
+## 1.0.0-rc19 (2025-03-29)
+
+* fix(PulumiGenerator): update template prompting code 3727da3
+
+
+
+## 1.0.0-rc18 (2025-03-29)
+
+* feat: add mariadb playbook (#58) ca62248, closes #58
+* feat: add support for versions (#81) b37732b, closes #81
+* feat(aws/credentials): add support for password-specific constraints (#61) c4d7d86, closes #61
+* fix: ansible generator nfs and swarm (#53) c78b9e3, closes #53
+* fix: ansible traefik playbook (#55) 94f0e47, closes #55
+* fix: fix order options and props (#76) 89d7201, closes #76
+* fix: fix swarm playbook (#62) 924d5c5, closes #62
+* fix: fixing firewall (#49) 5826a78, closes #49
+* fix: leader groups in cloud config (#54) 1f79bee, closes #54
+* fix(pulumi-s3-backend): add support for passphrase secrets provider (#51) 4c14af8, closes #51
+* fix(pulumi-s3-backend): fix output c75cbb6
+* Do ansible (#60) 24ccf27, closes #60
+* Do nfs postgres (#56) b634ff1, closes #56
+* DO swarm Create new combined generator (#33) ae1509e, closes #33 #47
+* chore: adding useNfs variable to swarm leader (#52) 983825b, closes #52
+
+
+
 ## 1.0.0-rc17 (2025-02-23)
 
 * chore: branch fixing update-do-swarm-workers (#45) d848ce8, closes #45

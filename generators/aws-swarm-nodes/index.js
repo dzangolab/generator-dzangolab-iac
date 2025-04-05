@@ -7,7 +7,7 @@ export default class AWSSwarmNodesGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS swarm nodes";
-    this.name = "aws-swarm-nodes";
+    this.name = "swarm-nodes";
   }
 
   async prompting() {

@@ -7,7 +7,7 @@ class AWSCredentialsGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS credentials";
-    this.name = "aws-credentials";
+    this.name = "credentials";
 
     this.option("environment", {
       default: "staging",

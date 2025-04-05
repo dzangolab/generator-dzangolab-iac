@@ -7,7 +7,7 @@ export default class AWSSESGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS SES";
-    this.name = "aws-ses";
+    this.name = "ses";
   }
 
   async prompting() {

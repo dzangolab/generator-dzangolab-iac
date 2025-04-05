@@ -7,7 +7,7 @@ export default class AWSEBSGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS EBS";
-    this.name = "aws-ebs";
+    this.name = "ebs";
   }
 
   async prompting() {

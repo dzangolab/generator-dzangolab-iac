@@ -7,7 +7,7 @@ export default class AWSVPCGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS VPC";
-    this.name = "aws-vpc";
+    this.name = "vpc";
   }
 
   async prompting() {

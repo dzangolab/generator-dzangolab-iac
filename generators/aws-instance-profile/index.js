@@ -7,7 +7,7 @@ export default class AWSInstanceProfileGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS instance profile";
-    this.name = "aws-instance-profile";
+    this.name = "instance-profile";
   }
 
   async prompting() {

@@ -7,7 +7,7 @@ export default class AWSEIPGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS EIP";
-    this.name = "aws-eip";
+    this.name = "eip";
   }
 
   async prompting() {

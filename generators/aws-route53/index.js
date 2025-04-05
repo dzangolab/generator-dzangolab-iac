@@ -7,7 +7,7 @@ export default class AWSRoute53Generator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS Route53";
-    this.name = "aws-route53";
+    this.name = "route53";
   }
 
   async prompting() {

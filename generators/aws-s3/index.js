@@ -7,7 +7,7 @@ export default class AWSS3Generator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS S3";
-    this.name = "aws-s3";
+    this.name = "s3";
   }
 
   async prompting() {

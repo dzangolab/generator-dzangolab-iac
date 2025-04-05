@@ -7,7 +7,7 @@ export default class AWSSSHKeypairsGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS SSH key pairs";
-    this.name = "aws-ssh-keypairs";
+    this.name = "ssh-keypairs";
   }
 
   async prompting() {

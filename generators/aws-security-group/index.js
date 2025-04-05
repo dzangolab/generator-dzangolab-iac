@@ -7,7 +7,7 @@ export default class AWSSecurityGroupGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS security group";
-    this.name = "aws-security-group";
+    this.name = "security-group";
   }
 
   async prompting() {

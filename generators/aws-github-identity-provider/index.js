@@ -7,7 +7,7 @@ export default class AWSGithubIdentityProviderGenerator extends PulumiGenerator 
     super(args, opts);
 
     this.displayName = "AWS Github identity provider";
-    this.name = "aws-github-identity-provider";
+    this.name = "github-identity-provider";
   }
 
   async prompting() {

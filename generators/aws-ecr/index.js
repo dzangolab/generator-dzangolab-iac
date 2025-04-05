@@ -7,7 +7,7 @@ export default class AWSECRGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS ECR";
-    this.name = "aws-ecr";
+    this.name = "ecr";
   }
 
   async prompting() {

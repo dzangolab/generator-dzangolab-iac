@@ -1,3 +1,21 @@
+## 1.0.0-rc23 (2025-04-05)
+
+* fix(aws): fix generator following name changes 7db451c
+
+
+
+## 1.0.0-rc22 (2025-04-05)
+
+* feat(aws): update generator names d3302f1
+
+
+
+## 1.0.0-rc21.7 (2025-04-05)
+
+* fix(aws/security-group): remove suffix from stack config 9435c68
+
+
+
 ## 1.0.0-rc21.6 (2025-04-05)
 
 * fix(aws/ebs): remove suffix from stack config cea555d

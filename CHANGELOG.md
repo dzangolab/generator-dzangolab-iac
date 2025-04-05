@@ -1,3 +1,9 @@
+## 1.0.0-rc22 (2025-04-05)
+
+* feat(aws): update generator names d3302f1
+
+
+
 ## 1.0.0-rc21.7 (2025-04-05)
 
 * fix(aws/security-group): remove suffix from stack config 9435c68

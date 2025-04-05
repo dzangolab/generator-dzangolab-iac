@@ -1,3 +1,9 @@
+## 1.0.0-rc21.6 (2025-04-05)
+
+* fix(aws/ebs): remove suffix from stack config cea555d
+
+
+
 ## 1.0.0-rc21.5 (2025-04-05)
 
 

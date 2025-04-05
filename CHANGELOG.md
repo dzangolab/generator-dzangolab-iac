@@ -1,3 +1,10 @@
+## 1.0.0-rc24 (2025-04-05)
+
+* fix(aws/security-group): remove suffix from stack config 91cc8d0
+* chore(do/swarm-leader): fix code style a9b6bd8
+
+
+
 ## 1.0.0-rc23 (2025-04-05)
 
 * fix(aws): fix generator following name changes 7db451c

@@ -28,7 +28,7 @@ export = async () => {
       subnetSpecs: config.subnetSpecs,
       subnetStrategy: config.subnetStrategy as SubnetAllocationStrategy,
       tags: {
-        Name: `${config.name}-${config.suffix}`
+        Name: config.name
       }
     },
     options

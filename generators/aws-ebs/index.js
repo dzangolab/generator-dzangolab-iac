@@ -7,13 +7,13 @@ export default class AWSEBSGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS EBS";
-    this.name = "aws-ebs";
+    this.name = "ebs";
 
     this.option("environment", {
       type: String,
       required: true,
       default: "staging",
-      desc: "environment."
+      desc: "Pulumi stack"
     });
   }
 
@@ -34,7 +34,7 @@ export default class AWSEBSGenerator extends PulumiGenerator {
 
 
     this.fs.copyTplAsync(
-      this.templatePath(this.name),
+      this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -51,7 +51,7 @@ export default class AWSEBSGenerator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       this.fs.copyTplAsync(
-        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
           ...this.options,

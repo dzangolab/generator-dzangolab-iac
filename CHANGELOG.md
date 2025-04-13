@@ -1,3 +1,42 @@
+## 1.0.0-rc26 (2025-04-13)
+
+* Aws nfs server (#79) 8103847, closes #79 #91 #81 #82 #83 #84 #85 #86 #87 #88 #89 #90
+* fix(aws/instance-profile): fix code style fb1e5c2
+
+
+
+## 1.0.0-rc25 (2025-04-05)
+
+* fix: fix bug in stack config generation process 62e236a
+* fix(aws/instance-profile): fix bug in stack config generation process a5250ea
+
+
+
+## 1.0.0-rc24 (2025-04-05)
+
+* fix(aws/security-group): remove suffix from stack config 91cc8d0
+* chore(do/swarm-leader): fix code style a9b6bd8
+
+
+
+## 1.0.0-rc23 (2025-04-05)
+
+* fix(aws): fix generator following name changes 7db451c
+
+
+
+## 1.0.0-rc22 (2025-04-05)
+
+* feat(aws): update generator names d3302f1
+
+
+
+## 1.0.0-rc21.7 (2025-04-05)
+
+* fix(aws/security-group): remove suffix from stack config 9435c68
+
+
+
 ## 1.0.0-rc21.6 (2025-04-05)
 
 * fix(aws/ebs): remove suffix from stack config cea555d

@@ -1,3 +1,10 @@
+## 1.0.0-rc26 (2025-04-13)
+
+* Aws nfs server (#79) 8103847, closes #79 #91 #81 #82 #83 #84 #85 #86 #87 #88 #89 #90
+* fix(aws/instance-profile): fix code style fb1e5c2
+
+
+
 ## 1.0.0-rc25 (2025-04-05)
 
 * fix: fix bug in stack config generation process 62e236a

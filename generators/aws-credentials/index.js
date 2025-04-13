@@ -7,7 +7,7 @@ class AWSCredentialsGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS credentials";
-    this.name = "aws-credentials";
+    this.name = "credentials";
 
     this.option("environment", {
       default: "staging",
@@ -48,7 +48,7 @@ class AWSCredentialsGenerator extends PulumiGenerator {
     this.log(`${chalk.green(message)}`);
 
     this.fs.copyTplAsync(
-      this.templatePath(this.name),
+      this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -65,11 +65,11 @@ class AWSCredentialsGenerator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       this.fs.copyTplAsync(
-        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
-          ...this.props,
           ...this.options,
+          ...this.props,
         }
       );
     }

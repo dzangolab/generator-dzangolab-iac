@@ -1,0 +1,21 @@
+config:
+  <%= projectName %>:ami: ami-xxxxxxxx
+  <%= projectName %>:availabilityZone: <%= availabilityZone %>
+  <%= projectName %>:disableApiTermination: false
+#  <%= projectName %>:instanceProfile: 
+  <%= projectName %>:instanceProfileStack: <%= prefix %>-instance-profile
+  <%= projectName %>:instanceType: <%= size %>
+  <%= projectName %>:keyName: KEYNAME
+  <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:protect: "false"
+  <%= projectName %>:retainOnDelete: "false"
+  <%= projectName %>:rootBlockDeviceSize: 20
+#  <%= projectName %>:securityGroupId: 
+  <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
+  <%= projectName %>:subnetId: subnet-xxxxxxxxx
+#  <%= projectName %>:tags:
+#    -
+#    -
+#  <%= projectName %>:volumeId: 
+  <%= projectName %>:volumeStack: <%= prefix %>-ebs

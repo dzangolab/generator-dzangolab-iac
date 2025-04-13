@@ -7,12 +7,13 @@ export default class AWSVPCGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS VPC";
-    this.name = "aws-vpc";
+    this.name = "vpc";
 
-    this.option("suffix", {
+    this.option("environment", {
       type: String,
-      default: "YYYYMMDD",
-      desc: "Timestamp using as suffix"
+      required: true,
+      default: "staging",
+      desc: "Pulumi stack"
     });
   }
 
@@ -33,7 +34,7 @@ export default class AWSVPCGenerator extends PulumiGenerator {
 
 
     this.fs.copyTplAsync(
-      this.templatePath(this.name),
+      this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -50,7 +51,7 @@ export default class AWSVPCGenerator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       this.fs.copyTplAsync(
-        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
           ...this.options,

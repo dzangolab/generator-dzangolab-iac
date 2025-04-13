@@ -1,6 +1,6 @@
-# DigitalOcean NFS Server
+# AWS NFS Server
 
-Provisions a NFS server on DigitalOcean.
+Provisions a NFS server on AWS.
 
 ## Requirements
 
@@ -12,7 +12,7 @@ Provisions a NFS server on DigitalOcean.
 
 ## Usage
 
-All commands must be run frominside the Pulumi project folder.
+All commands must be run from inside the Pulumi project folder.
 
 * Install dependencies 
 
@@ -20,7 +20,9 @@ All commands must be run frominside the Pulumi project folder.
 npm install
 ```
 
-* Copy `.env.example` to `.env` and update your DigitalOcean Personal Access Token.
+* Copy `.env.example` to `.env` and update the environment variables.
+
+* Log into or configure your AWS profile
 
 * If using the Pulumi cloud as backend, set the default organization 
 
@@ -31,11 +33,11 @@ pulumi org set-default {your organization}
 * Initialize and select the appropriate stack
 
 ```bash
-pulumi stack init [staging|production]
-pulumi stack select [staging|production]
+pulumi stack init {stack}
+pulumi stack select {stack}
 ```
 
-* Update the stack config `Pulimi.[staging|production].yaml` with the appropriate values for your project.
+* Update the stack config `Pulimi.{stack}.yaml` with the appropriate values for your project.
 
 * Run `pulumi up`
 
@@ -49,119 +51,40 @@ pulumi destroy
 
 ### NFS Server
 
-A DigitalOcean droplet.
+An AWS EC2 instance acting as an NFS server.
 
-### DigitalOcean project
-
-If `projectId` or `projectStack` are set in the stack config, the corresponding project will be associated with the droplet.
-
-If `projectId` is defined, then it will be assumed to be the id of the project.
-
-If `projectId` is not defined, then `projectStack` is examined.
-
-`projectStack` is expected to be in the form of `[project][:id_output`]`, where:
-
-* `project` is the name of the Pulumi project where the DigitalOcean project was provisioned. The default value is `<%= prefix %>-do-resources`.
-* `id_output` is the name of the output that represents the DigitalOcean Project's id. The default value is `projectId`.
-
-The organization and stack of the project are assumed to be identical to the droplet's organization and stack.
-
-### Reserved IP address
-
-If `reservedIpId` or `reservedIpStack` are set in the stack config, the corresponding reserved IP address will be associated with the droplet.
-
-If `reservedIpId` is defined, then it will be assumed to be the id of the reserved IP.
-
-If `reservedIpId` is not defined, then `reservedIpStack` is examined. 
-
-`reservedIpStack` is expected to be in the form of `[project][:id_output`]`, where:
-
-* `project` is the name of the Pulumi project where the reserved IP was provisioned. The default value is `<%= prefix %>--do-resources`.
-* `id_output` is the name of the output that represents the reserved IP's id. The default value is `reservedIpId`.
-
-The organization and stack of the reserved IP are assumed to be identical to the droplet's organization and stack.
-
-### Block volume
-
-If `blockVolumeId` or `blockVolumeStack` are set in the stack config, the volume will be attached to the droplet.
-
-The block volume is mounted in the `/mnt/data` folder. 
-
-If `blockVolumeId` is defined, then it will be assumed to be the id of the block volume. The name of the block volume will be read from the `blockVolumeName` stack config variable.
-
-If `blockVolumeId` is not defined, and if `blockVolumeStack` is defined, then `blockVolumeStack` is examined. 
-
-`blockVolumeStack` is expected to be in the form of `[project][:id_output, name_output`]`, where:
-
-* `project` is the name of the Pulumi project where the volume was provisioned. The default value is `<%= prefix %>-do-resources`.
-* `id_output` is the name of the output that represents the volume's id. The default value is `volumeId`.
-* `name_output`: is the name of the output that represents the volume's name. The default value is `volumeName`.
-
-The organization and stack of the volume are assumed to be identical to the droplet's organization and stack.
-
-### VPC
-
-If `vpcUuid` or `vpcStack` are set in the stack config, the droplet will be attached to the VPC.
-
-If `vpcId` is defined, then it will be assumed to be the id of the VPC.
-
-If `vpcId` is not defined, then `vpcStack` is examined. 
-
-`vpcStack` is expected to be in the form of `[project][:id_output`]`, where:
-
-* `project` is the name of the Pulumi project where the VPC was provisioned. The default value is `<%= prefix %>-do-resources`.
-* `id_output` is the name of the output that represents the VPC's id. The default value is `vpcId`.
-
-The organization and stack of the VPC are assumed to be identical to the droplet's organization and stack.
 
 ### Local command
 
-The droplet's SSH key will be added to the user's `~/.ssh/knwn_hosts` file when created.
+The instance's SSH key will be added to the user's `~/.ssh/knwn_hosts` file when created.
 
-The entry wil be deleted from `~/.ssh/known_hosts` when the droplet is destroyed.
+The entry wil be deleted from `~/.ssh/known_hosts` when the instsance is destroyed.
 
 Note: this only works for the user running the `pulumi up` or `pulumi destroy` command. 
 
-### User 
-
-If `username` is defined in the stack config, a user account of that name will be created on the droplet.
-
-The user will be added to the `sudo` group as well as to any other groups defined by the `userGroups` stack config variable. This variable's format is a comma-concatenated set of group names, eg `docker,wheel`.
-
-The mechanism to add SSH keys to the user does not use the SSH keys registered in DigitalOcean. Rather, the public keys are expected to be stored in a folder (specified via the `pathToSshKeysFolder` stack config variable). The keys to add to the user are defined by the `publicKeyNames` stack config variable. This variable's value is expected to be an array of filenames with the `.pub` extension omitted. 
-
-For example, if the SSHkeys folder contains the public key files `alice.pub` and `bob.pub`, then the `publicSShKeys` variable is an array containing any of the following values: `alice`, `bob`.
-
-### Root user
-
-If `username` is defined, then root's SSH access to the droplet will be disabled.
-
-DigitalOcean SSH keys will be added to the root account. The names of the SSH keys to add are defined by the `sshKeyNames` stack config variable.
-
-If none are defined, then root access will be password-based.
-
-### Firewall
-
-A DigitalOcean firewall is provisioned and associated with the droplet.
-
-The inbound rules restrict ingress to port 2049 to the droplet's VPC.
 
 ## Configuration settings
 
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| image | string | `ubuntu-24-10-x64` | DO dropletimage |
-| name | string | `{stack}` | DO droplet name | 
-| pathToSshKeysFolder | string | `../../ssh-keys` | Path to folder containing public key files |
-| projectId | string |  | Id of the DigitalOcean project to which the droplet is associated |
-| projectStack | string |  | Name of the Pulumi project where the DigitalOcean project was provisioned |
-| protect | boolean | false | Protect resources from accidental deletion |
-| publicKeyNames | string[] |  | Names of public SSH keys to attach to the droplet's user |
-provisioned |
-| retainOnDelete | boolean | false | Retain resources when destroyed |
-| size | number | `s-1vcpu-1gb` | Size of the droplet |
-| sshKeyNames | string[] | | Names of DigitalOcean SSH keys associated with the root user | 
-| userDataTemplate | string | `./cloud-config.njx` | Path to user data template |
-| volumeId | string | | Id of the block volume to attached to the droplet |
-| volumeStack | string | | Name of the Pulumi project in which the block volume was provisioned |
+| ami     | string | | AMI image to use for the instance |
+| availabilityZone | string | | AZ in which to launch the instance |
+| disableApiTermination | boolean | false | Disable instance API termination |
+| iamInstanceProfile | string | | Id of IAM instance profile associated with the instance |
+| iamInstanceProfileStack | string | Fully-qualified name of Puluni project provisioning the instance profile to use with the instance |
+| instanceType | string | | Instance type |
+| keyname | string | | Name of SSH key used to launch instance |
+| keypair | string | | Name of SSH keypair used to launch instance |
+| keypairsStack | string | | Fully-qualified name of Puluni project provisioning the SSH keypair to use with the instance |
+| monitoring | boolean | false | Enable instance monitoring |
+| name | string | | Resource name |
+| protect | boolean | false | Protect resource against accidental destruction |
+| retainOnDelete | boolean | false| Retain resource when stack is destroyed |
+| rootBlockDeviceSize | number | 20 | Size in Gb of root block device |
+| securityGroupId | string | | Id of security group id to add to the instance |
+| securityGroupStack | string | | Fully-qualified name of Pulumi project provisioning the security group to associate with the instance |
+| subnetId | string | | Id of subnet in which to provision the instance |
+| tags | string[] | | Tags to set on the instance. Includes `Name` tag |
+| volumeId | string | | Id of EBS block volume to add to the instance |
+| volumeStack | string | | Fully-qualified name of Pulumni project provisioning the EBS block volume to use |

@@ -19,29 +19,29 @@ export const getConfig = async () => {
   let availabilityZone = stackConfig.require("availabilityZone");
 
   /** Get instance profile */
-  let instanceProfile = stackConfig.get("instanceProfile");
+  let iamInstanceProfile = stackConfig.get("iamInstanceProfile");
 
-  if (!instanceProfile) {
+  if (!iamInstanceProfile) {
     const outputs = await getOutputs(
-      "instanceProfileStack",
+      "iamInstanceProfileStack",
       "id"
     );
 
-    instanceProfile = outputs ? outputs[0] : undefined;
+    iamInstanceProfile = outputs ? outputs[0] as string : undefined;
   }
 
   /** Get keypair */
-  const keypair = stackConfig.get("keypair");
+  let keypair = stackConfig.get("keypair");
 
   if (!keypair) {
     const keyName = stackConfig.require("keyName");
 
-    const outputs = await getOutputs(
+    const outputs = await getOutputs<{ [key: string]: string }>(
       "keypairsStack",
       keyName
     );
 
-    keypair = outputs ? outputs[0]["name"] : undefined;
+    keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
   /** Gets security group id */
@@ -53,7 +53,7 @@ export const getConfig = async () => {
       "id"
     );
 
-    securityGroupId = outputs ? outputs[0] : undefined;
+    securityGroupId = outputs ? outputs[0] as string : undefined;
   }
 
   /** Get subnet id **/
@@ -68,7 +68,7 @@ export const getConfig = async () => {
       "ids"
     );
 
-    volumeId = outputs ? outputs[0][0] : undefined;
+    volumeId = outputs ? outputs[0][0] as string : undefined;
   }
 
   /** Get user data **/
@@ -92,11 +92,9 @@ export const getConfig = async () => {
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
     availabilityZone,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
-    eip,
-    eipId,
-    instanceProfile,
+    iamInstanceProfile,
     instanceType: stackConfig.require("instanceType"),
-    keyName,
+    keypair,
     monitoring: stackConfig.getBoolean("monitoring"),
     name,
     protect: stackConfig.getBoolean("protect"),
@@ -106,7 +104,6 @@ export const getConfig = async () => {
     },
     securityGroupId,
     subnetId,
-    suffix: stackConfig.require("suffix"),
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
     volumeId,
@@ -131,10 +128,10 @@ function getValue<T>(input: StackReferenceOutputDetails, defaultValue?: T): T {
 
 const stacks: { [key: string]: StackReference } = {};
 
-async function getOutputs(
+async function getOutputs<T = string>(
   stackConfigVar: string,
   defaultOutputs: string
-): Promise<undefined | string[]> {
+): Promise<undefined | T[]> {
   const organization = getOrganization();
   const stack = getStack();
   const stackConfig = new Config();
@@ -174,7 +171,7 @@ async function getOutputs(
   for (var i = 0, name = null; name = outputNames[i]; i++) {
     const output = await otherStack.getOutputDetails(name);
 
-    outputs.push(getValue<string>(output) as string)
+    outputs.push(getValue<T>(output) as T)
   }
 
   return outputs;

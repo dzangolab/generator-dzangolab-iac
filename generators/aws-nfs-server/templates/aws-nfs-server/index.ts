@@ -1,11 +1,8 @@
 import {
-  EipAssociation,
   getSubnet,
   Instance,
-  SecurityGroup,
   VolumeAttachment
 } from "@pulumi/aws/ec2";
-import { local } from "@pulumi/command";
 import { interpolate } from "@pulumi/pulumi";
 
 import { getConfig } from "./config";
@@ -30,9 +27,9 @@ export = async () => {
       associatePublicIpAddress: config.associatePublicIpAddress,
       availabilityZone: config.availabilityZone,
       disableApiTermination: config.disableApiTermination,
-      iamInstanceProfile: config.instanceProfile,
+      iamInstanceProfile: config.iamInstanceProfile,
       instanceType: config.instanceType,
-      keyName: config.keyName,
+      keyName: config.keypair,
       monitoring: config.monitoring,
       rootBlockDevice: {
         ...config.rootBlockDevice,
@@ -47,7 +44,7 @@ export = async () => {
       },
       userData: config.userData,
       userDataReplaceOnChange: true,
-      vpcSecurityGroupIds: [securityGroupId],
+      vpcSecurityGroupIds: [config.securityGroupId as string],
     },
     options
   );
@@ -63,18 +60,6 @@ export = async () => {
       options
     );
   }
-
-  new local.Command(
-    "addOrRemoveDropletToOrFromKnownHosts",
-    {
-      create: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
-      delete: interpolate`sed -i -e '/^${config.eip} .*/d' ~/.ssh/known_hosts`,
-      update: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
-    },
-    {
-      dependsOn: instance,
-    },
-  );
 
   return {
     arn: interpolate`${instance.arn}`,

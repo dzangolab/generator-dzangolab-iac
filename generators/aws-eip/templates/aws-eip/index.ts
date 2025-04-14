@@ -15,7 +15,7 @@ export = async () => {
     `${config.name}`,
     {
       tags: {
-        Name: `${config.name}-${config.suffix}`,
+        Name: `${config.name}`,
       }
     },
     options

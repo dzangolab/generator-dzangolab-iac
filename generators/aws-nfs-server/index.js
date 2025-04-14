@@ -2,12 +2,24 @@ import chalk from "chalk";
 
 import PulumiGenerator from "../pulumi/index.js";
 
-export default class AWSECRGenerator extends PulumiGenerator {
+export default class AWSNFSServerGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.displayName = "AWS ECR";
-    this.name = "ecr";
+    this.displayName = "AWS NFS server";
+    this.name = "nfs-server";
+
+    this.option("availabilityZone", {
+      default: "ap-southeast-1a",
+      desc: "Available zone",
+      type: String,
+    });
+    
+    this.option("size", {
+      type: String,
+      default: "t4g.small",
+      desc: "Size of the NFS server"
+    });
   }
 
   async prompting() {

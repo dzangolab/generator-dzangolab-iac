@@ -9,6 +9,7 @@ import AWSECRGenerator from "../aws-ecr/index.js";
 import AWSEIPGenerator from "../aws-eip/index.js";
 import AWSGithubIdentityProviderGenerator from "../aws-github-identity-provider/index.js";
 import AWSInstanceProfileGenerator from "../aws-instance-profile/index.js";
+import AWSNFSServerGenerator from "../aws-nfs-server/index.js";
 import AWSResourcesGenerator from "../aws-resources/index.js";
 import AWSRoute53Generator from "../aws-route53/index.js";
 import AWSS3Generator from "../aws-s3/index.js";
@@ -100,6 +101,10 @@ export default class IaCGenerator extends Generator {
           {
             name: "AWS IAM instance profile",
             value: "aws-instance-profile"
+          },
+          {
+            name: "AWS NFS server",
+            value: "aws-nfs-server"
           },
           {
             name: "AWS resources",
@@ -204,6 +209,7 @@ export default class IaCGenerator extends Generator {
       "aws-eip": { Generator: AWSEIPGenerator, path: "../aws-eip/index.js" },
       "aws-github-idp": { Generator: AWSGithubIdentityProviderGenerator, path: "../aws-github-identity-provider/index.js" },
       "aws-instance-profile": { Generator: AWSInstanceProfileGenerator, path: "../aws-instance-profile/index.js" },
+      "aws-nfs-server": { Generator: AWSNFSServerGenerator, path: "../aws-nfs-server/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },
       "aws-route53": { Generator: AWSRoute53Generator, path: "../aws-route53/index.js" },
       "aws-s3": { Generator: AWSS3Generator, path: "../aws-s3/index.js" },
@@ -237,17 +243,7 @@ export default class IaCGenerator extends Generator {
         environment: this.props.environment,
         prefix,
         usePrefixInFolderName: this.props.usePrefixInFolderName,
-        versions: {
-          digitalocean: "^4",
-          dzangolab: "^0.33",
-          pulumi: "^3",
-          pulumi_aws: "^6",
-          pulumi_awsx: "^2.7",
-          pulumi_cloudflare: "^5",
-          types_node: "^22",
-        }
       }
     );
-
   }
 };

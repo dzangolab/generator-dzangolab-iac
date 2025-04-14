@@ -7,7 +7,7 @@ export default class AWSSESGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS SES";
-    this.name = "aws-ses";
+    this.name = "ses";
   }
 
   async prompting() {
@@ -27,7 +27,7 @@ export default class AWSSESGenerator extends PulumiGenerator {
 
 
     this.fs.copyTplAsync(
-      this.templatePath(this.name),
+      this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -44,7 +44,7 @@ export default class AWSSESGenerator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       this.fs.copyTplAsync(
-        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
           ...this.options,

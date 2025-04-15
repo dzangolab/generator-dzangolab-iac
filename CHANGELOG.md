@@ -1,3 +1,28 @@
+## 1.0.0-rc27 (2025-04-15)
+
+* Aws swarm/vpc (#66) 8e5821e, closes #66
+* Fix eip (#104) 5aa6f0c, closes #104
+* chore: adding aws-ebs to combined generator 6351a2f
+* chore: adding more to aws-swarm e3a2e9b
+* chore: adding more to aws-swarm 1486f27
+* chore: adding necessary vpc prompt 5c81a65
+* chore: adding vpc to the combined generator 39a7e62
+* chore: alphabetic order 57a220d
+* chore: alphabetic order aeb5b1e
+* chore: changing the list for aws-swarm (#65) 190c4c3, closes #65
+* chore: cleaning 1546d05
+* chore: correcting aws swarm e88abbc
+* chore: fix generator props e2fc8d5
+* chore: fix syntax (#73) 816885e, closes #73
+* chore: prompting for available zone 7d31436
+* chore: removed projectName option a2d68f4
+* chore: removed some resources from list de734f7
+* chore: update 1c3db37
+* feat: aws-swarm generator add aws-credentials and aws-resources 16557ec
+* feat: aws-swarm generator add aws-credentials and aws-resources 2c0eb11
+
+
+
 ## 1.0.0-rc26 (2025-04-13)
 
 * Aws nfs server (#79) 8103847, closes #79 #91 #81 #82 #83 #84 #85 #86 #87 #88 #89 #90

@@ -62,15 +62,19 @@ export const getConfig = async () => {
     instanceProfile = getValue<string>(instanceProfileOutput);
   }
 
-  /** Get keyName */
-  const keypairsProject = stackConfig.get("keypairsProject") || "aws-ssh-keypairs";
-  const keypairsStack = new StackReference(
-    `${organization}/${keypairsProject}/global`,
-  );
+  /** Get keypair */
+  let keypair = stackConfig.get("keypair");
 
-  const publicKeyName = stackConfig.require("keyName");
-  const keyNameOutput = await keypairsStack.getOutputDetails(publicKeyName);
-  const keyName = getValue<{ [key: string]: string }>(keyNameOutput)["name"];
+  if (!keypair) {
+    const keyName = stackConfig.require("keyName");
+
+    const outputs = await getOutputs<{ [key: string]: string }>(
+      "keypairsStack",
+      keyName
+    );
+
+    keypair = outputs ? outputs[0]["name"] as string : undefined;
+  }
 
   /** Gets security group id */
   let securityGroupId = stackConfig.get("securityGroupId");
@@ -126,7 +130,7 @@ export const getConfig = async () => {
     eipId,
     instanceProfile,
     instanceType: stackConfig.require("instanceType"),
-    keyName,
+    keypair,
     monitoring: stackConfig.getBoolean("monitoring"),
     name,
     protect: stackConfig.getBoolean("protect"),
@@ -136,7 +140,6 @@ export const getConfig = async () => {
     },
     securityGroupId,
     subnetId,
-    suffix: stackConfig.require("suffix"),
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
     volumeId,
@@ -157,6 +160,58 @@ function getValue<T>(input: StackReferenceOutputDetails, defaultValue?: T): T {
   }
 
   return defaultValue;
+}
+
+
+const stacks: { [key: string]: StackReference } = {};
+
+async function getOutputs<T = string>(
+  stackConfigVar: string,
+  defaultOutputs: string
+): Promise<undefined | T[]> {
+  const organization = getOrganization();
+  const stack = getStack();
+  const stackConfig = new Config();
+
+  const config = stackConfig.get(stackConfigVar);
+
+  if (!config) {
+    return undefined;
+  }
+
+  let [project, outputNamesString] = config.split(":");
+
+  if (!project) {
+    return undefined;
+  }
+
+  if (!outputNamesString) {
+    outputNamesString = defaultOutputs;
+  }
+
+  if (!outputNamesString) {
+    return undefined;
+  }
+
+  const outputNames = outputNamesString.split(",");
+
+  const stackName = `${organization}/${project}/${stack}`;
+  let otherStack = stacks[stackName];
+
+  if (!otherStack) {
+    otherStack = new StackReference(stackName);
+    stacks[stackName] = otherStack;
+  }
+
+  let outputs = [];
+
+  for (var i = 0, name = null; name = outputNames[i]; i++) {
+    const output = await otherStack.getOutputDetails(name);
+
+    outputs.push(getValue<T>(output) as T)
+  }
+
+  return outputs;
 }
 
 function generateUserData(

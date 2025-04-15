@@ -25,7 +25,7 @@ export = async () => {
       disableApiTermination: config.disableApiTermination,
       iamInstanceProfile: config.instanceProfile,
       instanceType: config.instanceType,
-      keyName: config.keyName,
+      keyName: config.keypair,
       monitoring: config.monitoring,
       rootBlockDevice: {
         ...config.rootBlockDevice,

@@ -1,0 +1,19 @@
+config:
+  <%= projectName %>:ami: ami-XXXXXXXXXXXXXXXXX
+  <%= projectName %>:availabilityZone: ap-southeast-1c
+  <%= projectName %>:disableApiTermination: false
+  <%= projectName %>:instanceProfileProject: <%= prefix %>-aws-instance-profile
+  <%= projectName %>:instanceType: t4g.small
+  <%= projectName %>:keyName: KEYNAME
+  <%= projectName %>:keypairsProject: <%= prefix %>-aws-ssh-keypairs
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:protect: false
+  <%= projectName %>:retainOnDelete: false
+  <%= projectName %>:rootBlockDeviceSize: 20
+  #  aws-nfs-server:securityGroupId: 
+  <%= projectName %>:securityGroupProject: <%= prefix %>-aws-security-group
+  <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
+  #  aws-nfs-server:tags:
+  #    -
+  #    -
+  <%= projectName %>:vpcProject: <%= prefix %>-aws-vpc

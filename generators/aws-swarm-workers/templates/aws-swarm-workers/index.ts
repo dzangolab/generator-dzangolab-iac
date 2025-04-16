@@ -1,9 +1,6 @@
 import {
-  EipAssociation,
   Instance,
-  VolumeAttachment
 } from "@pulumi/aws/ec2";
-import { local } from "@pulumi/command";
 import { interpolate } from "@pulumi/pulumi";
 
 import { getConfig } from "./config";
@@ -16,42 +13,56 @@ export = async () => {
     retainOnDelete: config.retainOnDelete,
   };
 
-  const instance = new Instance(
-    config.name,
-    {
-      ami: config.ami,
-      associatePublicIpAddress: config.associatePublicIpAddress,
-      availabilityZone: config.availabilityZone,
-      disableApiTermination: config.disableApiTermination,
-      iamInstanceProfile: config.instanceProfile,
-      instanceType: config.instanceType,
-      keyName: config.keypair,
-      monitoring: config.monitoring,
-      rootBlockDevice: {
-        ...config.rootBlockDevice,
-        tags: {
-          Name: `${config.name}-root-device`,
+  // Desired worker count
+  const count = config.count;
+
+  const workers = [];
+
+  for (let i = 1; i <= count; i++) {
+    const name = `${config.name}-worker-${i}`; // Ensure unique worker names
+
+    const instance = new Instance(
+      name,
+      {
+        ami: config.ami,
+        associatePublicIpAddress: config.associatePublicIpAddress,
+        availabilityZone: config.availabilityZone,
+        disableApiTermination: config.disableApiTermination,
+        iamInstanceProfile: config.instanceProfile,
+        instanceType: config.instanceType,
+        keyName: config.keypair,
+        monitoring: config.monitoring,
+        rootBlockDevice: {
+          ...config.rootBlockDevice,
+          tags: {
+            Name: `${config.name}-root-device`,
+          },
         },
+        subnetId: config.subnetId,
+        tags: {
+          Name: `${config.name}`,
+          ...config.tags,
+        },
+        userData: config.userData,
+        userDataReplaceOnChange: true,
+        vpcSecurityGroupIds: [config.securityGroupId],
       },
-      subnetId: config.subnetId,
-      tags: {
-        Name: `${config.name}`,
-        ...config.tags,
-      },
+      options
+    );
+
+
+    workers.push({
+      arn: interpolate`${instance.arn}`,
+      availabilityZone: interpolate`${instance.availabilityZone}`,
+      id: interpolate`${instance.id}`,
+      name: config.name,
+      publicIp: interpolate`${instance.publicIp}`,
       userData: config.userData,
-      userDataReplaceOnChange: true,
-      vpcSecurityGroupIds: [config.securityGroupId],
-    },
-    options
-  );
+      securityGroupId: config.securityGroupId,
+    });
+  }
 
   return {
-    arn: interpolate`${instance.arn}`,
-    availabilityZone: interpolate`${instance.availabilityZone}`,
-    id: interpolate`${instance.id}`,
-    name: config.name,
-    publicIp: interpolate`${instance.publicIp}`,
-    userData: config.userData,
-    securityGroupId: config.securityGroupId,
+    workers
   };
 }

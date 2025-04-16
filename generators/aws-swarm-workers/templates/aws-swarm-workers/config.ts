@@ -86,6 +86,7 @@ export const getConfig = async () => {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
     availabilityZone,
+    count: stackConfig.getNumber("count") || 1,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     instanceProfile,
     instanceType: stackConfig.require("instanceType"),

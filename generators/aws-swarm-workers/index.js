@@ -8,6 +8,18 @@ export default class AWSDockerSwarmWorkersGenerator extends PulumiGenerator {
 
     this.displayName = "AWS swarm workers";
     this.name = "swarm-workers";
+
+    this.option("count", {
+      type: String,
+      default: "2",
+      desc: "Number of worker nodes to provision"
+    });
+
+    this.option("keyName", {
+      type: String,
+      default: "KEYNAME",
+      desc: "Name of user account to create on droplet"
+    });
   }
 
   async prompting() {

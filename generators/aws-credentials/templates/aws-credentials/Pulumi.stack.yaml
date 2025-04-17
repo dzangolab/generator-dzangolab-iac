@@ -10,4 +10,4 @@ config:
     # }    
   <%= projectName %>:protect: "false"
   <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:timestamp: "<%= timestamp %>""
+  <%= projectName %>:timestamp: "<%= timestamp %>"

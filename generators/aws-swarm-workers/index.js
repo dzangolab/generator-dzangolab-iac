@@ -2,23 +2,23 @@ import chalk from "chalk";
 
 import PulumiGenerator from "../pulumi/index.js";
 
-export default class AWSResourcesGenerator extends PulumiGenerator {
+export default class AWSDockerSwarmWorkersGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.displayName = "AWS resources";
-    this.name = "aws-resources";
+    this.displayName = "AWS swarm workers";
+    this.name = "swarm-workers";
 
-    this.option("environment", {
+    this.option("count", {
       type: String,
-      default: "staging",
-      desc: "environment"
+      default: "2",
+      desc: "Number of worker nodes to provision"
     });
 
-    this.option("projectName", {
-      default: this._getDefaultProjectName(),
-      desc: "Pulumi project name",
+    this.option("keyName", {
       type: String,
+      default: "KEYNAME",
+      desc: "Name of user account to create on droplet"
     });
   }
 
@@ -33,13 +33,13 @@ export default class AWSResourcesGenerator extends PulumiGenerator {
     ]);
   };
 
-  async writing() {
+  writing() {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
 
-    await this.fs.copyTplAsync(
-      this.templatePath(this.name),
+    this.fs.copyTplAsync(
+      this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -56,7 +56,7 @@ export default class AWSResourcesGenerator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       this.fs.copyTplAsync(
-        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
           ...this.options,

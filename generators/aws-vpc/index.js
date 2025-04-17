@@ -28,12 +28,12 @@ export default class AWSVPCGenerator extends PulumiGenerator {
     ]);
   };
 
-  writing() {
+  async writing() {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
 
-    this.fs.copyTplAsync(
+    await this.fs.copyTplAsync(
       this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {

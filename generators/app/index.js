@@ -4,6 +4,7 @@ import AnsibleDOGenerator from "../ansible-do/index.js";
 import AnsibleAWSGenerator from "../ansible-aws/index.js";
 import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSDockerSwarmLeaderGenerator from "../aws-swarm-leader/index.js";
+import AWSDockerSwarmWorkersGenerator from "../aws-swarm-workers/index.js";
 import AWSEBSGenerator from "../aws-ebs/index.js";
 import AWSECRGenerator from "../aws-ecr/index.js";
 import AWSEIPGenerator from "../aws-eip/index.js";
@@ -86,6 +87,10 @@ export default class IaCGenerator extends Generator {
           {
             name: "AWS Docker swarm leader",
             value: "aws-swarm-leader"
+          },
+          {
+            name: "AWS Docker swarm workers",
+            value: "aws-swarm-workers"
           },
           {
             name: "AWS EBS",
@@ -224,6 +229,7 @@ export default class IaCGenerator extends Generator {
       "aws-swarm": { Generator: AWSSwarmGenerator, path: "../aws-swarm/index.js" },
       "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },
       "aws-swarm-nodes": { Generator: AWSSwarmNodes, path: "../aws-swarm-nodes/index.js" },
+      "aws-swarm-workers": { Generator: AWSDockerSwarmWorkersGenerator, path: "../aws-swarm-workers/index.js" },
       "aws-vpc": { Generator: AWSVPCGenerator, path: "../aws-vpc/index.js" },
       "cloudflare-dns": { Generator: CloudflareDNSGenerator, path: "../cloudflare-dns/index.js" },
       "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },

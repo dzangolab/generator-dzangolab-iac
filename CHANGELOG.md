@@ -21,6 +21,11 @@
 * feat: aws-swarm generator add aws-credentials and aws-resources 16557ec
 * feat: aws-swarm generator add aws-credentials and aws-resources 2c0eb11
 
+## 1.0.0-rc27 (2025-04-16)
+
+* Fix eip (#104) 5aa6f0c, closes #104
+* chore: fix syntax (#73) 816885e, closes #73
+
 
 
 ## 1.0.0-rc26 (2025-04-13)
@@ -390,6 +395,3 @@
 * **do-database-cluster:** add do-database-cluster generator e89f611
 * **do-swarm-leader:**  init docker swarm 79508bb
 * update main generator f63782d
-
-
-

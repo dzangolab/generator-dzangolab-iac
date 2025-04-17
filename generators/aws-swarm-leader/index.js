@@ -29,7 +29,12 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
         message: "Enter the name of the pulumi project",
         name: "projectName",
         type: "input",
-      }
+      },
+      {
+        message: "What ami is used for swarm-leader",
+        name: "ami",
+        type: "input",
+      },
     ]);
   };
 
@@ -59,8 +64,8 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
         `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
-          ...this.props,
           ...this.options,
+          ...this.props,
         }
       );
     }

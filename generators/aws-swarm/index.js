@@ -7,7 +7,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "Aws swarm";
-    this.name = "aws-swarm";
+    this.name = "swarm";
     this.resourcesList = [
       // "ansible-aws",
       // "aws-ebs",
@@ -62,9 +62,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       // "aws-swarm-leader": {
       //   environment: this.props.environment,
       // },
-      "aws-vpc": {
-        suffix: this.props.suffix
-      },
+      "aws-vpc": {},
     };
 
     // Compose with each resource generator
@@ -79,7 +77,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       });
 
       this.fs.copyTpl(
-        this.templatePath("aws-swarm/README.md"),
+        this.templatePath(`aws-${this.name}/README.md`),
         this.destinationPath("README.md"),
         {
         }

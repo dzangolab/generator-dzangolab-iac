@@ -97,8 +97,8 @@ export const getConfig = async () => {
       `${organization}/${ebsProject}/${stack}`,
     );
 
-    const volumeIdsOutput = await ebsStack.getOutputDetails("ids");
-    volumeId = getValue<string[]>(volumeIdsOutput)[0];
+    const volumeIdOutput = await ebsStack.getOutputDetails("id");
+    volumeId = getValue<string[]>(volumeIdOutput);
   }
 
   /** Get user data **/

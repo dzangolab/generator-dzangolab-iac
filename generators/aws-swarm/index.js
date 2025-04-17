@@ -14,7 +14,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       "aws-eip",
       // aws-nfs-server
       "aws-resources",
-      // "aws-route53",
+      "aws-route53",
       // "aws-security-group",
       // "aws-swarm-leader",
       "aws-vpc",
@@ -27,6 +27,12 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         default: "ap-southeast-1a",
         message: "Availability Zone for ebs and swarm-leader",
         name: "availabilityZones",
+        type: "input",
+      },
+      {
+        message: "Enter domain",
+        name: "domain",
+        required: true,
         type: "input",
       },
     ]);
@@ -49,9 +55,9 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       //   environment: this.props.environment,
       // },
       "aws-resources": {},
-      // "aws-route53": {
-      //   environment: this.props.environment,
-      // },
+      "aws-route53": {
+        domain: this.props.domain,
+      },
       // "aws-security-group": {
       //   environment: this.props.environment,
       // },

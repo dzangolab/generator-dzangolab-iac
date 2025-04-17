@@ -25,7 +25,7 @@ export const getConfig = async () => {
       "projectStack",
       "projectId"
     );
-    
+
     projectId = outputs ? outputs[0] : undefined;
   }
 
@@ -61,7 +61,7 @@ export const getConfig = async () => {
     blockVolumeId = outputs ? outputs[0] : undefined;
     blockVolumeName = outputs ? outputs[1] : undefined;
   }
-  
+
   let vpcId = stackConfig.get("vpcId");
   let vpcIpRange = undefined as unknown as string;
 
@@ -76,6 +76,7 @@ export const getConfig = async () => {
       vpcIpRange = outputs[1] as string;
     }
   }
+
   return {
     image: stackConfig.require("image"),
     name: stackConfig.get("name") || stack,
@@ -94,7 +95,7 @@ export const getConfig = async () => {
         username,
         groups,
         publicKeys: getPublicKeys(publicKeyNames, pathToSshKeysFolder)
-        
+
       },
     ],
     volumeIds: blockVolumeId ? [blockVolumeId] : [],
@@ -148,7 +149,7 @@ async function getOutputs(
   if (!project) {
     return undefined;
   }
-  
+
   if (!outputNamesString) {
     outputNamesString = defaultOutputs;
   }
@@ -156,9 +157,9 @@ async function getOutputs(
   if (!outputNamesString) {
     return undefined;
   }
-  
-  
-  const outputNames = outputNamesString.split(","); 
+
+
+  const outputNames = outputNamesString.split(",");
 
   const stackName = `${organization}/${project}/${stack}`;
   let otherStack = stacks[stackName];
@@ -172,7 +173,7 @@ async function getOutputs(
 
   for (var i = 0, name = null; name = outputNames[i]; i++) {
     const output = await otherStack.getOutputDetails(name);
-    
+
     outputs.push(getValue<string>(output) as string)
   }
 

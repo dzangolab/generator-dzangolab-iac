@@ -7,7 +7,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "Aws swarm";
-    this.name = "aws-swarm";
+    this.name = "swarm";
     this.resourcesList = [
       // "ansible-aws",
       "aws-ebs",
@@ -24,14 +24,8 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
   async prompting() {
     this.props = await this._optionOrPrompt([
       {
-        default: "YYYYMMDD",
-        message: "What is the suffix used for the project",
-        name: "suffix",
-        type: "input",
-      },
-      {
         default: "ap-southeast-1a",
-        message: "What zone is available for ebs and swarm-leader",
+        message: "Availability Zone for ebs and swarm-leader",
         name: "availabilityZones",
         type: "input",
       },
@@ -49,11 +43,8 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       // },
       "aws-ebs": {
         availabilityZones: this.props.availabilityZones,
-        suffix: this.props.suffix
       },
-      "aws-eip": {
-        suffix: this.props.suffix
-      },
+      "aws-eip": {},
       // "aws-nfs-server": {
       //   environment: this.props.environment,
       // },
@@ -69,9 +60,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       // "aws-swarm-leader": {
       //   environment: this.props.environment,
       // },
-      "aws-vpc": {
-        suffix: this.props.suffix
-      },
+      "aws-vpc": {},
     };
 
     // Compose with each resource generator
@@ -86,7 +75,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       });
 
       this.fs.copyTpl(
-        this.templatePath("aws-swarm/README.md"),
+        this.templatePath(`aws-${this.name}/README.md`),
         this.destinationPath("README.md"),
         {
         }

@@ -136,7 +136,6 @@ export const getConfig = async () => {
     },
     securityGroupId,
     subnetId,
-    suffix: stackConfig.require("suffix"),
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
     volumeId,

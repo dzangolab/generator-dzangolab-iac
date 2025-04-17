@@ -20,12 +20,6 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
       default: "t4g.small",
       desc: "Size of the swarm leader"
     });
-    
-    this.option("suffix", {
-      type: String,
-      default: "YYYYMMDD",
-      desc: "Timestamp using as suffix"
-    });
   }
 
   async prompting() {

@@ -9,11 +9,25 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
     this.displayName = "AWS swarm leader";
     this.name = "swarm-leader";
 
-    this.option("environment", {
+    this.option("availabilityZone", {
+      default: "ap-southeast-1a",
+      desc: "Available zone",
       type: String,
+    });
+
+    this.option("ami", {
+      default: "ami-0315d75b2c11ff409",
+      message: "What ami is used for swarm-leader (default: Amazon Linux 2023 64-bit (ARM))",
+      name: "ami",
       required: true,
-      default: "staging",
-      desc: "Pulumi stack"
+      type: String,
+    });
+
+    this.option("size", {
+      default: "t4g.small",
+      desc: "Size of the swarm leader",
+      required: true,
+      type: String,
     });
   }
 
@@ -24,7 +38,24 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
         message: "Enter the name of the pulumi project",
         name: "projectName",
         type: "input",
-      }
+      },
+      {
+        message: "Availability Zone",
+        name: "availabilityZone",
+        required: true,
+        type: "input",
+      },
+      {
+        message: "What ami is used for swarm-leader",
+        name: "ami",
+        type: "input",
+      },
+      {
+        default: "t4g.small",
+        message: "Size of swarm leader",
+        name: "size",
+        type: "input",
+      },
     ]);
   };
 

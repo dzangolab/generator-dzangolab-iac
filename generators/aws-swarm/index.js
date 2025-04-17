@@ -16,7 +16,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       "aws-resources",
       "aws-route53",
       "aws-security-group",
-      // "aws-swarm-leader",
+      "aws-swarm-leader",
       "aws-vpc",
     ];
   }
@@ -30,9 +30,21 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         type: "input",
       },
       {
+        default: "ami-0315d75b2c11ff409",
+        message: "What ami is used for swarm-leader (default: Amazon Linux 2023 64-bit (ARM))",
+        name: "ami",
+        required: true,
+        type: "input",
+      },
+      {
+        default: "t4g.small",
+        message: "What is the size used for the swarm leader",
+        name: "size_leader",
+        type: "input",
+      },
+      {
         message: "Enter domain",
         name: "domain",
-        required: true,
         type: "input",
       },
     ]);
@@ -59,9 +71,11 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         domain: this.props.domain,
       },
       "aws-security-group": {},
-      // "aws-swarm-leader": {
-      //   environment: this.props.environment,
-      // },
+      "aws-swarm-leader": {
+        ami: this.props.ami,
+        availabilityZone: this.props.availabilityZones,
+        size: this.props.size_leader,
+      },
       "aws-vpc": {},
     };
 

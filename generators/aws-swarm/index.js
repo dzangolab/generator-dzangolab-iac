@@ -44,7 +44,9 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
 
     // Define specific properties for each generator
     const generatorsProps = {
-      "ansible-aws": {},
+      "ansible-aws": {
+        domain: this.props.domain,
+      },
       "aws-ebs": {
         availabilityZones: this.props.availabilityZones,
       },

@@ -8,13 +8,6 @@ export default class AWSVPCGenerator extends PulumiGenerator {
 
     this.displayName = "AWS VPC";
     this.name = "vpc";
-
-    this.option("environment", {
-      type: String,
-      required: true,
-      default: "staging",
-      desc: "Pulumi stack"
-    });
   }
 
   async prompting() {

@@ -8,13 +8,6 @@ export default class AWSEIPGenerator extends PulumiGenerator {
 
     this.displayName = "AWS EIP";
     this.name = "eip";
-
-    this.option("environment", {
-      default: "staging",
-      desc: "Pulumi stack",
-      required: true,
-      type: String,
-    });
   }
 
   async prompting() {

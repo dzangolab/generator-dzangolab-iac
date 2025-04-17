@@ -14,13 +14,6 @@ export default class AWSEBSGenerator extends PulumiGenerator {
       desc: "Available zone",
       type: String,
     });
-
-    this.option("environment", {
-      default: "staging",
-      desc: "Pulumi stack",
-      required: true,
-      type: String,
-    });
   }
 
   async prompting() {

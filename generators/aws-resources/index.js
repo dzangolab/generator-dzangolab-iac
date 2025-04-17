@@ -7,14 +7,7 @@ export default class AWSResourcesGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS resources";
-    this.name = "aws-resources";
-    
-    this.option("environment", {
-      type: String,
-      required: true,
-      default: "staging",
-      desc: "Pulumi stack"
-    });
+    this.name = "resources";
   }
 
   async prompting() {
@@ -34,7 +27,7 @@ export default class AWSResourcesGenerator extends PulumiGenerator {
 
 
     await this.fs.copyTplAsync(
-      this.templatePath(this.name),
+      this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -51,7 +44,7 @@ export default class AWSResourcesGenerator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       this.fs.copyTplAsync(
-        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
           ...this.options,

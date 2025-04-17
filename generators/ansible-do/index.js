@@ -6,13 +6,11 @@ export default class AnsibleDOGenerator extends PulumiGenerator {
 
     this.option("email", {
       type: String,
-      default: "",
       desc: "LetsEncrypt email"
     });
 
     this.option("domain", {
       type: String,
-      default: "DOMAIN",
       desc: "Root domain of web services and apps"
     });
 
@@ -24,7 +22,6 @@ export default class AnsibleDOGenerator extends PulumiGenerator {
     
     this.option("username", {
       type: String,
-      default: "USERNAME",
       desc: "Name of user account on droplet"
     });
   };
@@ -43,6 +40,7 @@ export default class AnsibleDOGenerator extends PulumiGenerator {
       },
       {
         message: "Use an NFS server for docker volumes:",
+        default: false,
         name: "useNfs",
         type: "input",
       },
@@ -54,8 +52,8 @@ export default class AnsibleDOGenerator extends PulumiGenerator {
     ]);
   };
 
-  writing() {
-      this.fs.copyTplAsync(
+  async writing() {
+    await this.fs.copyTplAsync(
       this.templatePath("ansible/stack"),
       this.destinationPath(`ansible/${this.options.environment}`),
       {

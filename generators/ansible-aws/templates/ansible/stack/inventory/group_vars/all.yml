@@ -2,7 +2,7 @@ deploy_dir: /mnt/data
 deploy_group: adm
 deploy_user: ec2-user
 
-domain: DOMAIN
+domain: <%= domain %>
 
 minio_enabled: false
 

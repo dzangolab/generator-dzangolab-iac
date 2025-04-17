@@ -97,13 +97,13 @@ export const getConfig = async () => {
       `${organization}/${ebsProject}/${stack}`,
     );
 
-    const volumeIdsOutput = await ebsStack.getOutputDetails("ids");
-    volumeId = getValue<string[]>(volumeIdsOutput)[0];
+    const volumeIdOutput = await ebsStack.getOutputDetails("id");
+    volumeId = getValue<string[]>(volumeIdOutput);
   }
 
   /** Get user data **/
   const userData = generateUserData(
-    stackConfig.get("userDataTemplate") || "./cloud-config.njx",
+    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
     {
       packages: stackConfig.getObject<string[]>("packages"),
       volumes: [
@@ -136,7 +136,6 @@ export const getConfig = async () => {
     },
     securityGroupId,
     subnetId,
-    suffix: stackConfig.require("suffix"),
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
     volumeId,

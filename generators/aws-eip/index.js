@@ -7,13 +7,7 @@ export default class AWSEIPGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS EIP";
-    this.name = "aws-eip";
-
-    this.option("suffix", {
-      type: String,
-      default: "YYYYMMDD",
-      desc: "Timestamp using as suffix"
-    });
+    this.name = "eip";
   }
 
   async prompting() {
@@ -27,13 +21,13 @@ export default class AWSEIPGenerator extends PulumiGenerator {
     ]);
   };
 
-  writing() {
+  async writing() {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
 
-    this.fs.copyTplAsync(
-      this.templatePath(this.name),
+    await this.fs.copyTplAsync(
+      this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -50,11 +44,11 @@ export default class AWSEIPGenerator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       this.fs.copyTplAsync(
-        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
-          ...this.props,
           ...this.options,
+          ...this.props,
         }
       );
     }

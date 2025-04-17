@@ -1,3 +1,153 @@
+## 1.0.0-rc27 (2025-04-15)
+
+* Aws swarm/vpc (#66) 8e5821e, closes #66
+* Fix eip (#104) 5aa6f0c, closes #104
+* chore: adding aws-ebs to combined generator 6351a2f
+* chore: adding more to aws-swarm e3a2e9b
+* chore: adding more to aws-swarm 1486f27
+* chore: adding necessary vpc prompt 5c81a65
+* chore: adding vpc to the combined generator 39a7e62
+* chore: alphabetic order 57a220d
+* chore: alphabetic order aeb5b1e
+* chore: changing the list for aws-swarm (#65) 190c4c3, closes #65
+* chore: cleaning 1546d05
+* chore: correcting aws swarm e88abbc
+* chore: fix generator props e2fc8d5
+* chore: fix syntax (#73) 816885e, closes #73
+* chore: prompting for available zone 7d31436
+* chore: removed projectName option a2d68f4
+* chore: removed some resources from list de734f7
+* chore: update 1c3db37
+* feat: aws-swarm generator add aws-credentials and aws-resources 16557ec
+* feat: aws-swarm generator add aws-credentials and aws-resources 2c0eb11
+
+## 1.0.0-rc27 (2025-04-16)
+
+* Fix eip (#104) 5aa6f0c, closes #104
+* chore: fix syntax (#73) 816885e, closes #73
+
+
+
+## 1.0.0-rc26 (2025-04-13)
+
+* Aws nfs server (#79) 8103847, closes #79 #91 #81 #82 #83 #84 #85 #86 #87 #88 #89 #90
+* fix(aws/instance-profile): fix code style fb1e5c2
+
+
+
+## 1.0.0-rc25 (2025-04-05)
+
+* fix: fix bug in stack config generation process 62e236a
+* fix(aws/instance-profile): fix bug in stack config generation process a5250ea
+
+
+
+## 1.0.0-rc24 (2025-04-05)
+
+* fix(aws/security-group): remove suffix from stack config 91cc8d0
+* chore(do/swarm-leader): fix code style a9b6bd8
+
+
+
+## 1.0.0-rc23 (2025-04-05)
+
+* fix(aws): fix generator following name changes 7db451c
+
+
+
+## 1.0.0-rc22 (2025-04-05)
+
+* feat(aws): update generator names d3302f1
+
+
+
+## 1.0.0-rc21.7 (2025-04-05)
+
+* fix(aws/security-group): remove suffix from stack config 9435c68
+
+
+
+## 1.0.0-rc21.6 (2025-04-05)
+
+* fix(aws/ebs): remove suffix from stack config cea555d
+
+
+
+## 1.0.0-rc21.5 (2025-04-05)
+
+
+
+
+## 1.0.0-rc21.4 (2025-04-05)
+
+* fix(aws/ebs): fix bug in stack config generation process 6aa32e3
+* fix(aws/ebs): remove suffix from stack config 67bc860
+
+
+
+## 1.0.0-rc21.3 (2025-04-05)
+
+* fix(aws/vpc): remove suffix from stack config a836325
+
+
+
+## 1.0.0-rc21.2 (2025-04-05)
+
+* fix(aws/vpc): fix bug in stack config generation process 640a534
+* fix(aws/vpc): update stack config ca89319
+
+
+
+## 1.0.0-rc21.1 (2025-04-05)
+
+* fix(aws/ssh-keypairs): fix generator 652592c
+
+
+
+## 1.0.0-rc21.0 (2025-03-29)
+
+* fix(pulumi-s3-backend): fix script style (#88) db5fa67, closes #88
+
+
+
+## 1.0.0-rc21 (2025-03-29)
+
+* feat(pulumi-s3-backend): fix stack config template and docs (#86) 5a15325, closes #86
+
+
+
+## 1.0.0-rc20 (2025-03-29)
+
+* fix(pulumi-s3-backend): fix project name in generated stack config (#84) c52b761, closes #84
+
+
+
+## 1.0.0-rc19 (2025-03-29)
+
+* fix(PulumiGenerator): update template prompting code 3727da3
+
+
+
+## 1.0.0-rc18 (2025-03-29)
+
+* feat: add mariadb playbook (#58) ca62248, closes #58
+* feat: add support for versions (#81) b37732b, closes #81
+* feat(aws/credentials): add support for password-specific constraints (#61) c4d7d86, closes #61
+* fix: ansible generator nfs and swarm (#53) c78b9e3, closes #53
+* fix: ansible traefik playbook (#55) 94f0e47, closes #55
+* fix: fix order options and props (#76) 89d7201, closes #76
+* fix: fix swarm playbook (#62) 924d5c5, closes #62
+* fix: fixing firewall (#49) 5826a78, closes #49
+* fix: leader groups in cloud config (#54) 1f79bee, closes #54
+* fix(pulumi-s3-backend): add support for passphrase secrets provider (#51) 4c14af8, closes #51
+* fix(pulumi-s3-backend): fix output c75cbb6
+* Do ansible (#60) 24ccf27, closes #60
+* Do nfs postgres (#56) b634ff1, closes #56
+* DO swarm Create new combined generator (#33) ae1509e, closes #33 #47
+* chore: adding useNfs variable to swarm leader (#52) 983825b, closes #52
+
+
+
 ## 1.0.0-rc17 (2025-02-23)
 
 * chore: branch fixing update-do-swarm-workers (#45) d848ce8, closes #45
@@ -245,6 +395,3 @@
 * **do-database-cluster:** add do-database-cluster generator e89f611
 * **do-swarm-leader:**  init docker swarm 79508bb
 * update main generator f63782d
-
-
-

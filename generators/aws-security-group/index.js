@@ -7,7 +7,7 @@ export default class AWSSecurityGroupGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS security group";
-    this.name = "aws-security-group";
+    this.name = "security-group";
   }
 
   async prompting() {
@@ -21,13 +21,13 @@ export default class AWSSecurityGroupGenerator extends PulumiGenerator {
     ]);
   };
 
-  writing() {
+  async writing() {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
 
-    this.fs.copyTplAsync(
-      this.templatePath(this.name),
+    await this.fs.copyTplAsync(
+      this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -44,11 +44,11 @@ export default class AWSSecurityGroupGenerator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       this.fs.copyTplAsync(
-        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
-          ...this.props,
           ...this.options,
+          ...this.props,
         }
       );
     }

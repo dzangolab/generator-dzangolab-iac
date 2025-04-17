@@ -43,12 +43,12 @@ export default class PulumiS3BAckendGenerator extends PulumiGenerator {
     ]);
   };
 
-  writing() {
+  async writing() {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
 
-    this.fs.copyTplAsync(
+    await this.fs.copyTplAsync(
       this.templatePath(this.name),
       this.destinationPath(this._getFolderName()),
       {
@@ -69,8 +69,8 @@ export default class PulumiS3BAckendGenerator extends PulumiGenerator {
         `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
-          ...this.props,
           ...this.options,
+          ...this.props,
         }
       );
     }

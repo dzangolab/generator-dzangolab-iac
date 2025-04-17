@@ -11,7 +11,6 @@ export default class AWSRoute53Generator extends PulumiGenerator {
 
     this.option("domain", {
       type: String,
-      default: "MYDOMAIN.COM",
       desc: "Name of the domain"
     });
   }
@@ -23,17 +22,23 @@ export default class AWSRoute53Generator extends PulumiGenerator {
         message: "Enter the name of the pulumi project",
         name: "projectName",
         type: "input",
+      },
+      {
+        message: "Enter domain",
+        name: "domain",
+        required: true,
+        type: "input",
       }
     ]);
   };
 
-  writing() {
+  async writing() {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
 
-    this.fs.copyTplAsync(
-      this.templatePath(this.name),
+    await this.fs.copyTplAsync(
+      this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -50,11 +55,11 @@ export default class AWSRoute53Generator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       this.fs.copyTplAsync(
-        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
-          ...this.props,
           ...this.options,
+          ...this.props,
         }
       );
     }

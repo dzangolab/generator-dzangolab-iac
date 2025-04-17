@@ -25,28 +25,21 @@ export const getConfig = async () => {
   const organization = getOrganization();
   const stack = getStack();
   const stackConfig = new Config();
-  const awsResourcesProject = stackConfig.get("awsResourcesProject") || "aws-resources";
   const doDatabaseClusterProject = stackConfig.get("doDatabaseClusterProject");
 
-  const resourcesStack = new StackReference(
-    `${organization}/${awsResourcesProject}/${stack}`,
-  );
-
-  const secretArnOutput = await resourcesStack.getOutputDetails("secretArn");
-  const secretArn = getValue<string>(secretArnOutput);
-
+  let secretArn = stackConfig.get("secretArn");
   let sesSmtpUser: string | undefined = undefined;
+  let username = stackConfig.get("username");
 
-  try {
-    const sesSmtpUsernameOutput = await resourcesStack.getOutputDetails("sesSmtpUsername");
-
-    sesSmtpUser = getValue<string>(sesSmtpUsernameOutput);
-  } catch (e) {
-    // Do nothing
+  if (!secretArn) {
+    const outputs = await getOutputs(
+      "awsResourcesStack",
+      "secretArn,sesSmtpUser,username"
+    );
+    secretArn = outputs ? outputs[0] as string : undefined;
+    sesSmtpUser = outputs ? outputs[1] as string : undefined;
+    username = outputs ? outputs[2] as string : undefined;
   }
-
-  const usernameOutput = await resourcesStack.getOutputDetails("username");
-  const username = getValue<string>(usernameOutput);
 
   let config: { [key: string]: any } = {
     name: stackConfig.get("name") || stack,
@@ -77,6 +70,61 @@ export const getConfig = async () => {
 
   return config;
 };
+
+const stacks: { [key: string]: StackReference } = {};
+
+async function getOutputs<T = string>(
+  stackConfigVar: string,
+  defaultOutputNames: string
+): Promise<undefined | T[]> {
+
+  const organization = getOrganization();
+  const stack = getStack();
+  const stackConfig = new Config();
+
+  const config = stackConfig.get(stackConfigVar);
+  if (!config) {
+    return undefined;
+  }
+
+  let [project, outputNamesString] = config.split(":");
+
+  if (!project) {
+    return undefined;
+  }
+
+  if (!outputNamesString) {
+    outputNamesString = defaultOutputNames;
+  }
+
+  if (!outputNamesString) {
+    return undefined;
+  }
+
+  const outputNames = outputNamesString.split(",");
+
+  const stackName = `${organization}/${project}/${stack}`;
+  let otherStack = stacks[stackName];
+
+  if (!otherStack) {
+    otherStack = new StackReference(stackName);
+    stacks[stackName] = otherStack;
+  }
+
+  let outputs = [];
+
+  for (var i = 0, name = null; name = outputNames[i]; i++) {
+    const output = await otherStack.getOutputDetails(name);
+    if (output.value != undefined) {
+      outputs.push(getValue<T>(output) as T)
+    }
+    else {
+      outputs.push(undefined as unknown as T)
+    }
+  }
+
+  return outputs;
+}
 
 function getValue<T>(input: StackReferenceOutputDetails, defaultValue?: T): T {
   if (input && input.value) {

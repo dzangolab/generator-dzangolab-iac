@@ -10,10 +10,10 @@ export default class AWSEIPGenerator extends PulumiGenerator {
     this.name = "eip";
 
     this.option("environment", {
-      type: String,
-      required: true,
       default: "staging",
-      desc: "Pulumi stack"
+      desc: "Pulumi stack",
+      required: true,
+      type: String,
     });
   }
 

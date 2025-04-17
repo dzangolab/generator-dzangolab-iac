@@ -1,3 +1,14 @@
+## 1.0.0-rc28 (2025-04-17)
+
+* chore: adding default value (#78) 45469a4, closes #78
+* chore: changed references stack  using getouputs and fix (#109) 60e13df, closes #109
+* Aws swarm workers (#107) ef33d61, closes #107
+* Aws swarm/base (#111) 2e69aa9, closes #111 #65
+* fix: fixed ansible default value and async await (#110) 5c44030, closes #110
+* fix: fixing generators by using async await (#108) aade0be, closes #108
+
+
+
 ## 1.0.0-rc27 (2025-04-15)
 
 * Aws swarm/vpc (#66) 8e5821e, closes #66

@@ -40,6 +40,7 @@ export default class DigitalOceanNFSServerGenerator extends PulumiGenerator {
     });
 
     this.option("username", {
+      default: "USERNAME",
       desc: "Name of user account to create on droplet",
       type: String,
     });

@@ -16,7 +16,7 @@ export = async () => {
   };
 
   const vpc = new Vpc(
-    `${config.name}-${config.suffix}`,
+    config.name,
     {
       availabilityZoneNames: config.availabilityZoneNames,
       cidrBlock: config.cidrBlock,
@@ -28,7 +28,7 @@ export = async () => {
       subnetSpecs: config.subnetSpecs,
       subnetStrategy: config.subnetStrategy as SubnetAllocationStrategy,
       tags: {
-        Name: `${config.name}-${config.suffix}`
+        Name: config.name
       }
     },
     options

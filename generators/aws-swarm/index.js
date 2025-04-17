@@ -7,12 +7,12 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "Aws swarm";
-    this.name = "aws-swarm";
+    this.name = "swarm";
     this.resourcesList = [
       "ansible-aws",
       "aws-ebs",
       "aws-eip",
-      "aws_instance-profile",
+      "aws-instance-profile",
       // aws-nfs-server
       "aws-resources",
       "aws-route53",
@@ -25,9 +25,16 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
   async prompting() {
     this.props = await this._optionOrPrompt([
       {
-        default: "YYYYMMDD",
-        message: "What is the suffix used for the project",
-        name: "suffix",
+        default: "ap-southeast-1a",
+        message: "Availability Zone for ebs and swarm-leader",
+        name: "availabilityZones",
+        type: "input",
+      },
+      {
+        default: "ami-0315d75b2c11ff409",
+        message: "What ami is used for swarm-leader (default: Amazon Linux 2023 64-bit (ARM))",
+        name: "ami",
+        required: true,
         type: "input",
       },
       {
@@ -37,21 +44,8 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         type: "input",
       },
       {
-        default: "MYDOMAIN.COM",
-        message: "What is name of the domain used for route53 and ansible",
+        message: "Enter domain",
         name: "domain",
-        type: "input",
-      },
-      {
-        default: "ap-southeast-1a",
-        message: "Which zone is available for ebs and swarm-leader",
-        name: "availabilityZones",
-        type: "input",
-      },
-      {
-        default: "ami-0315d75b2c11ff409",
-        message: "What ami is used for swarm-leader (default: Amazon Linux 2023 64-bit (ARM))",
-        name: "ami",
         type: "input",
       },
     ]);
@@ -68,33 +62,23 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       },
       "aws-ebs": {
         availabilityZones: this.props.availabilityZones,
-        suffix: this.props.suffix
       },
-      "aws-eip": {
-        suffix: this.props.suffix
-      },
-      "aws-instance-profile": {
-      },
+      "aws-eip": {},
+      "aws-instance-profile": {},
       // "aws-nfs-server": {
       //   environment: this.props.environment,
       // },
-      "aws-resources": {
-      },
+      "aws-resources": {},
       "aws-route53": {
         domain: this.props.domain,
       },
-      "aws-security-group": {
-        suffix: this.props.suffix
-      },
+      "aws-security-group": {},
       "aws-swarm-leader": {
         ami: this.props.ami,
         availabilityZone: this.props.availabilityZones,
         size: this.props.size_leader,
-        suffix: this.props.suffix
       },
-      "aws-vpc": {
-        suffix: this.props.suffix
-      },
+      "aws-vpc": {},
     };
 
     // Compose with each resource generator
@@ -109,7 +93,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       });
 
       this.fs.copyTpl(
-        this.templatePath("aws-swarm/README.md"),
+        this.templatePath(`aws-${this.name}/README.md`),
         this.destinationPath("README.md"),
         {
         }

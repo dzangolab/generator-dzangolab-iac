@@ -27,12 +27,12 @@ export default class DigitalOceanDropletGenerator extends PulumiGenerator {
     ]);
   };
 
-  writing() {
+  async writing() {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
 
-    this.fs.copyTplAsync(
+    await this.fs.copyTplAsync(
       this.templatePath(this.name),
       this.destinationPath(this._getFolderName()),
       {

@@ -62,7 +62,7 @@ class PulumiGenerator extends Generator {
     ]);
   };
 
-  writing() {
+  async writing() {
     this.copyTemplate(
       "cloudflare-dns",
       this.props.projectNme || this.DEFAULT_PROJECT_NAME,

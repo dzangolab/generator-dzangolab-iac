@@ -75,7 +75,7 @@ const stacks: { [key: string]: StackReference } = {};
 
 async function getOutputs<T = string>(
   stackConfigVar: string,
-  defaultOutputs: string
+  defaultOutputNames: string
 ): Promise<undefined | T[]> {
 
   const organization = getOrganization();
@@ -94,7 +94,7 @@ async function getOutputs<T = string>(
   }
 
   if (!outputNamesString) {
-    outputNamesString = defaultOutputs;
+    outputNamesString = defaultOutputNames;
   }
 
   if (!outputNamesString) {
@@ -115,10 +115,10 @@ async function getOutputs<T = string>(
 
   for (var i = 0, name = null; name = outputNames[i]; i++) {
     const output = await otherStack.getOutputDetails(name);
-    if(output.value != undefined){
+    if (output.value != undefined) {
       outputs.push(getValue<T>(output) as T)
     }
-    else{
+    else {
       outputs.push(undefined as unknown as T)
     }
   }

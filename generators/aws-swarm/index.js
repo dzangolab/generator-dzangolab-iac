@@ -23,12 +23,6 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
 
   async prompting() {
     this.props = await this._optionOrPrompt([
-      {
-        default: "YYYYMMDD",
-        message: "What is the suffix used for the project",
-        name: "suffix",
-        type: "input",
-      },
     ]);
   };
 

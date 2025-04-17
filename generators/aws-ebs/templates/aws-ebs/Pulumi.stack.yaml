@@ -1,8 +1,6 @@
 config:
   <%= projectName %>:availabilityZones: 
-    - ap-southeast-1a
-    - ap-southeast-1b
-    - ap-southeast-1c
+    - <%= availabilityZones %>
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false

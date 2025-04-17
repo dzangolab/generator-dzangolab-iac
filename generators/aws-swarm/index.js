@@ -10,7 +10,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
     this.name = "swarm";
     this.resourcesList = [
       // "ansible-aws",
-      // "aws-ebs",
+      "aws-ebs",
       // "aws-eip",
       // aws-nfs-server
       // "aws-resources",
@@ -23,6 +23,12 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
 
   async prompting() {
     this.props = await this._optionOrPrompt([
+      {
+        default: "ap-southeast-1a",
+        message: "Availability Zone for ebs and swarm-leader",
+        name: "availabilityZones",
+        type: "input",
+      },
     ]);
   };
 
@@ -35,9 +41,10 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       // "ansible-aws": {
       //   environment: this.props.environment,
       // },
-      // "aws-ebs": {
-      //   environment: this.props.environment,
-      // },
+      "aws-ebs": {
+        availabilityZones: this.props.availabilityZones,
+        suffix: this.props.suffix
+      },
       // "aws-eip": {
       //   environment: this.props.environment,
       // },

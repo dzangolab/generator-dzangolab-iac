@@ -9,11 +9,17 @@ export default class AWSEBSGenerator extends PulumiGenerator {
     this.displayName = "AWS EBS";
     this.name = "ebs";
 
-    this.option("environment", {
+    this.option("availabilityZones", {
+      default: "ap-southeast-1a",
+      desc: "Available zone",
       type: String,
-      required: true,
+    });
+
+    this.option("environment", {
       default: "staging",
-      desc: "Pulumi stack"
+      desc: "Pulumi stack",
+      required: true,
+      type: String,
     });
   }
 

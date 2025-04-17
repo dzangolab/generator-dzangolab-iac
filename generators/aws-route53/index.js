@@ -22,7 +22,7 @@ export default class AWSRoute53Generator extends PulumiGenerator {
         message: "Enter the name of the pulumi project",
         name: "projectName",
         type: "input",
-      }
+      },
       {
         message: "Enter domain",
         name: "domain",

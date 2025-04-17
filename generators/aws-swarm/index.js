@@ -15,7 +15,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       // aws-nfs-server
       "aws-resources",
       "aws-route53",
-      // "aws-security-group",
+      "aws-security-group",
       // "aws-swarm-leader",
       "aws-vpc",
     ];
@@ -58,9 +58,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       "aws-route53": {
         domain: this.props.domain,
       },
-      // "aws-security-group": {
-      //   environment: this.props.environment,
-      // },
+      "aws-security-group": {},
       // "aws-swarm-leader": {
       //   environment: this.props.environment,
       // },

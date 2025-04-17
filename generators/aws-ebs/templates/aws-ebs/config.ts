@@ -9,28 +9,14 @@ export const getConfig = async () => {
   const stack = getStack();
   const stackConfig = new Config();
 
-  const availabilityZones = stackConfig.requireObject<string[]>("availabilityZones");
-  
-  const count = availabilityZones.length;
-  
-  let sizes = stackConfig.getObject<number | number[]>("sizes") || 5;
-
-  if (!Array.isArray(sizes)) {
-    const size = Number(sizes);
-    
-    sizes = [] as number[];
-
-    for (let i = 0; i < count; i++) {
-      sizes.push(size);
-    }
-  }
+  let size = stackConfig.getObject<number>("size") || 5;
   
   return {
-      availabilityZones: stackConfig.getObject<string[]>("availabilityZones"),
+      availabilityZone: stackConfig.require("availabilityZone"),
       name: stackConfig.get("name") || stack,
       protect: stackConfig.getBoolean("protect"),
       retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
-      sizes,
+      size,
       tags: stackConfig.getObject<{ [key: string]: string }>("tags")
   };
 };

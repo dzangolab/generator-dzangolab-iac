@@ -65,10 +65,10 @@ export const getConfig = async () => {
   if (!volumeId) {
     const outputs = await getOutputs(
       "volumeStack",
-      "ids"
+      "id"
     );
 
-    volumeId = outputs ? outputs[0][0] as string : undefined;
+    volumeId = outputs ? outputs[0] as string : undefined;
   }
 
   /** Get user data **/

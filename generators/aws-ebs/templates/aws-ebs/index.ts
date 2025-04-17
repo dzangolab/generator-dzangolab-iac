@@ -11,32 +11,24 @@ export = async () => {
     retainOnDelete: config.retainOnDelete,
   };
 
-  const availabilityZones = config.availabilityZones as string[];
-  const count = availabilityZones.length;
-  const sizes = config.sizes as number[];
-  const volumes: Volume[] = [];
+  const availabilityZone = config.availabilityZone;
+  const size = config.size;
 
-  for (let i = 0; i < count; i++) {
-    const availabilityZone = availabilityZones[i];
-
-    const volume = new Volume(
-      `${config.name}-${availabilityZone}`,
-      {
-        availabilityZone,
-        size: sizes[i],
-        tags: {
-          Name: `${config.name}-${availabilityZone}`,
-          ...config.tags
-        }
-      },
-      options
-    );
-
-    volumes.push(volume);
-  }
+  const volume = new Volume(
+    `${config.name}-${availabilityZone}`,
+    {
+      availabilityZone,
+      size,
+      tags: {
+        Name: `${config.name}-${availabilityZone}`,
+        ...config.tags
+      }
+    },
+    options
+  );
 
   return {
-    arns: volumes.map(volume => interpolate`${volume.arn}`),
-    ids: volumes.map(volume => interpolate`${volume.id}`),
+    arn: interpolate`${volume.arn}`,
+    id: interpolate`${volume.id}`,
   };
 }

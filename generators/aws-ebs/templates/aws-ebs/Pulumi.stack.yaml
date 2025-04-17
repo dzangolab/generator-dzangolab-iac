@@ -1,6 +1,5 @@
 config:
-  <%= projectName %>:availabilityZones: 
-    - <%= availabilityZones %>
+  <%= projectName %>:availabilityZone: <%= availabilityZone %>
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false

@@ -7,7 +7,7 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS swarm leader";
-    this.name = "aws-swarm-leader";
+    this.name = "swarm-leader";
 
     this.option("availabilityZone", {
       default: "ap-southeast-1a",
@@ -15,10 +15,19 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
       type: String,
     });
 
-    this.option("size", {
+    this.option("ami", {
+      default: "ami-0315d75b2c11ff409",
+      message: "What ami is used for swarm-leader (default: Amazon Linux 2023 64-bit (ARM))",
+      name: "ami",
+      required: true,
       type: String,
+    });
+
+    this.option("size", {
       default: "t4g.small",
-      desc: "Size of the swarm leader"
+      desc: "Size of the swarm leader",
+      required: true,
+      type: String,
     });
   }
 
@@ -31,20 +40,32 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
         type: "input",
       },
       {
+        message: "Availability Zone",
+        name: "availabilityZone",
+        required: true,
+        type: "input",
+      },
+      {
         message: "What ami is used for swarm-leader",
         name: "ami",
+        type: "input",
+      },
+      {
+        default: "t4g.small",
+        message: "Size of swarm leader",
+        name: "size",
         type: "input",
       },
     ]);
   };
 
-  writing() {
+  async writing() {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
 
-    this.fs.copyTplAsync(
-      this.templatePath(this.name),
+    await this.fs.copyTplAsync(
+      this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -61,7 +82,7 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       this.fs.copyTplAsync(
-        `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
           ...this.options,

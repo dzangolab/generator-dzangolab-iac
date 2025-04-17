@@ -12,10 +12,10 @@ export = async () => {
   };
 
   const eip = new Eip(
-    `${config.name}-${config.suffix}`,
+    `${config.name}`,
     {
       tags: {
-        Name: `${config.name}-${config.suffix}`,
+        Name: `${config.name}`,
       }
     },
     options

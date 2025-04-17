@@ -5,6 +5,6 @@ pulumi logout
 pulumi login
 pulumi stack select $1
 if [ $? -eq 0 ]; then
-    <% if (awsProfile) { %>AWS_PROFILE=<%= awsProfile %> <% } %>pulumi up
+  <% if (awsProfile) { %>AWS_PROFILE=<%= awsProfile %> <% } %>pulumi up
 fi
 pulumi logout

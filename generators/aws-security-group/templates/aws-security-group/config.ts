@@ -4,7 +4,7 @@ import {
   getStack,
   StackReference,
 } from "@pulumi/pulumi";
-  
+
 import type { StackReferenceOutputDetails } from "@pulumi/pulumi";
 
 export const getConfig = async () => {
@@ -17,35 +17,34 @@ export const getConfig = async () => {
   if (!vpcId) {
     const vpcProject = stackConfig.get("vpcProject") || "aws-vpc";
 
-    const vpcStack =   new StackReference(
+    const vpcStack = new StackReference(
       `${organization}/${vpcProject}/${stack}`,
     );
 
     const vpcIdOutput = await vpcStack.getOutputDetails("vpcId");
     vpcId = getValue<string>(vpcIdOutput);
   }
-  
+
   return {
     name: stackConfig.get("name") || stack,
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
-    suffix: stackConfig.require("suffix"),
     vpcId
   };
 };
 
 function getValue<T>(input: StackReferenceOutputDetails, defaultValue?: T): T {
-    if (input && input.value) {
-        return <T>input.value!;
-    }
+  if (input && input.value) {
+    return <T>input.value!;
+  }
 
-    if (input && input.secretValue) {
-        return <T>input.secretValue!;
-    }
+  if (input && input.secretValue) {
+    return <T>input.secretValue!;
+  }
 
-    if (!defaultValue) {
-        throw new Error("A value is required");
-    }
+  if (!defaultValue) {
+    throw new Error("A value is required");
+  }
 
-    return defaultValue;
+  return defaultValue;
 }

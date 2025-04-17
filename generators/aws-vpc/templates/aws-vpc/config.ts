@@ -25,7 +25,6 @@ export const getConfig = async () => {
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     subnetSpecs: stackConfig.getObject<any | undefined>("subnetSpecs"),
     subnetStrategy: stackConfig.get<SubnetAllocationStrategy>("subnetStrategy") || "Auto",
-    suffix: stackConfig.require("suffix"),
     tags: stackConfig.getObject<{ [key: string]: string }>("tags")
   };
 };

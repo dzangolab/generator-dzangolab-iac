@@ -1,4 +1,9 @@
-import { getPolicyDocument, InstanceProfile, ManagedPolicy, Role } from "@pulumi/aws/iam";
+import {
+  getPolicyDocument,
+  InstanceProfile,
+  ManagedPolicy,
+  Role
+} from "@pulumi/aws/iam";
 import { interpolate } from "@pulumi/pulumi";
 
 import { getConfig } from "./config";
@@ -10,7 +15,7 @@ export = async () => {
     protect: config.protect,
     retainOnDelete: config.retainOnDelete,
   };
-  
+
   const assumeRolePolicy = getPolicyDocument({
     statements: [{
       effect: "Allow",

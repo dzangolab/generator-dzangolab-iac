@@ -1,6 +1,6 @@
 # AWS Security group
 
-Provisions an AWS EIP.
+Provisions an AWS EBS volume.
 
 ## Requirements
 
@@ -11,8 +11,6 @@ Provisions an AWS EIP.
 * An existing devops repo
 
 ## Usage
-
-* Cd into the `aws-security-group` folder.
 
 * Install dependencies 
 
@@ -50,13 +48,16 @@ pulumi destroy
 
 ## Resources provisioned
 
-### AWS Security group
+### AWS EBS volumes
 
-An AWS security group is provisioned.
+One AWS EBS volume is generated for eaceh availability zone specified in the stack config.
 
 ## Configuration settings
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
+| availabilityZones | string[] | | AZs in which to create a volume |
+| name    | string  | | Name to give to each volume |
 | protect | boolean | false | Protect resources from accidental deletion |
 | retainOnDelete | boolean | false | Retain resources when destroyed |
+| sizes    | number or number[] | 5 | Size of volume(s). If an array, indicates the sizes of the volumes in the respective AZ. If a number, the size of all volumes. | 

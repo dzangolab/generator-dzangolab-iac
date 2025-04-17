@@ -40,6 +40,7 @@ export default class AnsibleDOGenerator extends PulumiGenerator {
       },
       {
         message: "Use an NFS server for docker volumes:",
+        default: false,
         name: "useNfs",
         type: "input",
       },
@@ -51,8 +52,8 @@ export default class AnsibleDOGenerator extends PulumiGenerator {
     ]);
   };
 
-  writing() {
-      this.fs.copyTplAsync(
+  async writing() {
+    await this.fs.copyTplAsync(
       this.templatePath("ansible/stack"),
       this.destinationPath(`ansible/${this.options.environment}`),
       {

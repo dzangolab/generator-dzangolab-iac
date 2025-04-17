@@ -3,13 +3,21 @@ import Generator from "yeoman-generator";
 import optionOrPrompt from "./optionOrPrompt.js";
 
 class PulumiGenerator extends Generator {
-  DEFAULT_PROJECT_NAME;
-
   constructor(args, opts) {
     super(args, opts);
 
     this._optionOrPrompt = optionOrPrompt;
 
+    this.options.versions = {
+      digitalocean: "^4",
+      dzangolab: "^0.33",
+      pulumi: "^3",
+      pulumi_aws: "^6",
+      pulumi_awsx: "^2.7",
+      pulumi_cloudflare: "^5",
+      types_node: "^22",
+    };
+    
     this.option("createStackConfig", {
       type: Boolean,
       default: true,
@@ -18,6 +26,7 @@ class PulumiGenerator extends Generator {
 
     this.option("environment", {
       type: String,
+      default: "staging",
       desc: "Environment (i.e. Pulumi stack)"
     });
 
@@ -45,7 +54,7 @@ class PulumiGenerator extends Generator {
   async prompting() {
     this.props = await this.optionOrPrompt([
       {
-        default: this.DEFAULT_PROJECT_NAME,
+        default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",
         name: "projectName",
         type: "input",
@@ -53,7 +62,7 @@ class PulumiGenerator extends Generator {
     ]);
   };
 
-  writing() {
+  async writing() {
     this.copyTemplate(
       "cloudflare-dns",
       this.props.projectNme || this.DEFAULT_PROJECT_NAME,

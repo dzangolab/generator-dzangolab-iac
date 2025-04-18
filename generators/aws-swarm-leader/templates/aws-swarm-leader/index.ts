@@ -40,7 +40,7 @@ export = async () => {
       },
       userData: config.userData,
       userDataReplaceOnChange: true,
-      vpcSecurityGroupIds: [config.securityGroupId],
+      vpcSecurityGroupIds: [config.securityGroupId as string],
     },
     options
   );

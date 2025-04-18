@@ -19,4 +19,4 @@ config:
   #    -
   #    -
   #  aws-nfs-server:volumeId: 
-  <%= projectName %>:vpcProject: <%= prefix %>-vpc
+  <%= projectName %>:vpcStack: <%= prefix %>-vpc

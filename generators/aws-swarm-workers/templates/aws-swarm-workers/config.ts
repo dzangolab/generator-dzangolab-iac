@@ -16,32 +16,18 @@ export const getConfig = async () => {
   const name = stackConfig.get("name") || `${organization}-${stack}`;
 
   /** Get Availability zone **/
-  let availabilityZone = stackConfig.require("availabilityZone");
-
-  if (!availabilityZone) {
-    const vpcProject = stackConfig.get("vpcProject") || "aws-vpc";
-    const vpcStack = new StackReference(
-      `${organization}/${vpcProject}/${stack}`,
-    );
-
-    const availabilityZonesOutput = await vpcStack.getOutputDetails("availabilityZones");
-    const availabilityZones = getValue<string[]>(availabilityZonesOutput);
-
-    availabilityZone = availabilityZones[0];
-  }
+  let availabilityZone = stackConfig.get("availabilityZone");
 
   /** Get instance profile */
-  let instanceProfile = stackConfig.get("instanceProfile");
+  let iamInstanceProfile = stackConfig.get("iamInstanceProfile");
 
-  if (!instanceProfile) {
-    const instanceProfileProject = stackConfig.get("instanceProfileProject") || "aws-instance-profile";
-
-    const instanceProfileStack = new StackReference(
-      `${organization}/${instanceProfileProject}/${stack}`,
+  if (!iamInstanceProfile) {
+    const outputs = await getOutputs(
+      "iamInstanceProfileStack",
+      "id"
     );
 
-    const instanceProfileOutput = await instanceProfileStack.getOutputDetails("name");
-    instanceProfile = getValue<string>(instanceProfileOutput);
+    iamInstanceProfile = outputs ? outputs[0] as string : undefined;
   }
 
   /** Get keypair */
@@ -62,13 +48,12 @@ export const getConfig = async () => {
   let securityGroupId = stackConfig.get("securityGroupId");
 
   if (!securityGroupId) {
-    const securityGroupProject = stackConfig.get("securityGroupProject") || "aws-security-group";
-    const securityGroupStack = new StackReference(
-      `${organization}/${securityGroupProject}/${stack}`,
+    const outputs = await getOutputs(
+      "securityGroupStack",
+      "id"
     );
 
-    const securityGroupIdOutput = await securityGroupStack.getOutputDetails("id");
-    securityGroupId = getValue<string>(securityGroupIdOutput);
+    securityGroupId = outputs ? outputs[0] as string : undefined;
   }
 
   /** Get subnet id **/
@@ -88,7 +73,7 @@ export const getConfig = async () => {
     availabilityZone,
     count: stackConfig.getNumber("count") || 1,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
-    instanceProfile,
+    iamInstanceProfile,
     instanceType: stackConfig.require("instanceType"),
     keypair,
     monitoring: stackConfig.getBoolean("monitoring"),

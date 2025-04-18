@@ -23,9 +23,9 @@ export = async () => {
       associatePublicIpAddress: config.associatePublicIpAddress,
       availabilityZone: config.availabilityZone,
       disableApiTermination: config.disableApiTermination,
-      iamInstanceProfile: config.instanceProfile,
+      iamInstanceProfile: config.iamInstanceProfile,
       instanceType: config.instanceType,
-      keyName: config.keyName,
+      keyName: config.keypair,
       monitoring: config.monitoring,
       rootBlockDevice: {
         ...config.rootBlockDevice,

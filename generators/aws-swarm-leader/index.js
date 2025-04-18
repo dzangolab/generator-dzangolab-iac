@@ -11,7 +11,7 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
 
     this.option("availabilityZone", {
       default: "ap-southeast-1a",
-      desc: "Available zone",
+      desc: "Availability zone",
       type: String,
     });
 
@@ -23,13 +23,13 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
       type: String,
     });
 
-    this.option("size", {
+    this.option("instanceType", {
       default: "t4g.small",
-      desc: "Size of the swarm leader",
+      desc: "Instance type",
       required: true,
       type: String,
     });
-  }
+  };
 
   async prompting() {
     this.props = await this._optionOrPrompt([
@@ -46,14 +46,15 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
         type: "input",
       },
       {
+        default: "ami-0315d75b2c11ff409",
         message: "What ami is used for swarm-leader",
         name: "ami",
         type: "input",
       },
       {
         default: "t4g.small",
-        message: "Size of swarm leader",
-        name: "size",
+        message: "Instance type",
+        name: "instanceType",
         type: "input",
       },
     ]);

@@ -2,16 +2,21 @@ config:
   <%= projectName %>:ami: <%= ami %>
   <%= projectName %>:availabilityZone: <%= availabilityZone %>
   <%= projectName %>:disableApiTermination: false
-  <%= projectName %>:ebsProject: <%= prefix %>-aws-ebs
-  <%= projectName %>:eipProject: <%= prefix %>-aws-eip
-  <%= projectName %>:instanceProfileProject: <%= prefix %>-aws-instance-profile
-  <%= projectName %>:instanceType: <%= size %>
+#  <%= projectName %>:eip: 
+#  <%= projectName %>:eipId: 
+  <%= projectName %>:eipStack: <%= prefix %>-eip
+#  <%= projectName %>:iamInstanceProfile:
+  <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-instance-profile
+  <%= projectName %>:instanceType: <%= instanceType %>
+#  <%= projectName %>:keypair: KEYPAIR_NAME
   <%= projectName %>:keyName: KEYNAME
-  <%= projectName %>:keypairsProject: <%= prefix %>-aws-ssh-keypairs
+  <%= projectName %>:keypairsProject: aws-ssh-keypairs/global
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:rootBlockDeviceSize: 20
-  <%= projectName %>:securityGroupProject: <%= prefix %>-aws-security-group
+#  <%= projectName %>:securityGroupId:
+  <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
-  <%= projectName %>:vpcProject: <%= prefix %>-aws-vpc
+#  <%= projectName %>:volumeId:
+  <%= projectName %>:volumeStack: <%= prefix %>-vpc

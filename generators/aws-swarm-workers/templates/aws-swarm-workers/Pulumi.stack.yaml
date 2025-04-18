@@ -2,7 +2,7 @@ config:
   <%= projectName %>:ami: ami-XXXXXXXXXXXXXXXXX
   <%= projectName %>:count: <%= count %>
   <%= projectName %>:disableApiTermination: false
-  <%= projectName %>:iamInstanceProfile: <%= prefix %>-instance-profile
+  <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-instance-profile
   <%= projectName %>:instanceType: t4g.small
   <%= projectName %>:keyName: <%= keyName %>
   <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs

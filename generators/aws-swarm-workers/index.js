@@ -17,8 +17,12 @@ export default class AWSDockerSwarmWorkersGenerator extends PulumiGenerator {
 
     this.option("keyName", {
       type: String,
-      default: "KEYNAME",
       desc: "Name of user account to create on droplet"
+    });
+
+    this.option("availabilityZone", {
+      type: String,
+      desc: "Which zone will be selected"
     });
   }
 
@@ -28,6 +32,17 @@ export default class AWSDockerSwarmWorkersGenerator extends PulumiGenerator {
         default: this._getDefaultProjectName(),
         message: "Enter the name of the pulumi project",
         name: "projectName",
+        type: "input",
+      },
+      {
+        message: "Enter the name of the keyName",
+        required: true,
+        name: "keyName",
+        type: "input",
+      },
+      {
+        message: "Enter the availabilityZone",
+        name: "availabilityZone",
         type: "input",
       }
     ]);

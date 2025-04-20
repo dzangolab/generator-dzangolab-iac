@@ -5,3 +5,4 @@ portainer__domain: "portainer.{{ domain }}"
 portainer__label: "portainer"
 portainer__network: "{{ network_traefik }}"
 portainer__state: "started"
+portainer__version: 2.27.4

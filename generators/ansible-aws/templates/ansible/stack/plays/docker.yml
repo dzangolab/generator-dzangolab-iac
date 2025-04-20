@@ -1,6 +1,6 @@
 ---
 - name: Create docker networks
-  hosts: managers[0]
+  hosts: swarm_managers[0]
   tasks:
     - command: "docker network create -d overlay --attachable {{ item }}"
       ignore_errors: yes

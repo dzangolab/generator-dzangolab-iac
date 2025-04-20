@@ -34,4 +34,4 @@ swarm_leader
 ; swarm_worker2
 
 [traefik]
-swarm_eader
+swarm_leader

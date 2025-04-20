@@ -6,7 +6,7 @@
       file:
         group: "nogroup"
         owner: "nobody"
-        path: "/mnt/nfs/postgres/{{ item.0 }}/{{ item.1 }}"
+        path: "{{ postgres_data_dir }}{{ item.0 }}/{{ item.1 }}"
         state: directory
         recurse: true
       with_nested:
@@ -26,7 +26,7 @@
     - file:
         group: "{{ deploy_group }}"
         owner: "{{ deploy_user }}"
-        path: "{{ item.0 }}/{{ item.1 }}"
+        path: "{{ postgres_data_dir }}{{ item.0 }}/{{ item.1 }}"
         state: directory
         recurse: true
       with_nested:

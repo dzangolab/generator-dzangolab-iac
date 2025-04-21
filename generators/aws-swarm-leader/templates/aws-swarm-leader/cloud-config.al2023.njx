@@ -33,7 +33,7 @@ write_files:
 
 runcmd:
   - dnf install docker -y
-  - chmod 644 /etc/docker/daemin.json
+  - chmod 644 /etc/docker/daemon.json
   - systemctl start docker
   - systemctl enable docker
   - usermod -a -G docker ec2-user

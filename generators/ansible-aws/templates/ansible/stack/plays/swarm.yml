@@ -2,7 +2,7 @@
 - name: Setup docker swarm
   hosts: swarm_leader
   tasks:
-    - name: install Python Docker module
+    - name: Install Python Docker module
       ansible.builtin.pip:
         name: docker
         extra_args: --user
@@ -28,7 +28,7 @@
       ansible.builtin.set_fact:
         private_ip: "{{ metadata_response.content | trim }}"
 
-    - name: check/init swarm
+    - name: Init swarm
       docker_swarm:
         state: present
         advertise_addr: "{{ private_ip }}"

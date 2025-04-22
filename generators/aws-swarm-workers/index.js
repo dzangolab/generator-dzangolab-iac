@@ -22,7 +22,7 @@ export default class AWSDockerSwarmWorkersGenerator extends PulumiGenerator {
 
     this.option("availabilityZone", {
       type: String,
-      desc: "Which zone will be selected"
+      desc: "Which zone will be selected (default will be choosed automatically)"
     });
   }
 

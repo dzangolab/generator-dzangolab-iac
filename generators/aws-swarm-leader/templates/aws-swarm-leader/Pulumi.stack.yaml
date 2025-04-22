@@ -2,21 +2,21 @@ config:
   <%= projectName %>:ami: <%= ami %>
   <%= projectName %>:availabilityZone: <%= availabilityZone %>
   <%= projectName %>:disableApiTermination: false
-  <%= projectName %>:ebsStack: <%= prefix %>-ebs
+#  <%= projectName %>:eip: 
+#  <%= projectName %>:eipId: 
   <%= projectName %>:eipStack: <%= prefix %>-eip
-  <%= projectName %>:iamInstanceProfile: <%= prefix %>-instance-profile
-  <%= projectName %>:instanceType: <%= size %>
+#  <%= projectName %>:iamInstanceProfile:
+  <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-instance-profile
+  <%= projectName %>:instanceType: <%= instanceType %>
+#  <%= projectName %>:keypair: KEYPAIR_NAME
   <%= projectName %>:keyName: KEYNAME
-  <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs
+  <%= projectName %>:keypairsProject: aws-ssh-keypairs/global
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:rootBlockDeviceSize: 20
-  # <%= projectName %>:securityGroupId:
+#  <%= projectName %>:securityGroupId:
   <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
-  #  aws-nfs-server:tags:
-  #    -
-  #    -
-  #  aws-nfs-server:volumeId: 
-  <%= projectName %>:vpcStack: <%= prefix %>-vpc
+#  <%= projectName %>:volumeId:
+  <%= projectName %>:volumeStack: <%= prefix %>-vpc

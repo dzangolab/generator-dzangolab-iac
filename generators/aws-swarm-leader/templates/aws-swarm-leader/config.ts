@@ -18,6 +18,20 @@ export const getConfig = async () => {
   /** Get Availability zone **/
   let availabilityZone = stackConfig.require("availabilityZone");
 
+  /** Get EIP */
+  let eip = stackConfig.get("eip");
+  let eipId = stackConfig.get("eipId");
+
+  if (!eip || !eipId) {
+    const outputs = await getOutputs(
+      "eipStack",
+      "eip,eipId"
+    );
+
+    eip = outputs ? outputs[0] as string : undefined;
+    eipId = outputs ? outputs[1] as string : undefined;
+  }
+
   /** Get instance profile */
   let iamInstanceProfile = stackConfig.get("iamInstanceProfile");
 
@@ -28,20 +42,6 @@ export const getConfig = async () => {
     );
 
     iamInstanceProfile = outputs ? outputs[0] as string : undefined;
-  }
-
-  /** Get EIP */
-  let eip = stackConfig.get("eip");
-  let eipId = stackConfig.get("eipId");
-
-  if (!eip) {
-    const outputs = await getOutputs(
-      "eipStack",
-      "eip,eipId"
-    );
-
-    eip = outputs ? outputs[0] as string : undefined;
-    eipId = outputs ? outputs[1] as string : undefined;
   }
 
   /** Get keypair */
@@ -79,10 +79,10 @@ export const getConfig = async () => {
   if (!volumeId) {
     const outputs = await getOutputs(
       "volumeStack",
-      "ids"
+      "id"
     );
 
-    volumeId = outputs ? outputs[0][0] as string : undefined;
+    volumeId = outputs ? outputs[0] as string : undefined;
   }
 
   /** Get user data **/
@@ -126,11 +126,22 @@ export const getConfig = async () => {
   };
 };
 
+function generateUserData(
+  template: string,
+  context: { [key: string]: any },
+): string {
+  const env = new Environment([
+    new FileSystemLoader(),
+  ]);
+
+  return env.render(template, context);
+}
+
 const stacks: { [key: string]: StackReference } = {};
 
 async function getOutputs<T = string>(
   stackConfigVar: string,
-  defaultOutputs: string
+  defaultOutputNames: string
 ): Promise<undefined | T[]> {
 
   const organization = getOrganization();
@@ -149,7 +160,7 @@ async function getOutputs<T = string>(
   }
 
   if (!outputNamesString) {
-    outputNamesString = defaultOutputs;
+    outputNamesString = defaultOutputNames;
   }
 
   if (!outputNamesString) {
@@ -158,7 +169,32 @@ async function getOutputs<T = string>(
 
   const outputNames = outputNamesString.split(",");
 
-  const stackName = `${organization}/${project}/${stack}`;
+  let stackName = undefined;
+  let _organization = organization;
+  let _project = undefined;
+  let _stack = stack;
+
+  const tokens = project.split("/");
+
+  switch (tokens.length) {
+    case 3:
+      [_organization, _project, _stack] = tokens;
+      break;
+
+    case 2:
+      if (organization == "organization") {
+        [_project, _stack] = tokens;
+      } else {
+        [_organization, _project] = tokens;
+      }
+      break;
+
+    case 1:
+      _project = tokens[0];
+      break;
+  }
+
+  stackName = `${_organization}/${_project}/${_stack}`;
   let otherStack = stacks[stackName];
 
   if (!otherStack) {
@@ -170,7 +206,7 @@ async function getOutputs<T = string>(
 
   for (var i = 0, name = null; name = outputNames[i]; i++) {
     const output = await otherStack.getOutputDetails(name);
-    if (output.value != undefined){
+    if (output.value != undefined) {
       outputs.push(getValue<T>(output) as T)
     }
     else {
@@ -195,15 +231,4 @@ function getValue<T>(input: StackReferenceOutputDetails, defaultValue?: T): T {
   }
 
   return defaultValue;
-}
-
-function generateUserData(
-  template: string,
-  context: { [key: string]: any },
-): string {
-  const env = new Environment([
-    new FileSystemLoader(),
-  ]);
-
-  return env.render(template, context);
 }

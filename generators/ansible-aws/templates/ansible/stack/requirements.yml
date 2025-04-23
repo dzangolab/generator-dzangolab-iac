@@ -1,6 +1,8 @@
 collections:
   - name: dzangolab.ansible
     version: ">=0.3.1"
-- src: https://github.com/vlcty/ansible-systemd-timers
-  version: master
-  name: victy.ansible-systemd-timers
+
+roles:
+  - name: victy.ansible-systemd-timers
+    src: https://github.com/vlcty/ansible-systemd-timers
+    version: master

@@ -21,6 +21,13 @@ export default class AnsibleAWSGenerator extends Generator {
         name: "domain",
         required: true,
         type: "input",
+      },
+      {
+        message: "Enter username",
+        default: "ec2-user",
+        name: "username",
+        required: true,
+        type: "input",
       }
     ]);
   };

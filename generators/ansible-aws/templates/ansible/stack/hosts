@@ -5,7 +5,7 @@ swarm_leader ansible_host=LEADER_PUBLIC IP_ADDRESS
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
-ansible_user=<%_ username %>
+ansible_user=ec2-user
 
 ; [mariadb]
 ; swarm_leader

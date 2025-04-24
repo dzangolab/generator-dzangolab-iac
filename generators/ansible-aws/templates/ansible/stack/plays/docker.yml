@@ -1,30 +1,91 @@
 ---
 - name: Create docker networks
-  hosts: swarm_managers[0]
+  hosts: swarm_leader
   tasks:
     - command: "docker network create -d overlay --attachable {{ item }}"
       ignore_errors: yes
       with_items:
         - "{{ network_private }}"
-        - "{{ network_traefik }}"
+        - "{{ network_public }}"
   tags:
     - docker-networks
 
-- name: Label nodes
-  hosts: all
+# - name: Label nodes
+#   hosts: all
+#   tasks:
+#     - name: Get node id
+#       command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
+#       register: node_id
+#     - name: label_node
+#       command: "docker node update --label-add {{ item }}=true {{ node_id.stdout }}"
+#       ignore_errors: yes
+#       with_items: "{{ hostvars[inventory_hostname].labels }}"
+#   tags:
+#     - docker-labels
+
+
+- name: Label portainer node(s)
+  hosts: portainer
   tasks:
     - name: Get node id
       command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
       register: node_id
     - name: label_node
-      command: "docker node update --label-add {{ item }}=true {{ node_id.stdout }}"
+      command: "docker node update --label-add portainer=true {{ node_id.stdout }}"
       ignore_errors: yes
-      with_items: "{{ hostvars[inventory_hostname].labels }}"
   tags:
-    - docker-labels
+    - labels
+    
+- name: Label traefik node
+  hosts: traefik
+  tasks:
+    - name: Get node id
+      command: "docker info -f {% raw %}'{{.Swarm.NodeID}}'{% endraw %}"
+      register: node_id
+    - name: Label node
+      command: "docker node update --label-add traefik=true {{ node_id.stdout }}"
+      ignore_errors: yes
+  tags:
+    - labels
+
+# - name: Setup cron jobs
+#   hosts: all
+#   become: true
+#   tasks:
+#     - cron:
+#         cron_file: "docker-cron"
+#         user: "ec2-user"
+#         name: "docker-cron"
+#         minute: "0"
+#         hour: "1"
+#         job: "docker system prune -a -f --volumes"
+#   tags:
+#     - cron
+
+- name: Setup logrotate for docker container logs
+  hosts: all
+  become: true
+  tasks:
+    - blockinfile:
+        path: "/etc/logrotate.d/docker-container"
+        block: |
+          /var/lib/docker/containers/*/*.log {
+            compress
+            copytruncate
+            create
+            daily
+            dateext
+            dateformat -%Y%m%d
+            delaycompress
+            missingok
+            rotate 7
+          }
+        create: true
+  tags:
+    - logrotate
 
 - name: Prune system daily
-  hosts: managers[0]
+  hosts: swarm_leader
   become: true
   roles:
     - role: victy.ansible-systemd-timers

@@ -1,13 +1,9 @@
-import Generator from "yeoman-generator";
+import PulumiGenerator from "../pulumi/index.js";
 
-import optionOrPrompt from "../pulumi/optionOrPrompt.js";
-
-export default class AnsibleAWSGenerator extends Generator {
+export default class AnsibleAWSGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
   
-    this._optionOrPrompt = optionOrPrompt;
-
     this.option("domain", {
       type: String,
       desc: "Name of the domain"

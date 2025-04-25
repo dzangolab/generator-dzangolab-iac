@@ -12,7 +12,6 @@ config:
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:rootBlockDeviceSize: 20
   #  aws-nfs-server:securityGroupId: 
-  <%= projectName %>:securityGroupProject: <%= prefix %>-aws-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
   #  aws-nfs-server:tags:
   #    -

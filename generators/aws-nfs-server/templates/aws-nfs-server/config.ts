@@ -44,18 +44,6 @@ export const getConfig = async () => {
     keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
-  /** Gets security group id */
-  let securityGroupId = stackConfig.get("securityGroupId");
-
-  if (!securityGroupId) {
-    const outputs = await getOutputs(
-      "securityGroupStack",
-      "id"
-    );
-
-    securityGroupId = outputs ? outputs[0] as string : undefined;
-  }
-
   /** Get subnet id **/
   const subnetId = stackConfig.require("subnetId");
 
@@ -69,6 +57,21 @@ export const getConfig = async () => {
     );
 
     volumeId = outputs ? outputs[0] as string : undefined;
+  }
+
+  let vpcId = stackConfig.get("vpcId");
+  let cidrBlock = undefined as unknown as string;
+
+  if (!vpcId) {
+    const outputs = await getOutputs(
+      "vpcStack",
+      "vpcId,cidrBlock"
+    );
+
+    if (outputs) {
+      vpcId = outputs[0] as string;
+      cidrBlock = outputs[1] as string;
+    }
   }
 
   /** Get user data **/
@@ -91,6 +94,7 @@ export const getConfig = async () => {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
     availabilityZone,
+    cidrBlock,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     iamInstanceProfile,
     instanceType: stackConfig.require("instanceType"),
@@ -102,11 +106,11 @@ export const getConfig = async () => {
     rootBlockDevice: {
       volumeSize: stackConfig.requireNumber("rootBlockDeviceSize"),
     },
-    securityGroupId,
     subnetId,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
     volumeId,
+    vpcId
   };
 };
 

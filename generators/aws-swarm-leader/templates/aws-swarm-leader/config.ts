@@ -18,18 +18,6 @@ export const getConfig = async () => {
   /** Get Availability zone **/
   let availabilityZone = stackConfig.require("availabilityZone");
 
-  if (!availabilityZone) {
-    const vpcProject = stackConfig.get("vpcProject") || "aws-vpc";
-    const vpcStack = new StackReference(
-      `${organization}/${vpcProject}/${stack}`,
-    );
-
-    const availabilityZonesOutput = await vpcStack.getOutputDetails("availabilityZones");
-    const availabilityZones = getValue<string[]>(availabilityZonesOutput);
-
-    availabilityZone = availabilityZones[0];
-  }
-
   /** Get EIP */
   let eip = stackConfig.get("eip");
   let eipId = stackConfig.get("eipId");
@@ -117,6 +105,19 @@ export const getConfig = async () => {
     }
   );
 
+  let vpcId = stackConfig.get("vpcId");
+
+  if (!vpcId) {
+    const vpcProject = stackConfig.get("vpcProject") || "aws-vpc";
+
+    const vpcStack = new StackReference(
+      `${organization}/${vpcProject}/${stack}`,
+    );
+
+    const vpcIdOutput = await vpcStack.getOutputDetails("vpcId");
+    vpcId = getValue<string>(vpcIdOutput);
+  }
+
   return {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
@@ -134,11 +135,11 @@ export const getConfig = async () => {
     rootBlockDevice: {
       volumeSize: stackConfig.requireNumber("rootBlockDeviceSize"),
     },
-    securityGroupId,
     subnetId,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
     volumeId,
+    vpcId
   };
 };
 

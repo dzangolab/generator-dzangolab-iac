@@ -58,19 +58,6 @@ export const getConfig = async () => {
     keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
-  /** Gets security group id */
-  let securityGroupId = stackConfig.get("securityGroupId");
-
-  if (!securityGroupId) {
-    const securityGroupProject = stackConfig.get("securityGroupProject") || "aws-security-group";
-    const securityGroupStack = new StackReference(
-      `${organization}/${securityGroupProject}/${stack}`,
-    );
-
-    const securityGroupIdOutput = await securityGroupStack.getOutputDetails("id");
-    securityGroupId = getValue<string>(securityGroupIdOutput);
-  }
-
   /** Get subnet id **/
   const subnetId = stackConfig.require("subnetId");
 
@@ -81,6 +68,19 @@ export const getConfig = async () => {
       packages: stackConfig.getObject<string[]>("packages"),
     }
   );
+
+  let vpcId = stackConfig.get("vpcId");
+
+  if (!vpcId) {
+    const vpcProject = stackConfig.get("vpcProject") || "aws-vpc";
+
+    const vpcStack = new StackReference(
+      `${organization}/${vpcProject}/${stack}`,
+    );
+
+    const vpcIdOutput = await vpcStack.getOutputDetails("vpcId");
+    vpcId = getValue<string>(vpcIdOutput);
+  }
 
   return {
     ami: stackConfig.require("ami"),
@@ -98,10 +98,10 @@ export const getConfig = async () => {
     rootBlockDevice: {
       volumeSize: stackConfig.requireNumber("rootBlockDeviceSize"),
     },
-    securityGroupId,
     subnetId,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
+    vpcId
   };
 };
 

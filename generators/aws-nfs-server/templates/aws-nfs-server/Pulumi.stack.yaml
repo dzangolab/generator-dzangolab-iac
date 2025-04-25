@@ -12,10 +12,11 @@ config:
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:rootBlockDeviceSize: 20
 #  <%= projectName %>:securityGroupId: 
-  <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
   <%= projectName %>:subnetId: subnet-xxxxxxxxx
 #  <%= projectName %>:tags:
 #    -
 #    -
 #  <%= projectName %>:volumeId: 
   <%= projectName %>:volumeStack: <%= prefix %>-ebs
+  <%= projectName %>:vpcStack: <%= prefix %>-vpc
+

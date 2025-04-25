@@ -26,17 +26,22 @@ write_files:
       "log-driver": "json-file",
       "log-opts": {
         "max-size": "10m",
-        "max-file": "5",
+        "max-file": "5"
       }
     }
   path: /etc/docker/daemon.json
 
 runcmd:
   - dnf install docker -y
+  - chmod 644 /etc/docker/daemon.json
   - systemctl start docker
   - systemctl enable docker
   - usermod -a -G docker ec2-user
-
+  - curl -O https://bootstrap.pypa.io/get-pip.py
+  - python3 get-pip.py
+  - /usr/local/bin/pip3 install docker --ignore-installed
+  - echo 'export PATH=$PATH:/usr/local/bin' >> /home/ec2-user/.bashrc
+  - source /home/ec2-user/.bashrc
 --//
 Content-Type: text/x-shellscript; charset="utf-8"
 MIME-Version: 1.0

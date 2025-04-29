@@ -84,6 +84,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         ami: this.props.ami,
         availabilityZone: this.props.availabilityZones,
         size: this.props.size_leader,
+        useNfs: this.props.useNfs,
       },
       "aws-vpc": {},
     };

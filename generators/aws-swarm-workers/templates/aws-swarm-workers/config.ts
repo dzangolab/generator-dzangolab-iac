@@ -106,19 +106,18 @@ function getValue<T>(input: StackReferenceOutputDetails, defaultValue?: T): T {
   return defaultValue;
 }
 
-
 const stacks: { [key: string]: StackReference } = {};
 
 async function getOutputs<T = string>(
   stackConfigVar: string,
-  defaultOutputs: string
+  defaultOutputNames: string
 ): Promise<undefined | T[]> {
+
   const organization = getOrganization();
   const stack = getStack();
   const stackConfig = new Config();
 
   const config = stackConfig.get(stackConfigVar);
-
   if (!config) {
     return undefined;
   }
@@ -130,7 +129,7 @@ async function getOutputs<T = string>(
   }
 
   if (!outputNamesString) {
-    outputNamesString = defaultOutputs;
+    outputNamesString = defaultOutputNames;
   }
 
   if (!outputNamesString) {
@@ -139,7 +138,32 @@ async function getOutputs<T = string>(
 
   const outputNames = outputNamesString.split(",");
 
-  const stackName = `${organization}/${project}/${stack}`;
+  let stackName = undefined;
+  let _organization = organization;
+  let _project = undefined;
+  let _stack = stack;
+
+  const tokens = project.split("/");
+
+  switch (tokens.length) {
+    case 3:
+      [_organization, _project, _stack] = tokens;
+      break;
+
+    case 2:
+      if (organization == "organization") {
+        [_project, _stack] = tokens;
+      } else {
+        [_organization, _project] = tokens;
+      }
+      break;
+
+    case 1:
+      _project = tokens[0];
+      break;
+  }
+
+  stackName = `${_organization}/${_project}/${_stack}`;
   let otherStack = stacks[stackName];
 
   if (!otherStack) {
@@ -151,8 +175,12 @@ async function getOutputs<T = string>(
 
   for (var i = 0, name = null; name = outputNames[i]; i++) {
     const output = await otherStack.getOutputDetails(name);
-
-    outputs.push(getValue<T>(output) as T)
+    if (output.value != undefined) {
+      outputs.push(getValue<T>(output) as T)
+    }
+    else {
+      outputs.push(undefined as unknown as T)
+    }
   }
 
   return outputs;

@@ -10,7 +10,7 @@ config:
   <%= projectName %>:instanceType: <%= instanceType %>
 #  <%= projectName %>:keypair: KEYPAIR_NAME
   <%= projectName %>:keyName: KEYNAME
-  <%= projectName %>:keypairsProject: aws-ssh-keypairs/global
+  <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs/global
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false

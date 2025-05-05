@@ -24,7 +24,7 @@ export const getConfig = async () => {
   if (!iamInstanceProfile) {
     const outputs = await getOutputs(
       "iamInstanceProfileStack",
-      "id"
+      "ids"
     );
 
     iamInstanceProfile = outputs ? outputs[0] as string : undefined;

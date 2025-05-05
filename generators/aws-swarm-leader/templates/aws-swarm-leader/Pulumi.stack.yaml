@@ -12,6 +12,6 @@ config:
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:rootBlockDeviceSize: 20
-  <%= projectName %>:securityGroupProject: <%= prefix %>-aws-security-group
+  # <%= projectName %>:securityGroupProject: <%= prefix %>-aws-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
   <%= projectName %>:vpcProject: <%= prefix %>-aws-vpc

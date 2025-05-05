@@ -1,6 +1,7 @@
 import {
   EipAssociation,
   Instance,
+  SecurityGroup,
   VolumeAttachment
 } from "@pulumi/aws/ec2";
 import { local } from "@pulumi/command";
@@ -16,6 +17,78 @@ export = async () => {
     retainOnDelete: config.retainOnDelete,
   };
 
+  const securityGroup = new SecurityGroup(
+    `${config.name}-leader`,
+    {
+      description: "Allow TLS inbound traffic",
+      egress: [
+        {
+          fromPort: 0,
+          toPort: 0,
+          protocol: "-1",
+          cidrBlocks: ["0.0.0.0/0"],
+          ipv6CidrBlocks: ["::/0"],
+        },
+      ],
+      ingress: [
+        {
+          description: "TLS from VPC",
+          fromPort: 443,
+          toPort: 443,
+          protocol: "tcp",
+          cidrBlocks: ["0.0.0.0/0"],
+          ipv6CidrBlocks: ["::/0"],
+        },
+        {
+          description: "TLS from VPC",
+          fromPort: 80,
+          toPort: 80,
+          protocol: "tcp",
+          cidrBlocks: ["0.0.0.0/0"],
+          ipv6CidrBlocks: ["::/0"],
+        },
+        {
+          description: "SSH",
+          fromPort: 22,
+          toPort: 22,
+          protocol: "tcp",
+          cidrBlocks: ["0.0.0.0/0"],
+          ipv6CidrBlocks: ["::/0"],
+        },
+        {
+          description: "DNS (TCP)",
+          fromPort: 53,
+          toPort: 53,
+          protocol: "tcp",
+          cidrBlocks: ["0.0.0.0/0"],
+          ipv6CidrBlocks: ["::/0"],
+        },
+        {
+          description: "DNS (TCP)",
+          fromPort: 2377,
+          toPort: 2377,
+          protocol: "tcp",
+          cidrBlocks: ["0.0.0.0/0"],
+          ipv6CidrBlocks: ["::/0"],
+        },
+        {
+          description: "DNS (UDP)",
+          fromPort: 53,
+          toPort: 53,
+          protocol: "udp",
+          cidrBlocks: ["0.0.0.0/0"],
+          ipv6CidrBlocks: ["::/0"],
+        },
+      ],
+      name: `${config.name}-leader`,
+      tags: {
+        Name: `${config.name}-leader`,
+      },
+      vpcId: config.vpcId,
+    },
+    options
+  );
+
   const instance = new Instance(
     config.name,
     {
@@ -23,9 +96,9 @@ export = async () => {
       associatePublicIpAddress: config.associatePublicIpAddress,
       availabilityZone: config.availabilityZone,
       disableApiTermination: config.disableApiTermination,
-      iamInstanceProfile: config.instanceProfile,
+      iamInstanceProfile: config.iamInstanceProfile,
       instanceType: config.instanceType,
-      keyName: config.keyName,
+      keyName: config.keypair,
       monitoring: config.monitoring,
       rootBlockDevice: {
         ...config.rootBlockDevice,
@@ -35,12 +108,12 @@ export = async () => {
       },
       subnetId: config.subnetId,
       tags: {
-        Name: `${config.name}`,
+        Name: `${config.name}-leader`,
         ...config.tags,
       },
       userData: config.userData,
       userDataReplaceOnChange: true,
-      vpcSecurityGroupIds: [config.securityGroupId],
+      vpcSecurityGroupIds: config.securityGroupId ? [config.securityGroupId] : [securityGroup.id],
     },
     options
   );

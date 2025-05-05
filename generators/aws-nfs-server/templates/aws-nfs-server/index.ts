@@ -64,9 +64,9 @@ export = async () => {
           cidrBlocks: [config.cidrBlock],
         },
       ],
-      name: config.name,
+      name: `${config.name}-nfs`,
       tags: {
-        Name: config.name,
+        Name: `${config.name}-nfs`,
       },
       vpcId: config.vpcId,
     },
@@ -97,7 +97,7 @@ export = async () => {
       },
       userData: config.userData,
       userDataReplaceOnChange: true,
-      vpcSecurityGroupIds: [securityGroup.id],
+      vpcSecurityGroupIds: config.securityGroupId ? [config.securityGroupId] : [securityGroup.id],
     },
     options
   );
@@ -121,6 +121,6 @@ export = async () => {
     name: config.name,
     privateIp: interpolate`${instance.privateIp}`,
     publicIp: interpolate`${instance.publicIp}`,
-    securityGroupId: securityGroup.id,
+    securityGroupId: config.securityGroupId ? [config.securityGroupId] : [securityGroup.id],
   };
 };

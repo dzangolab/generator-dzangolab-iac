@@ -54,7 +54,7 @@ export = async () => {
     options
   );
 
-  if (config.useNfs){
+  if (!config.useNfs){
     if (config.volumeId) {
       new VolumeAttachment(
         config.name,

@@ -48,20 +48,6 @@
   tags:
     - labels
 
-# - name: Setup cron jobs
-#   hosts: all
-#   become: true
-#   tasks:
-#     - cron:
-#         cron_file: "docker-cron"
-#         user: "ec2-user"
-#         name: "docker-cron"
-#         minute: "0"
-#         hour: "1"
-#         job: "docker system prune -a -f --volumes"
-#   tags:
-#     - cron
-
 - name: Setup logrotate for docker container logs
   hosts: all
   become: true

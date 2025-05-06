@@ -40,8 +40,7 @@ runcmd:
   - curl -O https://bootstrap.pypa.io/get-pip.py
   - python3 get-pip.py
   - /usr/local/bin/pip3 install docker --ignore-installed
-  - echo 'export PATH=$PATH:/usr/local/bin' >> /home/ec2-user/.bashrc
-  - source /home/ec2-user/.bashrc
+
 --//
 Content-Type: text/x-shellscript; charset="utf-8"
 MIME-Version: 1.0

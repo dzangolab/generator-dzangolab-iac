@@ -2,6 +2,8 @@ config:
   <%= projectName %>:aliases: 
     - "*"
   <%= projectName %>:domain: <%= domain %>
+  <%= projectName %>:ipStack: 
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false
+  <%= projectName %>:swarmLeaderStack: swarm-leader

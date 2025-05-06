@@ -18,13 +18,6 @@ export default class AnsibleAWSGenerator extends PulumiGenerator {
         required: true,
         type: "input",
       },
-      {
-        message: "Enter username",
-        default: "ec2-user",
-        name: "username",
-        required: true,
-        type: "input",
-      }
     ]);
   };
 

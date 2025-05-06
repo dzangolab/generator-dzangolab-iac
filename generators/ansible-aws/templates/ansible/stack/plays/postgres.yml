@@ -39,7 +39,7 @@
       when:
         - not nfs
 
-- name: Label postgres node
+- name: Label postgres node(s)
   hosts: postgres
   tasks:
     - name: Get node id

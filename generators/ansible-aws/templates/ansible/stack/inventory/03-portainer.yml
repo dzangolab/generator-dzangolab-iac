@@ -1,3 +1,0 @@
-portainer:
-  children:
-    managers:

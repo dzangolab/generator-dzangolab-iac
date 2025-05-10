@@ -13,7 +13,6 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       "aws-ebs",
       "aws-eip",
       "aws-instance-profile",
-      // aws-nfs-server
       "aws-resources",
       "aws-route53",
       "aws-security-group",
@@ -48,10 +47,20 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         name: "domain",
         type: "input",
       },
+      {
+        default: false,
+        message: "Will you use a NFS server for volumes",
+        name: "useNfs",
+        store: true,
+        type: "confirm",
+      },
     ]);
   };
 
   async writing() {
+    if (this.props.useNfs) {
+      this.resourcesList.push("aws-nfs-server");
+    }
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
@@ -65,9 +74,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
       },
       "aws-eip": {},
       "aws-instance-profile": {},
-      // "aws-nfs-server": {
-      //   environment: this.props.environment,
-      // },
+      "aws-nfs-server": {},
       "aws-resources": {},
       "aws-route53": {
         domain: this.props.domain,
@@ -77,6 +84,7 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         ami: this.props.ami,
         availabilityZone: this.props.availabilityZones,
         size: this.props.size_leader,
+        useNfs: this.props.useNfs,
       },
       "aws-vpc": {},
     };

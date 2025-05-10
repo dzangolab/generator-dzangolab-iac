@@ -28,7 +28,7 @@ export = async () => {
         associatePublicIpAddress: config.associatePublicIpAddress,
         availabilityZone: config.availabilityZone,
         disableApiTermination: config.disableApiTermination,
-        iamInstanceProfile: config.instanceProfile,
+        iamInstanceProfile: config.iamInstanceProfile,
         instanceType: config.instanceType,
         keyName: config.keypair,
         monitoring: config.monitoring,
@@ -45,7 +45,7 @@ export = async () => {
         },
         userData: config.userData,
         userDataReplaceOnChange: true,
-        vpcSecurityGroupIds: [config.securityGroupId],
+        vpcSecurityGroupIds: [config.securityGroupId as string],
       },
       options
     );

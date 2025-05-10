@@ -1,6 +1,6 @@
-import Generator from "yeoman-generator";
+import PulumiGenerator from "../pulumi/index.js";
 
-export default class AnsibleAWSGenerator extends Generator {
+export default class AnsibleAWSGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
   
@@ -17,7 +17,7 @@ export default class AnsibleAWSGenerator extends Generator {
         name: "domain",
         required: true,
         type: "input",
-      }
+      },
     ]);
   };
 

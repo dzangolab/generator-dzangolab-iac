@@ -32,7 +32,7 @@ export const getConfig = async () => {
   if (!secretArn) {
     const outputs = await getOutputs(
       "awsResourcesStack",
-      "secretArn,sesSmtpUser,username"
+      "secretArn,sesSmtpUsername,username"
     );
 
     secretArn = outputs ? outputs[0] as string : undefined;

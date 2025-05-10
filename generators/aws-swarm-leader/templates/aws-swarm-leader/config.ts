@@ -73,6 +73,8 @@ export const getConfig = async () => {
   /** Get subnet id **/
   const subnetId = stackConfig.require("subnetId");
 
+  const useNfs = stackConfig.get("useNfs");
+
   /** Get volume id **/
   let volumeId = stackConfig.get("volumeId");
 
@@ -137,6 +139,7 @@ export const getConfig = async () => {
     securityGroupId,
     subnetId,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
+    useNfs,
     userData,
     volumeId,
     vpcId

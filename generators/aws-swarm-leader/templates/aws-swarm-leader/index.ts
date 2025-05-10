@@ -127,18 +127,16 @@ export = async () => {
     options
   );
 
-  if (!config.useNfs){
-    if (config.volumeId) {
-      new VolumeAttachment(
-        config.name,
-        {
-          instanceId: instance.id,
-          volumeId: config.volumeId,
-          deviceName: "/dev/xvdf",
-        },
-        options
-      );
-    }    
+  if (!config.useNfs && config.volumeId) {
+    new VolumeAttachment(
+      config.name,
+      {
+        instanceId: instance.id,
+        volumeId: config.volumeId,
+        deviceName: "/dev/xvdf",
+      },
+      options
+    );
   }
 
   new local.Command(

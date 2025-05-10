@@ -4,7 +4,7 @@
   tasks:
     - name: Ensure necessary directories exist
       file:
-        group: "nogroup"
+        group: "nobody"
         owner: "nobody"
         path: "/mnt/nfs/mariadb/{{ item.0 }}/{{ item.1 }}"
         state: directory

@@ -5,7 +5,7 @@
   tasks:
     - name: Ensure necessary directories exist
       file:
-        group: "nogroup"
+        group: "nobody"
         owner: "nobody"
         path: "/mnt/nfs/{{ item }}"
         state: directory

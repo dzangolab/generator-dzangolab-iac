@@ -5,7 +5,7 @@
   tasks:
     - name: Ensure necessary directories exist
       file:
-        group: "nogroup"
+        group: "nobody"
         owner: "nobody"
         path: "/mnt/nfs/{{ item }}"
         state: directory
@@ -21,7 +21,7 @@
         path: "/mnt/nfs/traefik/acme/acme.json"
         state: touch
         owner: "nobody"
-        group: "nogroup"
+        group: "nobody"
         mode: "0600"
       when:
         - nfs

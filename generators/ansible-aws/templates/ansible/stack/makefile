@@ -32,6 +32,10 @@ docker.swarm:
 	@printf "\033[0;32m>>> Set up docker swarm\033[0m\n"
 	ansible-playbook plays/swarm.yml
 
+mariadb:
+	@printf "\033[0;32m>>> Set up mariadb directories\033[0m\n"
+	ansible-playbook plays/mariadb.yml
+
 portainer:
 	@printf "\033[0;32m>>> Set up portainer\033[0m\n"
 	ansible-playbook plays/portainer.yml
@@ -39,6 +43,10 @@ portainer:
 portainer.down:
 	@printf "\033[0;32m>>> Set up portainer\033[0m\n"
 	ansible-playbook plays/portainer.yml --extra-vars="portainer__state=stopped"
+
+postgres:
+	@printf "\033[0;32m>>> Set up postgres\033[0m\n"
+	ansible-playbook plays/postgres.yml
 
 ssh-keys:
 	@printf "\033[0;32m>>> Update SSH keys\033[0m\n"

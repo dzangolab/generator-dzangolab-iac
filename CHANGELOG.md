@@ -1,3 +1,21 @@
+## 1.0.0-rc29 (2025-05-10)
+
+* chore: update getOutputs (#128) e547011, closes #128
+* chore(aws-swarm): adding aws-nfs-server to aws-swarm (#127) 0d225ee, closes #127
+* chore(aws/move-security-group): Aws move security group (#130) f819880, closes #130
+* chore(fix/swarm-workers): fix Pulumi project description 1026c3f
+* fix: fix stackconfig (#129) 334682b, closes #129
+* fix: getOutputs (#126) 556c0ad, closes #126
+* fix: update getOutputs (#125) 0d14b0b, closes #125
+* fix(aws/credentials): update getOutputs fe7a44f
+* fix(do./ansible): fix typo (#117) 725a435, closes #117
+* fix(generator/aws-swarm-workers): Fix aws/swarm-workers generator (#116) eda2ac0, closes #116 #128 #126 #125 #115
+* Aws ansible (#119) a1c0c74, closes #119 #123 #124
+* Do ansible (#118) 66d05f3, closes #118
+* Fix(generator/aws-swarm-leader): using get outputs aws swarm leader (#115) 1353271, closes #115
+
+
+
 ## 1.0.0-rc28 (2025-04-17)
 
 * chore: adding default value (#78) 45469a4, closes #78

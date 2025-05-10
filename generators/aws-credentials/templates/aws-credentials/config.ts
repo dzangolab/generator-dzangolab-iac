@@ -22,10 +22,8 @@ type Constraints = {
 type Passwords = { [key: string]: Constraints };
 
 export const getConfig = async () => {
-  const organization = getOrganization();
   const stack = getStack();
   const stackConfig = new Config();
-  const doDatabaseClusterProject = stackConfig.get("doDatabaseClusterProject");
 
   let secretArn = stackConfig.get("secretArn");
   let sesSmtpUser: string | undefined = undefined;
@@ -36,6 +34,7 @@ export const getConfig = async () => {
       "awsResourcesStack",
       "secretArn,sesSmtpUsername,username"
     );
+
     secretArn = outputs ? outputs[0] as string : undefined;
     sesSmtpUser = outputs ? outputs[1] as string : undefined;
     username = outputs ? outputs[2] as string : undefined;
@@ -53,25 +52,11 @@ export const getConfig = async () => {
     username
   };
 
-  if (doDatabaseClusterProject) {
-    const databaseStack = new StackReference(
-      `${organization}/${doDatabaseClusterProject}/${stack}`,
-    );
-
-    const rootPasswordOutput = await databaseStack.getOutputDetails("rootPassword");
-    config.rootPassword = getValue<string>(rootPasswordOutput);
-
-    const databaseUsernameOutput = await databaseStack.getOutputDetails("userName");
-    config.databaseUsername = getValue<string>(databaseUsernameOutput);
-
-    const databasePasswordOutput = await databaseStack.getOutputDetails("userPassword");
-    config.databasePassword = getValue<string>(databasePasswordOutput);
-  }
-
   return config;
 };
 
 const stacks: { [key: string]: StackReference } = {};
+
 
 async function getOutputs<T = string>(
   stackConfigVar: string,
@@ -103,7 +88,32 @@ async function getOutputs<T = string>(
 
   const outputNames = outputNamesString.split(",");
 
-  const stackName = `${organization}/${project}/${stack}`;
+  let stackName = undefined;
+  let _organization = organization;
+  let _project = undefined;
+  let _stack = stack;
+
+  const tokens = project.split("/");
+
+  switch (tokens.length) {
+    case 3:
+      [_organization, _project, _stack] = tokens;
+      break;
+
+    case 2:
+      if (organization == "organization") {
+        [_project, _stack] = tokens;
+      } else {
+        [_organization, _project] = tokens;
+      }
+      break;
+
+    case 1:
+      _project = tokens[0];
+      break;
+  }
+
+  stackName = `${_organization}/${_project}/${_stack}`;
   let otherStack = stacks[stackName];
 
   if (!otherStack) {

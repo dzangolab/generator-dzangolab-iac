@@ -1,3 +1,12 @@
+## 1.0.0-rc30 (2025-05-10)
+
+* fix(aws): fix writing stack config e0df3d4
+* fix(cloudflare): fix writing stack config 65d5c19
+* fix(do): fix writing stack config 39e5610
+* chore: release v1.0.0-rc29 f259eba
+
+
+
 ## 1.0.0-rc29 (2025-05-10)
 
 * chore: update getOutputs (#128) e547011, closes #128

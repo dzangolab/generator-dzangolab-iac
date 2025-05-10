@@ -17,7 +17,7 @@ export default class AWSDockerSwarmWorkersGenerator extends PulumiGenerator {
 
     this.option("keyName", {
       type: String,
-      desc: "Name of user account to create on droplet"
+      desc: "Enter the name of the public key to use"
     });
 
     this.option("availabilityZone", {
@@ -35,7 +35,7 @@ export default class AWSDockerSwarmWorkersGenerator extends PulumiGenerator {
         type: "input",
       },
       {
-        message: "Enter the name of the keyName",
+        message: "Enter the name of the public key to use",
         required: true,
         name: "keyName",
         type: "input",

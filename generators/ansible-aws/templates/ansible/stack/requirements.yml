@@ -1,9 +1,8 @@
-- src: https://github.com/dzangolab/ansible-docker-portainer
-  version: "1.3"
-  name: dzangolab.docker_portainer
-- src: https://github.com/dzangolab/ansible-docker-traefik
-  version: "4.4"
-  name: dzangolab.docker_traefik
-- src: https://github.com/vlcty/ansible-systemd-timers
-  version: master
-  name: victy.ansible-systemd-timers
+collections:
+  - name: dzangolab.ansible
+    version: ">=0.3.1"
+
+roles:
+  - name: victy.ansible-systemd-timers
+    src: https://github.com/vlcty/ansible-systemd-timers
+    version: master

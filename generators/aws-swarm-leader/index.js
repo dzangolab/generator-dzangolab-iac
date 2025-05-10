@@ -29,7 +29,13 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
       required: true,
       type: String,
     });
-  };
+
+    this.option("useNfs", {
+      type: Boolean,
+      default: false,
+      desc: "Whether or not a NFS server is used for volumes"
+    });
+  }
 
   async prompting() {
     this.props = await this._optionOrPrompt([

@@ -73,6 +73,8 @@ export const getConfig = async () => {
   /** Get subnet id **/
   const subnetId = stackConfig.require("subnetId");
 
+  const useNfs = stackConfig.get("useNfs");
+
   /** Get volume id **/
   let volumeId = stackConfig.get("volumeId");
 
@@ -101,10 +103,26 @@ export const getConfig = async () => {
     }
   );
 
+  let vpcId = stackConfig.get("vpcId");
+  let cidrBlock = undefined as unknown as string;
+
+  if (!vpcId) {
+    const outputs = await getOutputs(
+      "vpcStack",
+      "vpcId,cidrBlock"
+    );
+
+    if (outputs) {
+      vpcId = outputs[0] as string;
+      cidrBlock = outputs[1] as string;
+    }
+  }
+
   return {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
     availabilityZone,
+    cidrBlock,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     eip,
     eipId,
@@ -121,8 +139,10 @@ export const getConfig = async () => {
     securityGroupId,
     subnetId,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
+    useNfs,
     userData,
     volumeId,
+    vpcId
   };
 };
 

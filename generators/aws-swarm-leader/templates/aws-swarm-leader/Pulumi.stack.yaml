@@ -20,3 +20,4 @@ config:
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
 #  <%= projectName %>:volumeId:
   <%= projectName %>:volumeStack: <%= prefix %>-vpc
+  <%= projectName %>:useNfs: <%= useNfs %>

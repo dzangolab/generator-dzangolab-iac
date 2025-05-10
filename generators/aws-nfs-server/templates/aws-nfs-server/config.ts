@@ -65,10 +65,25 @@ export const getConfig = async () => {
   if (!volumeId) {
     const outputs = await getOutputs(
       "volumeStack",
-      "id"
+      "ids"
     );
 
-    volumeId = outputs ? outputs[0] as string : undefined;
+    volumeId = outputs ? outputs[0][0] as string : undefined;
+  }
+
+  let vpcId = stackConfig.get("vpcId");
+  let cidrBlock = undefined as unknown as string;
+
+  if (!vpcId) {
+    const outputs = await getOutputs(
+      "vpcStack",
+      "vpcId,cidrBlock"
+    );
+
+    if (outputs) {
+      vpcId = outputs[0] as string;
+      cidrBlock = outputs[1] as string;
+    }
   }
 
   /** Get user data **/
@@ -91,6 +106,7 @@ export const getConfig = async () => {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
     availabilityZone,
+    cidrBlock,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     iamInstanceProfile,
     instanceType: stackConfig.require("instanceType"),
@@ -107,6 +123,7 @@ export const getConfig = async () => {
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
     volumeId,
+    vpcId
   };
 };
 

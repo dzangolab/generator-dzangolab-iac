@@ -1,4 +1,5 @@
 config:
+  <%= projectName %>:awsResourcesStack: <%= prefix %>-resources
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:passwords:
     # mariadb-root: {}

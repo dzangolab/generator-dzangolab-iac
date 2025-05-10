@@ -55,7 +55,7 @@ export default class CloudflareDNSGenerator extends PulumiGenerator {
     );
     
     if (this.options.createStackConfig) {
-      this.fs.copyTplAsync(
+      await this.fs.copyTplAsync(
         `${this.templatePath(this.name)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {

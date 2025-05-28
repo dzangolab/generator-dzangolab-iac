@@ -38,7 +38,7 @@ export default class AWSRoute53Generator extends PulumiGenerator {
 
 
     await this.fs.copyTplAsync(
-      this.templatePath(`aws-${this.name}`),
+      this.templatePath(`${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
         ...this.options,
@@ -55,7 +55,7 @@ export default class AWSRoute53Generator extends PulumiGenerator {
 
     if (this.options.createStackConfig) {
       await this.fs.copyTplAsync(
-        `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
+        `${this.templatePath(`${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {
           ...this.options,

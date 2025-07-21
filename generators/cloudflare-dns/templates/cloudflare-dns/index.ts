@@ -15,10 +15,10 @@ export = async () => {
 
   const hostname = getHostname(config.host, config.subdomain)
 
-  const outputs: { [key: string]: any } = {};
+  const records = [];
 
   if (config.ip) {
-    const host = new Record(
+    const record = new Record(
       `${hostname}.${config.domain}`,
       {
         content: config.ip,
@@ -31,13 +31,13 @@ export = async () => {
       options
     );
 
-    outputs["a"] = interpolate`${host}`;
+    records.push(interpolate`A ${record.ttl} ${record.name} ${record.content} [proxied: ${record.proxied}]`);
   }
 
   for (let i = 0, aliases = config.aliases; i < aliases.length; i++) {
     const alias = getHostname(aliases[i], config.subdomain);
 
-    new Record(
+    const record = new Record(
       `${alias}.${config.domain}`,
       {
         content: `${hostname}.${config.domain}`,
@@ -49,11 +49,13 @@ export = async () => {
       },
       options
     );
+
+    records.push(interpolate`A ${record.ttl} ${record.name} ${record.content} [proxied: ${record.proxied}]`);
   }
 
   return {
-    ...outputs,
     domain: config.domain,
+    records,
   };
 }
 

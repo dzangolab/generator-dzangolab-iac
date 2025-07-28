@@ -1,3 +1,12 @@
+## 1.0.0-rc31 (2025-07-28)
+
+* feat(cloudflare-dns): update cloudlare-dns output (#134) abe7f88, closes #134
+* fix(aws-instance-profile): add profileName and rolename variables to stack config template ba285a7
+* fix(aws/swam-workers): update stack config template f2c420b
+* fix(pulumi-s3-backend): fix bucket name to add random suffix 839fd6a
+
+
+
 ## 1.0.0-rc30 (2025-05-10)
 
 * fix(aws): fix writing stack config e0df3d4

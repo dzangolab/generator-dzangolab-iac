@@ -2,15 +2,15 @@ config:
   <%= projectName %>:ami: ami-XXXXXXXXXXXXXXXXX
   <%= projectName %>:associatePublicIpAddress: false
   <%= projectName %>:availabilityZone: <%= availabilityZone %>
-  <%= projectName %>:desiredCapacity: 2
+  <%= projectName %>:desiredCapacity: <%= desiredCapacity %>
   <%= projectName %>:disableApiTermination: false
   <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-instance-profile
   <%= projectName %>:instanceType: t4g.small
   <%= projectName %>:leaderStack: <%= prefix %>-leader
   <%= projectName %>:keyName: <%= keyName %>
   <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs
-  <%= projectName %>:maxSize: 2
-  <%= projectName %>:minSize: 1
+  <%= projectName %>:maxSize: <%= maxSize %>
+  <%= projectName %>:minSize: <%= minSize %>
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false

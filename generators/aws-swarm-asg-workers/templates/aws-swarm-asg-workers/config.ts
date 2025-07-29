@@ -1,5 +1,4 @@
 import {
-  all,
   Config,
   getOrganization,
   getStack,
@@ -29,7 +28,9 @@ export const getConfig = async () => {
       "id"
     );
 
-    iamInstanceProfile = outputs ? outputs[0] as string : undefined;
+    if (outputs) { 
+      iamInstanceProfile = outputs[0] as string;
+    }
   }
 
   /** Get keypair */
@@ -42,8 +43,9 @@ export const getConfig = async () => {
       "keypairsStack",
       keyName
     );
-
-    keypair = outputs ? outputs[0]["name"] as string : undefined;
+    if (outputs) {
+      keypair = outputs[0]["name"] as string;
+    }
   }
 
   /** Get workers token */
@@ -56,8 +58,10 @@ export const getConfig = async () => {
       "privateIp,workerToken"
     );
 
-    leaderIp = outputs ? outputs[0] as string : undefined;
-    workerToken = outputs ? outputs[1] as string : undefined;
+    if (outputs) {
+      leaderIp = outputs[0] as string;
+      workerToken = outputs[1] as string;
+    }
   }
 
   /** Gets security group id */
@@ -69,26 +73,24 @@ export const getConfig = async () => {
       "id,name"
     );
 
-    securityGroupId = outputs ? outputs[0] as string : undefined;
+    if (outputs) {
+      securityGroupId = outputs[0] as string; 
+    }
   }
 
   /** Get subnet id **/
   const subnetId = stackConfig.require("subnetId");
 
-  // let userData: Output<string>;
-
   /** Get user data **/
-  const userData = all([
-  ]).apply(([token, managerIp]) => {
-      return generateUserData(
-          stackConfig.get("userDataTemplate") || "./cloud-config.njx",
-          {
-              packages: stackConfig.getObject<string[]>("packages"),
-              swarmWorkerToken: workerToken,
-              swarmManagerIp: leaderIp
-          }
-      );
-  });
+  const userData = 
+    generateUserData(
+      stackConfig.get("userDataTemplate") || "./cloud-config.njx",
+        {
+          packages: stackConfig.getObject<string[]>("packages"),
+          swarmWorkerToken: workerToken,
+          swarmManagerIp: leaderIp
+        }
+    );
 
   let vpcId = stackConfig.get("vpcId");
   let cidrBlock = undefined as unknown as string;

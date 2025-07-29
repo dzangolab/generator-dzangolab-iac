@@ -2,17 +2,29 @@ import chalk from "chalk";
 
 import PulumiGenerator from "../pulumi/index.js";
 
-export default class AWSDockerSwarmWorkersGenerator extends PulumiGenerator {
+export default class AWSDockerSwarmAsgWorkersGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.displayName = "AWS swarm workers";
+    this.displayName = "AWS swarm asg workers";
     this.name = "swarm-workers";
 
-    this.option("count", {
+    this.option("minSize", {
+      type: String,
+      default: "1",
+      desc: "Minimum number of worker nodes to always be provisioned"
+    });
+
+    this.option("maxSize", {
       type: String,
       default: "2",
-      desc: "Number of worker nodes to provision"
+      desc: "Maximum number of worker nodes that might be provisioned"
+    });
+
+    this.option("desiredCapacity", {
+      type: String,
+      default: "2",
+      desc: "The target number of nodes the autoscaler aims to maintain based on workload"
     });
 
     this.option("keyName", {
@@ -43,6 +55,21 @@ export default class AWSDockerSwarmWorkersGenerator extends PulumiGenerator {
       {
         message: "Enter the availabilityZone",
         name: "availabilityZone",
+        type: "input",
+      },
+      {
+        message: "Enter the minimum number of worker nodes to always be provisioned",
+        name: "minSize",
+        type: "input",
+      },
+      {
+        message: "Enter the maximum number of worker nodes that might be provisioned",
+        name: "maxSize",
+        type: "input",
+      },
+      {
+        message: "The target number of nodes the autoscaler aims to maintain based on workload",
+        name: "desiredCapacity",
         type: "input",
       }
     ]);

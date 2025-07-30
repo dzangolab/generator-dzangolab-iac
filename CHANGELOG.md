@@ -1,3 +1,11 @@
+## 1.0.0-rc32 (2025-07-30)
+
+* feat(aws/security-groups): add aws security groups generator 7b5520c
+* feat(aws/security-groups): add aws security groups generator e78f35b
+* feat(aws/vpc): add cidrBlock to vpc outputs 0e96f14
+
+
+
 ## 1.0.0-rc31 (2025-07-28)
 
 * feat(cloudflare-dns): update cloudlare-dns output (#134) abe7f88, closes #134

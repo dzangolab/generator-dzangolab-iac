@@ -169,25 +169,11 @@ export = async () => {
         ],
         ingress: [
           {
-            description: "SSH temporarily",
+            description: "SSH",
             fromPort: 22,
             toPort: 22,
             protocol: "tcp",
             cidrBlocks: config.useBastion ? [config.cidrBlock] : ["0.0.0.0/0"],
-          },
-          {
-            description: "RPC (TCP)",
-            fromPort: 111,
-            toPort: 111,
-            protocol: "tcp",
-            cidrBlocks: [config.cidrBlock],
-          },
-          {
-            description: "RPC (UDP)",
-            fromPort: 111,
-            toPort: 111,
-            protocol: "udp",
-            cidrBlocks: [config.cidrBlock],
           },
           {
             description: "NFS (TCP)",

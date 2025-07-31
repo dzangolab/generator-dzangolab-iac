@@ -1,3 +1,9 @@
+## 1.0.0-rc32.0 (2025-07-31)
+
+* fix(aws/swarm-security-groups): fix aws swarm security groups generator 37b61ed
+
+
+
 ## 1.0.0-rc32 (2025-07-30)
 
 * feat(aws/security-groups): add aws security groups generator 7b5520c

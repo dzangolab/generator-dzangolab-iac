@@ -292,4 +292,6 @@ export = async () => {
     outputs.workersSecurityGroupArn = interpolate`${workersSecurityGroup.arn}`;
     outputs.workersSecurityGroupId = interpolate`${workersSecurityGroup.id}`;
   }
+
+  return outputs;
 }

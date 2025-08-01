@@ -1,3 +1,9 @@
+## 1.0.0-rc33 (2025-08-01)
+
+* fix(aws/swarm-security-groups): fix generator output f1ac68d
+
+
+
 ## 1.0.0-rc32.0 (2025-07-31)
 
 * fix(aws/swarm-security-groups): fix aws swarm security groups generator 37b61ed

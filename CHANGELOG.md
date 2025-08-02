@@ -1,3 +1,9 @@
+## 1.0.0-rc38 (2025-08-02)
+
+* feat(aws/swarm-leader): update cloud-config 6f44344
+
+
+
 ## 1.0.0-rc37 (2025-08-02)
 
 * feat(aws/ansible): update default interpreter 2da5476

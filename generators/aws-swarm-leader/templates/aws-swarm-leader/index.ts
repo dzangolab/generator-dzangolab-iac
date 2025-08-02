@@ -42,7 +42,10 @@ export = async () => {
       userDataReplaceOnChange: true,
       vpcSecurityGroupIds: config.securityGroupIds,
     },
-    options
+    {
+      deleteBeforeReplace: true,
+      ...options
+    }
   );
 
   new EipAssociation(

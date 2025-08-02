@@ -16,6 +16,7 @@ class PulumiGenerator extends Generator {
       pulumi_awsx: "^3",
       pulumi_command: "^1",
       pulumi_cloudflare: "^6",
+      pulumi_random: "^4",
       types_node: "^24",
     };
     

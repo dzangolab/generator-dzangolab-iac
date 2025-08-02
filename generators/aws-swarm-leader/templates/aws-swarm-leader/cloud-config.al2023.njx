@@ -30,6 +30,48 @@ write_files:
       }
     }
   path: /etc/docker/daemon.json
+- content: |
+    {
+      "log-driver": "json-file",
+      "log-opts": {
+        "max-size": "10m",
+        "max-file": "5"
+      }
+    }
+  path: /etc/docker/daemon.json
+- content: |
+    /var/lib/docker/containers/*/*.log {
+      compress
+      copytruncate
+      create
+      daily
+      dateext
+      dateformat -%Y%m%d
+      delaycompress
+      missingok
+      rotate 7
+    }
+  path: /etc/logrotate.d/docker-container
+- content: |
+    [Unit]
+    Description=dockerPrune Service
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/bin/docker system prune -a -f --volumes
+  path: /etc/systemd/system/dockerPrune.service
+- content: |
+    [Unit]
+    Description=dockerPrune Timer
+
+    [Timer]
+    OnCalendar=*-*-* 00:13:25
+    Persistent=false
+    AccuracySec=15s
+
+    [Install]
+    WantedBy=timers.target
+  path: /etc/systemd/system/dockerPrune.timer
 
 runcmd:
   - dnf install docker -y
@@ -43,6 +85,8 @@ runcmd:
   - curl -O https://bootstrap.pypa.io/get-pip.py
   - python3 get-pip.py
   - docker swarm init --default-addr-pool 192.168.0.0/16 --advertise-addr $(cloud-init query ds.meta-data.local-ipv4)
+  - docker network create -d overlay --attachable private
+  - docker network create -d overlay --attachable public
 
 --//
 Content-Type: text/x-shellscript; charset="utf-8"

@@ -1,3 +1,10 @@
+## 1.0.0-rc35 (2025-08-02)
+
+* fix(aws/swarm-leader): fix aws swarm leader generator d43c5fe
+* chore: update dependencies ede88cd
+
+
+
 ## 1.0.0-rc34 (2025-08-02)
 
 * Aws/swarm leader (#141) b1debc3, closes #141

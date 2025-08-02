@@ -1,0 +1,7 @@
+swarm:
+  children:
+    leader:
+      hosts:
+        <%= prefix %>
+    managers:
+    workers:

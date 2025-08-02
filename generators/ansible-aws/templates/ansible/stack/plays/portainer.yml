@@ -7,11 +7,9 @@
       file:
         group: "nobody"
         owner: "nobody"
-        path: "/mnt/nfs/{{ item }}"
+        path: "{{ portainer_deploy_dir }}"
         state: directory
         recurse: true
-      with_items:
-        - "portainer"
       when:
         - nfs
 

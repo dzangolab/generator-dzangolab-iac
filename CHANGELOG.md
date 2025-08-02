@@ -1,3 +1,10 @@
+## 1.0.0-rc40 (2025-08-02)
+
+* fix(aws/swarm-leader): fix aws swarm leader generator 9feef12
+* fix(aws/swarm-leader): rename user data file 0d3b403
+
+
+
 ## 1.0.0-rc39.0 (2025-08-02)
 
 * fix(aws/swarm-leader): fix typo in cloud config b6654d8

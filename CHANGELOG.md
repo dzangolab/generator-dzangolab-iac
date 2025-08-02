@@ -1,3 +1,10 @@
+## 1.0.0-rc34 (2025-08-02)
+
+* Aws/swarm leader (#141) b1debc3, closes #141
+* Aws/swarm leader (#142) 5d08567, closes #142
+
+
+
 ## 1.0.0-rc33 (2025-08-01)
 
 * fix(aws/swarm-security-groups): fix generator output f1ac68d

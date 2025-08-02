@@ -13,9 +13,9 @@ class PulumiGenerator extends Generator {
       dzangolab: "^0.33",
       pulumi: "^3",
       pulumi_aws: "^7",
-      pulumi_awsx: "^2.7",
+      pulumi_awsx: "^3",
       pulumi_command: "^1",
-      pulumi_cloudflare: "^5",
+      pulumi_cloudflare: "^6",
       types_node: "^24",
     };
     

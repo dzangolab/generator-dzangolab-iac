@@ -1,3 +1,10 @@
+## 1.0.0-rc36 (2025-08-02)
+
+* feat: update dependencies 2a5a623
+* feat(aws/credentials): update dependencies f4bd8f2
+
+
+
 ## 1.0.0-rc35 (2025-08-02)
 
 * fix(aws/swarm-leader): fix aws swarm leader generator d43c5fe

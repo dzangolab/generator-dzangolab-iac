@@ -13,6 +13,8 @@ config:
   <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs/global
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
+#  <%= projectName %>:publicKeynames:
+#    - 
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:rootBlockDeviceSize: 20
 #  <%= projectName %>:securityGroupId:

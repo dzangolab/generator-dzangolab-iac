@@ -12,10 +12,11 @@ class PulumiGenerator extends Generator {
       digitalocean: "^4",
       dzangolab: "^0.33",
       pulumi: "^3",
-      pulumi_aws: "^6",
+      pulumi_aws: "^7",
       pulumi_awsx: "^2.7",
+      pulumi_command: "^1",
       pulumi_cloudflare: "^5",
-      types_node: "^22",
+      types_node: "^24",
     };
     
     this.option("createStackConfig", {

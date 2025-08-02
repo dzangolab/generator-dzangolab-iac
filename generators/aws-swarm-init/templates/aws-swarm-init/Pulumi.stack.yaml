@@ -1,0 +1,8 @@
+config:
+#  <%= projectName %>:eip: 
+  <%= projectName %>:eipStack: <%= prefix %>-eip
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:protect: false
+  <%= projectName %>:retainOnDelete: false
+#  <%= projectName %>:bastionIp: false
+  <%= projectName %>:bastionStack: aws-bastion

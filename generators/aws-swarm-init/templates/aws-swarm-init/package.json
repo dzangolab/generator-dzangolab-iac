@@ -1,0 +1,11 @@
+{
+  "name": "<%= projectName %>",
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/command": "^0.9",
+    "@pulumi/pulumi": "<%= versions.pulumi %>",
+  },
+  "devDependencies": {
+    "@types/node": "<%= versions.types_node %>"
+  }
+}

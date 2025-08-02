@@ -85,9 +85,9 @@ runcmd:
   - curl -O https://bootstrap.pypa.io/get-pip.py
   - python3 get-pip.py
   - docker swarm init --default-addr-pool 192.168.0.0/16 --advertise-addr $(cloud-init query ds.meta-data.local-ipv4)
-  - docker network create -d overlay --attachable private
-  - docker network create -d overlay --attachable public
-
+{% for network in networks %}
+  - docker network create -d overlay --attachable {{ network }}
+{% end for %}
 --//
 Content-Type: text/x-shellscript; charset="utf-8"
 MIME-Version: 1.0

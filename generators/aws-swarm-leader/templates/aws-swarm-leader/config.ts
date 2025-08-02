@@ -85,6 +85,7 @@ export const getConfig = async () => {
   const userData = generateUserData(
     stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
     {
+      networks: stackConfig.getObject<string[]>("networks"),
       packages: stackConfig.getObject<string[]>("packages"),
       publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
       volumes: [

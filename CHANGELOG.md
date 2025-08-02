@@ -1,3 +1,9 @@
+## 1.0.0-rc42 (2025-08-02)
+
+* fix(aws/ansible): fix aws ansible generator ([f168048](https://github.com/dzangolab/generator-dzangolab-iac/commit/f168048))
+
+
+
 ## 1.0.0-rc41.0 (2025-08-02)
 
 * fix(aws/swarm-leader): fix update instance ([5411628](https://github.com/dzangolab/generator-dzangolab-iac/commit/5411628))

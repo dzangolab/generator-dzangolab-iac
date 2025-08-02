@@ -1,3 +1,9 @@
+## 1.0.0-rc37 (2025-08-02)
+
+* feat(aws/ansible): update default interpreter 2da5476
+
+
+
 ## 1.0.0-rc36 (2025-08-02)
 
 * feat: update dependencies 2a5a623

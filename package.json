@@ -7,7 +7,7 @@
     "yeoman-generator"
   ],
   "homepage": "",
-  "repository": "generator-dzangolab-iac",
+  "repository": "https://generator-dzangolab-iac",
   "license": "MIT",
   "author": {
     "name": "Dzango Technologies",

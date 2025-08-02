@@ -1,3 +1,9 @@
+## 1.0.0-rc39.0 (2025-08-02)
+
+* fix(aws/swarm-leader): fix typo in cloud config b6654d8
+
+
+
 ## 1.0.0-rc39 (2025-08-02)
 
 * fix(aws/swarm-leader): update options and prompts 662f7de

@@ -1,3 +1,9 @@
+## 1.0.0-rc39 (2025-08-02)
+
+* fix(aws/swarm-leader): update options and prompts 662f7de
+
+
+
 ## 1.0.0-rc38 (2025-08-02)
 
 * feat(aws/swarm-leader): update cloud-config 6f44344

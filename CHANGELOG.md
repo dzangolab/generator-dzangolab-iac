@@ -1,3 +1,10 @@
+## 1.0.0-rc41 (2025-08-02)
+
+* chore: update package.json and deendencies ([5148afc](https://github.com/dzangolab/generator-dzangolab-iac/commit/5148afc))
+* chore: update rrepo url ([f790ba0](https://github.com/dzangolab/generator-dzangolab-iac/commit/f790ba0))
+
+
+
 ## 1.0.0-rc40 (2025-08-02)
 
 * fix(aws/swarm-leader): fix aws swarm leader generator 9feef12

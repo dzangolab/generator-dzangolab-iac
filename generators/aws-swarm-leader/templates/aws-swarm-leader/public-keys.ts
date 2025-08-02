@@ -1,6 +1,9 @@
 import { readFileSync } from "fs";
 
-function getPublicKeys(keyNames: string[]): string[] {
+function getPublicKeys(
+    keyNames: string[],
+    pathToSshKeysFolder = "../../../ssh-keys"
+): string[] {
     var publicKeys: string[];
     publicKeys = [];
 
@@ -8,7 +11,7 @@ function getPublicKeys(keyNames: string[]): string[] {
         const name = keyNames[i];
 
         const key = readFileSync(
-            `../../ssh-keys/${name}.pub`,
+            `${pathToSshKeysFolder}/${name}.pub`,
             {
                 encoding: "utf-8",
             }

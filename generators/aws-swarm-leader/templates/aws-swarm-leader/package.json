@@ -3,7 +3,7 @@
   "main": "index.ts",
   "dependencies": {
     "@pulumi/aws": "<%= versions.pulumi_aws %>",
-    "@pulumi/command": "^0.9",
+    "@pulumi/command": "<%= versions.pulumi_command %>",
     "@pulumi/pulumi": "<%= versions.pulumi %>",
     "@types/nunjucks": "^3",
     "nunjucks": "^3"

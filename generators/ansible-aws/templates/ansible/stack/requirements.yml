@@ -1,6 +1,6 @@
 collections:
   - name: dzangolab.ansible
-    version: ">=0.3.1"
+    version: ">=0.4.0"
 
 roles:
   - name: victy.ansible-systemd-timers

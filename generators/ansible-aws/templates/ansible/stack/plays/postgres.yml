@@ -1,12 +1,12 @@
 - name: Create required postgres directories on the NFS server
   hosts: nfs_server
-  become: yes
+  become: true
   tasks:
     - name: Ensure required postgres directories exist
       file:
         group: "nobody"
         owner: "nobody"
-        path: "/mnt/nfs/postgres/{{ item.0 }}/{{ item.1 }}"
+        path: "{{ postgres_data_dir }}/{{ item.0 }}/{{ item.1 }}"
         state: directory
         recurse: true
       with_nested:

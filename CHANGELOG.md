@@ -1,3 +1,9 @@
+## 1.0.0-rc43 (2025-08-03)
+
+* feat(aws/ansible): update aws ansible generator ([7fe0e4c](https://github.com/dzangolab/generator-dzangolab-iac/commit/7fe0e4c))
+
+
+
 ## 1.0.0-rc42 (2025-08-02)
 
 * fix(aws/ansible): fix aws ansible generator ([f168048](https://github.com/dzangolab/generator-dzangolab-iac/commit/f168048))

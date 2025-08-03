@@ -4,6 +4,7 @@ deploy_user: ec2-user
 
 domain: <%= domain %>
 
+network_private: private
 network_public: public
 nfs: false
 

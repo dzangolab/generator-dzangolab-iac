@@ -1,3 +1,10 @@
+## 1.0.0-rc42.1 (2025-08-04)
+
+* fix(aws/ansible): fix portainer playbook ([6e11269](https://github.com/dzangolab/generator-dzangolab-iac/commit/6e11269))
+* fix(aws/credentials): fix special characters in postgres password ([a895f21](https://github.com/dzangolab/generator-dzangolab-iac/commit/a895f21))
+
+
+
 ## 1.0.0-rc42.0 (2025-08-03)
 
 * feat(aws/ansible): update aws ansible generator ([80bf793](https://github.com/dzangolab/generator-dzangolab-iac/commit/80bf793))

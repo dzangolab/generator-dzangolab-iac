@@ -7,7 +7,7 @@
       file:
         group: "nobody"
         owner: "nobody"
-        path: "{{ portainer_deploy_dir }}"
+        path: "{{ portainer_deploy_dir }}/data"
         state: directory
         recurse: true
       when:

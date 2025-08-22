@@ -21,7 +21,6 @@ export default class AWSDockerSwarmAsgWorkersGenerator extends PulumiGenerator {
   }
   
   async prompting() {
-    // First set of prompts
     this.props = await this._optionOrPrompt([
       {
         default: this._getDefaultProjectName(),
@@ -56,14 +55,8 @@ export default class AWSDockerSwarmAsgWorkersGenerator extends PulumiGenerator {
       },
     ]);
 
-    // Handle the case where zones might be in a different format
     let selectedZones = this.props.zones;
-    
-    if (typeof selectedZones === 'string') {
-      selectedZones = selectedZones.split(',').map(z => z.trim());
-    }
-    
-    // If it contains display names, extract the values
+
     if (selectedZones.some(z => z.includes('Zone'))) {
       selectedZones = selectedZones.map(z => {
         if (z === 'Zone A') return 'A';
@@ -99,13 +92,6 @@ export default class AWSDockerSwarmAsgWorkersGenerator extends PulumiGenerator {
         ]);
 
         this.props = { ...this.props, ...zoneProps };
-      }
-    }
-
-    for (const zone of allZones) {
-      if (!selectedZones.includes(zone)) {
-        this.props[`minSize${zone}`] = 0;
-        this.props[`maxSize${zone}`] = 0;
       }
     }
   }

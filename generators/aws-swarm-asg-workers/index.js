@@ -56,14 +56,9 @@ export default class AWSDockerSwarmAsgWorkersGenerator extends PulumiGenerator {
       },
     ]);
 
-    // DEBUG: Log what we got from the checkbox
-    console.log('Selected zones:', this.props.zones);
-    console.log('Type of zones:', typeof this.props.zones);
-
     // Handle the case where zones might be in a different format
     let selectedZones = this.props.zones;
     
-    // If it's a string (comma-separated), convert to array
     if (typeof selectedZones === 'string') {
       selectedZones = selectedZones.split(',').map(z => z.trim());
     }
@@ -77,8 +72,6 @@ export default class AWSDockerSwarmAsgWorkersGenerator extends PulumiGenerator {
         return z;
       });
     }
-
-    console.log('Processed zones:', selectedZones);
 
     const allZones = ['A', 'B', 'C'];
     // Prompt for each selected zone

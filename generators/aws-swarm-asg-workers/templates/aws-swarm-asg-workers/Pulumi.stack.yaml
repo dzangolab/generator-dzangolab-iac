@@ -1,24 +1,24 @@
 config:
   <%= projectName %>:ami: ami-XXXXXXXXXXXXXXXXX
   <%= projectName %>:associatePublicIpAddress: false
-  <%= projectName %>:availabilityZone: <%= availabilityZone %>
-  <%= projectName %>:desiredCapacity: <%= desiredCapacity %>
   <%= projectName %>:disableApiTermination: false
   <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-instance-profile
-  <%= projectName %>:instanceType: t4g.small
+  <%= projectName %>:instanceType: <%= instanceType %>
   <%= projectName %>:leaderStack: <%= prefix %>-leader
   <%= projectName %>:keyName: <%= keyName %>
   <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs
-  <%= projectName %>:maxSize: <%= maxSize %>
-  <%= projectName %>:minSize: <%= minSize %>
+  <%= projectName %>:maxSizeA: <%= maxSizeA %>
+  <%= projectName %>:maxSizeB: <%= maxSizeB %>
+  <%= projectName %>:maxSizeC: <%= maxSizeC %>
+  <%= projectName %>:minSizeA: <%= minSizeA %>
+  <%= projectName %>:minSizeB: <%= minSizeB %>
+  <%= projectName %>:minSizeC: <%= minSizeC %>
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
-  <%= projectName %>:protect: false
-  <%= projectName %>:retainOnDelete: false
-  <%= projectName %>:rootBlockDeviceSize: 20
-  #  aws-nfs-server:securityGroupId: 
-  <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
-  <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
-  #  aws-nfs-server:tags:
-  #    -
-  #    -
-  <%= projectName %>:vpcStack: <%= prefix %>-aws-vpc
+  <%= projectName %>:pathToSshKeysFolder: ../../ssh-keys
+  <%= projectName %>:protect: "false"
+  <%= projectName %>:publicKeyNames:
+    # - 
+  <%= projectName %>:retainOnDelete: "false"
+  <%= projectName %>:rootBlockDeviceSize: "20"
+  <%= projectName %>:securityGroupStack: <%= prefix %>-security-groups
+  <%= projectName %>:vpcStack: <%= prefix %>-vpc

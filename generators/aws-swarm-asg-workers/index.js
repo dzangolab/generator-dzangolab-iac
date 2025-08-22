@@ -7,38 +7,21 @@ export default class AWSDockerSwarmAsgWorkersGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS swarm asg workers";
-    this.name = "swarm-workers";
+    this.name = "swarm-asg-workers";
 
-    this.option("minSize", {
+    this.option("instanceType", {
       type: String,
-      default: "1",
-      desc: "Minimum number of worker nodes to always be provisioned"
-    });
-
-    this.option("maxSize", {
-      type: String,
-      default: "2",
-      desc: "Maximum number of worker nodes that might be provisioned"
-    });
-
-    this.option("desiredCapacity", {
-      type: String,
-      default: "2",
-      desc: "The target number of nodes the autoscaler aims to maintain based on workload"
+      desc: "InstanceType of workers"
     });
 
     this.option("keyName", {
       type: String,
-      desc: "Enter the name of the public key to use"
-    });
-
-    this.option("availabilityZone", {
-      type: String,
-      desc: "Which zone will be selected (default will be choosed automatically)"
+      desc: "Name of the public key to use"
     });
   }
-
+  
   async prompting() {
+    // First set of prompts
     this.props = await this._optionOrPrompt([
       {
         default: this._getDefaultProjectName(),
@@ -53,27 +36,86 @@ export default class AWSDockerSwarmAsgWorkersGenerator extends PulumiGenerator {
         type: "input",
       },
       {
-        message: "Enter the availabilityZone",
-        name: "availabilityZone",
+        default: "t4g-medium",
+        message: "Enter the workers instanceType",
+        name: "instanceType",
         type: "input",
       },
       {
-        message: "Enter the minimum number of worker nodes to always be provisioned",
-        name: "minSize",
-        type: "input",
+        message: "Select regions to provision (use space to select multiple)",
+        name: "zones",
+        type: "checkbox",
+        choices: [
+          { name: 'Zone A', value: 'A' },
+          { name: 'Zone B', value: 'B' },
+          { name: 'Zone C', value: 'C' }
+        ],
+        validate: (input) => {
+          return input.length > 0 || 'You must select at least one zone';
+        }
       },
-      {
-        message: "Enter the maximum number of worker nodes that might be provisioned",
-        name: "maxSize",
-        type: "input",
-      },
-      {
-        message: "The target number of nodes the autoscaler aims to maintain based on workload",
-        name: "desiredCapacity",
-        type: "input",
-      }
     ]);
-  };
+
+    // DEBUG: Log what we got from the checkbox
+    console.log('Selected zones:', this.props.zones);
+    console.log('Type of zones:', typeof this.props.zones);
+
+    // Handle the case where zones might be in a different format
+    let selectedZones = this.props.zones;
+    
+    // If it's a string (comma-separated), convert to array
+    if (typeof selectedZones === 'string') {
+      selectedZones = selectedZones.split(',').map(z => z.trim());
+    }
+    
+    // If it contains display names, extract the values
+    if (selectedZones.some(z => z.includes('Zone'))) {
+      selectedZones = selectedZones.map(z => {
+        if (z === 'Zone A') return 'A';
+        if (z === 'Zone B') return 'B';
+        if (z === 'Zone C') return 'C';
+        return z;
+      });
+    }
+
+    console.log('Processed zones:', selectedZones);
+
+    const allZones = ['A', 'B', 'C'];
+    // Prompt for each selected zone
+    for (const zone of allZones) {
+      if (!selectedZones.includes(zone)) {
+        this.props[`minSize${zone}`] = 0;
+        this.props[`maxSize${zone}`] = 0;
+      }
+      else {
+        const zoneProps = await this._optionOrPrompt([
+          {
+            message: `Enter the minimum number of worker nodes for zone ${zone}`,
+            name: `minSize${zone}`,
+            type: "number",
+            default: 1,
+            validate: (input) => input >= 0 || 'Must be a positive number'
+          },
+          {
+            message: `Enter the maximum number of worker nodes for zone ${zone}`,
+            name: `maxSize${zone}`,
+            type: "number",
+            default: 2,
+            validate: (input) => input >= 0 || 'Must be a positive number'
+          },
+        ]);
+
+        this.props = { ...this.props, ...zoneProps };
+      }
+    }
+
+    for (const zone of allZones) {
+      if (!selectedZones.includes(zone)) {
+        this.props[`minSize${zone}`] = 0;
+        this.props[`maxSize${zone}`] = 0;
+      }
+    }
+  }
 
   async writing() {
     const message = `Generating IaC code for ${this.displayName}`;

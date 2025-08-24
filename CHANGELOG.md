@@ -1,3 +1,9 @@
+## 1.0.0-rc43 (2025-08-24)
+
+* Aws/swarm leader (#158) ([c6c37ee](https://github.com/dzangolab/generator-dzangolab-iac/commit/c6c37ee)), closes [#158](https://github.com/dzangolab/generator-dzangolab-iac/issues/158)
+
+
+
 ## 1.0.0-rc42.1 (2025-08-04)
 
 * fix(aws/ansible): fix portainer playbook ([6e11269](https://github.com/dzangolab/generator-dzangolab-iac/commit/6e11269))

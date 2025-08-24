@@ -1,3 +1,88 @@
+## 1.0.0-rc42.1 (2025-08-04)
+
+* fix(aws/ansible): fix portainer playbook ([6e11269](https://github.com/dzangolab/generator-dzangolab-iac/commit/6e11269))
+* fix(aws/credentials): fix special characters in postgres password ([a895f21](https://github.com/dzangolab/generator-dzangolab-iac/commit/a895f21))
+
+
+
+## 1.0.0-rc42.0 (2025-08-03)
+
+* feat(aws/ansible): update aws ansible generator ([80bf793](https://github.com/dzangolab/generator-dzangolab-iac/commit/80bf793))
+* feat(aws/ansible): update aws ansible generator ([7fe0e4c](https://github.com/dzangolab/generator-dzangolab-iac/commit/7fe0e4c))
+
+
+
+## 1.0.0-rc42 (2025-08-02)
+
+* fix(aws/ansible): fix aws ansible generator ([f168048](https://github.com/dzangolab/generator-dzangolab-iac/commit/f168048))
+
+
+
+## 1.0.0-rc41.0 (2025-08-02)
+
+* fix(aws/swarm-leader): fix update instance ([5411628](https://github.com/dzangolab/generator-dzangolab-iac/commit/5411628))
+
+
+
+## 1.0.0-rc41 (2025-08-02)
+
+* chore: update package.json and deendencies ([5148afc](https://github.com/dzangolab/generator-dzangolab-iac/commit/5148afc))
+* chore: update rrepo url ([f790ba0](https://github.com/dzangolab/generator-dzangolab-iac/commit/f790ba0))
+
+
+
+## 1.0.0-rc40 (2025-08-02)
+
+* fix(aws/swarm-leader): fix aws swarm leader generator 9feef12
+* fix(aws/swarm-leader): rename user data file 0d3b403
+
+
+
+## 1.0.0-rc39.0 (2025-08-02)
+
+* fix(aws/swarm-leader): fix typo in cloud config b6654d8
+
+
+
+## 1.0.0-rc39 (2025-08-02)
+
+* fix(aws/swarm-leader): update options and prompts 662f7de
+
+
+
+## 1.0.0-rc38 (2025-08-02)
+
+* feat(aws/swarm-leader): update cloud-config 6f44344
+
+
+
+## 1.0.0-rc37 (2025-08-02)
+
+* feat(aws/ansible): update default interpreter 2da5476
+
+
+
+## 1.0.0-rc36 (2025-08-02)
+
+* feat: update dependencies 2a5a623
+* feat(aws/credentials): update dependencies f4bd8f2
+
+
+
+## 1.0.0-rc35 (2025-08-02)
+
+* fix(aws/swarm-leader): fix aws swarm leader generator d43c5fe
+* chore: update dependencies ede88cd
+
+
+
+## 1.0.0-rc34 (2025-08-02)
+
+* Aws/swarm leader (#141) b1debc3, closes #141
+* Aws/swarm leader (#142) 5d08567, closes #142
+
+
+
 ## 1.0.0-rc33 (2025-08-01)
 
 * fix(aws/swarm-security-groups): fix generator output f1ac68d

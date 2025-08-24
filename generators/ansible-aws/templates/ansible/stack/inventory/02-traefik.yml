@@ -1,0 +1,4 @@
+traefik:
+  children:
+    leader:
+    managers:

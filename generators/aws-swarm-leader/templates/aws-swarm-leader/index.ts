@@ -42,7 +42,10 @@ export = async () => {
       userDataReplaceOnChange: true,
       vpcSecurityGroupIds: config.securityGroupIds,
     },
-    options
+    {
+      deleteBeforeReplace: true,
+      ...options
+    }
   );
 
   new EipAssociation(
@@ -51,7 +54,10 @@ export = async () => {
       instanceId: instance.id,
       allocationId: config.eipId,
     },
-    options
+    {
+      dependsOn: instance,
+      ...options
+    }
   );
 
   if (!config.useNfs && config.volumeId) {
@@ -62,7 +68,10 @@ export = async () => {
         volumeId: config.volumeId,
         deviceName: "/dev/xvdf",
       },
-      options
+    {
+      dependsOn: instance,
+      ...options
+    }
     );
   }
 

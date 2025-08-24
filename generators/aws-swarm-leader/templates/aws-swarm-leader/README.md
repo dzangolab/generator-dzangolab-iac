@@ -1,6 +1,6 @@
 # AWS Docker swarm leader
 
-Provisions an AWS EC2 instance as a docker sswarm leader and initialized the Dockefr swarm.
+Provisions an AWS EC2 instance as a docker swarm leader and initializes the Docker swarm.
 
 ## Requirements
 
@@ -50,9 +50,11 @@ pulumi destroy
 
 ## Resources provisioned
 
-### AWS EC2
+### AWS EC2 instance
 
 An AWS EC2 is launched.
+
+The 
 
 ## Configuration settings
 

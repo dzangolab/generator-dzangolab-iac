@@ -7,18 +7,18 @@
       file:
         group: "nobody"
         owner: "nobody"
-        path: "/mnt/nfs/{{ item }}"
+        path: "{{ traefik_deploy_dir }}/{{ item }}"
         state: directory
         recurse: true
       with_items:
-        - "traefik/acme"
-        - "traefik/log"
+        - "acme"
+        - "log"
       when:
         - nfs
 
     - name: Create an empty acme.json
       file:
-        path: "/mnt/nfs/traefik/acme/acme.json"
+        path: "{{ traefik_deploy_dir }}/acme/acme.json"
         state: touch
         owner: "nobody"
         group: "nobody"

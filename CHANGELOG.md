@@ -1,3 +1,15 @@
+## 1.0.0-rc45 (2025-08-24)
+
+* chore: creating asg worker generetaor (#137) ([e213aad](https://github.com/dzangolab/generator-dzangolab-iac/commit/e213aad)), closes [#137](https://github.com/dzangolab/generator-dzangolab-iac/issues/137)
+
+
+
+## 1.0.0-rc44 (2025-08-24)
+
+* chore: update nfs on portainer and traefik (#136) ([038b6ac](https://github.com/dzangolab/generator-dzangolab-iac/commit/038b6ac)), closes [#136](https://github.com/dzangolab/generator-dzangolab-iac/issues/136)
+
+
+
 ## 1.0.0-rc43 (2025-08-24)
 
 * Aws/swarm leader (#158) ([c6c37ee](https://github.com/dzangolab/generator-dzangolab-iac/commit/c6c37ee)), closes [#158](https://github.com/dzangolab/generator-dzangolab-iac/issues/158)

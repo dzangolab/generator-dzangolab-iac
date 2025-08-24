@@ -1,0 +1,45 @@
+Content-Type: multipart/mixed; boundary="//"
+MIME-Version: 1.0
+
+--//
+Content-Type: text/cloud-config; charset="utf-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="cloud-config.txt"
+
+#cloud-config
+
+{% if packages %}
+packages: 
+{% for package in packages %}
+  - {{ package }}
+{% endfor %}
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+{% endif %}
+
+write_files:
+- content: |
+    {
+      "log-driver": "json-file",
+      "log-opts": {
+        "max-size": "10m",
+        "max-file": "5"
+      }
+    }
+  path: /etc/docker/daemon.json
+
+runcmd:
+  - dnf install docker -y
+  - chmod 644 /etc/docker/daemon.json
+  - systemctl start docker
+  - systemctl enable docker
+  - usermod -a -G docker ec2-user
+  - curl -O https://bootstrap.pypa.io/get-pip.py
+  - python3 get-pip.py
+  - /usr/local/bin/pip3 install docker --ignore-installed
+  - docker swarm join --token {{ swarmWorkerToken }} {{ swarmManagerIp }}:2377
+
+--//--

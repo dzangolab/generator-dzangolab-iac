@@ -69,10 +69,10 @@ runcmd:
   - chmod 644 /etc/docker/daemon.json
   - systemctl start docker
   - systemctl enable docker
+  - usermod -a -G docker ec2-user
 {% for key in publicKeyNames %}
   - echo {{ key }} >> /home/ec2-user/.ssh/authorized_keys
 {% endfor %}
-  - usermod -a -G docker ec2-user
   - curl -O https://bootstrap.pypa.io/get-pip.py
   - python3 get-pip.py
   - docker swarm init --default-addr-pool 192.168.0.0/16 --advertise-addr $(cloud-init query ds.meta-data.local-ipv4)

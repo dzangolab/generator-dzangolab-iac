@@ -91,6 +91,14 @@ export default class IaCGenerator extends Generator {
             value: "aws-swarm-leader"
           },
           {
+            name: "AWS Docker swarm nodes",
+            value: "aws-swarm-nodes"
+          },
+          {
+            name: "AWS Docker swarm security groups",
+            value: "aws-swarm-security-groups"
+          },
+          {
             name: "AWS Docker swarm workers",
             value: "aws-swarm-workers"
           },
@@ -145,14 +153,6 @@ export default class IaCGenerator extends Generator {
           {
             name: "AWS SSH key pairs",
             value: "aws-ssh-keypairs"
-          },
-          {
-            name: "AWS Swarm nodes",
-            value: "aws-swarm-nodes"
-          },
-          {
-            name: "AWS swarm security groups",
-            value: "aws-swarm-security-groups"
           },
           {
             name: "AWS VPC",
@@ -241,7 +241,7 @@ export default class IaCGenerator extends Generator {
       "aws-swarm-nodes": { Generator: AWSSwarmNodes, path: "../aws-swarm-nodes/index.js" },
       "aws-swarm-security-groups": { Generator: AWSSwarmSecurityGroupsGenerator, path: "../aws-swarm-security-groups/index.js" },
       "aws-swarm-workers": { Generator: AWSDockerSwarmWorkersGenerator, path: "../aws-swarm-workers/index.js" },
-      "aws-swarm-asg-workers": { Generator: AWSDockerSwarmWorkersASGGenerator, path: "../aws-swarm-workers-asg/index.js" },
+      "aws-swarm-workers-asg": { Generator: AWSDockerSwarmWorkersASGGenerator, path: "../aws-swarm-workers-asg/index.js" },
       "aws-vpc": { Generator: AWSVPCGenerator, path: "../aws-vpc/index.js" },
       "cloudflare-dns": { Generator: CloudflareDNSGenerator, path: "../cloudflare-dns/index.js" },
       "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },

@@ -6,6 +6,8 @@ import {
 } from "@pulumi/pulumi";
 import { Environment, FileSystemLoader } from "nunjucks";
 
+import getPublicKeys from "./public-keys";
+
 import type { StackReferenceOutputDetails } from "@pulumi/pulumi";
 
 export const getConfig = async () => {
@@ -58,22 +60,44 @@ export const getConfig = async () => {
     keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
-  /** Gets security group id */
-  let securityGroupId = stackConfig.get("securityGroupId");
+  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../../ssh-keys";
 
-  if (!securityGroupId) {
+  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
+
+  /** Gets security group id */
+  let securityGroupIds = stackConfig.getObject<string[]>("securityGroupIds");
+
+  if (!securityGroupIds) {
     const outputs = await getOutputs(
       "securityGroupStack",
-      "id"
+      "managersSecurityGroupId"
     );
 
-    securityGroupId = outputs ? outputs[0] as string : undefined;
+    securityGroupIds = outputs ? [outputs[0] as string] : [];
   }
 
   /** Get subnet id **/
   const subnetId = stackConfig.require("subnetId");
 
-  const useNfs = stackConfig.get("useNfs");
+  const useNfs = stackConfig.getBoolean("useNfs");
+
+  /** Get user data **/
+  const userData = generateUserData(
+    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
+    {
+      dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
+      packages: stackConfig.getObject<string[]>("packages"),
+      publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
+      volumes: [
+        {
+          device: stackConfig.get("volumeDevice") || "/dev/xvdf",
+          filesystem: stackConfig.get("volumeFilesystem") || "ext4",
+          label: stackConfig.get("volumeLabel") || "data",
+          path: "/mnt/data"
+        }
+      ],
+    }
+  );
 
   /** Get volume id **/
   let volumeId = stackConfig.get("volumeId");
@@ -87,42 +111,10 @@ export const getConfig = async () => {
     volumeId = outputs ? outputs[0] as string : undefined;
   }
 
-  /** Get user data **/
-  const userData = generateUserData(
-    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
-    {
-      packages: stackConfig.getObject<string[]>("packages"),
-      volumes: [
-        {
-          device: stackConfig.get("volumeDevice") || "/dev/xvdf",
-          filesystem: stackConfig.get("volumeFilesystem") || "ext4",
-          label: stackConfig.get("volumeLabel") || "data",
-          path: "/mnt/data"
-        }
-      ],
-    }
-  );
-
-  let vpcId = stackConfig.get("vpcId");
-  let cidrBlock = undefined as unknown as string;
-
-  if (!vpcId) {
-    const outputs = await getOutputs(
-      "vpcStack",
-      "vpcId,cidrBlock"
-    );
-
-    if (outputs) {
-      vpcId = outputs[0] as string;
-      cidrBlock = outputs[1] as string;
-    }
-  }
-
   return {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
     availabilityZone,
-    cidrBlock,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     eip,
     eipId,
@@ -136,13 +128,12 @@ export const getConfig = async () => {
     rootBlockDevice: {
       volumeSize: stackConfig.requireNumber("rootBlockDeviceSize"),
     },
-    securityGroupId,
+    securityGroupIds,
     subnetId,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     useNfs,
     userData,
     volumeId,
-    vpcId
   };
 };
 

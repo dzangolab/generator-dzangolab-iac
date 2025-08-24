@@ -14,7 +14,7 @@
         - "acme"
         - "log"
       when:
-        - nfs
+        - "{{ traefik_nfs }}"
 
     - name: Create an empty acme.json
       file:
@@ -24,7 +24,7 @@
         group: "nobody"
         mode: "0600"
       when:
-        - nfs
+        - "{{ traefik_nfs }}"
 
 - name: Deploy traefik
   hosts: traefik

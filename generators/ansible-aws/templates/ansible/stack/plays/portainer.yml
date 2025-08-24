@@ -11,7 +11,7 @@
         state: directory
         recurse: true
       when:
-        - nfs
+        - "{{ portainer_nfs }}"
 
 - name: Deploy Portainer
   hosts: portainer

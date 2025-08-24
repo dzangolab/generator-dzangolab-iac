@@ -1,15 +1,14 @@
 config:
   <%= projectName %>:ami: ami-XXXXXXXXXXXXXXXXX
   <%= projectName %>:associatePublicIpAddress: false
-  <%= projectName %>:capacityDesired: 1
-  <%= projectName %>:capacityMax: 1
-  <%= projectName %>:capacityMin: 1
   <%= projectName %>:disableApiTermination: false
   <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-instance-profile
   <%= projectName %>:instanceType: <%= instanceType %>
   <%= projectName %>:leaderStack: <%= prefix %>-leader
   <%= projectName %>:keyName: <%= keyName %>
   <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs
+  <%= projectName %>:maxSize: 1
+  <%= projectName %>:minSize: 1
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:pathToSshKeysFolder: ../../ssh-keys
   <%= projectName %>:protect: "false"

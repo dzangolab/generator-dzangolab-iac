@@ -124,14 +124,13 @@ export const getConfig = async () => {
   return {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
-    capacityDesired: stackConfig.getNumber("capacityDesired") || 1,
-    capacityMax: stackConfig.getNumber("capacityMax") || 1,
-    capacityMin: stackConfig.getNumber("capacityMin") || 1,
     cidrBlock,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     iamInstanceProfile,
     instanceType: stackConfig.require("instanceType"),
     keypair,
+    maxSize: stackConfig.getNumber("maxSize") || 1,
+    minSize: stackConfig.getNumber("minSize") || 1,
     monitoring: stackConfig.getBoolean("monitoring"),
     name,
     publicSubnetIds,
@@ -152,12 +151,14 @@ const stacks: { [key: string]: StackReference } = {};
 function generateUserData(
   template: string,
   context: { [key: string]: any },
-): Output<string> {
+): string {
   const env = new Environment([
     new FileSystemLoader(),
   ]);
 
-  return output(env.render(template, context));
+  const raw = env.render(template, context);
+
+  return Buffer.from(raw).toString("base64");
 }
 
 async function getOutputs<T = string>(

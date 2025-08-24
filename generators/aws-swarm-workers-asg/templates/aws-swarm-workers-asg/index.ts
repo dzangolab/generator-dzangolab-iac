@@ -131,18 +131,18 @@ export = async () => {
         },
       }],
         
-    userData: output(config.userData).apply(u => Buffer.from(u).toString("base64")),
-      
+      userData: config.userData;
+        
       metadataOptions: {
         httpEndpoint: "enabled",
-        httpTokens: "optional",
+        httpTokens: "required",
         httpPutResponseHopLimit: 2,
       },
-        
+      
       tagSpecifications: [{
         resourceType: "instance",
         tags: {
-          Name: `${config.name}-${azRegion}`,
+          Name: config.name,
           "swarm-node-type": "worker",
           ...config.tags,
         },
@@ -155,13 +155,13 @@ export = async () => {
   const asg = new Group(
     config.name,
     {
-      desiredCapacity: config.capacityDesired,
+      desiredCapacity: config.minSize,
       launchTemplate: {
           id: launchTemplate.id,
           version: "$Latest",
       },
-      maxSize: config.capacityMax,
-      minSize: config.capacityMin,
+      maxSize: config.maxSize,
+      minSize: config.minSize,
       vpcZoneIdentifiers: config.publicSubnetIds,
       
       // Health check configuration
@@ -184,7 +184,7 @@ export = async () => {
       tags: [
         {
           key: "Name",
-          value: `${config.name}-${azRegion}`,
+          value: config.name,
           propagateAtLaunch: true,
         },
         {

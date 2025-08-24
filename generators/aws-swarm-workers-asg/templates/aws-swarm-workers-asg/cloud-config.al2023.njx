@@ -71,7 +71,7 @@ runcmd:
   - systemctl enable docker
   - usermod -a -G docker ec2-user
 {% for key in publicKeyNames %}
-  - echo {{ key }} >> /home/ec2-user/.ssh/authorized_keys
+  - echo '{{ key }}' >> /home/ec2-user/.ssh/authorized_keys
 {% endfor %}
   - curl -O https://bootstrap.pypa.io/get-pip.py
   - python3 get-pip.py

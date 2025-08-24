@@ -51,7 +51,7 @@ export const getConfig = async () => {
     }
   }
 
-  /** Get workers token */
+  /** Get worker token */
   let leaderIp = stackConfig.get("leaderIp");
 
   if (!leaderIp) {
@@ -60,7 +60,7 @@ export const getConfig = async () => {
       "privateIp"
     );
 
-    if(outputs){
+    if (outputs) {
       leaderIp = outputs[0] as string;
     }
   }
@@ -69,7 +69,7 @@ export const getConfig = async () => {
 
   const outputs = await getSecret(
     "leaderStack",
-    "workerToken"
+    "workersToken"
   );
   
   workerToken =  outputs![0];
@@ -83,7 +83,7 @@ export const getConfig = async () => {
       "workersSecurityGroupId"
     );
 
-    if(outputs){
+    if (outputs) {
       securityGroupId = outputs[0] as string;
     }
   }
@@ -97,15 +97,9 @@ export const getConfig = async () => {
         stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
         {
           packages: stackConfig.getObject<string[]>("packages"),
+          publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
           swarmWorkerToken: workerToken,
           swarmManagerIp: leaderIp,
-          users: [
-            {
-              username: "ec2-user",
-              groups: "sudo, docker",
-              publicKeys: getPublicKeys(publicKeyNames, pathToSshKeysFolder)  
-            },
-          ],
         }
       );
     });
@@ -127,27 +121,13 @@ export const getConfig = async () => {
     }
   }
 
-  const azConfigurations =[ 
-    {
-      minSize: stackConfig.getNumber("minSizeA") || 0,
-      maxSize: stackConfig.getNumber("maxSizeA") || 0,
-    },
-    {
-      minSize: stackConfig.getNumber("minSizeB") || 0,
-      maxSize: stackConfig.getNumber("maxSizeB") || 0,
-    },
-    {
-      minSize: stackConfig.getNumber("minSizeC") || 0,
-      maxSize: stackConfig.getNumber("maxSizeC") || 0,
-    }
-  ];
-
   return {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
-    azConfigurations,
+    capacityDesired: stackConfig.getNumber("capacityDesired") || 1,
+    capacityMax: stackConfig.getNumber("capacityMax") || 1,
+    capacityMin: stackConfig.getNumber("capacityMin") || 1,
     cidrBlock,
-    desiredCapacity: stackConfig.getNumber("desireCapacity"),
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     iamInstanceProfile,
     instanceType: stackConfig.require("instanceType"),
@@ -158,7 +138,7 @@ export const getConfig = async () => {
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     rootBlockDevice: {
-      volumeSize: stackConfig.requireNumber("rootBlockDeviceSize"),
+      volumeSize: stackConfig.getNumber("rootBlockDeviceSize") || 16,
     },
     securityGroupId,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),

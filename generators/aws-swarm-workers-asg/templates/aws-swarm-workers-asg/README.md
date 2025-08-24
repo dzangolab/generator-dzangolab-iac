@@ -1,18 +1,15 @@
-# AWS EIP
+# AWS Docker swarm workers ASG
 
-Provisions an AWS EIP.
+Provisions an AWS auto-scaling group for workers in a Docker swarm.
 
 ## Requirements
 
-* node >= 20.0.0
+* node >= 22
 * [pulumi >= 3](https://www.pulumi.com/docs/install/)
 * An AWS account
 * An AWS profile
-* An existing devops repo
 
 ## Usage
-
-* Cd into the `aws-eip` folder.
 
 * Install dependencies 
 
@@ -26,7 +23,7 @@ npm install
 export AWS_PROFILE=XXXXXX
 ```
 
-* Set the default organization 
+* If using Pulumi cloud as your backend, set the default organization 
 
 ```bash
 pulumi org set-default {your organization}
@@ -50,9 +47,9 @@ pulumi destroy
 
 ## Resources provisioned
 
-### AWS EIP
+### AWS EC2 LaunchTemplate
 
-An AWS EIP is provisioned.
+### AWS Auto-scaling Group
 
 ## Configuration settings
 

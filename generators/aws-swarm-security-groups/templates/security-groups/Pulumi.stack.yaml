@@ -1,0 +1,10 @@
+config:
+#  <%= projectName %>:cidrBlock: a.b.c.d/16
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:protect: false
+  <%= projectName %>:retainOnDelete: false
+  <%= projectName %>:useBastion: false
+  <%= projectName %>:useNFS: false
+  <%= projectName %>:useWorkers: false
+#  <%= projectName %>:vpcId: VPC_ID
+  <%= projectName %>:vpcStack: <%= prefix %>-vpc

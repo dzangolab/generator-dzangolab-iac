@@ -2,6 +2,8 @@ config:
   <%= projectName %>:ami: <%= ami %>
   <%= projectName %>:availabilityZone: <%= availabilityZone %>
   <%= projectName %>:disableApiTermination: false
+  <%= projectName %>:dockerNetworks: <% networks.forEach((network) => { %>
+    - <%= network %><% }); %>
 #  <%= projectName %>:eip: 
 #  <%= projectName %>:eipId: 
   <%= projectName %>:eipStack: <%= prefix %>-eip
@@ -13,6 +15,8 @@ config:
   <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs/global
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
+#  <%= projectName %>:publicKeyNames:
+#    - 
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:rootBlockDeviceSize: 20
 #  <%= projectName %>:securityGroupId:
@@ -20,4 +24,4 @@ config:
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
 #  <%= projectName %>:volumeId:
   <%= projectName %>:volumeStack: <%= prefix %>-vpc
-  <%= projectName %>:useNfs: <%= useNfs %>
+  <%= projectName %>:useNfs: <%= useNFS %>

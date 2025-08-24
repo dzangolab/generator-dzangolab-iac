@@ -2,8 +2,9 @@
   "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
-    "@dzangolab/pulumi": "<%= versions.dzangolab %>",
-    "@pulumi/pulumi": "<%= versions.pulumi %>"
+    "@pulumi/aws": "<%= versions.pulumi_aws %>",
+    "@pulumi/pulumi": "<%= versions.pulumi %>",
+    "@pulumi/random": "<%= versions.pulumi_random %>"
   },
   "devDependencies": {
     "@types/node": "<%= versions.types_node %>"

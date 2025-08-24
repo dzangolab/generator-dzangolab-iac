@@ -1,4 +1,3 @@
 postgres_data_dir: "{{ deploy_dir }}/postgres"
-
 postgres_versions:
- - 17
+  - 17

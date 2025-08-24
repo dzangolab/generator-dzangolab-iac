@@ -1,0 +1,13 @@
+deploy_dir: /mnt/data
+deploy_group: adm
+deploy_user: ec2-user
+
+domain: <%= domain %>
+
+network_public: public
+nfs: false
+
+ssh_key_folder: ../../../../ssh-keys
+ssh_keys:
+ - SSH_KEY_NAME
+ - SSH_KEY_NAME

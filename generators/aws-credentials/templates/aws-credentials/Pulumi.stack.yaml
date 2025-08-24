@@ -5,7 +5,9 @@ config:
     # mariadb-root: {}
     # minio-root: {}
     # nocodb: {}
-    # postgres: {}
+    # postgres: {
+    #  overrideSpecial: "!@#$%&*()-_=+[]<>:?"
+    # }
     # traefik-dashboard: {
     #  special: false
     # }    

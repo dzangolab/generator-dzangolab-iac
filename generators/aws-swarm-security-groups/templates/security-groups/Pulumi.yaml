@@ -3,4 +3,4 @@ runtime:
   name: nodejs
   options:
     typescript: true
-description: Provisions Docker swarm leader and initializes swarm
+description: AWS security groups for Docker swarm

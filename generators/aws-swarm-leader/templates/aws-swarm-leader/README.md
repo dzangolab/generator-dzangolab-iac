@@ -1,6 +1,6 @@
-# AWS EIP
+# AWS Docker swarm leader
 
-Provisions an AWS EIP.
+Provisions an AWS EC2 instance as a docker swarm leader and initializes the Docker swarm.
 
 ## Requirements
 
@@ -12,7 +12,7 @@ Provisions an AWS EIP.
 
 ## Usage
 
-* Cd into the `aws-eip` folder.
+All command must be run from the project's root folder.
 
 * Install dependencies 
 
@@ -26,7 +26,7 @@ npm install
 export AWS_PROFILE=XXXXXX
 ```
 
-* Set the default organization 
+* If using the Pulumi cloud as a backend, set the default organization 
 
 ```bash
 pulumi org set-default {your organization}
@@ -35,10 +35,10 @@ pulumi org set-default {your organization}
 * Initialize and select the appropriate stack
 
 ```bash
-pulumi stack init [staging|production]
+pulumi stack init {stack}
 ```
 
-* Update the stack config `Pulimi.[staging|production].yaml` with the appropriate values for your project.
+* Update the stack config `Pulimi.{stack}.yaml` with the appropriate values for your project.
 
 * Run `pulumi up`
 
@@ -50,9 +50,11 @@ pulumi destroy
 
 ## Resources provisioned
 
-### AWS EIP
+### AWS EC2 instance
 
-An AWS EIP is provisioned.
+An AWS EC2 is launched.
+
+The 
 
 ## Configuration settings
 

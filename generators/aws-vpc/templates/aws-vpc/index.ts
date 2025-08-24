@@ -35,6 +35,7 @@ export = async () => {
   );
 
   return {
+    cidrBlock: config.cidrBlock,
     eips: interpolate`${vpc.eips}`,
     privateSubnetIds: interpolate`${vpc.privateSubnetIds}`,
     publicSubnetIds: interpolate`${vpc.publicSubnetIds}`,

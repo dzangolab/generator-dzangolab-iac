@@ -31,15 +31,6 @@ write_files:
     }
   path: /etc/docker/daemon.json
 - content: |
-    {
-      "log-driver": "json-file",
-      "log-opts": {
-        "max-size": "10m",
-        "max-file": "5"
-      }
-    }
-  path: /etc/docker/daemon.json
-- content: |
     /var/lib/docker/containers/*/*.log {
       compress
       copytruncate

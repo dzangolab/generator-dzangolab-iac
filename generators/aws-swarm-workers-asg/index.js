@@ -2,12 +2,12 @@ import chalk from "chalk";
 
 import PulumiGenerator from "../pulumi/index.js";
 
-export default class AWSDockerSwarmAsgWorkersGenerator extends PulumiGenerator {
+export default class AWSDockerSwarmWorkersASGGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.displayName = "AWS swarm asg workers";
-    this.name = "swarm-asg-workers";
+    this.displayName = "AWS swarm workers ASG";
+    this.name = "swarm-workers-asg";
 
     this.option("instanceType", {
       type: String,

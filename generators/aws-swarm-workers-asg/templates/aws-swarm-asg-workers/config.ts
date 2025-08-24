@@ -94,7 +94,7 @@ export const getConfig = async () => {
       workerToken: workerToken,
     }).apply(({workerToken}) => {
       return generateUserData(
-        stackConfig.get("userDataTemplate") || "./cloud-config.njx",
+        stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
         {
           packages: stackConfig.getObject<string[]>("packages"),
           swarmWorkerToken: workerToken,

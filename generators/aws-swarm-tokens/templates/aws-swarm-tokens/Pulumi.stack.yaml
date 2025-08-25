@@ -1,0 +1,5 @@
+config:
+  <%= projectName %>:leaderStack: <%= prefix %>-leader
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:protect: "false"
+  <%= projectName %>:retainOnDelete: "false"

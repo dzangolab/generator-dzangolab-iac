@@ -4,38 +4,47 @@ import {
   getStack,
   StackReference,
 } from "@pulumi/pulumi";
-import type { Output } from "@pulumi/pulumi";
+import type { StackReferenceOutputDetails } from "@pulumi/pulumi";
 
 export const getConfig = async () => {
   const stackConfig = new Config();
 
-  let managerToken = stackConfig.getSecret("managerToken");
-  let workerToken = stackConfig.getSecret("workerToken");
+  let bastionIp = stackConfig.get("bastionIp");
 
-  if (!managerToken || !workerToken){
-    const outputs = await getSecrets(
-      "leaderStack",
-      "managerToken,workerToken"
+  if (!bastionIp) {
+    const outputs = await getOutputs(
+      "bastionStack",
+      "publicIp"
     );
 
-    if (outputs){
-      managerToken =  outputs[0];
-      workerToken =  outputs[1];
+    bastionIp = outputs ? outputs[0] as string : undefined;
+  }
+
+  let leaderIp = stackConfig.get("leaderIp");
+
+  if (!leaderIp) {
+    const outputs = await getOutputs(
+      "leaderStack",
+      "privateIp"
+    );
+
+    if(outputs){
+      leaderIp = outputs[0] as string;
     }
   }
 
   return {
-    managerToken: managerToken,
-    workerToken: workerToken
+    bastionIp: bastionIp,
+    leaderIp: leaderIp
   };
 };
 
 const stacks: { [key: string]: StackReference } = {};
 
-async function getSecrets<T = string>(
+async function getOutputs<T = string>(
   stackConfigVar: string,
   defaultOutputNames: string
-): Promise<undefined | Output<T>[]> {
+): Promise<undefined | T[]> {
 
   const organization = getOrganization();
   const stack = getStack();
@@ -95,11 +104,33 @@ async function getSecrets<T = string>(
     stacks[stackName] = otherStack;
   }
 
-  const outputs: Output<T>[] = [];
-  for (const name of outputNames) {
-    const output: Output<T> = otherStack.getOutput(name) as Output<T>;
-    outputs.push(output);
+  let outputs = [];
+
+  for (var i = 0, name = null; name = outputNames[i]; i++) {
+    const output = await otherStack.getOutputDetails(name);
+    if (output.value != undefined) {
+      outputs.push(getValue<T>(output) as T)
+    }
+    else {
+      outputs.push(undefined as unknown as T)
+    }
   }
 
   return outputs;
+}
+
+function getValue<T>(input: StackReferenceOutputDetails, defaultValue?: T): T {
+  if (input && input.value) {
+    return <T>input.value!;
+  }
+
+  if (input && input.secretValue) {
+    return <T>input.secretValue!;
+  }
+
+  if (!defaultValue) {
+    throw new Error("A value is required");
+  }
+
+  return defaultValue;
 }

@@ -1,4 +1,5 @@
 config:
+  <%= projectName %>:bastionStack: <%= prefix %>-bastion
   <%= projectName %>:leaderStack: <%= prefix %>-leader
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: "false"

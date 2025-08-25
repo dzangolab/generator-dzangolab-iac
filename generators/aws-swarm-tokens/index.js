@@ -7,7 +7,7 @@ export default class AWSDockerSwarmTokensGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS swarm tokens";
-    this.name = "aws-swarm-tokens";
+    this.name = "swarm-tokens";
 
   }
   

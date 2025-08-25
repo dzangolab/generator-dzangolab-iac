@@ -30,6 +30,39 @@ write_files:
       }
     }
   path: /etc/docker/daemon.json
+- content: |
+    /var/lib/docker/containers/*/*.log {
+      compress
+      copytruncate
+      create
+      daily
+      dateext
+      dateformat -%Y%m%d
+      delaycompress
+      missingok
+      rotate 7
+    }
+  path: /etc/logrotate.d/docker-container
+- content: |
+    [Unit]
+    Description=dockerPrune Service
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/bin/docker system prune -a -f --volumes
+  path: /etc/systemd/system/dockerPrune.service
+- content: |
+    [Unit]
+    Description=dockerPrune Timer
+
+    [Timer]
+    OnCalendar=*-*-* 00:13:25
+    Persistent=false
+    AccuracySec=15s
+
+    [Install]
+    WantedBy=timers.target
+  path: /etc/systemd/system/dockerPrune.timer
 
 runcmd:
   - dnf install docker -y
@@ -37,9 +70,11 @@ runcmd:
   - systemctl start docker
   - systemctl enable docker
   - usermod -a -G docker ec2-user
+{% for key in publicKeyNames %}
+  - echo '{{ key }}' >> /home/ec2-user/.ssh/authorized_keys
+{% endfor %}
   - curl -O https://bootstrap.pypa.io/get-pip.py
   - python3 get-pip.py
-  - /usr/local/bin/pip3 install docker --ignore-installed
   - docker swarm join --token {{ swarmWorkerToken }} {{ swarmManagerIp }}:2377
 
 --//--

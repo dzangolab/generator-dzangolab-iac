@@ -17,7 +17,7 @@ function getPublicKeys(
             }
         );
 
-        publicKeys.push(key);
+        publicKeys.push(key.trim());
     }
 
     return publicKeys;

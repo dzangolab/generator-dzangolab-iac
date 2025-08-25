@@ -1,3 +1,21 @@
+## 1.0.0-rc45.3 (2025-08-24)
+
+* fix(aws/swarm-workers-asg): fix swarm workers asg generator ([41b1e50](https://github.com/dzangolab/generator-dzangolab-iac/commit/41b1e50))
+
+
+
+## 1.0.0-rc45.2 (2025-08-24)
+
+* chore(aws): rename generators ([b1ea1f7](https://github.com/dzangolab/generator-dzangolab-iac/commit/b1ea1f7))
+
+
+
+## 1.0.0-rc45.1 (2025-08-24)
+
+* fix(aws/swarm-workers-asg): fix template folder name ([1f42896](https://github.com/dzangolab/generator-dzangolab-iac/commit/1f42896))
+
+
+
 ## 1.0.0-rc45 (2025-08-24)
 
 * chore: creating asg worker generetaor (#137) ([e213aad](https://github.com/dzangolab/generator-dzangolab-iac/commit/e213aad)), closes [#137](https://github.com/dzangolab/generator-dzangolab-iac/issues/137)

@@ -47,7 +47,7 @@ export = async () => {
           },
         }],
         
-        userData: output(config.userData).apply(u => Buffer.from(u).toString("base64")),
+        userData: config.userData,
         
         metadataOptions: {
           httpEndpoint: "enabled",

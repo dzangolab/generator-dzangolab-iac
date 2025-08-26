@@ -72,7 +72,7 @@ runcmd:
   - usermod -a -G docker ec2-user
   - curl -O https://bootstrap.pypa.io/get-pip.py
   - python3 get-pip.py
-  - docker swarm join --token {{ swarmWorkerToken }} {{ swarmManagerIp }}:2377
+  - docker swarm join --token {{ swarmManagerToken }} {{ swarmManagerIp }}:2377
 {% for key in publicKeyNames %}
   - echo '{{ key }}' >> /home/ec2-user/.ssh/authorized_keys
 {% endfor %}

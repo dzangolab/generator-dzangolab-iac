@@ -30,9 +30,7 @@ export const getConfig = async () => {
       "id"
     );
 
-    if (outputs){
-      iamInstanceProfile = outputs[0] as string;
-    }
+    iamInstanceProfile = outputs ? outputs[0] as string : undefined;
   }
 
   /** Get keypair */
@@ -46,12 +44,10 @@ export const getConfig = async () => {
       keyName
     );
 
-    if (outputs){
-      keypair = outputs[0]["name"] as string;
-    }
+    keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
-  /** Get worker token */
+  /** Get manager token */
   let leaderIp = stackConfig.get("leaderIp");
 
   if (!leaderIp) {
@@ -60,9 +56,7 @@ export const getConfig = async () => {
       "privateIp"
     );
 
-    if (outputs) {
-      leaderIp = outputs[0] as string;
-    }
+    leaderIp = outputs ? outputs[0] as string : undefined;
   }
 
   let managerToken: Output<string>;
@@ -74,8 +68,7 @@ export const getConfig = async () => {
   
   managerToken =  outputs![0];
 
-  /** Gets security group id */
-  let securityGroupId = stackConfig.get("securityGroupId") as string;
+  let securityGroupId = stackConfig.get("securityGroupId");
 
   if (!securityGroupId) {
     const outputs = await getOutputs(
@@ -83,9 +76,7 @@ export const getConfig = async () => {
       "managersSecurityGroupId"
     );
 
-    if (outputs) {
-      securityGroupId = outputs[0] as string;
-    }
+    securityGroupId = outputs ? outputs[0] as string : undefined;
   }
 
   /** Get user data **/
@@ -98,7 +89,7 @@ export const getConfig = async () => {
         {
           packages: stackConfig.getObject<string[]>("packages"),
           publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
-          swarmWorkerToken: managerToken,
+          swarmManagerToken: managerToken,
           swarmManagerIp: leaderIp,
         }
       );

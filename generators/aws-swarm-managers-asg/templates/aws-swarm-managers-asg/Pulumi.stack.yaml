@@ -1,0 +1,22 @@
+config:
+  <%= projectName %>:ami: ami-XXXXXXXXXXXXXXXXX
+  <%= projectName %>:associatePublicIpAddress: false
+  <%= projectName %>:disableApiTermination: false
+  <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-instance-profile
+  <%= projectName %>:instanceType: <%= instanceType %>
+  <%= projectName %>:leaderStack: <%= prefix %>-leader
+  <%= projectName %>:keyName: <%= keyName %>
+  <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs
+  <%= projectName %>:maxSize: <%= maxSize %>
+  <%= projectName %>:minSize: <%= minSize %>
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:pathToSshKeysFolder: ../../ssh-keys
+  <%= projectName %>:protect: "false"
+  <%= projectName %>:publicKeyNames:
+    # - 
+  <%= projectName %>:retainOnDelete: "false"
+  <%= projectName %>:rootBlockDeviceSize: "16"
+  # <%= projectName %>:securityGroupStack: <%= prefix %>-security-groups
+  <%= projectName %>:swarmTokensStack: aws-swarm-tokens
+  <%= projectName %>:tags: []
+  <%= projectName %>:vpcStack: <%= prefix %>-vpc

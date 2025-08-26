@@ -45,7 +45,7 @@ export = async () => {
   const managerToken = secret(getManagerToken.stdout);
 
   return {
-    managerToken: managerToken,
-    workerToken: workerToken
+    managerToken,
+    workerToken
   };
 };

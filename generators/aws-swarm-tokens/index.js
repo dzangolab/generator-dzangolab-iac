@@ -8,7 +8,6 @@ export default class AWSDockerSwarmTokensGenerator extends PulumiGenerator {
 
     this.displayName = "AWS swarm tokens";
     this.name = "swarm-tokens";
-
   }
   
   async prompting() {
@@ -19,6 +18,12 @@ export default class AWSDockerSwarmTokensGenerator extends PulumiGenerator {
         name: "projectName",
         type: "input",
       },
+      {
+        default: "ec2-user",
+        message: "Enter the name of the user connecting to the manager node",
+        name: "user",
+        type: "input",
+      }
     ]);
   }
 

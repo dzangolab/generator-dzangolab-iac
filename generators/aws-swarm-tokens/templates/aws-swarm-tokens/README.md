@@ -1,6 +1,6 @@
 # AWS Docker swarm tokens
 
-Provision a pulumi project which contain the worker and manager join token of the docker swarm leader as secrets.  
+Provision a pulumi project which contains the worker and manager join token of the docker swarm leader as secrets.  
 
 ## Requirements
 

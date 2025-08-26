@@ -17,7 +17,7 @@ export const getConfig = async () => {
       "publicIp"
     );
 
-    if(output){
+    if (output){
       bastionIp = output[0] as string;
     }
   }
@@ -30,7 +30,7 @@ export const getConfig = async () => {
       "privateIp"
     );
 
-    if(output){
+    if (output){
       managerIp = output[0] as string;
     }
   }
@@ -38,7 +38,7 @@ export const getConfig = async () => {
   return {
     bastionIp: bastionIp,
     managerIp: managerIp,
-    user: stackConfig.get("user")
+    user: stackConfig.get("user") || "ec2-user"
   };
 };
 

@@ -32,8 +32,8 @@ export const getConfig = async () => {
   }
 
   return {
-    bastionIp: bastionIp,
-    managerIp: managerIp,
+    bastionIp,
+    managerIp,
     user: stackConfig.get("user") || "ec2-user"
   };
 };

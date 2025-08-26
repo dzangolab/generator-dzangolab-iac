@@ -12,30 +12,33 @@ export const getConfig = async () => {
   let bastionIp = stackConfig.get("bastionIp");
 
   if (!bastionIp) {
-    const outputs = await getOutputs(
+    const output = await getOutputs(
       "bastionStack",
       "publicIp"
     );
 
-    bastionIp = outputs ? outputs[0] as string : undefined;
+    if(output){
+      bastionIp = output[0] as string;
+    }
   }
 
-  let leaderIp = stackConfig.get("leaderIp");
+  let managerIp = stackConfig.get("leaderIp");
 
-  if (!leaderIp) {
-    const outputs = await getOutputs(
+  if (!managerIp) {
+    const output = await getOutputs(
       "leaderStack",
       "privateIp"
     );
 
-    if(outputs){
-      leaderIp = outputs[0] as string;
+    if(output){
+      managerIp = output[0] as string;
     }
   }
 
   return {
     bastionIp: bastionIp,
-    leaderIp: leaderIp
+    managerIp: managerIp,
+    user: stackConfig.get("user")
   };
 };
 

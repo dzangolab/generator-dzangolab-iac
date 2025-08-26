@@ -4,3 +4,4 @@ config:
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: "false"
   <%= projectName %>:retainOnDelete: "false"
+  <%= projectName %>:user: <%= user %>

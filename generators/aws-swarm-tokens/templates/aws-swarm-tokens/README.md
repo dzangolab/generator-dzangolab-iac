@@ -1,6 +1,6 @@
-# AWS Docker swarm workers ASG
+# AWS Docker swarm tokens
 
-Provisions an AWS auto-scaling group for workers in a Docker swarm.
+Provision a pulumi project which contain the worker and manager join token of the docker swarm leader as secrets.  
 
 ## Requirements
 
@@ -47,13 +47,14 @@ pulumi destroy
 
 ## Resources provisioned
 
-### AWS EC2 LaunchTemplate
-
-### AWS Auto-scaling Group
+### Pulumi project containing worker and manager swarm tokens
 
 ## Configuration settings
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
+| bastionStack | string | aws-bastion | Name of the stack of the bastion if it exist |
+| leaderStack | string | aws-leader | Name of the stack of the swarm leader |
 | protect | boolean | false | Protect resources from accidental deletion |
 | retainOnDelete | boolean | false | Retain resources when destroyed |
+| user | string | ec2-user | User used to connect to the swarm leader |

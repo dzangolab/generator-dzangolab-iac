@@ -7,18 +7,18 @@ export = async () => {
 
   const config = await getConfig();
 
-  if (!config.leaderIp) {
-    throw new Error("leaderIp is required but was not provided or found");
+  if (!config.managerIp) {
+    throw new Error("managerIp is required but was not provided or found");
   }
 
   const conn = {
-    host: config.leaderIp,
-    user: "ec2-user",
+    host: config.managerIp,
+    user: config.user,
     agentSocketPath: process.env.SSH_AUTH_SOCK,
     ...(config.bastionIp && {
       proxy: {
         host: config.bastionIp,
-        user: "ec2-user",
+        user: config.user,
         agentSocketPath: process.env.SSH_AUTH_SOCK,
       },
     }),
@@ -32,7 +32,7 @@ export = async () => {
     },
   );
 
-  const workerToken = getWorkerToken.stdout;
+  const workerToken = secret(getWorkerToken.stdout);
 
   const getManagerToken = new remote.Command(
     "get-manager-token", 
@@ -42,10 +42,10 @@ export = async () => {
     },
   );
 
-  const managerToken = getManagerToken.stdout;
+  const managerToken = secret(getManagerToken.stdout);
 
   return {
-    managerToken: secret(managerToken),
-    workerToken: secret(workerToken)
+    managerToken: managerToken,
+    workerToken: workerToken
   };
 };

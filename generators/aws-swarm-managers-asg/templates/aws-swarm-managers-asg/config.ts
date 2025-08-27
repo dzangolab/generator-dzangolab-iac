@@ -3,7 +3,6 @@ import {
   Config,
   getOrganization,
   getStack,
-  output,
   StackReference,
 } from "@pulumi/pulumi";
 import { Environment, FileSystemLoader } from "nunjucks";
@@ -47,7 +46,6 @@ export const getConfig = async () => {
     keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
-  /** Get manager token */
   let leaderIp = stackConfig.get("leaderIp");
 
   if (!leaderIp) {
@@ -59,14 +57,17 @@ export const getConfig = async () => {
     leaderIp = outputs ? outputs[0] as string : undefined;
   }
 
-  let managerToken: Output<string>;
+  /** Get manager token */
+  let managerToken: Output<string> = stackConfig.get("managerToken");
 
-  const outputs = await getSecret(
-    "leaderStack",
-    "managerToken"
-  );
-  
-  managerToken =  outputs![0];
+  if (!managerToken){
+    const outputs = await getSecret(
+      "swarmTokensStack",
+      "managerToken"
+    );
+    
+    managerToken =  outputs ? outputs[0] : undefined;
+  }
 
   let securityGroupId = stackConfig.get("securityGroupId");
 
@@ -85,7 +86,7 @@ export const getConfig = async () => {
       managerToken,
     }).apply(({managerToken}) => {
       return generateUserData(
-        stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
+        stackConfig.get("userDataTemplate") || "./cloud-config.njx",
         {
           packages: stackConfig.getObject<string[]>("packages"),
           publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
@@ -95,8 +96,8 @@ export const getConfig = async () => {
       );
     });
 
-  let cidrBlock = undefined as unknown as string;
-  let publicSubnetIds = undefined as unknown as string[];
+  let cidrBlock = stackConfig.get("cidrBlock");
+  let publicSubnetIds = stackConfig.get("publicSubnetIds");
   let vpcId = stackConfig.get("vpcId");
 
   if (!vpcId) {
@@ -105,11 +106,9 @@ export const getConfig = async () => {
       "cidrBlock,publicSubnetIds,vpcId"
     );
 
-    if (outputs) {
-      cidrBlock = outputs[0] as string;
-      publicSubnetIds = outputs[1].split(",") as string[];
-      vpcId = outputs[2] as string;
-    }
+    cidrBlock = outputs ? outputs[0] as string : undefined
+    publicSubnetIds = outputs ? outputs[1].split(",") as string[] : undefined
+    vpcId = outputs ? outputs[2] as string : undefined
   }
 
   return {

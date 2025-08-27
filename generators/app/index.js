@@ -4,6 +4,7 @@ import AnsibleDOGenerator from "../ansible-do/index.js";
 import AnsibleAWSGenerator from "../ansible-aws/index.js";
 import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSDockerSwarmLeaderGenerator from "../aws-swarm-leader/index.js";
+import AWSDockerSwarmTokensGenerator from "../aws-swarm-tokens/index.js";
 import AWSDockerSwarmWorkersGenerator from "../aws-swarm-workers/index.js";
 import AWSDockerSwarmWorkersASGGenerator from "../aws-swarm-workers-asg/index.js";
 import AWSEBSGenerator from "../aws-ebs/index.js";
@@ -89,7 +90,7 @@ export default class IaCGenerator extends Generator {
           {
             name: "AWS Docker swarm leader",
             value: "aws-swarm-leader"
-          },
+          },          
           {
             name: "AWS Docker swarm nodes",
             value: "aws-swarm-nodes"
@@ -97,6 +98,10 @@ export default class IaCGenerator extends Generator {
           {
             name: "AWS Docker swarm security groups",
             value: "aws-swarm-security-groups"
+          },
+          {
+            name: "AWS Docker swarm tokens",
+            value: "aws-swarm-tokens"
           },
           {
             name: "AWS Docker swarm workers",
@@ -240,6 +245,7 @@ export default class IaCGenerator extends Generator {
       "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },
       "aws-swarm-nodes": { Generator: AWSSwarmNodes, path: "../aws-swarm-nodes/index.js" },
       "aws-swarm-security-groups": { Generator: AWSSwarmSecurityGroupsGenerator, path: "../aws-swarm-security-groups/index.js" },
+      "aws-swarm-tokens": { Generator: AWSDockerSwarmTokensGenerator, path: "../aws-swarm-tokens/index.js" },
       "aws-swarm-workers": { Generator: AWSDockerSwarmWorkersGenerator, path: "../aws-swarm-workers/index.js" },
       "aws-swarm-workers-asg": { Generator: AWSDockerSwarmWorkersASGGenerator, path: "../aws-swarm-workers-asg/index.js" },
       "aws-vpc": { Generator: AWSVPCGenerator, path: "../aws-vpc/index.js" },

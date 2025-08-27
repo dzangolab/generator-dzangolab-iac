@@ -2,12 +2,12 @@ import chalk from "chalk";
 
 import PulumiGenerator from "../pulumi/index.js";
 
-export default class AWSDockerSwarmWorkersASGGenerator extends PulumiGenerator {
+export default class AWSDockerSwarmManagersASGGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.displayName = "AWS swarm workers ASG";
-    this.name = "swarm-workers-asg";
+    this.displayName = "AWS swarm managers ASG";
+    this.name = "swarm-managers-asg";
 
     this.option("instanceType", {
       type: String,
@@ -41,59 +41,20 @@ export default class AWSDockerSwarmWorkersASGGenerator extends PulumiGenerator {
         type: "input",
       },
       {
-        message: "Select regions to provision (use space to select multiple)",
-        name: "zones",
-        type: "checkbox",
-        choices: [
-          { name: 'Zone A', value: 'A' },
-          { name: 'Zone B', value: 'B' },
-          { name: 'Zone C', value: 'C' }
-        ],
-        validate: (input) => {
-          return input.length > 0 || 'You must select at least one zone';
-        }
+        message: `Enter the minimum number of managers nodes`,
+        name: "minSize",
+        type: "number",
+        default: 1,
+        validate: (input) => input >= 0 || 'Must be a positive number'
       },
-    ]);
-
-    let selectedZones = this.props.zones;
-
-    if (selectedZones.some(z => z.includes('Zone'))) {
-      selectedZones = selectedZones.map(z => {
-        if (z === 'Zone A') return 'A';
-        if (z === 'Zone B') return 'B';
-        if (z === 'Zone C') return 'C';
-        return z;
-      });
-    }
-
-    const allZones = ['A', 'B', 'C'];
-    // Prompt for each selected zone
-    for (const zone of allZones) {
-      if (!selectedZones.includes(zone)) {
-        this.props[`minSize${zone}`] = 0;
-        this.props[`maxSize${zone}`] = 0;
-      }
-      else {
-        const zoneProps = await this._optionOrPrompt([
-          {
-            message: `Enter the minimum number of worker nodes for zone ${zone}`,
-            name: `minSize${zone}`,
-            type: "number",
-            default: 1,
-            validate: (input) => input >= 0 || 'Must be a positive number'
-          },
-          {
-            message: `Enter the maximum number of worker nodes for zone ${zone}`,
-            name: `maxSize${zone}`,
-            type: "number",
-            default: 2,
-            validate: (input) => input >= 0 || 'Must be a positive number'
-          },
-        ]);
-
-        this.props = { ...this.props, ...zoneProps };
-      }
-    }
+      {
+        message: `Enter the maximum number of managers nodes`,
+        name: "maxSize",
+        type: "number",
+        default: 2,
+        validate: (input) => input >= 0 || 'Must be a positive number'
+      },
+    ])
   }
 
   async writing() {

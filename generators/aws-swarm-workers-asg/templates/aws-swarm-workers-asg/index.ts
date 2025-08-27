@@ -6,7 +6,7 @@ import {
   SecurityGroup,
   LaunchTemplate,
 } from "@pulumi/aws/ec2";
-import { interpolate, output } from "@pulumi/pulumi";
+import { interpolate } from "@pulumi/pulumi";
 
 import { getConfig } from "./config";
 

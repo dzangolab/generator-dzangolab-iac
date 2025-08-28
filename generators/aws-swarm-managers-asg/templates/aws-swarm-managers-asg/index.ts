@@ -2,6 +2,11 @@ import {
   Group,
   Policy 
 } from "@pulumi/aws/autoscaling";
+import { 
+  LoadBalancer,
+  Listener,
+  TargetGroup
+} from "@pulumi/aws/lb";
 import {
   LaunchTemplate,
 } from "@pulumi/aws/ec2";
@@ -16,7 +21,70 @@ export = async () => {
     protect: config.protect,
     retainOnDelete: config.retainOnDelete,
   };
-  
+
+  // 1. Create the Network Load Balancer first
+  const nlb = new LoadBalancer(
+    `${config.name}-nlb`,
+    {
+      name: `${config.name}-nlb`,
+      internal: false, // Set to true if this should be internal-only
+      loadBalancerType: "network",
+      subnets: config.publicSubnetIds,
+      enableDeletionProtection: false,
+      tags: {
+        Name: `${config.name}-nlb`,
+        "swarm-component": `manager-load-balancer`,
+        ...config.tags,
+      },
+    },
+    options
+  );
+
+  // 2. Create the Target Group for Swarm API
+  const targetGroup = new TargetGroup(
+    `${config.name}-tg`,
+    {
+      name: `${config.name}-swarm-tg`,
+      port: 2377,
+      protocol: "TCP",
+      vpcId: config.vpcId, // You'll need to add vpcId to your config
+      targetType: "instance",
+      
+      // Health check configuration
+      healthCheck: {
+        enabled: true,
+        protocol: "TCP",
+        port: "2377",
+        healthyThreshold: 3,
+        unhealthyThreshold: 3,
+        interval: 30,
+      },
+      
+      tags: {
+        Name: `${config.name}-swarm-tg`,
+        "swarm-component": `manager-target-group`,
+        ...config.tags,
+      },
+    },
+    options
+  );
+
+  // 3. Create Listener for the NLB
+  const listener = new Listener(
+    `${config.name}-listener`,
+    {
+      loadBalancerArn: nlb.arn,
+      port: 2377,
+      protocol: "TCP",
+      defaultActions: [{
+        type: "forward",
+        targetGroupArn: targetGroup.arn,
+      }],
+    },
+    options
+  );
+
+  // 4. Create Launch Template (modified to include NLB DNS in userData)
   const launchTemplate = new LaunchTemplate(
     config.name,
     {
@@ -39,7 +107,8 @@ export = async () => {
         },
       }],
         
-      userData: config.userData;
+      // Modify userData to include NLB DNS name
+      userData: config.userData,
         
       metadataOptions: {
         httpEndpoint: "enabled",
@@ -59,7 +128,7 @@ export = async () => {
     options
   );
     
-  // Auto Scaling Group
+  // 5. Auto Scaling Group with Target Group attachment
   const asg = new Group(
     config.name,
     {
@@ -72,6 +141,9 @@ export = async () => {
       minSize: config.minSize,
       vpcZoneIdentifiers: config.publicSubnetIds,
       
+      // Attach the NLB Target Group to the ASG
+      targetGroupArns: [targetGroup.arn],
+      
       // Health check configuration
       healthCheckType: "EC2",
       healthCheckGracePeriod: 300,
@@ -81,7 +153,7 @@ export = async () => {
         strategy: "Rolling",
         preferences: {
           minHealthyPercentage: 90,
-          instanceWarmup: "300",
+          instanceWarmup: 300, 
         },
       },
       
@@ -98,6 +170,11 @@ export = async () => {
         {
           key: "swarm-node-type",
           value: "manager",
+          propagateAtLaunch: true,
+        },
+        {
+          key: "NLB_DNS",
+          value: nlb.dnsName, // Pass NLB DNS as a tag for instance discovery
           propagateAtLaunch: true,
         },
         ...Object.entries(config.tags || {}).map(([key, value]) => ({
@@ -130,5 +207,8 @@ export = async () => {
     asgArn: interpolate`${asg.arn}`,
     launchTemplateId: interpolate`${launchTemplate.id}`,
     policyId: interpolate`${policy.id}`,
+    nlbDnsName: interpolate`${nlb.dnsName}`,
+    nlbArn: interpolate`${nlb.arn}`,
+    targetGroupArn: interpolate`${targetGroup.arn}`,
   };
 };

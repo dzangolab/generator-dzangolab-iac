@@ -46,28 +46,15 @@ export const getConfig = async () => {
     keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
-  let leaderIp = stackConfig.get("leaderIp");
-
-  if (!leaderIp) {
-    const outputs = await getOutputs(
-      "leaderStack",
-      "privateIp"
-    );
-
-    leaderIp = outputs ? outputs[0] as string : undefined;
-  }
-
   /** Get manager token */
-  let managerToken: Output<string> = stackConfig.get("managerToken");
+  let managerToken: Output<string>;
 
-  if (!managerToken){
     const outputs = await getSecret(
       "swarmTokensStack",
       "managerToken"
     );
     
-    managerToken =  outputs ? outputs[0] : undefined;
-  }
+  managerToken =  outputs![0]
 
   let securityGroupId = stackConfig.get("securityGroupId");
 
@@ -91,13 +78,12 @@ export const getConfig = async () => {
           packages: stackConfig.getObject<string[]>("packages"),
           publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
           swarmManagerToken: managerToken,
-          swarmManagerIp: leaderIp,
         }
       );
     });
 
-  let cidrBlock = stackConfig.get("cidrBlock");
-  let publicSubnetIds = stackConfig.get("publicSubnetIds");
+  let cidrBlock = undefined as unknown as string;
+  let publicSubnetIds: string[] | undefined = stackConfig.get("publicSubnetIds") as string[] | undefined;
   let vpcId = stackConfig.get("vpcId");
 
   if (!vpcId) {
@@ -106,7 +92,7 @@ export const getConfig = async () => {
       "cidrBlock,publicSubnetIds,vpcId"
     );
 
-    cidrBlock = outputs ? outputs[0] as string : undefined
+    cidrBlock = outputs ? outputs[0] as string : undefined as unknown as string
     publicSubnetIds = outputs ? outputs[1].split(",") as string[] : undefined
     vpcId = outputs ? outputs[2] as string : undefined
   }
@@ -119,8 +105,8 @@ export const getConfig = async () => {
     iamInstanceProfile,
     instanceType: stackConfig.require("instanceType"),
     keypair,
-    maxSize: stackConfig.getNumber("maxSize") || 2,
-    minSize: stackConfig.getNumber("minSize") || 1,
+    maxSize: stackConfig.getNumber("maxSize") || 3,
+    minSize: stackConfig.getNumber("minSize") || 3,
     monitoring: stackConfig.getBoolean("monitoring"),
     name,
     publicSubnetIds,

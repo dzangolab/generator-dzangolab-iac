@@ -31,6 +31,7 @@ config:
 #  <%= projectName %>:volumeId:
   <%= projectName %>:volumeStack: <%= prefix %>-ebs
 <% } %>
+  <%= projectName %>:vpcStack: <%= prefix %>-vpc
   <%= projectName %>:useBastion: <%= useBastion %>
   <%= projectName %>:useNFS: <%= useNFS %>
-  <%= projectName %>:vpcStack: aws-swarm-vpc 
+#  <%= projectName %>:vpcId:

@@ -20,6 +20,18 @@ export const getConfig = async () => {
   /** Get Availability zone **/
   let availabilityZone = stackConfig.require("availabilityZone");
 
+  /** Get Bastion IP address */
+  let bastionIp = stackConfig.get("bastionIp");
+
+  if (!bastionIp) {
+    const outputs = await getOutputs(
+      "bastionStack",
+      "publicIp"
+    );
+
+    bastionIp = outputs ? outputs[0] as string : undefined;
+  }
+
   /** Get EIP */
   let eip = stackConfig.get("eip");
   let eipId = stackConfig.get("eipId");
@@ -111,17 +123,18 @@ export const getConfig = async () => {
     volumeId = outputs ? outputs[0] as string : undefined;
   }
 
-  /** Get VPC id */
   let vpcId = stackConfig.get("vpcId");
+  let cidrBlock = undefined as unknown as string;
 
   if (!vpcId) {
     const outputs = await getOutputs(
       "vpcStack",
-      "vpcId"
+      "vpcId,cidrBlock"
     );
 
     if (outputs) {
       vpcId = outputs[0] as string;
+      cidrBlock = outputs[1] as string;
     }
   }
 
@@ -151,6 +164,8 @@ export const getConfig = async () => {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
     availabilityZone,
+    bastionIp,
+    cidrBlock,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     eip,
     eipId,

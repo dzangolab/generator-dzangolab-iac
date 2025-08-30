@@ -93,24 +93,6 @@ export const getConfig = async () => {
 
   const useNfs = stackConfig.getBoolean("useNfs");
 
-  /** Get user data **/
-  const userData = generateUserData(
-    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
-    {
-      dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
-      packages: stackConfig.getObject<string[]>("packages"),
-      publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
-      volumes: [
-        {
-          device: stackConfig.get("volumeDevice") || "/dev/xvdf",
-          filesystem: stackConfig.get("volumeFilesystem") || "ext4",
-          label: stackConfig.get("volumeLabel") || "data",
-          path: "/mnt/data"
-        }
-      ],
-    }
-  );
-
   /** Get volume id **/
   let volumeId = stackConfig.get("volumeId");
 
@@ -137,6 +119,24 @@ export const getConfig = async () => {
       cidrBlock = outputs[1] as string;
     }
   }
+
+  /** User data **/
+  const userData = generateUserData(
+    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
+    {
+      dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
+      packages: stackConfig.getObject<string[]>("packages"),
+      publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
+      volumes: useNfs ? undefined : [
+        {
+          device: stackConfig.get("volumeDevice") || "/dev/xvdf",
+          filesystem: stackConfig.get("volumeFilesystem") || "ext4",
+          label: stackConfig.get("volumeLabel") || "data",
+          path: "/mnt/data"
+        }
+      ],
+    }
+  );
 
   return {
     ami: stackConfig.require("ami"),

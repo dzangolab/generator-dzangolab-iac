@@ -80,6 +80,7 @@ runcmd:
   - docker network create -d overlay --attachable {{ network }}
 {% endfor %}
 
+{% if volumes %}
 --//
 Content-Type: text/x-shellscript; charset="utf-8"
 MIME-Version: 1.0
@@ -124,5 +125,5 @@ EOF
 fi
 echo "EBS Volume Mounted Successfully."
 {% endfor %}
-
+{% endif %}
 --//--

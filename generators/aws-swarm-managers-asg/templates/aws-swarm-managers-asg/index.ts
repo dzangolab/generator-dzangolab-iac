@@ -2,8 +2,12 @@ import {
   Group,
   Policy 
 } from "@pulumi/aws/autoscaling";
+import { 
+  LoadBalancer,
+  Listener,
+  TargetGroup
+} from "@pulumi/aws/lb";
 import {
-  SecurityGroup,
   LaunchTemplate,
 } from "@pulumi/aws/ec2";
 import { interpolate } from "@pulumi/pulumi";
@@ -18,97 +22,69 @@ export = async () => {
     retainOnDelete: config.retainOnDelete,
   };
 
-  const securityGroup = new SecurityGroup(
-    `${config.name}`,
+  // 1. Create the Network Load Balancer first
+  const nlb = new LoadBalancer(
+    `${config.name}-nlb`,
     {
-      description: "Allow TLS inbound traffic",
-      egress: [
-        {
-          fromPort: 0,
-          toPort: 0,
-          protocol: "-1",
-          cidrBlocks: ["0.0.0.0/0"],
-          ipv6CidrBlocks: ["::/0"],
-        },
-      ],
-      ingress: [
-        {
-          description: "SSH",
-          fromPort: 22,
-          toPort: 22,
-          protocol: "tcp",
-          cidrBlocks: [config.cidrBlock],
-        },
-        {
-          description: "DNS (TCP)",
-          fromPort: 53,
-          toPort: 53,
-          protocol: "tcp",
-          cidrBlocks: ["0.0.0.0/0"],
-          ipv6CidrBlocks: ["::/0"],
-        },
-        {
-          description: "DNS (UDP)",
-          fromPort: 53,
-          toPort: 53,
-          protocol: "udp",
-          cidrBlocks: ["0.0.0.0/0"],
-          ipv6CidrBlocks: ["::/0"],
-        },
-        {
-          description: "HTTP from anywhere",
-          fromPort: 80,
-          toPort: 80,
-          protocol: "tcp",
-          cidrBlocks: ["0.0.0.0/0"],
-          ipv6CidrBlocks: ["::/0"],
-        },
-        {
-          description: "HTTPS from anywhere",
-          fromPort: 443,
-          toPort: 443,
-          protocol: "tcp",
-          cidrBlocks: ["0.0.0.0/0"],
-          ipv6CidrBlocks: ["::/0"],
-        },
-        {
-          description: "DNS (TCP)",
-          fromPort: 2377,
-          toPort: 2377,
-          protocol: "tcp",
-          cidrBlocks: [config.cidrBlock],
-        },
-        {
-          description: "Swarm node discovery (TCP)",
-          fromPort: 7946,
-          toPort: 7946,
-          protocol: "tcp",
-          cidrBlocks: [config.cidrBlock],
-        },
-        {
-          description: "Swarm node discovery (UDP)",
-          fromPort: 7946,
-          toPort: 7946,
-          protocol: "udp",
-          cidrBlocks: [config.cidrBlock],
-        },
-        {
-          description: "Overlay network traffic (UDP 4789)",
-          fromPort: 4789,
-          toPort: 4789,
-          protocol: "udp",
-          cidrBlocks: [config.cidrBlock],
-        },
-      ],
-      name: `${config.name}`,
+      name: `${config.name}-nlb`,
+      internal: false, // Set to true if this should be internal-only
+      loadBalancerType: "network",
+      subnets: config.publicSubnetIds,
+      enableDeletionProtection: false,
       tags: {
-        Name: `${config.name}`,
+        Name: `${config.name}-nlb`,
+        "swarm-component": `manager-load-balancer`,
+        ...config.tags,
       },
-      vpcId: config.vpcId,
     },
     options
   );
-  
+
+  // 2. Create the Target Group for Swarm API
+  const targetGroup = new TargetGroup(
+    `${config.name}-tg`,
+    {
+      name: `${config.name}-swarm-tg`,
+      port: 2377,
+      protocol: "TCP",
+      vpcId: config.vpcId, // You'll need to add vpcId to your config
+      targetType: "instance",
+      
+      // Health check configuration
+      healthCheck: {
+        enabled: true,
+        protocol: "TCP",
+        port: "2377",
+        healthyThreshold: 3,
+        unhealthyThreshold: 3,
+        interval: 30,
+      },
+      
+      tags: {
+        Name: `${config.name}-swarm-tg`,
+        "swarm-component": `manager-target-group`,
+        ...config.tags,
+      },
+    },
+    options
+  );
+
+  // 3. Create Listener for the NLB
+  const listener = new Listener(
+    `${config.name}-listener`,
+    {
+      loadBalancerArn: nlb.arn,
+      port: 2377,
+      protocol: "TCP",
+      defaultActions: [{
+        type: "forward",
+        targetGroupArn: targetGroup.arn,
+      }],
+    },
+    options
+  );
+
+  // 4. Create Launch Template (modified to include NLB DNS in userData)
   const launchTemplate = new LaunchTemplate(
     config.name,
     {
@@ -131,7 +107,8 @@ export = async () => {
         },
       }],
         
-      userData: config.userData;
+      // Modify userData to include NLB DNS name
+      userData: config.userData,
         
       metadataOptions: {
         httpEndpoint: "enabled",
@@ -143,7 +120,7 @@ export = async () => {
         resourceType: "instance",
         tags: {
           Name: config.name,
-          "swarm-node-type": "worker",
+          "swarm-node-type": "manager",
           ...config.tags,
         },
       }],
@@ -151,7 +128,7 @@ export = async () => {
     options
   );
     
-  // Auto Scaling Group
+  // 5. Auto Scaling Group with Target Group attachment
   const asg = new Group(
     config.name,
     {
@@ -164,6 +141,9 @@ export = async () => {
       minSize: config.minSize,
       vpcZoneIdentifiers: config.publicSubnetIds,
       
+      // Attach the NLB Target Group to the ASG
+      targetGroupArns: [targetGroup.arn],
+      
       // Health check configuration
       healthCheckType: "EC2",
       healthCheckGracePeriod: 300,
@@ -173,7 +153,7 @@ export = async () => {
         strategy: "Rolling",
         preferences: {
           minHealthyPercentage: 90,
-          instanceWarmup: "300",
+          instanceWarmup: 300, 
         },
       },
       
@@ -189,7 +169,12 @@ export = async () => {
         },
         {
           key: "swarm-node-type",
-          value: "worker",
+          value: "manager",
+          propagateAtLaunch: true,
+        },
+        {
+          key: "NLB_DNS",
+          value: nlb.dnsName, // Pass NLB DNS as a tag for instance discovery
           propagateAtLaunch: true,
         },
         ...Object.entries(config.tags || {}).map(([key, value]) => ({
@@ -222,5 +207,8 @@ export = async () => {
     asgArn: interpolate`${asg.arn}`,
     launchTemplateId: interpolate`${launchTemplate.id}`,
     policyId: interpolate`${policy.id}`,
+    nlbDnsName: interpolate`${nlb.dnsName}`,
+    nlbArn: interpolate`${nlb.arn}`,
+    targetGroupArn: interpolate`${targetGroup.arn}`,
   };
 };

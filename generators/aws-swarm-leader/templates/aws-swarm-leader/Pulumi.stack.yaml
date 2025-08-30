@@ -14,6 +14,7 @@ config:
   <%= projectName %>:keyName: KEYNAME
   <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs/global
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:pathToSshKeysFolder: path/to/ssh-keys-folder
   <%= projectName %>:protect: false
 #  <%= projectName %>:publicKeyNames:
 #    - 
@@ -23,5 +24,5 @@ config:
   <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
 #  <%= projectName %>:volumeId:
-  <%= projectName %>:volumeStack: <%= prefix %>-vpc
+  <%= projectName %>:volumeStack: <%= prefix %>-ebs
   <%= projectName %>:useNfs: <%= useNFS %>

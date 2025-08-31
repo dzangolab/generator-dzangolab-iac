@@ -1,3 +1,11 @@
+## 1.0.0-rc46 (2025-08-31)
+
+* Aws/security groups (#168) ([ab72af5](https://github.com/dzangolab/generator-dzangolab-iac/commit/ab72af5)), closes [#168](https://github.com/dzangolab/generator-dzangolab-iac/issues/168)
+* fix(aws/leader): fix stack config template ([5998fa3](https://github.com/dzangolab/generator-dzangolab-iac/commit/5998fa3))
+* fix(aws/swarm-worker-asg): fix docker swarm worker asg ([f7159f9](https://github.com/dzangolab/generator-dzangolab-iac/commit/f7159f9))
+
+
+
 ## 1.0.0-rc45.3 (2025-08-24)
 
 * fix(aws/swarm-workers-asg): fix swarm workers asg generator ([41b1e50](https://github.com/dzangolab/generator-dzangolab-iac/commit/41b1e50))

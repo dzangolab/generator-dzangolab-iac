@@ -1,3 +1,12 @@
+## 1.0.0-rc47 (2025-08-31)
+
+* docs(aws/swarm-leader): update readme ([748f27a](https://github.com/dzangolab/generator-dzangolab-iac/commit/748f27a))
+* fix(aws/security-groups): fix outputs ([99f8c1c](https://github.com/dzangolab/generator-dzangolab-iac/commit/99f8c1c))
+* fix(aws/swarm-leader): update swarm leader generator ([c015d10](https://github.com/dzangolab/generator-dzangolab-iac/commit/c015d10))
+* chore(aws/swarm-leader): format code ([39cf4ba](https://github.com/dzangolab/generator-dzangolab-iac/commit/39cf4ba))
+
+
+
 ## 1.0.0-rc46 (2025-08-31)
 
 * Aws/security groups (#168) ([ab72af5](https://github.com/dzangolab/generator-dzangolab-iac/commit/ab72af5)), closes [#168](https://github.com/dzangolab/generator-dzangolab-iac/issues/168)

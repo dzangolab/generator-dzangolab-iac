@@ -93,7 +93,7 @@ export const getConfig = async () => {
 
     if (outputs) {
       publicSubnetIds = outputs[0].split(",") as string[];
-      vpcId = outputs[0] as string;
+      vpcId = outputs[1] as string;
     }
   }
 
@@ -114,7 +114,7 @@ export const getConfig = async () => {
 
   const userData = 
     all({
-      workerToken: workerToken,
+      workerToken,
     }).apply(({workerToken}) => {
       return generateUserData(
         stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
@@ -145,7 +145,7 @@ export const getConfig = async () => {
     securityGroupIds,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
-    vpcId
+    vpcId,
   };
 };
 

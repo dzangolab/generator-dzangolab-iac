@@ -17,5 +17,7 @@ config:
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:rootBlockDeviceSize: "16"
   <%= projectName %>:securityGroupsStack: <%= prefix %>-security-groups
+  <%= projectName %>:swarmTokensStack: <%= prefix %>-tokens
+  <%= projectName %>:tags: {}
   <%= projectName %>:useBastion: false
   <%= projectName %>:vpcStack: <%= prefix %>-vpc

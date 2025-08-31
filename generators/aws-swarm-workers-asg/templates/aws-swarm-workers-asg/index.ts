@@ -3,10 +3,9 @@ import {
   Policy 
 } from "@pulumi/aws/autoscaling";
 import {
-  SecurityGroup,
   LaunchTemplate,
 } from "@pulumi/aws/ec2";
-import { interpolate, output } from "@pulumi/pulumi";
+import { interpolate } from "@pulumi/pulumi";
 
 import { getConfig } from "./config";
 
@@ -39,27 +38,27 @@ export = async () => {
           encrypted: "true",
         },
       }],
-        
+
       userData: config.userData,
-        
+
       metadataOptions: {
         httpEndpoint: "enabled",
         httpTokens: "required",
         httpPutResponseHopLimit: 2,
       },
-      
+
       tagSpecifications: [{
         resourceType: "instance",
         tags: {
           Name: config.name,
-          worker: true,
+          "worker": "",
           ...config.tags,
         },
       }],
     },
     options
   );
-    
+
   // Auto Scaling Group
   const asg = new Group(
     config.name,

@@ -26,13 +26,13 @@ export AWS_PROFILE=XXXXXX
 * If using Pulumi cloud as your backend, set the default organization 
 
 ```bash
-pulumi org set-default {your organization}
+pulumi org set-default <your organization>
 ```
 
 * Initialize and select the appropriate stack
 
 ```bash
-pulumi stack init [staging|production]
+pulumi stack init <stack name>
 ```
 
 * Update the stack config `Pulimi.[staging|production].yaml` with the appropriate values for your project.

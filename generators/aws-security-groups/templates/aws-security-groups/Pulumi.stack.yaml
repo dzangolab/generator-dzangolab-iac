@@ -9,5 +9,6 @@ config:
     # - swarm-managers
     # - swarm-workers
     # - ssh
+    # ssh-bastion
     - web
   <%= projectName %>:vpcStack: <%= prefix %>-vpc

@@ -87,6 +87,18 @@ export = async () => {
         },
       ],
     },
+    "ssh-bastion": {
+      description: "Allow inbound SSH traffic",
+      ingress: [
+        {
+          description: "SSH",
+          fromPort: 22,
+          toPort: 22,
+          protocol: "tcp",
+          cidrBlocks: [config.cidrBlock],
+        },
+      ],
+    },
     "swarm-managers": {
       description: "Security group for Docker swarm managers",
       ingress: [

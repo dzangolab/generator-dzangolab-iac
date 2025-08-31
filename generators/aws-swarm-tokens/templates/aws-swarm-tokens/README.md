@@ -53,8 +53,11 @@ pulumi destroy
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| bastionStack | string | aws-bastion | Name of the stack of the bastion if it exist |
-| leaderStack | string | aws-leader | Name of the stack of the swarm leader |
+| bastionIp | String (IPv4 address) | | Optional. The ip address of the bastion if used. Takes precedence over `bastionStack`.  Ignored if `useBastion` is false.|
+| bastionStack | string | aws-bastion | Name of the stack of the bastion if used. `bastionIp` takes precedence if declared. Ignored is `useBastion` is false. |
+| managerIp | String (IPv4 address) | | Optional. The ip address of the swarm manager to which to connect. Takes precedence over `managerStack`. |
+| managerStack | string | aws-leader | Name of the stack defining the swarm manager |
 | protect | boolean | false | Protect resources from accidental deletion |
 | retainOnDelete | boolean | false | Retain resources when destroyed |
+| useBastion | boolean | false | Whether you use a bastion to connect to the swarm managers | 
 | user | string | ec2-user | User used to connect to the swarm leader |

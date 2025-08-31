@@ -1,6 +1,6 @@
-# AWS Security group
+# AWS Security groups
 
-Provisions an AWS EIP.
+Provisions one or more AWS pre-defined security groups.
 
 ## Requirements
 
@@ -11,8 +11,6 @@ Provisions an AWS EIP.
 * An existing devops repo
 
 ## Usage
-
-* Cd into the `aws-security-group` folder.
 
 * Install dependencies 
 
@@ -26,7 +24,7 @@ npm install
 export AWS_PROFILE=XXXXXX
 ```
 
-* Set the default organization 
+* If using the Pulumi cloud as your backend, sset the default organization 
 
 ```bash
 pulumi org set-default {your organization}
@@ -35,10 +33,10 @@ pulumi org set-default {your organization}
 * Initialize and select the appropriate stack
 
 ```bash
-pulumi stack init [staging|production]
+pulumi stack init <stack>
 ```
 
-* Update the stack config `Pulimi.[staging|production].yaml` with the appropriate values for your project.
+* Update the stack config `Pulimi.<stack>.yaml` with the appropriate values for your project.
 
 * Run `pulumi up`
 
@@ -50,17 +48,31 @@ pulumi destroy
 
 ## Resources provisioned
 
-### AWS Security group
+### AWS Security groups
 
-An AWS security group is provisioned.
+| Name             | Port range | Protocol | Secure | 
+|------------------|------------|----------|--------|
+| `dns`            | 53         | TCP/UDP  | Always |
+| `nfs`            | 2049       | TCP/UDP  | As per `secure` option |
+|                  | ALL        | ICMP     | As per `secure` option |
+| `ssh`            | 22         | TCP      | Never  |      
+| `swarm-managers` | 2377       | TCP      | Always |
+|                  | 4789       | UDP      | Always |
+|                  | 7946       | TCP/UDP  | Always |
+| `swarm-workers ` | 4789       | UDP      | Always |
+|                  | 7946       | TCP/UDP  | Always |
+| `web`            | 80         | TCP      | Never  |  
+|                  | 443        | TCP      | Never     
 
 ## Configuration settings
 
 | Setting | Type    | Default | Description |
 |---------|---------|---------|-------------|
+| cidrBlock | string | | CIDR block to use in security group ingress rules. Required if `vpcId` is present. | 
 | name    | string  | `stack` | The name of the security group |
 | protect | boolean | false   | Protect resources from accidental deletion |
 | retainOnDelete | boolean | false | Retain resources when destroyed |
-| suffix  | string  |         | A suffix to append to the resource name |
-| vpcProject | string | `aws-vpc` | The name of the project that provisions the AWS VPC to which this security group will belong. Ignored if `vpcId` is defined |
-| vpcId   | string |          | The id of the AWS VPC top which this security group belongs. Takes precedence over `vpcProject` | 
+| secure  | boolean | true | If true, ingress in some security groups is restricted to the VPC's cidrBlock. |
+| securityGroups | string[] | `web` | A list of security groups to create. Items must be from the supported list: `dns`, `nfs`, `ssh`, `swarm-managers`, `swarm-workers`, `web`. |
+| vpcStack | string | `aws-vpc` | The name of the project that provisions the AWS VPC to which this security group will belong. Ignored if `vpcId` is defined |
+| vpcId   | string |          | The id of the AWS VPC top which this security group belongs. Optional, but takes precedence over `vpcStack` if present. | 

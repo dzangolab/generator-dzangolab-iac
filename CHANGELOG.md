@@ -1,3 +1,9 @@
+## 1.0.0-rc51 (2025-08-31)
+
+* feat(aws/swarm-workers-asg): update generator (#178) ([32c722b](https://github.com/dzangolab/generator-dzangolab-iac/commit/32c722b)), closes [#178](https://github.com/dzangolab/generator-dzangolab-iac/issues/178)
+
+
+
 ## 1.0.0-rc50 (2025-08-31)
 
 * fix(aws/swarm-tokens): fix aws swarm tokens generator (#176) ([5c33c51](https://github.com/dzangolab/generator-dzangolab-iac/commit/5c33c51)), closes [#176](https://github.com/dzangolab/generator-dzangolab-iac/issues/176)

@@ -7,21 +7,35 @@ export = async () => {
 
   const config = await getConfig();
 
-  if (!config.managerIp) {
-    throw new Error("managerIp is required but was not provided or found");
+  if (config.useBastion && !config.bastionIp) {
+    throw new Error("Bastion ip address is required but was not provided or found");
   }
 
-  const conn = {
+  if (!config.managerIp) {
+    throw new Error("Manager ip address is required but was not provided or found");
+  }
+
+  let conn: {
+    host: string; 
+    user: string;
+    agentSocketPath?: string;
+    proxy?: {
+      host: string;
+      user: string;
+      agentSocketPath?: string;
+    }
+  } = {
     host: config.managerIp,
     user: config.user,
     agentSocketPath: process.env.SSH_AUTH_SOCK,
-    ...(config.bastionIp && {
-      proxy: {
-        host: config.bastionIp,
-        user: config.user,
-        agentSocketPath: process.env.SSH_AUTH_SOCK,
-      },
-    }),
+  };
+
+  if (config.bastionIp) {
+    conn["proxy"] = {
+      host: config.bastionIp,
+      user: config.user,
+      agentSocketPath: process.env.SSH_AUTH_SOCK,
+    };
   };
 
   const getWorkerToken = new remote.Command(

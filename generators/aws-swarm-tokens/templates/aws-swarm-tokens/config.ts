@@ -9,22 +9,28 @@ import type { StackReferenceOutputDetails } from "@pulumi/pulumi";
 export const getConfig = async () => {
   const stackConfig = new Config();
 
-  let bastionIp = stackConfig.get("bastionIp");
+  const useBastion = stackConfig.getBoolean("useBastion");
 
-  if (!bastionIp) {
-    const outputs = await getOutputs(
-      "bastionStack",
-      "publicIp"
-    );
+  let bastionIp = undefined as unknown as string | undefined;
 
-    bastionIp = outputs ? outputs[0] as string : undefined;
+  if (useBastion) {
+    bastionIp = stackConfig.get("bastionIp");
+    
+    if (!bastionIp) {
+      const outputs = await getOutputs(
+        "bastionStack",
+        "publicIp"
+      );
+
+      bastionIp = outputs ? outputs[0] : undefined;
+    }
   }
 
-  let managerIp = stackConfig.get("leaderIp");
+  let managerIp = stackConfig.get("managerIp");
 
   if (!managerIp) {
     const outputs = await getOutputs(
-      "leaderStack",
+      "managerStack",
       "privateIp"
     );
 
@@ -34,7 +40,8 @@ export const getConfig = async () => {
   return {
     bastionIp,
     managerIp,
-    user: stackConfig.get("user") || "ec2-user"
+    useBastion,
+    user: stackConfig.get("user") || "ec2-user",
   };
 };
 

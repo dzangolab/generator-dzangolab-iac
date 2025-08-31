@@ -1,3 +1,10 @@
+## 1.0.0-rc50 (2025-08-31)
+
+* fix(aws/swarm-tokens): fix aws swarm tokens generator (#176) ([5c33c51](https://github.com/dzangolab/generator-dzangolab-iac/commit/5c33c51)), closes [#176](https://github.com/dzangolab/generator-dzangolab-iac/issues/176)
+* Aws/swarm tokens (#175) ([d0a5ba3](https://github.com/dzangolab/generator-dzangolab-iac/commit/d0a5ba3)), closes [#175](https://github.com/dzangolab/generator-dzangolab-iac/issues/175) [#166](https://github.com/dzangolab/generator-dzangolab-iac/issues/166)
+
+
+
 ## 1.0.0-rc49 (2025-08-31)
 
 * fix(aws/swarm-leader): fix swarm leader for use with bastion ([2d74075](https://github.com/dzangolab/generator-dzangolab-iac/commit/2d74075))

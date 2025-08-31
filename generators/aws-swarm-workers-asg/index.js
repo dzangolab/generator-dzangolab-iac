@@ -40,60 +40,7 @@ export default class AWSDockerSwarmWorkersASGGenerator extends PulumiGenerator {
         name: "instanceType",
         type: "input",
       },
-      {
-        message: "Select regions to provision (use space to select multiple)",
-        name: "zones",
-        type: "checkbox",
-        choices: [
-          { name: 'Zone A', value: 'A' },
-          { name: 'Zone B', value: 'B' },
-          { name: 'Zone C', value: 'C' }
-        ],
-        validate: (input) => {
-          return input.length > 0 || 'You must select at least one zone';
-        }
-      },
     ]);
-
-    let selectedZones = this.props.zones;
-
-    if (selectedZones.some(z => z.includes('Zone'))) {
-      selectedZones = selectedZones.map(z => {
-        if (z === 'Zone A') return 'A';
-        if (z === 'Zone B') return 'B';
-        if (z === 'Zone C') return 'C';
-        return z;
-      });
-    }
-
-    const allZones = ['A', 'B', 'C'];
-    // Prompt for each selected zone
-    for (const zone of allZones) {
-      if (!selectedZones.includes(zone)) {
-        this.props[`minSize${zone}`] = 0;
-        this.props[`maxSize${zone}`] = 0;
-      }
-      else {
-        const zoneProps = await this._optionOrPrompt([
-          {
-            message: `Enter the minimum number of worker nodes for zone ${zone}`,
-            name: `minSize${zone}`,
-            type: "number",
-            default: 1,
-            validate: (input) => input >= 0 || 'Must be a positive number'
-          },
-          {
-            message: `Enter the maximum number of worker nodes for zone ${zone}`,
-            name: `maxSize${zone}`,
-            type: "number",
-            default: 2,
-            validate: (input) => input >= 0 || 'Must be a positive number'
-          },
-        ]);
-
-        this.props = { ...this.props, ...zoneProps };
-      }
-    }
   }
 
   async writing() {

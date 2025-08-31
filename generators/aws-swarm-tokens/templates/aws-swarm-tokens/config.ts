@@ -31,7 +31,7 @@ export const getConfig = async () => {
   if (!managerIp) {
     const outputs = await getOutputs(
       "managerStack",
-      "privateIp"
+      useBastion ? "privateIp" : "publicIp"
     );
 
     managerIp = outputs ? outputs[0] as string : undefined;

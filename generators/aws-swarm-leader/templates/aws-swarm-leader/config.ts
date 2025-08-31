@@ -20,18 +20,6 @@ export const getConfig = async () => {
   /** Get Availability zone **/
   let availabilityZone = stackConfig.require("availabilityZone");
 
-  /** Get Bastion */
-    let bastionSecurityGroupId = stackConfig.get("bastonSecurityGroupId");
-
-  if (!bastionSecurityGroupId) {
-    const outputs = await getOutputs(
-      "bastionStack",
-      "bastionSecurityGroupId"
-    );
-
-    bastionSecurityGroupId = outputs ? outputs[0] as string : undefined;
-  }
-
   /** Get EIP */
   let eip = stackConfig.get("eip");
   let eipId = stackConfig.get("eipId");
@@ -73,12 +61,18 @@ export const getConfig = async () => {
   }
 
   /** Gets security group ids */
+  const useBastion = stackConfig.getBoolean("useBastion");
+
   let securityGroupIds = stackConfig.getObject<string[]>("securityGroupIds");
 
   if (!securityGroupIds) {
+    const securityGroupNames = useBastion
+      ? "swarm-managers,web,ssh-bastion"
+      : "swarm-managers,web";
+
     const outputs = await getOutputs<{ "arn": string; "id": string }>(
       "securityGroupsStack",
-      "swarm-managers,web"
+      securityGroupNames
     );
 
     if (!outputs) {
@@ -88,11 +82,12 @@ export const getConfig = async () => {
     try {
       const managers = outputs[0] as { "arn": string; "id": string };
       const web = outputs[1] as { "arn": string; "id": string };
-      
+
       securityGroupIds = [managers["id"], web["id"]];
 
-      if (bastionSecurityGroupId) {
-        securityGroupIds.push(bastionSecurityGroupId);
+      if (useBastion) {
+        const bastion = outputs[2] as { "arn": string; "id": string };
+        securityGroupIds.push(bastion["id"]);
       }
     } catch (e) {
       throw new Error("Required security groups could not be found");
@@ -102,7 +97,7 @@ export const getConfig = async () => {
   /** Get subnet id **/
   const subnetId = stackConfig.require("subnetId");
 
-  const useNfs = stackConfig.getBoolean("useNfs");
+  const useNFS = stackConfig.getBoolean("useNFS");
 
   /** Get volume id **/
   let volumeId = stackConfig.get("volumeId");
@@ -141,7 +136,7 @@ export const getConfig = async () => {
       dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
       packages: stackConfig.getObject<string[]>("packages"),
       publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
-      volumes: useNfs ? undefined : [
+      volumes: useNFS ? undefined : [
         {
           device: stackConfig.get("volumeDevice") || "/dev/xvdf",
           filesystem: stackConfig.get("volumeFilesystem") || "ext4",
@@ -156,7 +151,6 @@ export const getConfig = async () => {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
     availabilityZone,
-    bastionSecurityGroupId,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     eip,
     eipId,
@@ -173,7 +167,8 @@ export const getConfig = async () => {
     securityGroupIds,
     subnetId,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
-    useNfs,
+    useBastion,
+    useNFS,
     userData,
     volumeId,
     vpcId,

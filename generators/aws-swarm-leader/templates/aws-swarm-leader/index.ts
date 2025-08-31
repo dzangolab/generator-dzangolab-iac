@@ -60,7 +60,7 @@ export = async () => {
     }
   );
 
-  if (!config.useNfs && config.volumeId) {
+  if (!config.useNFS && config.volumeId) {
     new VolumeAttachment(
       config.name,
       {
@@ -75,7 +75,7 @@ export = async () => {
     );
   }
 
-  if (!config.bastionSecurityGroupId) {
+  if (!config.useBastion) {
     new local.Command(
       "addOrRemoveDropletToOrFromKnownHosts",
       {

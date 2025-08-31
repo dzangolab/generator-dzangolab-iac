@@ -30,7 +30,7 @@ config:
 <% if (!useNFS) { %>
 #  <%= projectName %>:volumeId:
   <%= projectName %>:volumeStack: <%= prefix %>-ebs
-<% } else { %>
-  <%= projectName %>:useNfs: <%= useNFS %>
 <% } %>
+  <%= projectName %>:useBastion: <%= useBastion %>
+  <%= projectName %>:useNFS: <%= useNFS %>
   <%= projectName %>:vpcStack: aws-swarm-vpc 

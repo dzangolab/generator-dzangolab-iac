@@ -55,14 +55,15 @@ pulumi destroy
 | `dns`            | 53         | TCP/UDP  | Always |
 | `nfs`            | 2049       | TCP/UDP  | As per `secure` option |
 |                  | ALL        | ICMP     | As per `secure` option |
-| `ssh`            | 22         | TCP      | Never  |      
+| `ssh`            | 22         | TCP      | Never  |
+| `ssh-bastion`    | 22         | TCP      | Always |
 | `swarm-managers` | 2377       | TCP      | Always |
 |                  | 4789       | UDP      | Always |
 |                  | 7946       | TCP/UDP  | Always |
 | `swarm-workers ` | 4789       | UDP      | Always |
 |                  | 7946       | TCP/UDP  | Always |
 | `web`            | 80         | TCP      | Never  |  
-|                  | 443        | TCP      | Never     
+|                  | 443        | TCP      | Never  | 
 
 ## Configuration settings
 

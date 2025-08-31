@@ -8,18 +8,6 @@ Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="cloud-config.txt"
 
 #cloud-config
-
-{% if packages %}
-packages: 
-{% for package in packages %}
-  - {{ package }}
-{% endfor %}
-
-package_update: true
-package_upgrade: true
-package_reboot_if_required: true
-{% endif %}
-
 write_files:
 - content: |
     {
@@ -65,16 +53,22 @@ write_files:
   path: /etc/systemd/system/dockerPrune.timer
 
 runcmd:
+{% for key in publicKeyNames %}
+  - echo '{{ key }}' >> /home/ec2-user/.ssh/authorized_keys
+{% endfor %}
   - dnf install docker -y
   - chmod 644 /etc/docker/daemon.json
   - systemctl start docker
   - systemctl enable docker
   - usermod -a -G docker ec2-user
-{% for key in publicKeyNames %}
-  - echo '{{ key }}' >> /home/ec2-user/.ssh/authorized_keys
-{% endfor %}
   - curl -O https://bootstrap.pypa.io/get-pip.py
   - python3 get-pip.py
-  - docker swarm join --token {{ swarmWorkerToken }} {{ swarmManagerIp }}:2377
-
+  - dnf install aws-cli -y
+  - |
+    MANAGER_IP=$(aws ec2 describe-instances \
+      --filters "Name=tag-key,Values=manager" \
+                "Name=instance-state-name,Values=running" \
+      --query "Reservations[0].Instances[0].PrivateIpAddress" \
+      --output text)
+    docker swarm join --token {{ swarmWorkerToken }} $MANAGER_IP:2377
 --//--

@@ -16,9 +16,6 @@ export const getConfig = async () => {
   const stack = getStack();
   const stackConfig = new Config();
 
-  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
-  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../ssh-keys";
-
   const name = stackConfig.get("name") || `${organization}-${stack}`;
 
   /** Get instance profile */
@@ -51,44 +48,70 @@ export const getConfig = async () => {
     }
   }
 
-  /** Get worker token */
-  let leaderIp = stackConfig.get("leaderIp");
+  /** Get security group ids */
+  const useBastion = stackConfig.getBoolean("useBastion");
 
-  if (!leaderIp) {
-    const outputs = await getOutputs(
-      "leaderStack",
-      "privateIp"
+  let securityGroupIds = stackConfig.getObject<string[]>("securityGroupIds");
+
+  if (!securityGroupIds) {
+    const securityGroupNames = useBastion
+      ? "swarm-workers,ssh-bastion"
+      : "swarm-workers";
+
+    const outputs = await getOutputs<{ "arn": string; "id": string }>(
+      "securityGroupsStack",
+      securityGroupNames
     );
 
-    if (outputs) {
-      leaderIp = outputs[0] as string;
+    if (!outputs) {
+      throw new Error("Required security group could not be found");
+    }
+
+    try {
+      const workers = outputs[0] as { "arn": string; "id": string };
+
+      securityGroupIds = [workers["id"]];
+
+      if (useBastion) {
+        const bastion = outputs[1] as { "arn": string; "id": string };
+        securityGroupIds.push(bastion["id"]);
+      }
+    } catch (e) {
+      throw new Error("Required security groups could not be found");
     }
   }
 
+  /** Get VPC id */
+  let publicSubnetIds = undefined as unknown as string[];
+  let vpcId = stackConfig.get("vpcId");
+
+  if (!vpcId) {
+    const outputs = await getOutputs(
+      "vpcStack",
+      "publicSubnetIds,vpcId"
+    );
+
+    if (outputs) {
+      publicSubnetIds = outputs[0].split(",") as string[];
+      vpcId = outputs[0] as string;
+    }
+  }
+
+  /** Get worker token */
   let workerToken: Output<string>;
 
-  const outputs = await getSecret(
-    "leaderStack",
-    "workersToken"
+  let output = await getSecret(
+    "swarmTokensStack",
+    "workerToken"
   );
   
-  workerToken =  outputs![0];
+  workerToken =  output![0];
 
-  /** Gets security group id */
-  let securityGroupId = stackConfig.get("securityGroupId") as string;
+  /** User data **/
+  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../ssh-keys";
 
-  if (!securityGroupId) {
-    const outputs = await getOutputs(
-      "securityGroupStack",
-      "workersSecurityGroupId"
-    );
+  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
 
-    if (outputs) {
-      securityGroupId = outputs[0] as string;
-    }
-  }
-
-  /** Get user data **/
   const userData = 
     all({
       workerToken: workerToken,
@@ -96,40 +119,20 @@ export const getConfig = async () => {
       return generateUserData(
         stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
         {
-          packages: stackConfig.getObject<string[]>("packages"),
           publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
           swarmWorkerToken: workerToken,
-          swarmManagerIp: leaderIp,
         }
       );
     });
 
-  let cidrBlock = undefined as unknown as string;
-  let publicSubnetIds = undefined as unknown as string[];
-  let vpcId = stackConfig.get("vpcId");
-
-  if (!vpcId) {
-    const outputs = await getOutputs(
-      "vpcStack",
-      "cidrBlock,publicSubnetIds,vpcId"
-    );
-
-    if (outputs) {
-      cidrBlock = outputs[0] as string;
-      publicSubnetIds = outputs[1].split(",") as string[];
-      vpcId = outputs[2] as string;
-    }
-  }
-
   return {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
-    cidrBlock,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     iamInstanceProfile,
     instanceType: stackConfig.require("instanceType"),
     keypair,
-    maxSize: stackConfig.getNumber("maxSize") || 1,
+    maxSize: stackConfig.getNumber("maxSize") || 2,
     minSize: stackConfig.getNumber("minSize") || 1,
     monitoring: stackConfig.getBoolean("monitoring"),
     name,
@@ -139,7 +142,7 @@ export const getConfig = async () => {
     rootBlockDevice: {
       volumeSize: stackConfig.getNumber("rootBlockDeviceSize") || 16,
     },
-    securityGroupId,
+    securityGroupIds,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
     vpcId

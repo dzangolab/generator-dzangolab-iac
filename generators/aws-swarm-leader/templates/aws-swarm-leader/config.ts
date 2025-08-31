@@ -130,7 +130,7 @@ export const getConfig = async () => {
     }
   }
 
-  /** Get user data **/
+  /** User data **/
   const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../../ssh-keys";
 
   const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
@@ -141,7 +141,7 @@ export const getConfig = async () => {
       dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
       packages: stackConfig.getObject<string[]>("packages"),
       publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
-      volumes: useNfs ? undefined : s[
+      volumes: useNfs ? undefined : [
         {
           device: stackConfig.get("volumeDevice") || "/dev/xvdf",
           filesystem: stackConfig.get("volumeFilesystem") || "ext4",

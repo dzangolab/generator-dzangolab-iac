@@ -35,9 +35,14 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
       },
     });
 
+    this.option("useBastion", {
+      type: Boolean,
+      desc: "Are you using a bastion to access the swarm leader"
+    });
+
     this.option("useNFS", {
       type: Boolean,
-      desc: "Whether or not a NFS server is used for volumes"
+      desc: "Are you using an NFS server for volume data"
     });
   }
 
@@ -61,6 +66,12 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
         name: "availabilityZone",
         required: true,
         type: "input",
+      },
+      {
+        default: false,
+        message: "Use a bastion",
+        name: "useBastion",
+        type: "confirm",
       },
       {
         default: false,

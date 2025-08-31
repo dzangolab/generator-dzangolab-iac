@@ -202,7 +202,7 @@ export = async () => {
 
     outputs[name] = {
       arn: interpolate`${securityGroup.arn}`,
-      id: interpolate`${securityGroup.id},`
+      id: interpolate`${securityGroup.id}`,
     }
   }
 

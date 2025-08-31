@@ -1,3 +1,9 @@
+## 1.0.0-rc47.0 (2025-08-31)
+
+* fix(aws/swarm-leader): update swarm leader generator ([048b190](https://github.com/dzangolab/generator-dzangolab-iac/commit/048b190))
+
+
+
 ## 1.0.0-rc47 (2025-08-31)
 
 * docs(aws/swarm-leader): update readme ([748f27a](https://github.com/dzangolab/generator-dzangolab-iac/commit/748f27a))

@@ -17,6 +17,7 @@ import AWSResourcesGenerator from "../aws-resources/index.js";
 import AWSRoute53Generator from "../aws-route53/index.js";
 import AWSS3Generator from "../aws-s3/index.js";
 import AWSSecurityGroupGenerator from "../aws-security-group/index.js";
+import AWSSecurityGroupsGenerator from "../aws-security-groups/index.js";
 import AWSSESGenerator from "../aws-ses/index.js";
 import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
 import AWSSwarmGenerator from "../aws-swarm/index.js";
@@ -152,6 +153,10 @@ export default class IaCGenerator extends Generator {
             value: "aws-security-group"
           },
           {
+            name: "AWS security groups",
+            value: "aws-security-groups"
+          },
+          {
             name: "AWS SES",
             value: "aws-ses"
           },
@@ -239,6 +244,7 @@ export default class IaCGenerator extends Generator {
       "aws-route53": { Generator: AWSRoute53Generator, path: "../aws-route53/index.js" },
       "aws-s3": { Generator: AWSS3Generator, path: "../aws-s3/index.js" },
       "aws-security-group": { Generator: AWSSecurityGroupGenerator, path: "../aws-security-group/index.js" },
+      "aws-security-groups": { Generator: AWSSecurityGroupsGenerator, path: "../aws-security-groups/index.js" },
       "aws-ses": { Generator: AWSSESGenerator, path: "../aws-ses/index.js" },
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
       "aws-swarm": { Generator: AWSSwarmGenerator, path: "../aws-swarm/index.js" },

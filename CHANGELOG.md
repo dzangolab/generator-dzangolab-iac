@@ -1,3 +1,45 @@
+## 1.0.0-rc49 (2025-08-31)
+
+* fix(aws/swarm-leader): fix swarm leader for use with bastion ([2d74075](https://github.com/dzangolab/generator-dzangolab-iac/commit/2d74075))
+
+
+
+## 1.0.0-rc48 (2025-08-31)
+
+* docs(aws/security-groups): add ssh-bastion security group ([9f23e20](https://github.com/dzangolab/generator-dzangolab-iac/commit/9f23e20))
+* fix(aws/security-groups): add ssh-bastion security group ([47b72d5](https://github.com/dzangolab/generator-dzangolab-iac/commit/47b72d5))
+
+
+
+## 1.0.0-rc47.1 (2025-08-31)
+
+* fix(aws/swarm-leader): update swarm leader generator ([97605a3](https://github.com/dzangolab/generator-dzangolab-iac/commit/97605a3))
+
+
+
+## 1.0.0-rc47.0 (2025-08-31)
+
+* fix(aws/swarm-leader): update swarm leader generator ([048b190](https://github.com/dzangolab/generator-dzangolab-iac/commit/048b190))
+
+
+
+## 1.0.0-rc47 (2025-08-31)
+
+* docs(aws/swarm-leader): update readme ([748f27a](https://github.com/dzangolab/generator-dzangolab-iac/commit/748f27a))
+* fix(aws/security-groups): fix outputs ([99f8c1c](https://github.com/dzangolab/generator-dzangolab-iac/commit/99f8c1c))
+* fix(aws/swarm-leader): update swarm leader generator ([c015d10](https://github.com/dzangolab/generator-dzangolab-iac/commit/c015d10))
+* chore(aws/swarm-leader): format code ([39cf4ba](https://github.com/dzangolab/generator-dzangolab-iac/commit/39cf4ba))
+
+
+
+## 1.0.0-rc46 (2025-08-31)
+
+* Aws/security groups (#168) ([ab72af5](https://github.com/dzangolab/generator-dzangolab-iac/commit/ab72af5)), closes [#168](https://github.com/dzangolab/generator-dzangolab-iac/issues/168)
+* fix(aws/leader): fix stack config template ([5998fa3](https://github.com/dzangolab/generator-dzangolab-iac/commit/5998fa3))
+* fix(aws/swarm-worker-asg): fix docker swarm worker asg ([f7159f9](https://github.com/dzangolab/generator-dzangolab-iac/commit/f7159f9))
+
+
+
 ## 1.0.0-rc45.3 (2025-08-24)
 
 * fix(aws/swarm-workers-asg): fix swarm workers asg generator ([41b1e50](https://github.com/dzangolab/generator-dzangolab-iac/commit/41b1e50))

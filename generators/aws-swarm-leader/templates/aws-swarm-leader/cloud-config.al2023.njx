@@ -65,14 +65,14 @@ write_files:
   path: /etc/systemd/system/dockerPrune.timer
 
 runcmd:
+{% for key in publicKeyNames %}
+  - echo {{ key }} >> /home/ec2-user/.ssh/authorized_keys
+{% endfor %}
   - dnf install docker -y
   - chmod 644 /etc/docker/daemon.json
   - systemctl start docker
   - systemctl enable docker
   - usermod -a -G docker ec2-user
-{% for key in publicKeyNames %}
-  - echo {{ key }} >> /home/ec2-user/.ssh/authorized_keys
-{% endfor %}
   - curl -O https://bootstrap.pypa.io/get-pip.py
   - python3 get-pip.py
   - docker swarm init --default-addr-pool 192.168.0.0/16 --advertise-addr $(cloud-init query ds.meta-data.local-ipv4)
@@ -80,6 +80,7 @@ runcmd:
   - docker network create -d overlay --attachable {{ network }}
 {% endfor %}
 
+{% if volumes %}
 --//
 Content-Type: text/x-shellscript; charset="utf-8"
 MIME-Version: 1.0
@@ -124,5 +125,5 @@ EOF
 fi
 echo "EBS Volume Mounted Successfully."
 {% endfor %}
-
+{% endif %}
 --//--

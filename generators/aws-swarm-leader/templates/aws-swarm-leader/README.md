@@ -52,7 +52,7 @@ pulumi destroy
 
 ### AWS EC2 instance
 
-An AWS EC2 is launched.
+An AWS EC2 instance is launched.
 
 The 
 

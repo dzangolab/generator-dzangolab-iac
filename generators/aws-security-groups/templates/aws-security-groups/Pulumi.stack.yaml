@@ -1,0 +1,13 @@
+config:
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:protect: false
+  <%= projectName %>:retainOnDelete: false
+  <%= projectName %>:seecure: true
+  <%= projectName %>:securityGroups:
+    # - dns
+    # - nfs
+    # - swarm-managers
+    # - swarm-workers
+    # - ssh
+    - web
+  <%= projectName %>:vpcStack: <%= prefix %>-vpc

@@ -30,12 +30,12 @@ export = async () => {
       rootBlockDevice: {
         ...config.rootBlockDevice,
         tags: {
-          Name: `${config.name}-root-device`,
+          Name: `${config.name}-root`,
         },
       },
       subnetId: config.subnetId,
       tags: {
-        Name: `${config.name}-leader`,
+        Name: `${config.name}`,
         ...config.tags,
       },
       userData: config.userData,
@@ -75,17 +75,19 @@ export = async () => {
     );
   }
 
-  new local.Command(
-    "addOrRemoveDropletToOrFromKnownHosts",
-    {
-      create: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
-      delete: interpolate`sed -i -e '/^${config.eip} .*/d' ~/.ssh/known_hosts`,
-      update: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
-    },
-    {
-      dependsOn: instance,
-    },
-  );
+  if (!config.bastionSecurityGroupId) {
+    new local.Command(
+      "addOrRemoveDropletToOrFromKnownHosts",
+      {
+        create: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
+        delete: interpolate`sed -i -e '/^${config.eip} .*/d' ~/.ssh/known_hosts`,
+        update: interpolate`sleep 30 && ssh-keyscan ${config.eip} 2>&1 | grep -vE '^#' >> ~/.ssh/known_hosts`,
+      },
+      {
+        dependsOn: instance,
+      },
+    );
+  }
 
   return {
     arn: interpolate`${instance.arn}`,
@@ -94,5 +96,7 @@ export = async () => {
     name: config.name,
     privateIp: interpolate`${instance.privateIp}`,
     publicIp: config.eip,
+    securityGroupIds: config.securityGroupIds,
+    vpcId: config.vpcId,
   };
 }

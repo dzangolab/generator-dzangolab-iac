@@ -20,6 +20,18 @@ export const getConfig = async () => {
   /** Get Availability zone **/
   let availabilityZone = stackConfig.require("availabilityZone");
 
+  /** Get Bastion */
+    let bastionSecurityGroupId = stackConfig.get("bastonSecurityGroupId");
+
+  if (!bastionSecurityGroupId) {
+    const outputs = await getOutputs(
+      "bastionStack",
+      "bastionSecurityGroupId"
+    );
+
+    bastionSecurityGroupId = outputs ? outputs[0] as string : undefined;
+  }
+
   /** Get EIP */
   let eip = stackConfig.get("eip");
   let eipId = stackConfig.get("eipId");
@@ -60,44 +72,37 @@ export const getConfig = async () => {
     keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
-  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../../ssh-keys";
-
-  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
-
-  /** Gets security group id */
+  /** Gets security group ids */
   let securityGroupIds = stackConfig.getObject<string[]>("securityGroupIds");
 
   if (!securityGroupIds) {
-    const outputs = await getOutputs(
-      "securityGroupStack",
-      "managersSecurityGroupId"
+    const outputs = await getOutputs<{ "arn": string; "id": string }>(
+      "securityGroupsStack",
+      "swarm-managers,web"
     );
 
-    securityGroupIds = outputs ? [outputs[0] as string] : [];
+    if (!outputs) {
+      throw new Error("Required security group could not be found");
+    }
+
+    try {
+      const managers = outputs[0] as { "arn": string; "id": string };
+      const web = outputs[1] as { "arn": string; "id": string };
+      
+      securityGroupIds = [managers["id"], web["id"]];
+
+      if (bastionSecurityGroupId) {
+        securityGroupIds.push(bastionSecurityGroupId);
+      }
+    } catch (e) {
+      throw new Error("Required security groups could not be found");
+    }
   }
 
   /** Get subnet id **/
   const subnetId = stackConfig.require("subnetId");
 
   const useNfs = stackConfig.getBoolean("useNfs");
-
-  /** Get user data **/
-  const userData = generateUserData(
-    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
-    {
-      dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
-      packages: stackConfig.getObject<string[]>("packages"),
-      publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
-      volumes: [
-        {
-          device: stackConfig.get("volumeDevice") || "/dev/xvdf",
-          filesystem: stackConfig.get("volumeFilesystem") || "ext4",
-          label: stackConfig.get("volumeLabel") || "data",
-          path: "/mnt/data"
-        }
-      ],
-    }
-  );
 
   /** Get volume id **/
   let volumeId = stackConfig.get("volumeId");
@@ -111,10 +116,47 @@ export const getConfig = async () => {
     volumeId = outputs ? outputs[0] as string : undefined;
   }
 
+  /** Get VPC id */
+  let vpcId = stackConfig.get("vpcId");
+
+  if (!vpcId) {
+    const outputs = await getOutputs(
+      "vpcStack",
+      "vpcId"
+    );
+
+    if (outputs) {
+      vpcId = outputs[0] as string;
+    }
+  }
+
+  /** Get user data **/
+  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../../ssh-keys";
+
+  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
+
+  const userData = generateUserData(
+    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
+    {
+      dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
+      packages: stackConfig.getObject<string[]>("packages"),
+      publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
+      volumes: useNfs ? undefined : s[
+        {
+          device: stackConfig.get("volumeDevice") || "/dev/xvdf",
+          filesystem: stackConfig.get("volumeFilesystem") || "ext4",
+          label: stackConfig.get("volumeLabel") || "data",
+          path: "/mnt/data"
+        }
+      ],
+    }
+  );
+
   return {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
     availabilityZone,
+    bastionSecurityGroupId,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     eip,
     eipId,
@@ -134,6 +176,7 @@ export const getConfig = async () => {
     useNfs,
     userData,
     volumeId,
+    vpcId,
   };
 };
 

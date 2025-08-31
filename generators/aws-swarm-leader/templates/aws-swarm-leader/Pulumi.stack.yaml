@@ -1,6 +1,8 @@
 config:
   <%= projectName %>:ami: <%= ami %>
   <%= projectName %>:availabilityZone: <%= availabilityZone %>
+#  <%= projectName %>:bastionSecurityGroupId: 
+#  <%= projectName %>:bastionStack: <%= prefix %>-bastion
   <%= projectName %>:disableApiTermination: false
   <%= projectName %>:dockerNetworks: <% networks.forEach((network) => { %>
     - <%= network %><% }); %>
@@ -8,7 +10,7 @@ config:
 #  <%= projectName %>:eipId: 
   <%= projectName %>:eipStack: <%= prefix %>-eip
 #  <%= projectName %>:iamInstanceProfile:
-  <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-instance-profile
+  <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-manager-instance-profile
   <%= projectName %>:instanceType: <%= instanceType %>
 #  <%= projectName %>:keypair: KEYPAIR_NAME
   <%= projectName %>:keyName: KEYNAME
@@ -20,9 +22,10 @@ config:
 #    - 
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:rootBlockDeviceSize: 20
-#  <%= projectName %>:securityGroupId:
+#  <%= projectName %>:securityGroupIds:
   <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
 #  <%= projectName %>:volumeId:
   <%= projectName %>:volumeStack: <%= prefix %>-ebs
   <%= projectName %>:useNfs: <%= useNFS %>
+  <%= projectName %>:vpcStack: aws-swarm-vpc 

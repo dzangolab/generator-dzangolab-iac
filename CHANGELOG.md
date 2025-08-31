@@ -1,3 +1,10 @@
+## 1.0.0-rc48 (2025-08-31)
+
+* docs(aws/security-groups): add ssh-bastion security group ([9f23e20](https://github.com/dzangolab/generator-dzangolab-iac/commit/9f23e20))
+* fix(aws/security-groups): add ssh-bastion security group ([47b72d5](https://github.com/dzangolab/generator-dzangolab-iac/commit/47b72d5))
+
+
+
 ## 1.0.0-rc47.1 (2025-08-31)
 
 * fix(aws/swarm-leader): update swarm leader generator ([97605a3](https://github.com/dzangolab/generator-dzangolab-iac/commit/97605a3))

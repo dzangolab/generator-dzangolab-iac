@@ -27,9 +27,10 @@ config:
 #  <%= projectName %>:securityGroupIds:
   <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
-<% if (!useNfs) { %>
+<% if (!useNFS) { %>
 #  <%= projectName %>:volumeId:
   <%= projectName %>:volumeStack: <%= prefix %>-ebs
-<% } %>
+<% } else { %>
   <%= projectName %>:useNfs: <%= useNFS %>
+<% } %>
   <%= projectName %>:vpcStack: aws-swarm-vpc 

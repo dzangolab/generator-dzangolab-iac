@@ -6,6 +6,8 @@ import {
 } from "@pulumi/pulumi";
 import { Environment, FileSystemLoader } from "nunjucks";
 
+import getPublicKeys from "./public-keys";
+
 import type { StackReferenceOutputDetails } from "@pulumi/pulumi";
 
 export const getConfig = async () => {
@@ -58,22 +60,44 @@ export const getConfig = async () => {
     keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
-  /** Gets security group id */
-  let securityGroupId = stackConfig.get("securityGroupId");
+  /** Gets security group ids */
+  const useBastion = stackConfig.getBoolean("useBastion");
 
-  if (!securityGroupId) {
-    const outputs = await getOutputs(
-      "securityGroupStack",
-      "id"
+  let securityGroupIds = stackConfig.getObject<string[]>("securityGroupIds");
+
+  if (!securityGroupIds) {
+    const securityGroupNames = useBastion
+      ? "swarm-managers,web,ssh-bastion"
+      : "swarm-managers,web";
+
+    const outputs = await getOutputs<{ "arn": string; "id": string }>(
+      "securityGroupsStack",
+      securityGroupNames
     );
 
-    securityGroupId = outputs ? outputs[0] as string : undefined;
+    if (!outputs) {
+      throw new Error("Required security group could not be found");
+    }
+
+    try {
+      const managers = outputs[0] as { "arn": string; "id": string };
+      const web = outputs[1] as { "arn": string; "id": string };
+
+      securityGroupIds = [managers["id"], web["id"]];
+
+      if (useBastion) {
+        const bastion = outputs[2] as { "arn": string; "id": string };
+        securityGroupIds.push(bastion["id"]);
+      }
+    } catch (e) {
+      throw new Error("Required security groups could not be found");
+    }
   }
 
   /** Get subnet id **/
   const subnetId = stackConfig.require("subnetId");
 
-  const useNfs = stackConfig.get("useNfs");
+  const useNFS = stackConfig.getBoolean("useNFS");
 
   /** Get volume id **/
   let volumeId = stackConfig.get("volumeId");
@@ -87,12 +111,32 @@ export const getConfig = async () => {
     volumeId = outputs ? outputs[0] as string : undefined;
   }
 
-  /** Get user data **/
+  /** Get VPC id */
+  let vpcId = stackConfig.get("vpcId");
+
+  if (!vpcId) {
+    const outputs = await getOutputs(
+      "vpcStack",
+      "vpcId"
+    );
+
+    if (outputs) {
+      vpcId = outputs[0] as string;
+    }
+  }
+
+  /** User data **/
+  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../../ssh-keys";
+
+  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
+
   const userData = generateUserData(
     stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
     {
+      dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
       packages: stackConfig.getObject<string[]>("packages"),
-      volumes: [
+      publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
+      volumes: useNFS ? undefined : [
         {
           device: stackConfig.get("volumeDevice") || "/dev/xvdf",
           filesystem: stackConfig.get("volumeFilesystem") || "ext4",
@@ -103,26 +147,10 @@ export const getConfig = async () => {
     }
   );
 
-  let vpcId = stackConfig.get("vpcId");
-  let cidrBlock = undefined as unknown as string;
-
-  if (!vpcId) {
-    const outputs = await getOutputs(
-      "vpcStack",
-      "vpcId,cidrBlock"
-    );
-
-    if (outputs) {
-      vpcId = outputs[0] as string;
-      cidrBlock = outputs[1] as string;
-    }
-  }
-
   return {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
     availabilityZone,
-    cidrBlock,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     eip,
     eipId,
@@ -136,13 +164,14 @@ export const getConfig = async () => {
     rootBlockDevice: {
       volumeSize: stackConfig.requireNumber("rootBlockDeviceSize"),
     },
-    securityGroupId,
+    securityGroupIds,
     subnetId,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
-    useNfs,
+    useBastion,
+    useNFS,
     userData,
     volumeId,
-    vpcId
+    vpcId,
   };
 };
 

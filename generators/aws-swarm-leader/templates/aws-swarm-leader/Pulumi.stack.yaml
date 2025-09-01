@@ -1,23 +1,36 @@
 config:
   <%= projectName %>:ami: <%= ami %>
   <%= projectName %>:availabilityZone: <%= availabilityZone %>
+<% if (useBastion) { %>
+#  <%= projectName %>:bastionSecurityGroupId: 
+  <%= projectName %>:bastionStack: <%= prefix %>-bastion
+<% } %>
   <%= projectName %>:disableApiTermination: false
+  <%= projectName %>:dockerNetworks: <% networks.forEach((network) => { %>
+    - <%= network %><% }); %>
 #  <%= projectName %>:eip: 
 #  <%= projectName %>:eipId: 
   <%= projectName %>:eipStack: <%= prefix %>-eip
 #  <%= projectName %>:iamInstanceProfile:
-  <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-instance-profile
+  <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-manager-instance-profile
   <%= projectName %>:instanceType: <%= instanceType %>
 #  <%= projectName %>:keypair: KEYPAIR_NAME
   <%= projectName %>:keyName: KEYNAME
   <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs/global
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:pathToSshKeysFolder: path/to/ssh-keys-folder
   <%= projectName %>:protect: false
+#  <%= projectName %>:publicKeyNames:
+#    - 
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:rootBlockDeviceSize: 20
-#  <%= projectName %>:securityGroupId:
+#  <%= projectName %>:securityGroupIds:
   <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
+<% if (!useNFS) { %>
 #  <%= projectName %>:volumeId:
-  <%= projectName %>:volumeStack: <%= prefix %>-vpc
-  <%= projectName %>:useNfs: <%= useNfs %>
+  <%= projectName %>:volumeStack: <%= prefix %>-ebs
+<% } %>
+  <%= projectName %>:useBastion: <%= useBastion %>
+  <%= projectName %>:useNFS: <%= useNFS %>
+  <%= projectName %>:vpcStack: aws-swarm-vpc 

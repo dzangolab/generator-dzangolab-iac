@@ -4,7 +4,9 @@ import AnsibleDOGenerator from "../ansible-do/index.js";
 import AnsibleAWSGenerator from "../ansible-aws/index.js";
 import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSDockerSwarmLeaderGenerator from "../aws-swarm-leader/index.js";
+import AWSDockerSwarmTokensGenerator from "../aws-swarm-tokens/index.js";
 import AWSDockerSwarmWorkersGenerator from "../aws-swarm-workers/index.js";
+import AWSDockerSwarmWorkersASGGenerator from "../aws-swarm-workers-asg/index.js";
 import AWSEBSGenerator from "../aws-ebs/index.js";
 import AWSECRGenerator from "../aws-ecr/index.js";
 import AWSEIPGenerator from "../aws-eip/index.js";
@@ -15,11 +17,13 @@ import AWSResourcesGenerator from "../aws-resources/index.js";
 import AWSRoute53Generator from "../aws-route53/index.js";
 import AWSS3Generator from "../aws-s3/index.js";
 import AWSSecurityGroupGenerator from "../aws-security-group/index.js";
+import AWSSecurityGroupsGenerator from "../aws-security-groups/index.js";
 import AWSSESGenerator from "../aws-ses/index.js";
 import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
 import AWSSwarmGenerator from "../aws-swarm/index.js";
-import AWSVPCGenerator from "../aws-vpc/index.js";
 import AWSSwarmNodes from "../aws-swarm-nodes/index.js";
+import AWSSwarmSecurityGroupsGenerator from "../aws-swarm-security-groups/index.js";
+import AWSVPCGenerator from "../aws-vpc/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
 import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
 import DigitalOceanDockerSwarmGenerator from "../do-swarm/index.js";
@@ -87,10 +91,26 @@ export default class IaCGenerator extends Generator {
           {
             name: "AWS Docker swarm leader",
             value: "aws-swarm-leader"
+          },          
+          {
+            name: "AWS Docker swarm nodes",
+            value: "aws-swarm-nodes"
+          },
+          {
+            name: "AWS Docker swarm security groups",
+            value: "aws-swarm-security-groups"
+          },
+          {
+            name: "AWS Docker swarm tokens",
+            value: "aws-swarm-tokens"
           },
           {
             name: "AWS Docker swarm workers",
             value: "aws-swarm-workers"
+          },
+          {
+            name: "AWS Docker swarm workers ASG",
+            value: "aws-swarm-workers-asg"
           },
           {
             name: "AWS EBS",
@@ -133,16 +153,16 @@ export default class IaCGenerator extends Generator {
             value: "aws-security-group"
           },
           {
+            name: "AWS security groups",
+            value: "aws-security-groups"
+          },
+          {
             name: "AWS SES",
             value: "aws-ses"
           },
           {
             name: "AWS SSH key pairs",
             value: "aws-ssh-keypairs"
-          },
-          {
-            name: "AWS Swarm nodes",
-            value: "aws-swarm-nodes"
           },
           {
             name: "AWS VPC",
@@ -224,12 +244,16 @@ export default class IaCGenerator extends Generator {
       "aws-route53": { Generator: AWSRoute53Generator, path: "../aws-route53/index.js" },
       "aws-s3": { Generator: AWSS3Generator, path: "../aws-s3/index.js" },
       "aws-security-group": { Generator: AWSSecurityGroupGenerator, path: "../aws-security-group/index.js" },
+      "aws-security-groups": { Generator: AWSSecurityGroupsGenerator, path: "../aws-security-groups/index.js" },
       "aws-ses": { Generator: AWSSESGenerator, path: "../aws-ses/index.js" },
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
       "aws-swarm": { Generator: AWSSwarmGenerator, path: "../aws-swarm/index.js" },
       "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },
       "aws-swarm-nodes": { Generator: AWSSwarmNodes, path: "../aws-swarm-nodes/index.js" },
+      "aws-swarm-security-groups": { Generator: AWSSwarmSecurityGroupsGenerator, path: "../aws-swarm-security-groups/index.js" },
+      "aws-swarm-tokens": { Generator: AWSDockerSwarmTokensGenerator, path: "../aws-swarm-tokens/index.js" },
       "aws-swarm-workers": { Generator: AWSDockerSwarmWorkersGenerator, path: "../aws-swarm-workers/index.js" },
+      "aws-swarm-workers-asg": { Generator: AWSDockerSwarmWorkersASGGenerator, path: "../aws-swarm-workers-asg/index.js" },
       "aws-vpc": { Generator: AWSVPCGenerator, path: "../aws-vpc/index.js" },
       "cloudflare-dns": { Generator: CloudflareDNSGenerator, path: "../cloudflare-dns/index.js" },
       "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },

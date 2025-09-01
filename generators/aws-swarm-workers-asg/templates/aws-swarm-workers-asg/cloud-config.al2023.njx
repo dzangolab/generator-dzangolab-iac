@@ -1,0 +1,74 @@
+Content-Type: multipart/mixed; boundary="//"
+MIME-Version: 1.0
+
+--//
+Content-Type: text/cloud-config; charset="utf-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="cloud-config.txt"
+
+#cloud-config
+write_files:
+- content: |
+    {
+      "log-driver": "json-file",
+      "log-opts": {
+        "max-size": "10m",
+        "max-file": "5"
+      }
+    }
+  path: /etc/docker/daemon.json
+- content: |
+    /var/lib/docker/containers/*/*.log {
+      compress
+      copytruncate
+      create
+      daily
+      dateext
+      dateformat -%Y%m%d
+      delaycompress
+      missingok
+      rotate 7
+    }
+  path: /etc/logrotate.d/docker-container
+- content: |
+    [Unit]
+    Description=dockerPrune Service
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/bin/docker system prune -a -f --volumes
+  path: /etc/systemd/system/dockerPrune.service
+- content: |
+    [Unit]
+    Description=dockerPrune Timer
+
+    [Timer]
+    OnCalendar=*-*-* 00:13:25
+    Persistent=false
+    AccuracySec=15s
+
+    [Install]
+    WantedBy=timers.target
+  path: /etc/systemd/system/dockerPrune.timer
+
+runcmd:
+{% for key in publicKeyNames %}
+  - echo '{{ key }}' >> /home/ec2-user/.ssh/authorized_keys
+{% endfor %}
+  - dnf install docker -y
+  - chmod 644 /etc/docker/daemon.json
+  - systemctl start docker
+  - systemctl enable docker
+  - usermod -a -G docker ec2-user
+  - curl -O https://bootstrap.pypa.io/get-pip.py
+  - python3 get-pip.py
+  - dnf install aws-cli -y
+  - |
+    MANAGER_IP=$(aws ec2 describe-instances \
+      --filters "Name=tag-key,Values=manager" \
+                "Name=instance-state-name,Values=running" \
+      --query "Reservations[0].Instances[0].PrivateIpAddress" \
+      --output text)
+    docker swarm join --token {{ swarmWorkerToken }} $MANAGER_IP:2377
+--//--

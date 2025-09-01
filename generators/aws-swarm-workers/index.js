@@ -48,12 +48,12 @@ export default class AWSDockerSwarmWorkersGenerator extends PulumiGenerator {
     ]);
   };
 
-  writing() {
+  async writing() {
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
 
-    this.fs.copyTplAsync(
+    await this.fs.copyTplAsync(
       this.templatePath(`aws-${this.name}`),
       this.destinationPath(this._getFolderName()),
       {
@@ -70,7 +70,7 @@ export default class AWSDockerSwarmWorkersGenerator extends PulumiGenerator {
     );
 
     if (this.options.createStackConfig) {
-      this.fs.copyTplAsync(
+      await this.fs.copyTplAsync(
         `${this.templatePath(`aws-${this.name}`)}/Pulumi.stack.yaml`,
         `${this.destinationPath(this._getFolderName())}/Pulumi.${this.options.environment}.yaml`,
         {

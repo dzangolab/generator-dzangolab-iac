@@ -2,7 +2,8 @@ portainer__deploy_dir: "{{ deploy_dir }}/portainer"
 portainer__deploy_group: "{{ deploy_group }}"
 portainer__deploy_user: "{{ deploy_user }}"
 portainer__domain: "portainer.{{ domain }}"
-portainer__label: "portainer"
 portainer__network: "{{ network_public }}"
+portainer__nfs: "{{ nfs }}"
+portainer__nfs_ip: "{{ nfs_server_ip }}"
 portainer__state: "started"
-portainer__version: 2.27.4
+portainer__version: latest

@@ -6,7 +6,7 @@
       file:
         group: "nobody"
         owner: "nobody"
-        path: "/mnt/nfs/mariadb/{{ item.0 }}/{{ item.1 }}"
+        path: "{{ mariadb_data_dir }}/{{ item.0 }}/{{ item.1 }}"
         state: directory
         recurse: true
       with_nested:

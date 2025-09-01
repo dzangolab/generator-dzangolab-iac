@@ -1,3 +1,235 @@
+## 1.0.0-rc51 (2025-08-31)
+
+* feat(aws/swarm-workers-asg): update generator (#178) ([32c722b](https://github.com/dzangolab/generator-dzangolab-iac/commit/32c722b)), closes [#178](https://github.com/dzangolab/generator-dzangolab-iac/issues/178)
+
+
+
+## 1.0.0-rc50 (2025-08-31)
+
+* fix(aws/swarm-tokens): fix aws swarm tokens generator (#176) ([5c33c51](https://github.com/dzangolab/generator-dzangolab-iac/commit/5c33c51)), closes [#176](https://github.com/dzangolab/generator-dzangolab-iac/issues/176)
+* Aws/swarm tokens (#175) ([d0a5ba3](https://github.com/dzangolab/generator-dzangolab-iac/commit/d0a5ba3)), closes [#175](https://github.com/dzangolab/generator-dzangolab-iac/issues/175) [#166](https://github.com/dzangolab/generator-dzangolab-iac/issues/166)
+
+
+
+## 1.0.0-rc49 (2025-08-31)
+
+* fix(aws/swarm-leader): fix swarm leader for use with bastion ([2d74075](https://github.com/dzangolab/generator-dzangolab-iac/commit/2d74075))
+
+
+
+## 1.0.0-rc48 (2025-08-31)
+
+* docs(aws/security-groups): add ssh-bastion security group ([9f23e20](https://github.com/dzangolab/generator-dzangolab-iac/commit/9f23e20))
+* fix(aws/security-groups): add ssh-bastion security group ([47b72d5](https://github.com/dzangolab/generator-dzangolab-iac/commit/47b72d5))
+
+
+
+## 1.0.0-rc47.1 (2025-08-31)
+
+* fix(aws/swarm-leader): update swarm leader generator ([97605a3](https://github.com/dzangolab/generator-dzangolab-iac/commit/97605a3))
+
+
+
+## 1.0.0-rc47.0 (2025-08-31)
+
+* fix(aws/swarm-leader): update swarm leader generator ([048b190](https://github.com/dzangolab/generator-dzangolab-iac/commit/048b190))
+
+
+
+## 1.0.0-rc47 (2025-08-31)
+
+* docs(aws/swarm-leader): update readme ([748f27a](https://github.com/dzangolab/generator-dzangolab-iac/commit/748f27a))
+* fix(aws/security-groups): fix outputs ([99f8c1c](https://github.com/dzangolab/generator-dzangolab-iac/commit/99f8c1c))
+* fix(aws/swarm-leader): update swarm leader generator ([c015d10](https://github.com/dzangolab/generator-dzangolab-iac/commit/c015d10))
+* chore(aws/swarm-leader): format code ([39cf4ba](https://github.com/dzangolab/generator-dzangolab-iac/commit/39cf4ba))
+
+
+
+## 1.0.0-rc46 (2025-08-31)
+
+* Aws/security groups (#168) ([ab72af5](https://github.com/dzangolab/generator-dzangolab-iac/commit/ab72af5)), closes [#168](https://github.com/dzangolab/generator-dzangolab-iac/issues/168)
+* fix(aws/leader): fix stack config template ([5998fa3](https://github.com/dzangolab/generator-dzangolab-iac/commit/5998fa3))
+* fix(aws/swarm-worker-asg): fix docker swarm worker asg ([f7159f9](https://github.com/dzangolab/generator-dzangolab-iac/commit/f7159f9))
+
+
+
+## 1.0.0-rc45.3 (2025-08-24)
+
+* fix(aws/swarm-workers-asg): fix swarm workers asg generator ([41b1e50](https://github.com/dzangolab/generator-dzangolab-iac/commit/41b1e50))
+
+
+
+## 1.0.0-rc45.2 (2025-08-24)
+
+* chore(aws): rename generators ([b1ea1f7](https://github.com/dzangolab/generator-dzangolab-iac/commit/b1ea1f7))
+
+
+
+## 1.0.0-rc45.1 (2025-08-24)
+
+* fix(aws/swarm-workers-asg): fix template folder name ([1f42896](https://github.com/dzangolab/generator-dzangolab-iac/commit/1f42896))
+
+
+
+## 1.0.0-rc45 (2025-08-24)
+
+* chore: creating asg worker generetaor (#137) ([e213aad](https://github.com/dzangolab/generator-dzangolab-iac/commit/e213aad)), closes [#137](https://github.com/dzangolab/generator-dzangolab-iac/issues/137)
+
+
+
+## 1.0.0-rc44 (2025-08-24)
+
+* chore: update nfs on portainer and traefik (#136) ([038b6ac](https://github.com/dzangolab/generator-dzangolab-iac/commit/038b6ac)), closes [#136](https://github.com/dzangolab/generator-dzangolab-iac/issues/136)
+
+
+
+## 1.0.0-rc43 (2025-08-24)
+
+* Aws/swarm leader (#158) ([c6c37ee](https://github.com/dzangolab/generator-dzangolab-iac/commit/c6c37ee)), closes [#158](https://github.com/dzangolab/generator-dzangolab-iac/issues/158)
+
+
+
+## 1.0.0-rc42.1 (2025-08-04)
+
+* fix(aws/ansible): fix portainer playbook ([6e11269](https://github.com/dzangolab/generator-dzangolab-iac/commit/6e11269))
+* fix(aws/credentials): fix special characters in postgres password ([a895f21](https://github.com/dzangolab/generator-dzangolab-iac/commit/a895f21))
+
+
+
+## 1.0.0-rc42.0 (2025-08-03)
+
+* feat(aws/ansible): update aws ansible generator ([80bf793](https://github.com/dzangolab/generator-dzangolab-iac/commit/80bf793))
+* feat(aws/ansible): update aws ansible generator ([7fe0e4c](https://github.com/dzangolab/generator-dzangolab-iac/commit/7fe0e4c))
+
+
+
+## 1.0.0-rc42 (2025-08-02)
+
+* fix(aws/ansible): fix aws ansible generator ([f168048](https://github.com/dzangolab/generator-dzangolab-iac/commit/f168048))
+
+
+
+## 1.0.0-rc41.0 (2025-08-02)
+
+* fix(aws/swarm-leader): fix update instance ([5411628](https://github.com/dzangolab/generator-dzangolab-iac/commit/5411628))
+
+
+
+## 1.0.0-rc41 (2025-08-02)
+
+* chore: update package.json and deendencies ([5148afc](https://github.com/dzangolab/generator-dzangolab-iac/commit/5148afc))
+* chore: update rrepo url ([f790ba0](https://github.com/dzangolab/generator-dzangolab-iac/commit/f790ba0))
+
+
+
+## 1.0.0-rc40 (2025-08-02)
+
+* fix(aws/swarm-leader): fix aws swarm leader generator 9feef12
+* fix(aws/swarm-leader): rename user data file 0d3b403
+
+
+
+## 1.0.0-rc39.0 (2025-08-02)
+
+* fix(aws/swarm-leader): fix typo in cloud config b6654d8
+
+
+
+## 1.0.0-rc39 (2025-08-02)
+
+* fix(aws/swarm-leader): update options and prompts 662f7de
+
+
+
+## 1.0.0-rc38 (2025-08-02)
+
+* feat(aws/swarm-leader): update cloud-config 6f44344
+
+
+
+## 1.0.0-rc37 (2025-08-02)
+
+* feat(aws/ansible): update default interpreter 2da5476
+
+
+
+## 1.0.0-rc36 (2025-08-02)
+
+* feat: update dependencies 2a5a623
+* feat(aws/credentials): update dependencies f4bd8f2
+
+
+
+## 1.0.0-rc35 (2025-08-02)
+
+* fix(aws/swarm-leader): fix aws swarm leader generator d43c5fe
+* chore: update dependencies ede88cd
+
+
+
+## 1.0.0-rc34 (2025-08-02)
+
+* Aws/swarm leader (#141) b1debc3, closes #141
+* Aws/swarm leader (#142) 5d08567, closes #142
+
+
+
+## 1.0.0-rc33 (2025-08-01)
+
+* fix(aws/swarm-security-groups): fix generator output f1ac68d
+
+
+
+## 1.0.0-rc32.0 (2025-07-31)
+
+* fix(aws/swarm-security-groups): fix aws swarm security groups generator 37b61ed
+
+
+
+## 1.0.0-rc32 (2025-07-30)
+
+* feat(aws/security-groups): add aws security groups generator 7b5520c
+* feat(aws/security-groups): add aws security groups generator e78f35b
+* feat(aws/vpc): add cidrBlock to vpc outputs 0e96f14
+
+
+
+## 1.0.0-rc31 (2025-07-28)
+
+* feat(cloudflare-dns): update cloudlare-dns output (#134) abe7f88, closes #134
+* fix(aws-instance-profile): add profileName and rolename variables to stack config template ba285a7
+* fix(aws/swam-workers): update stack config template f2c420b
+* fix(pulumi-s3-backend): fix bucket name to add random suffix 839fd6a
+
+
+
+## 1.0.0-rc30 (2025-05-10)
+
+* fix(aws): fix writing stack config e0df3d4
+* fix(cloudflare): fix writing stack config 65d5c19
+* fix(do): fix writing stack config 39e5610
+* chore: release v1.0.0-rc29 f259eba
+
+
+
+## 1.0.0-rc29 (2025-05-10)
+
+* chore: update getOutputs (#128) e547011, closes #128
+* chore(aws-swarm): adding aws-nfs-server to aws-swarm (#127) 0d225ee, closes #127
+* chore(aws/move-security-group): Aws move security group (#130) f819880, closes #130
+* chore(fix/swarm-workers): fix Pulumi project description 1026c3f
+* fix: fix stackconfig (#129) 334682b, closes #129
+* fix: getOutputs (#126) 556c0ad, closes #126
+* fix: update getOutputs (#125) 0d14b0b, closes #125
+* fix(aws/credentials): update getOutputs fe7a44f
+* fix(do./ansible): fix typo (#117) 725a435, closes #117
+* fix(generator/aws-swarm-workers): Fix aws/swarm-workers generator (#116) eda2ac0, closes #116 #128 #126 #125 #115
+* Aws ansible (#119) a1c0c74, closes #119 #123 #124
+* Do ansible (#118) 66d05f3, closes #118
+* Fix(generator/aws-swarm-leader): using get outputs aws swarm leader (#115) 1353271, closes #115
+
+
+
 ## 1.0.0-rc28 (2025-04-17)
 
 * chore: adding default value (#78) 45469a4, closes #78

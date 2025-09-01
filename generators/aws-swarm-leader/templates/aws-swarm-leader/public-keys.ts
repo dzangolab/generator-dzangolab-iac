@@ -1,23 +1,26 @@
 import { readFileSync } from "fs";
 
-function getPublicKeys(keyNames: string[]): string[] {
-    var publicKeys: string[];
-    publicKeys = [];
+function getPublicKeys(
+  keyNames: string[],
+  pathToSshKeysFolder = "../../../ssh-keys"
+): string[] {
+  var publicKeys: string[];
+  publicKeys = [];
 
-    for (var i = 0; i < keyNames.length; i++) {
-        const name = keyNames[i];
+  for (var i = 0; i < keyNames.length; i++) {
+    const name = keyNames[i];
 
-        const key = readFileSync(
-            `../../ssh-keys/${name}.pub`,
-            {
-                encoding: "utf-8",
-            }
-        );
+    const key = readFileSync(
+      `${pathToSshKeysFolder}/${name}.pub`,
+      {
+        encoding: "utf-8",
+      }
+    );
 
-        publicKeys.push(key);
-    }
+    publicKeys.push(key.trim());
+  }
 
-    return publicKeys;
+  return publicKeys;
 }
 
 export default getPublicKeys;

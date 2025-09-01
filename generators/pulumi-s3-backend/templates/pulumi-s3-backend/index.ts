@@ -26,7 +26,6 @@ export = async () => {
   const bucket = new BucketV2(
     name,
     {
-      bucket: name,
       forceDestroy: config.forceDestroy,
     },
     options,
@@ -49,7 +48,7 @@ export = async () => {
     {
       bucket: bucket.id,
       versioningConfiguration: {
-        status: "Enabled",
+        status: "Suspended",
       }
     },
     options,
@@ -71,7 +70,7 @@ export = async () => {
   // Filter out null values and ensure a clean array
   const accountArns = config.awsAccountArns.filter((arn: string) => arn !== null && arn !== undefined);
 
-  if (accountArns.length > 0){
+  if (accountArns.length > 0) {
     // Create a bucket policy allowing access from multiple accounts
     const policy = iam.getPolicyDocumentOutput({
       statements: [
@@ -108,7 +107,7 @@ export = async () => {
 
   outputs["bucketArn"] = interpolate`${bucket.arn}`;
   outputs["bucketId"] = interpolate`${bucket.id}`;
-  outputs["pulumiBackendLoginCommand"] = interpolate`pulumi login s3://${bucket.id}`;
+  outputs["pulumiBackendLoginCommand"] = interpolate`pulumi logout && pulumi login s3://${bucket.id}`;
   outputs["pulumiBackendUrl"] = interpolate`s3://${bucket.id}`;
 
   const secretsProvider = config.secretsProvider;
@@ -118,7 +117,7 @@ export = async () => {
       outputs["pulumiStackInitCommand"] = "pulumi stack init --secrets-provider=passphrase <project_name>.<stack_name>";
       break;
 
-    case "kms": 
+    case "kms":
       const awsAccountId = (await getCallerIdentity()).accountId
 
       const secretsEncryptionKey = new Key(
@@ -159,7 +158,7 @@ export = async () => {
       outputs["pulumiSecretsProviderKeyId"] = interpolate`awskms:///${secretsEncryptionKey.keyId}`;
       outputs["pulumiSecretsProviderKeyAlias"] = interpolate`awskms:///${alias.name}`;
       outputs["pulumiStackInitCommand"] = interpolate`pulumi stack init --secrets-provider='awskms:///${secretsEncryptionKey.keyId}' <project_name>.<stack_name>`;
-  
+
       break;
   }
 

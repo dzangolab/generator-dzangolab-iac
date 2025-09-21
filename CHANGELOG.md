@@ -1,3 +1,9 @@
+## 1.0.0-rc51.0 (2025-09-21)
+
+* fix(aws/swarm-leader): fix typo ([c6d9244](https://github.com/dzangolab/generator-dzangolab-iac/commit/c6d9244))
+
+
+
 ## 1.0.0-rc51 (2025-08-31)
 
 * feat(aws/swarm-workers-asg): update generator (#178) ([32c722b](https://github.com/dzangolab/generator-dzangolab-iac/commit/32c722b)), closes [#178](https://github.com/dzangolab/generator-dzangolab-iac/issues/178)

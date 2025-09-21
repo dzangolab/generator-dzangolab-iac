@@ -60,7 +60,7 @@ export const getConfig = async () => {
     keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
-  /** Gets security group ids */
+  /** Get security group ids */
   const useBastion = stackConfig.getBoolean("useBastion");
 
   let securityGroupIds = stackConfig.getObject<string[]>("securityGroupIds");

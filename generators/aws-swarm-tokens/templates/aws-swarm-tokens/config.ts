@@ -5,6 +5,9 @@ import {
   StackReference,
 } from "@pulumi/pulumi";
 import type { StackReferenceOutputDetails } from "@pulumi/pulumi";
+import {
+  EC2
+} from "@pulumi/aws/sdk"
 
 export const getConfig = async () => {
   const stackConfig = new Config();
@@ -44,6 +47,38 @@ export const getConfig = async () => {
     user: stackConfig.get("user") || "ec2-user",
   };
 };
+
+async function discoverManagerIp(useBastion: boolean): Promise<string | undefined> {
+  const ec2 = new EC2({ region: region });
+  
+  try {
+      const result = await ec2.describeInstances({
+          Filters: [
+              {
+                  Name: "tag:Role",
+                  Values: ["swarm-manager"]
+              },
+              {
+                  Name: "instance-state-name", 
+                  Values: ["running"]
+              }
+          ]
+      }).promise();
+      
+      if (result.Reservations && result.Reservations.length > 0) {
+          const instances = result.Reservations.flatMap(r => r.Instances || []);
+          const healthyInstance = instances.find(inst => inst.PrivateIpAddress);
+          
+          if (healthyInstance) {
+              return useBastion ? healthyInstance.PrivateIpAddress : healthyInstance.PublicIpAddress;
+          }
+      }
+  } catch (error) {
+      console.warn("Failed to dynamically discover manager IP:", error);
+  }
+  
+  return undefined;
+}
 
 const stacks: { [key: string]: StackReference } = {};
 

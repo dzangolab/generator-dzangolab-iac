@@ -1,3 +1,4 @@
+import { EC2Client, DescribeInstancesCommand } from "@aws-sdk/client-ec2";
 import {
   Config,
   getOrganization,
@@ -6,35 +7,40 @@ import {
 } from "@pulumi/pulumi";
 import type { StackReferenceOutputDetails } from "@pulumi/pulumi";
 
+
 export const getConfig = async () => {
   const stackConfig = new Config();
 
   const useBastion = stackConfig.getBoolean("useBastion");
 
-  let bastionIp = undefined as unknown as string | undefined;
+  let bastionIp: string | undefined = undefined;
 
   if (useBastion) {
     bastionIp = stackConfig.get("bastionIp");
-    
-    if (!bastionIp) {
-      const outputs = await getOutputs(
-        "bastionStack",
-        "publicIp"
-      );
 
-      bastionIp = outputs ? outputs[0] : undefined;
+    if (!bastionIp) {
+      const outputs = await getOutputs("bastionStack", "publicIp");
+      bastionIp = outputs?.[0] as string | undefined;
     }
   }
 
-  let managerIp = stackConfig.get("managerIp");
+  let managerIp = stackConfig.get("managerIp") as string | undefined;
 
   if (!managerIp) {
     const outputs = await getOutputs(
       "managerStack",
       useBastion ? "privateIp" : "publicIp"
     );
+    managerIp = outputs?.[0] as string | undefined;
+  }
 
-    managerIp = outputs ? outputs[0] as string : undefined;
+  if (!managerIp) {
+    console.log("No manager IP found in stack outputs, attempting EC2 discovery...");
+    managerIp = await discoverManagerIp(!!useBastion);
+  }
+
+  if (!managerIp) {
+    throw new Error("Failed to determine manager IP. Provide it explicitly via `managerIp`.");
   }
 
   return {
@@ -44,6 +50,34 @@ export const getConfig = async () => {
     user: stackConfig.get("user") || "ec2-user",
   };
 };
+
+async function discoverManagerIp(useBastion: boolean): Promise<string | undefined> {
+  const ec2 = new EC2Client({});
+
+  try {
+    const result = await ec2.send(new DescribeInstancesCommand({
+      Filters: [
+        { Name: "tag-key", Values: ["manager"] },
+        { Name: "instance-state-name", Values: ["running"] },
+      ],
+    }));
+
+    const instances = (result.Reservations ?? [])
+      .flatMap(r => r.Instances ?? [])
+      .filter(i => useBastion ? i.PrivateIpAddress : i.PublicIpAddress);
+
+    if (instances.length === 0) {
+      console.warn("No running manager instances found with a usable IP.");
+      return undefined;
+    }
+
+    const chosen = instances[0];
+    return useBastion ? chosen.PrivateIpAddress! : chosen.PublicIpAddress!;
+  } catch (error) {
+    console.error("Failed to discover manager IP via EC2:", error);
+    return undefined;
+  }
+}
 
 const stacks: { [key: string]: StackReference } = {};
 

@@ -1,0 +1,7 @@
+config:
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:protect: "false"
+  <%= projectName %>:retainOnDelete: "false"
+  <%= projectName %>:securityGroupsStack: <%= prefix %>-security-groups
+  <%= projectName %>:useHttps: false
+  <%= projectName %>:vpcStack: <%= prefix %>-vpc

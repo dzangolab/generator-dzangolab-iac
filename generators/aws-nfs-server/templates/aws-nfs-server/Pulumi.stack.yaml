@@ -7,7 +7,7 @@ config:
   <%= projectName %>:instanceType: <%= size %>
   <%= projectName %>:keyName: KEYNAME
   <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs
-  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>-nfs
   <%= projectName %>:protect: "false"
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:rootBlockDeviceSize: 20

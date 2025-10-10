@@ -4,7 +4,7 @@ config:
   <%= projectName %>:disableApiTermination: false
   <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-instance-profile
   <%= projectName %>:instanceType: <%= instanceType %>
-  <%= projectName %>:leaderStack: <%= prefix %>-leader
+  # <%= projectName %>:loadBalancerStack: aws-swarm-load-balancer
   <%= projectName %>:keyName: <%= keyName %>
   <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs
   <%= projectName %>:maxSize: <%= maxSize %>
@@ -16,7 +16,8 @@ config:
     # - 
   <%= projectName %>:retainOnDelete: "false"
   <%= projectName %>:rootBlockDeviceSize: "16"
-  # <%= projectName %>:securityGroupStack: <%= prefix %>-security-groups
+  <%= projectName %>:securityGroupsStack: <%= prefix %>-security-groups
   <%= projectName %>:swarmTokensStack: aws-swarm-tokens
   <%= projectName %>:tags: []
+  <%= projectName %>:useBastion: false
   <%= projectName %>:vpcStack: <%= prefix %>-vpc

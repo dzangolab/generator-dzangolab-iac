@@ -26,7 +26,7 @@ export = async () => {
       iamInstanceProfile: { name: config.iamInstanceProfile },
       monitoring: { enabled: config.monitoring },
       disableApiTermination: config.disableApiTermination,
-      vpcSecurityGroupIds: [config.securityGroupId],
+      vpcSecurityGroupIds: config.securityGroupIds,
 
       // Minimal block device configuration
       blockDeviceMappings: [{
@@ -39,7 +39,6 @@ export = async () => {
         },
       }],
         
-      // Modify userData to include NLB DNS name
       userData: config.userData,
         
       metadataOptions: {
@@ -73,9 +72,6 @@ export = async () => {
       minSize: config.minSize,
       vpcZoneIdentifiers: config.publicSubnetIds,
       
-      // Attach the NLB Target Group to the ASG
-      targetGroupArns: [targetGroup.arn],
-      
       // Health check configuration
       healthCheckType: "EC2",
       healthCheckGracePeriod: 300,
@@ -85,7 +81,7 @@ export = async () => {
         strategy: "Rolling",
         preferences: {
           minHealthyPercentage: 90,
-          instanceWarmup: 300, 
+          instanceWarmup: "300", 
         },
       },
       
@@ -104,17 +100,22 @@ export = async () => {
           value: "manager",
           propagateAtLaunch: true,
         },
-        {
-          key: "NLB_DNS",
-          value: nlb.dnsName, // Pass NLB DNS as a tag for instance discovery
-          propagateAtLaunch: true,
-        },
+        ...(config.lbDnsName
+          ? [
+              {
+                key: "NLB_DNS",
+                value: config.lbDnsName,
+                propagateAtLaunch: true,
+              },
+            ]
+        : []),
         ...Object.entries(config.tags || {}).map(([key, value]) => ({
           key,
           value,
           propagateAtLaunch: true,
         })),
       ],
+        ...(config.targetGroupArn ? { targetGroupArns: [config.targetGroupArn] } : {}),
     },
     options
   );

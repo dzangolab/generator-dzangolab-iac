@@ -72,22 +72,13 @@ runcmd:
   - usermod -a -G docker ec2-user
   - curl -O https://bootstrap.pypa.io/get-pip.py
   - python3 get-pip.py
-  - | 
-    REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
-    INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
-    ASG_NAME=$(aws ec2 describe-tags \
-        --region "$REGION" \
-        --filters "Name=resource-id,Values=$INSTANCE_ID" \
-                  "Name=key,Values=aws:autoscaling:groupName" \
-        --query "Tags[0].Value" \
-        --output text)
+  - |
     MANAGER_IP=$(aws ec2 describe-instances \
-      --filters "Name=tag:aws:autoscaling:groupName,Values=$ASG_NAME" \
-                "Name=instance-state-name,Values=running" \
-      --query "Reservations[0].Instances[0].PrivateIpAddress" \
-      --output text)
-    docker swarm join --token {{ swarmWorkerToken }} $MANAGER_IP:2377
-  - docker swarm join --token {{ swarmManagerToken }} {{ swarmManagerIp }}:2377
+    --filters "Name=tag-key,Values=manager" \
+              "Name=instance-state-name,Values=running" \
+    --query "Reservations[0].Instances[0].PrivateIpAddress" \
+    --output text)
+    docker swarm join --token {{ swarmManagerToken }} $MANAGER_IP:2377
 {% for key in publicKeyNames %}
   - echo '{{ key }}' >> /home/ec2-user/.ssh/authorized_keys
 {% endfor %}

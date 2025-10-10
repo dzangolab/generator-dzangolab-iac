@@ -46,25 +46,71 @@ export const getConfig = async () => {
     keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
+  /** Get targetGroup */
+  let targetGroupArn = stackConfig.get("targetGroupArn");
+  let lbDnsName = stackConfig.get("lbDnsName");
+
+  if (!targetGroupArn) {
+    const outputs = await getOutputs(
+      "loadBalancerStack",
+      "lbDnsName,targetGroupArn"
+    );
+
+    lbDnsName = outputs ? outputs[0] as string : undefined;
+    targetGroupArn = outputs ? outputs[1] as string : undefined;
+  }
+
   /** Get manager token */
   let managerToken: Output<string>;
 
-    const outputs = await getSecret(
-      "swarmTokensStack",
-      "managerToken"
+  const outputs = await getSecret(
+    "swarmTokensStack",
+    "managerToken"
+  );
+  
+  if (!outputs) {
+    throw new Error("Required manager swarm token could not be found");
+  }
+  else{
+    managerToken =  outputs[0]
+  }
+
+  /** Get security group ids */
+  const useBastion = stackConfig.getBoolean("useBastion");
+
+  let securityGroupIds = stackConfig.getObject<string[]>("securityGroupIds");
+
+  if (!securityGroupIds) {
+    const securityGroupNames = useBastion
+      ? "swarm-managers,web,ssh-bastion"
+      : "swarm-managers,web,ssh";
+
+    const outputs = await getOutputs<{ "arn": string; "id": string }>(
+      "securityGroupsStack",
+      securityGroupNames
     );
-    
-  managerToken =  outputs![0]
 
-  let securityGroupId = stackConfig.get("securityGroupId");
+    if (!outputs) {
+      throw new Error("Required security group could not be found");
+    }
 
-  if (!securityGroupId) {
-    const outputs = await getOutputs(
-      "securityGroupStack",
-      "managersSecurityGroupId"
-    );
+    try {
+      const managers = outputs[0] as { "arn": string; "id": string };
+      const web = outputs[1] as { "arn": string; "id": string };
 
-    securityGroupId = outputs ? outputs[0] as string : undefined;
+      securityGroupIds = [managers["id"], web["id"]];
+
+      if (useBastion) {
+        const bastion = outputs[2] as { "arn": string; "id": string };
+        securityGroupIds.push(bastion["id"]);
+      }
+      else{
+        const ssh = outputs[2] as { "arn": string; "id": string };
+        securityGroupIds.push(ssh["id"]);
+      }
+    } catch (e) {
+      throw new Error("Required security groups could not be found");
+    }
   }
 
   /** Get user data **/
@@ -105,6 +151,7 @@ export const getConfig = async () => {
     iamInstanceProfile,
     instanceType: stackConfig.require("instanceType"),
     keypair,
+    lbDnsName,
     maxSize: stackConfig.getNumber("maxSize") || 3,
     minSize: stackConfig.getNumber("minSize") || 3,
     monitoring: stackConfig.getBoolean("monitoring"),
@@ -115,7 +162,8 @@ export const getConfig = async () => {
     rootBlockDevice: {
       volumeSize: stackConfig.getNumber("rootBlockDeviceSize") || 16,
     },
-    securityGroupId,
+    securityGroupIds,
+    targetGroupArn,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     userData,
     vpcId

@@ -2,23 +2,14 @@ import {
   Config,
   getOrganization,
   getStack,
-  StackReference
+  StackReference,
 } from "@pulumi/pulumi";
-import { Environment, FileSystemLoader } from "nunjucks";
-
-import getPublicKeys from "./public-keys";
-
 import type { StackReferenceOutputDetails } from "@pulumi/pulumi";
 
 export const getConfig = async () => {
-  const organization = getOrganization();
-  const stack = getStack();
   const stackConfig = new Config();
 
-  const name = stackConfig.get("name") || `${organization}-${stack}`;
-
-  /** Get Availability zone **/
-  let availabilityZone = stackConfig.require("availabilityZone");
+  const name = stackConfig.get("name");
 
   /** Get EIP */
   let eip = stackConfig.get("eip");
@@ -34,41 +25,24 @@ export const getConfig = async () => {
     eipId = outputs ? outputs[1] as string : undefined;
   }
 
-  /** Get instance profile */
-  let iamInstanceProfile = stackConfig.get("iamInstanceProfile");
+  let publicSubnetIds: string[] | undefined = stackConfig.get("publicSubnetIds") as string[] | undefined;
+  let vpcId = stackConfig.get("vpcId");
 
-  if (!iamInstanceProfile) {
+  if (!vpcId) {
     const outputs = await getOutputs(
-      "iamInstanceProfileStack",
-      "id"
+      "vpcStack",
+      "publicSubnetIds,vpcId"
     );
 
-    iamInstanceProfile = outputs ? outputs[0] as string : undefined;
-  }
-
-  /** Get keypair */
-  let keypair = stackConfig.get("keypair");
-
-  if (!keypair) {
-    const keyName = stackConfig.require("keyName");
-
-    const outputs = await getOutputs<{ [key: string]: string }>(
-      "keypairsStack",
-      keyName
-    );
-
-    keypair = outputs ? outputs[0]["name"] as string : undefined;
+    publicSubnetIds = outputs ? outputs[0].split(",") as string[] : undefined
+    vpcId = outputs ? outputs[1] as string : undefined
   }
 
   /** Get security group ids */
-  const useBastion = stackConfig.getBoolean("useBastion");
-
   let securityGroupIds = stackConfig.getObject<string[]>("securityGroupIds");
 
   if (!securityGroupIds) {
-    const securityGroupNames = useBastion
-      ? "swarm-managers,web,ssh-bastion"
-      : "swarm-managers,web,ssh";
+    const securityGroupNames = "swarm-managers,web";
 
     const outputs = await getOutputs<{ "arn": string; "id": string }>(
       "securityGroupsStack",
@@ -82,110 +56,27 @@ export const getConfig = async () => {
     try {
       const managers = outputs[0] as { "arn": string; "id": string };
       const web = outputs[1] as { "arn": string; "id": string };
-      const ssh = outputs[2] as { "arn": string; "id": string };
 
-      securityGroupIds = [managers["id"], web["id"], ssh["id"]];
-
-      if (useBastion) {
-        const bastion = outputs[2] as { "arn": string; "id": string };
-        securityGroupIds.push(bastion["id"]);
-      }
+      securityGroupIds = [managers["id"], web["id"]];
     } catch (e) {
       throw new Error("Required security groups could not be found");
     }
   }
 
-  /** Get subnet id **/
-  const subnetId = stackConfig.require("subnetId");
 
-  const useNFS = stackConfig.getBoolean("useNFS");
-
-  /** Get volume id **/
-  let volumeId = stackConfig.get("volumeId");
-
-  if (!volumeId) {
-    const outputs = await getOutputs(
-      "volumeStack",
-      "id"
-    );
-
-    volumeId = outputs ? outputs[0] as string : undefined;
-  }
-
-  /** Get VPC id */
-  let vpcId = stackConfig.get("vpcId");
-
-  if (!vpcId) {
-    const outputs = await getOutputs(
-      "vpcStack",
-      "vpcId"
-    );
-
-    if (outputs) {
-      vpcId = outputs[0] as string;
-    }
-  }
-
-  /** User data **/
-  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../../ssh-keys";
-
-  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
-
-  const userData = generateUserData(
-    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
-    {
-      dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
-      packages: stackConfig.getObject<string[]>("packages"),
-      publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
-      volumes: useNFS ? undefined : [
-        {
-          device: stackConfig.get("volumeDevice") || "/dev/xvdf",
-          filesystem: stackConfig.get("volumeFilesystem") || "ext4",
-          label: stackConfig.get("volumeLabel") || "data",
-          path: "/mnt/data"
-        }
-      ],
-    }
-  );
 
   return {
-    ami: stackConfig.require("ami"),
-    associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
-    availabilityZone,
-    disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
     eip,
     eipId,
-    iamInstanceProfile,
-    instanceType: stackConfig.require("instanceType"),
-    keypair,
-    monitoring: stackConfig.getBoolean("monitoring"),
     name,
+    publicSubnetIds,
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
-    rootBlockDevice: {
-      volumeSize: stackConfig.requireNumber("rootBlockDeviceSize"),
-    },
-    securityGroupIds,
-    subnetId,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
-    useBastion,
-    useNFS,
-    userData,
-    volumeId,
-    vpcId,
+    useHttps: stackConfig.getBoolean("useHttps"),
+    vpcId
   };
 };
-
-function generateUserData(
-  template: string,
-  context: { [key: string]: any },
-): string {
-  const env = new Environment([
-    new FileSystemLoader(),
-  ]);
-
-  return env.render(template, context);
-}
 
 const stacks: { [key: string]: StackReference } = {};
 

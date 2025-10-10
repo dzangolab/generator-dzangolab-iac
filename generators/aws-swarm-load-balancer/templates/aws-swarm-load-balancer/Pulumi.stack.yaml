@@ -1,4 +1,6 @@
 config:
+  <%= projectName %>:eipStack: <%= prefix %>-lb-eip
+  # <%= projectName %>:certificateStack: aws-certificate
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: "false"
   <%= projectName %>:retainOnDelete: "false"

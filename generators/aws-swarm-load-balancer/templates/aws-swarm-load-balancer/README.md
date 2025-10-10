@@ -1,6 +1,6 @@
 # AWS Docker swarm tokens
 
-Provision a pulumi project which contains the worker and manager join token of the docker swarm leader as secrets.  
+Provision a pulumi project aws load balancer.  
 
 ## Requirements
 
@@ -53,11 +53,9 @@ pulumi destroy
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| bastionIp | String (IPv4 address) | | Optional. The ip address of the bastion if used. Takes precedence over `bastionStack`.  Ignored if `useBastion` is false.|
-| bastionStack | string | aws-bastion | Name of the stack of the bastion if used. `bastionIp` takes precedence if declared. Ignored is `useBastion` is false. |
-| managerIp | String (IPv4 address) | | Optional. The ip address of the swarm manager to which to connect. Takes precedence over `managerStack`. |
-| managerStack | string | aws-leader | Name of the stack defining the swarm manager |
+| eipStack | string | aws-lb-eip | Name of the stack of the eip if used. |
 | protect | boolean | false | Protect resources from accidental deletion |
 | retainOnDelete | boolean | false | Retain resources when destroyed |
-| useBastion | boolean | false | Whether you use a bastion to connect to the swarm managers | 
 | user | string | ec2-user | User used to connect to the swarm leader |
+| securityGroupsStack | string | aws-security-groups | Name of the stack defining the security groups |
+| vpcStack | string | aws-vpc | Name of the stack defining the vpc |

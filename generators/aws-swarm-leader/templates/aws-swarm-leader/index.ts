@@ -1,7 +1,6 @@
 import {
   EipAssociation,
   Instance,
-  SecurityGroup,
   VolumeAttachment
 } from "@pulumi/aws/ec2";
 import { local } from "@pulumi/command";
@@ -16,97 +15,6 @@ export = async () => {
     protect: config.protect,
     retainOnDelete: config.retainOnDelete,
   };
-
-  const securityGroup = new SecurityGroup(
-    config.name,
-    {
-      description: "Swarm leader security group",
-      egress: [
-        {
-          fromPort: 0,
-          toPort: 0,
-          protocol: "-1",
-          cidrBlocks: ["0.0.0.0/0"],
-          ipv6CidrBlocks: ["::/0"],
-        },
-      ],
-      ingress: [
-        {
-          description: "SSH",
-          fromPort: 22,
-          toPort: 22,
-          protocol: "tcp",
-          cidrBlocks: [config.bastionIp ? config.cidrBlock : "0.0.0.0/0"],
-        },
-        {
-          description: "DNS (TCP)",
-          fromPort: 53,
-          toPort: 53,
-          protocol: "tcp",
-          cidrBlocks: ["0.0.0.0/0"],
-          ipv6CidrBlocks: ["::/0"],
-        },
-        {
-          description: "DNS (UDP)",
-          fromPort: 53,
-          toPort: 53,
-          protocol: "udp",
-          cidrBlocks: ["0.0.0.0/0"],
-          ipv6CidrBlocks: ["::/0"],
-        },
-        {
-          description: "HTTP from anywhere",
-          fromPort: 80,
-          toPort: 80,
-          protocol: "tcp",
-          cidrBlocks: ["0.0.0.0/0"],
-          ipv6CidrBlocks: ["::/0"],
-        },
-        {
-          description: "HTTPS from anywhere",
-          fromPort: 443,
-          toPort: 443,
-          protocol: "tcp",
-          cidrBlocks: ["0.0.0.0/0"],
-          ipv6CidrBlocks: ["::/0"],
-        },
-        {
-          description: "DNS (TCP)",
-          fromPort: 2377,
-          toPort: 2377,
-          protocol: "tcp",
-          cidrBlocks: ["0.0.0.0/0"],
-          ipv6CidrBlocks: ["::/0"],
-        },
-        {
-          description: "Swarm node discovery (TCP)",
-          fromPort: 7946,
-          toPort: 7946,
-          protocol: "tcp",
-          cidrBlocks: [config.cidrBlock],
-        },
-        {
-          description: "Swarm node discovery (UDP)",
-          fromPort: 7946,
-          toPort: 7946,
-          protocol: "udp",
-          cidrBlocks: [config.cidrBlock],
-        },
-        {
-          description: "Overlay network traffic (UDP 4789)",
-          fromPort: 4789,
-          toPort: 4789,
-          protocol: "udp",
-          cidrBlocks: [config.cidrBlock],
-        },
-      ],
-      tags: {
-        Name: config.name,
-      },
-      vpcId: config.vpcId,
-    },
-    options
-  );
 
   const instance = new Instance(
     config.name,

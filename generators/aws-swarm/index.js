@@ -10,13 +10,16 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
     this.name = "swarm";
     this.resourcesList = [
       "ansible-aws",
+      "aws-bastion",
+      "aws-credentials",
       "aws-ebs",
       "aws-eip",
       "aws-instance-profile",
       "aws-resources",
-      "aws-route53",
-      "aws-security-group",
+      "aws-security-groups",
       "aws-swarm-leader",
+      "aws-swarm-managers",
+      "aws-swarm-tokens",
       "aws-vpc",
     ];
   }
@@ -61,51 +64,115 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
     if (this.props.useNfs) {
       this.resourcesList.push("aws-nfs-server");
     }
+    
     const message = `Generating IaC code for ${this.displayName}`;
     this.log(`${chalk.green(message)}`);
 
-    // Define specific properties for each generator
-    const generatorsProps = {
-      "ansible-aws": {
-        domain: this.props.domain,
+    // Define generator configurations with multiple instances
+    const generatorConfigs = [
+      // Single instance generators from original resourcesList
+      {
+        name: "ansible-aws",
+        props: { domain: this.props.domain }
       },
-      "aws-ebs": {
-        availabilityZones: this.props.availabilityZones,
+      {
+        name: "aws-bastion",
+        props: {}
       },
-      "aws-eip": {},
-      "aws-instance-profile": {},
-      "aws-nfs-server": {},
-      "aws-resources": {},
-      "aws-route53": {
-        domain: this.props.domain,
+      {
+        name: "aws-credentials", 
+        props: {}
       },
-      "aws-security-group": {},
-      "aws-swarm-leader": {
-        ami: this.props.ami,
-        availabilityZone: this.props.availabilityZones,
-        size: this.props.size_leader,
-        useNfs: this.props.useNfs,
+      {
+        name: "aws-ebs",
+        props: { availabilityZones: this.props.availabilityZones }
       },
-      "aws-vpc": {},
-    };
-
-    // Compose with each resource generator
-    this.resourcesList.forEach(resource => {
-      const generatorPath = `../${resource}/index.js`;
-      const resourceProps = generatorsProps[resource] || {};
-
-      this.composeWith(generatorPath, {
-        ...resourceProps,
-        ...this.options,
-        projectName: resource,
-      });
-
-      this.fs.copyTpl(
-        this.templatePath(`aws-${this.name}/README.md`),
-        this.destinationPath("README.md"),
-        {
+      {
+        name: "aws-resources",
+        props: {}
+      },
+      {
+        name: "aws-security-group",
+        props: {}
+      },
+      {
+        name: "aws-swarm-leader",
+        props: {
+          ami: this.props.ami,
+          availabilityZone: this.props.availabilityZones,
+          size: this.props.size_leader,
+          useNfs: this.props.useNfs,
         }
-      );
+      },
+      {
+        name: "aws-swarm-managers",
+        props: {}
+      },
+      {
+        name: "aws-vpc",
+        props: {}
+      },
+      // Multiple instance generators
+      {
+        name: "aws-instance-profile",
+        instances: [
+          { 
+            projectName: "manager-instance-profile",
+            props: { name: "manager-instance-profile" }
+          },
+          { 
+            projectName: "nfs-instance-profile", 
+            props: { name: "nfs-instance-profile" }
+          }
+        ]
+      },
+      {
+        name: "aws-eip",
+        instances: [
+          { 
+            projectName: "manager-eip",
+            props: { name: "manager-eip" }
+          },
+          {
+            projectName: "nfs-eip",
+            props: { name: "nfs-eip" }
+          }
+        ]
+      },
+      // Conditional NFS server
+      ...(this.props.useNfs ? [{
+        name: "aws-nfs-server",
+        props: {}
+      }] : [])
+    ];
+
+    // Compose with generators
+    generatorConfigs.forEach(config => {
+      const generatorPath = `../${config.name}/index.js`;
+      
+      if (config.instances) {
+        // Multiple instances
+        config.instances.forEach(instance => {
+          this.composeWith(generatorPath, {
+            ...instance.props,
+            ...this.options,
+            projectName: instance.projectName,
+          });
+        });
+      } else {
+        // Single instance
+        this.composeWith(generatorPath, {
+          ...config.props,
+          ...this.options,
+          projectName: config.name,
+        });
+      }
     });
+
+    this.fs.copyTpl(
+      this.templatePath(`aws-${this.name}/README.md`),
+      this.destinationPath("README.md"),
+      {}
+    );
   }
 }

@@ -88,6 +88,10 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         props: { availabilityZones: this.props.availabilityZones }
       },
       {
+        name: "aws-load-balancer", 
+        props: {}
+      },
+      {
         name: "aws-resources",
         props: {}
       },
@@ -121,8 +125,8 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
             props: { name: "manager-instance-profile" }
           },
           { 
-            projectName: "nfs-instance-profile", 
-            props: { name: "nfs-instance-profile" }
+            projectName: "worker-instance-profile", 
+            props: { name: "worker-instance-profile" }
           }
         ]
       },
@@ -130,20 +134,33 @@ export default class AWSSwarmGenerator extends PulumiGenerator {
         name: "aws-eip",
         instances: [
           { 
+            projectName: "load-balancer-eip",
+            props: { name: "load-balancer-eip" }
+          },
+          { 
             projectName: "manager-eip",
             props: { name: "manager-eip" }
           },
-          {
-            projectName: "nfs-eip",
-            props: { name: "nfs-eip" }
-          }
         ]
       },
       // Conditional NFS server
-      ...(this.props.useNfs ? [{
-        name: "aws-nfs-server",
-        props: {}
-      }] : [])
+      ...(this.props.useNfs ? [
+          {
+            name: "aws-nfs-server",
+            props: {}
+          },
+          {
+            name: "aws-eip",
+            projectName: "nfs-eip",
+            props: { name: "nfs-eip" }
+          },
+          {
+            name: "aws-instance-profile",
+            projectName: "nfs-eip",
+            props: { name: "nfs-instance-profile"}
+          }
+        ] : []
+      )
     ];
 
     // Compose with generators

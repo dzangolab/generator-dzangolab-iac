@@ -8,9 +8,11 @@ config:
   <%= projectName %>:disableApiTermination: false
   <%= projectName %>:dockerNetworks: <% networks.forEach((network) => { %>
     - <%= network %><% }); %>
+<% if (useEip) { %>
 #  <%= projectName %>:eip: 
 #  <%= projectName %>:eipId: 
   <%= projectName %>:eipStack: <%= prefix %>-eip
+<% } %>
 #  <%= projectName %>:iamInstanceProfile:
   <%= projectName %>:iamInstanceProfileStack: <%= prefix %>-manager-instance-profile
   <%= projectName %>:instanceType: <%= instanceType %>

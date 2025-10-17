@@ -7,7 +7,7 @@ export default class AWSNotificationsGenerator extends PulumiGenerator {
     super(args, opts);
 
     this.displayName = "AWS notifications";
-    this.name = "notifications";
+    this.name = "aws-notifications";
 
     this.option("availabilityZone", {
       desc: "Availability zone",

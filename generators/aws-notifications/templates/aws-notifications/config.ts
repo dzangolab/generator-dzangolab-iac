@@ -32,83 +32,6 @@ export const getConfig = async () => {
     targetGroupArn = outputs ? outputs[0] as string : undefined;
   }
 
-  /** Get instance profile */
-  let iamInstanceProfile = stackConfig.get("iamInstanceProfile");
-
-  if (!iamInstanceProfile) {
-    const outputs = await getOutputs(
-      "iamInstanceProfileStack",
-      "id"
-    );
-
-    iamInstanceProfile = outputs ? outputs[0] as string : undefined;
-  }
-
-  /** Get keypair */
-  let keypair = stackConfig.get("keypair");
-
-  if (!keypair) {
-    const keyName = stackConfig.require("keyName");
-
-    const outputs = await getOutputs<{ [key: string]: string }>(
-      "keypairsStack",
-      keyName
-    );
-
-    keypair = outputs ? outputs[0]["name"] as string : undefined;
-  }
-
-  /** Get security group ids */
-  const useBastion = stackConfig.getBoolean("useBastion");
-
-  let securityGroupIds = stackConfig.getObject<string[]>("securityGroupIds");
-
-  if (!securityGroupIds) {
-    const securityGroupNames = useBastion
-      ? "swarm-managers,web,ssh-bastion"
-      : "swarm-managers,web";
-
-    const outputs = await getOutputs<{ "arn": string; "id": string }>(
-      "securityGroupsStack",
-      securityGroupNames
-    );
-
-    if (!outputs) {
-      throw new Error("Required security group could not be found");
-    }
-
-    try {
-      const managers = outputs[0] as { "arn": string; "id": string };
-      const web = outputs[1] as { "arn": string; "id": string };
-
-      securityGroupIds = [managers["id"], web["id"]];
-
-      if (useBastion) {
-        const bastion = outputs[2] as { "arn": string; "id": string };
-        securityGroupIds.push(bastion["id"]);
-      }
-    } catch (e) {
-      throw new Error("Required security groups could not be found");
-    }
-  }
-
-  /** Get subnet id **/
-  const subnetId = stackConfig.require("subnetId");
-
-  const useNFS = stackConfig.getBoolean("useNFS");
-
-  /** Get volume id **/
-  let volumeId = stackConfig.get("volumeId");
-
-  if (!volumeId) {
-    const outputs = await getOutputs(
-      "volumeStack",
-      "id"
-    );
-
-    volumeId = outputs ? outputs[0] as string : undefined;
-  }
-
   /** Get VPC id */
   let vpcId = stackConfig.get("vpcId");
 
@@ -123,52 +46,19 @@ export const getConfig = async () => {
     }
   }
 
-  /** User data **/
-  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../../ssh-keys";
-
-  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
-
-  const userData = generateUserData(
-    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
-    {
-      dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
-      packages: stackConfig.getObject<string[]>("packages"),
-      publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
-      volumes: useNFS ? undefined : [
-        {
-          device: stackConfig.get("volumeDevice") || "/dev/xvdf",
-          filesystem: stackConfig.get("volumeFilesystem") || "ext4",
-          label: stackConfig.get("volumeLabel") || "data",
-          path: "/mnt/data"
-        }
-      ],
-    }
-  );
-
   return {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
     availabilityZone,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
-    eip,
-    eipId,
-    iamInstanceProfile,
-    instanceType: stackConfig.require("instanceType"),
-    keypair,
-    monitoring: stackConfig.getBoolean("monitoring"),
     name,
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     rootBlockDevice: {
       volumeSize: stackConfig.requireNumber("rootBlockDeviceSize"),
     },
-    securityGroupIds,
-    subnetId,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
-    useBastion,
-    useNFS,
-    userData,
-    volumeId,
+    targetGroupArn,
     vpcId,
   };
 };

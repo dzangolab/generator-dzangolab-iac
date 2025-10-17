@@ -54,9 +54,7 @@ export const getConfig = async () => {
     name,
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
-    rootBlockDevice: {
-      volumeSize: stackConfig.requireNumber("rootBlockDeviceSize"),
-    },
+    slackWebhookUrl: stackConfig.get("slackWebHookUrl"),
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
     targetGroupArn,
     vpcId,

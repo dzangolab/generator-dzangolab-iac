@@ -1,0 +1,34 @@
+---
+- name: Create required ansible-link directories on the NFS server
+  hosts: nfs_server
+  become: yes
+  tasks:
+    - name: Ensure necessary directories exist
+      file:
+        group: "nobody"
+        owner: "nobody"
+        path: "{{ ansible-link_deploy_dir }}/{{ item }}"
+        state: directory
+        recurse: true
+      with_items:
+        - "group_vars"
+        - "plays"
+      when:
+        - "{{ ansible-link_nfs }}"
+
+- name: Ensure ansible inventory file exists
+  become: true
+  file:
+    group: "{{ ansible_link__deploy_group }}"
+    owner: "{{ ansible_link__deploy_user }}"
+    path: "{{ ansible_link__inventory_file }}"
+    state: file
+    mode: "0644"
+    
+- name: Deploy ansible-link
+  hosts: ansible-link
+  become: true
+  tasks:
+    - name: Deploy ansible-link
+      ansible.builtin.import_role:
+        name: dzangolab.ansible.docker_ansible-link

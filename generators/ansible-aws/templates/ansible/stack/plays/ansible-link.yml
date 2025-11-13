@@ -17,13 +17,15 @@
         - "{{ ansible-link_nfs }}"
 
 - name: Ensure ansible inventory file exists
-  become: true
-  file:
-    group: "{{ ansible_link__deploy_group }}"
-    owner: "{{ ansible_link__deploy_user }}"
-    path: "{{ ansible_link__inventory_file }}"
-    state: file
-    mode: "0644"
+  hosts: nfs_server
+  tasks:
+    - name: Ensure inventory file exists
+      file:
+        group: "{{ ansible_link__deploy_group }}"
+        owner: "{{ ansible_link__deploy_user }}"
+        path: "{{ ansible_link__inventory_file }}"
+        state: file
+        mode: "0644"
     
 - name: Deploy ansible-link
   hosts: ansible-link

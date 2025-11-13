@@ -1,4 +1,4 @@
-ansible-link__deploy_dir: "{{ deploy_dir }}/ansible"
+ansible-link__deploy_dir: "{{ deploy_dir }}/ansible-link"
 ansible-link__deploy_group: "{{ deploy_group }}"
 ansible-link__deploy_user: "{{ deploy_user }}"
 ansible-link__domain: "ansible-link.{{ domain }}"

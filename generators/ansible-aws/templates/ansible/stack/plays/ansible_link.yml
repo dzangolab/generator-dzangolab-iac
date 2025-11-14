@@ -7,30 +7,33 @@
       file:
         group: "nobody"
         owner: "nobody"
-        path: "{{ ansible-link_deploy_dir }}/{{ item }}"
+        path: "/mnt/nfs/ansible-link/{{ item }}"
         state: directory
         recurse: true
       with_items:
         - "group_vars"
         - "plays"
       when:
-        - "{{ ansible-link_nfs }}"
+        - nfs
 
 - name: Ensure ansible inventory file exists
   hosts: nfs_server
+  become: yes
   tasks:
     - name: Ensure inventory file exists
       file:
-        group: "{{ ansible_link__deploy_group }}"
-        owner: "{{ ansible_link__deploy_user }}"
-        path: "{{ ansible_link__inventory_file }}"
-        state: file
+        group: "nobody"
+        owner: "nobody"
+        path: "/mnt/nfs/ansible-link/hosts"
+        state: touch
         mode: "0644"
+      when:
+        - nfs
     
 - name: Deploy ansible-link
-  hosts: ansible-link
+  hosts: ansible_link
   become: true
   tasks:
     - name: Deploy ansible-link
       ansible.builtin.import_role:
-        name: dzangolab.ansible.docker_ansible-link
+        name: dzangolab.ansible.ansible_link

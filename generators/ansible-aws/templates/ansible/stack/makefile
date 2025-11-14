@@ -1,5 +1,12 @@
 #!make
+ansible-link:
+	@printf "\033[0;32m>>> Set up ansible-link\033[0m\n"
+	ansible-playbook plays/ansible_link.yml
 
+ansible-link.down:
+	@printf "\033[0;32m>>> Down ansible-link\033[0m\n"
+	ansible-playbook plays/ansible_link.yml --extra-vars="ansible_link__state=stopped"
+	
 install:
 	@printf "\033[0;32m>>> Install ansible roles\033[0m\n"
 	ansible-galaxy install -r requirements.yml --force

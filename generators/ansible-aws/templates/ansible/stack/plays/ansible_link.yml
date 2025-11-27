@@ -1,5 +1,5 @@
 ---
-- name: Create required ansible-link directories on the NFS server
+- name: Setup on the NFS server
   hosts: nfs_server
   become: yes
   tasks:
@@ -12,28 +12,67 @@
         recurse: true
       with_items:
         - "group_vars"
-        - "plays"
-      when:
-        - nfs
-
-- name: Ensure ansible inventory file exists
-  hosts: nfs_server
-  become: yes
-  tasks:
-    - name: Ensure inventory file exists
-      file:
-        group: "nobody"
-        owner: "nobody"
-        path: "/mnt/nfs/ansible-link/hosts"
-        state: touch
-        mode: "0644"
+        - "playbooks"
       when:
         - nfs
     
+    - name: Generate ED25519 SSH key pair
+      openssh_keypair:
+        path: "/mnt/nfs/ansible-link/ssh_key"
+        type: ed25519
+        owner: nobody
+        group: nobody
+        mode: '0600'
+        force: no
+      when:
+        - nfs
+
+    - name: Get the public key content from NFS server
+      slurp:
+        src: "/mnt/nfs/ansible-link/ssh_key.pub"
+      register: public_key_content
+      when:
+        - nfs
+
+    - name: Set public key as a fact for all hosts
+      set_fact:
+        public_key: "{{ public_key_content.content | b64decode }}"
+      when:
+        - nfs
+
+    - name: Add public key to authorized_keys
+      authorized_key:
+        user: "{{ deploy_user }}"
+        state: present
+        key: "{{ public_key }}"
+      when:
+        - nfs
+
+- name: Setup on the bastion server
+  hosts: bastion
+  become: yes
+  tasks:
+    - name: Add public key to authorized_keys
+      authorized_key:
+        user: "{{ deploy_user }}"
+        state: present
+        key: "{{ hostvars['nfs_server']['public_key'] }}"
+      when:
+        - bastion
+
 - name: Deploy ansible-link
   hosts: ansible_link
-  become: true
   tasks:
+    - name: Get secrets
+      shell: "aws secretsmanager get-secret-value --output text --query SecretString --secret-id {{ aws_secrets_id }}"
+      delegate_to: 127.0.0.1
+      register: secrets
+    - name: Compute ansible-link htpasswd
+      shell: "htpasswd -bn admin \"{{ (secrets.stdout | from_json)[\"ansible-link-password\"] }}\" | sed -e 's/\\$/\\$\\$/g'"
+      delegate_to: 127.0.0.1
+      register: ansible_link_basicauth_password
     - name: Deploy ansible-link
       ansible.builtin.import_role:
         name: dzangolab.ansible.ansible_link
+      vars:
+        ansible_link__basicauth_passwords: ["{{ ansible_link_basicauth_password.stdout }}"]

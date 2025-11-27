@@ -1,0 +1,28 @@
+---
+- name: Sync playbooks using rsync
+  hosts: nfs_server
+  vars:
+    local_playbooks_dir: "./ansible-link-playbooks"
+    remote_playbooks_dir: "/mnt/nfs/ansible-link/playbooks"
+  
+  tasks:
+    - name: Find playbooks on local machine
+      find:
+        paths: "./../ansible-link-playbooks"
+        patterns: "*.yml,*.yaml"
+        file_type: file
+        recurse: yes
+      register: playbook_files
+      delegate_to: localhost
+    
+    - name: Copy each playbook to NFS server
+      copy:
+        src: "{{ item.path }}"
+        dest: "{{ remote_playbooks_dir }}/{{ item.path | basename }}"
+        owner: nobody
+        group: nobody
+        mode: '0644'
+        backup: yes
+      loop: "{{ playbook_files.files }}"
+      become: yes
+      when: playbook_files.files | length > 0

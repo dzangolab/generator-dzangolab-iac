@@ -1,3 +1,8 @@
+## 1.0.0-rc53.0 (2025-12-06)
+
+
+
+
 ## 1.0.0-rc53 (2025-12-06)
 
 * feat(aws-ses): update cloudflare code (#193) ([5b31303](https://github.com/dzangolab/generator-dzangolab-iac/commit/5b31303)), closes [#193](https://github.com/dzangolab/generator-dzangolab-iac/issues/193)

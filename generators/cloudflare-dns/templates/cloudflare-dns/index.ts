@@ -11,7 +11,11 @@ export = async () => {
     retainOnDelete: config.retainOnDelete,
   };
 
-  const zone = getZoneOutput({ name: config.domain });
+  const zone = getZoneOutput({
+    filter: {
+      name: config.domain
+    }
+  });
 
   const hostname = getHostname(config.host, config.subdomain)
 
@@ -26,7 +30,7 @@ export = async () => {
         proxied: false,
         type: "A",
         ttl: config.ttl,
-        zoneId: zone.zone.Id as unknown as string,
+        zoneId: zone.zoneId as unknown as string,
       },
       options
     );

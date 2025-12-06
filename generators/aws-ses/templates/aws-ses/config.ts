@@ -14,7 +14,8 @@ export const getConfig = async () => {
     name: stackConfig.get("name") || stack,
     domains: stackConfig.requireObject<string[]>("domains"),
     protect: stackConfig.getBoolean("protect"),
-    retainOnDelete: stackConfig.getBoolean("retainOnDelete")
+    retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
+    ttl: stackConfig.getNumber("ttl") || 3600,
   };
 };
 

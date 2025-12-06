@@ -40,6 +40,7 @@ export = async () => {
         content: interpolate`${identity.verificationToken}`,
         name: interpolate`${identity.id}`,
         proxied: false,
+        ttl: config.ttl,
         type: "TXT",
         zoneId: zone.zoneId as unknown as string,
       },
@@ -69,10 +70,11 @@ export = async () => {
       dkimRecords.push(new DnsRecord(
         `${domain}-${config.name}-dkim-${i}`,
         {
+          content: dkim.dkimTokens.apply(dkimTokens => `${dkimTokens[i]}.dkim.amazonses.com`),
           name: dkim.dkimTokens.apply(dkimTokens => `${dkimTokens[i]}._domainkey`),
           proxied: false,
+          ttl: config.ttl,
           type: "CNAME",
-          value: dkim.dkimTokens.apply(dkimTokens => `${dkimTokens[i]}.dkim.amazonses.com`),
           zoneId: zone.zoneId as unknown as string,
         }
       ));

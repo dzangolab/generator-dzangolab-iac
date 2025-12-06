@@ -11,7 +11,10 @@
     "url": "https://github.com/owner/project/issues",
     "email": "support+iac-generators@dzango.com"
   },
-  "repository": "https://github.com/dzangolab/generator-dzangolab-iac",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dzangolab/generator-dzangolab-iac.git"
+  },
   "license": "MIT",
   "author": {
     "name": "Dzango Technologies",

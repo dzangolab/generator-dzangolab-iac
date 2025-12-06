@@ -1,3 +1,9 @@
+## 1.0.0-rc55.3 (2025-12-06)
+
+* fix(aws/ses): fix cloudflare domain record generation ([4792cc5](https://github.com/dzangolab/generator-dzangolab-iac/commit/4792cc5))
+
+
+
 ## 1.0.0-rc55.2 (2025-12-06)
 
 * fix(aws/ses): fix cloudflare getZone ([ff81ec1](https://github.com/dzangolab/generator-dzangolab-iac/commit/ff81ec1))

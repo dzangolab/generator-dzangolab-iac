@@ -2,7 +2,7 @@ import chalk from "chalk";
 
 import PulumiGenerator from "../pulumi/index.js";
 
-export default class PulumiS3BAckendGenerator extends PulumiGenerator {
+export default class PulumiS3BackendGenerator extends PulumiGenerator {
   constructor(args, opts) {
     super(args, opts);
 
@@ -12,19 +12,34 @@ export default class PulumiS3BAckendGenerator extends PulumiGenerator {
     this.option("projectName", {
       type: String,
       default: this._getDefaultProjectName(),
-      desc: "environment."
+      desc: "The name of this Pulumi project"
     });
 
     this.option("awsProfile", {
       type: String,
-      desc: "Name of AWS profile used to provision resources on AWS."
+      desc: "AWS profile used to provision resources on AWS"
     });
 
-    this.option("projectName", {
-      default: this._getDefaultProjectName(),
-      desc: "Pulumi project name",
-      type: String,
+    /*
+    this.option("secretsProvider", {
+      choices: [
+        {
+          name: "AWS KMS",
+          value: "awskms",
+          description: "AWS Key Management Service (KMS)"
+        },
+        {
+          name: "Password",
+          value: "password",
+          description: "Password-based encryption"
+
+        },
+      ],
+      default: "awskms",
+      desc: "Which Pulumi backend encryption provider do you want to use?",
+      type: Select,
     });
+    */
   }
 
   async prompting() {
@@ -36,9 +51,33 @@ export default class PulumiS3BAckendGenerator extends PulumiGenerator {
         type: "input",
       },
       {
-        message: "What is the AWS profile used to create the AWS resources?",
+        message: "What is the AWS profile used to provision the AWS resources?",
         name: "awsProfile",
         type: "input",
+      },
+      {
+        message: "Which AWS region do you want to use?",
+        name: "awsRegion",
+        type: "input",
+      },
+      {
+        choices: [
+          {
+            name: "AWS KMS",
+            value: "awskms",
+            description: "AWS Key Management Service (KMS)"
+          },
+          {
+            name: "Password",
+            value: "password",
+            description: "Password-based encryption"
+
+          },
+        ],
+        default: "awskms",
+        message: "Which Pulumi backend encryption provider do you want to use??",
+        name: "encryptionProvider",
+        type: "select",
       }
     ]);
   };

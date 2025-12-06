@@ -1,3 +1,9 @@
+## 1.0.0-rc52 (2025-12-06)
+
+* feat(pulumi-s3-backend): update code to latest (#191) ([c8aa0bd](https://github.com/dzangolab/generator-dzangolab-iac/commit/c8aa0bd)), closes [#191](https://github.com/dzangolab/generator-dzangolab-iac/issues/191)
+
+
+
 ## 1.0.0-rc51.0 (2025-09-21)
 
 * fix(aws/swarm-leader): fix typo ([c6d9244](https://github.com/dzangolab/generator-dzangolab-iac/commit/c6d9244))

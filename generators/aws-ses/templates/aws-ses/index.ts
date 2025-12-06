@@ -3,7 +3,7 @@ import {
   DomainIdentity,
   DomainIdentityVerification
 } from "@pulumi/aws/ses";
-import { getZone, DnsRecord } from "@pulumi/cloudflare";
+import { getZoneOutput, DnsRecord } from "@pulumi/cloudflare";
 import { interpolate } from "@pulumi/pulumi";
 import { getConfig } from "./config";
 
@@ -28,7 +28,11 @@ export = async () => {
       options
     );
 
-    const zone = getZone({ name: domain });
+    const zone = getZoneOutput({
+      filter: {
+        name: domain
+      }
+    });
 
     const verificationRecord = new DnsRecord(
       `${domain}-${config.name}`,
@@ -37,7 +41,7 @@ export = async () => {
         name: interpolate`${identity.id}`,
         proxied: false,
         type: "TXT",
-        zoneId: zone.then((zone) => zone.id),
+        zoneId: zone.zoneId as unknown as string,
       },
       options
     );
@@ -69,7 +73,7 @@ export = async () => {
           proxied: false,
           type: "CNAME",
           value: dkim.dkimTokens.apply(dkimTokens => `${dkimTokens[i]}.dkim.amazonses.com`),
-          zoneId: zone.then((zone) => zone.id),
+          zoneId: zone.zoneId as unknown as string,
         }
       ));
     }

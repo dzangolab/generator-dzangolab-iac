@@ -1,4 +1,4 @@
-import { getZone, DNSRecord } from "@pulumi/cloudflare";
+import { getZoneOutput, DnsRecord } from "@pulumi/cloudflare";
 import { interpolate } from "@pulumi/pulumi";
 
 import { getConfig } from "./config";
@@ -11,14 +11,14 @@ export = async () => {
     retainOnDelete: config.retainOnDelete,
   };
 
-  const zone = getZone({ name: config.domain });
+  const zone = getZoneOutput({ name: config.domain });
 
   const hostname = getHostname(config.host, config.subdomain)
 
   const records = [];
 
   if (config.ip) {
-    const record = new DNSRecord(
+    const record = new DnsRecord(
       `${hostname}.${config.domain}`,
       {
         content: config.ip,
@@ -26,7 +26,7 @@ export = async () => {
         proxied: false,
         type: "A",
         ttl: config.ttl,
-        zoneId: zone.then((zone) => zone.id),
+        zoneId: zone.zone.Id as unknown as string,
       },
       options
     );
@@ -37,7 +37,7 @@ export = async () => {
   for (let i = 0, aliases = config.aliases; i < aliases.length; i++) {
     const alias = getHostname(aliases[i], config.subdomain);
 
-    const record = new DNSRecord(
+    const record = new DnsRecord(
       `${alias}.${config.domain}`,
       {
         content: `${hostname}.${config.domain}`,
@@ -45,7 +45,7 @@ export = async () => {
         proxied: false,
         type: "CNAME",
         ttl: config.ttl,
-        zoneId: zone.then((zone) => zone.id),
+        zoneId: zone.zoneId as unknown as string,
       },
       options
     );

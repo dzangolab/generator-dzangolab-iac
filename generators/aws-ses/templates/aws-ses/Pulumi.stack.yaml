@@ -1,6 +1,7 @@
 config:
+  <%= projectName %>:domains: 
+    - DOMAIN1
+    - DOMAIN2
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: "true"
   <%= projectName %>:retainOnDelete: "true"
-  <%= projectName %>:secretRecoveryWindowInDays: 7
-  <%= projectName %>:useSesSmtp: false

@@ -3,7 +3,7 @@ import {
   DomainIdentity,
   DomainIdentityVerification
 } from "@pulumi/aws/ses";
-import { getZone, Record } from "@pulumi/cloudflare";
+import { getZone, DNSRecord } from "@pulumi/cloudflare";
 import { interpolate } from "@pulumi/pulumi";
 import { getConfig } from "./config";
 
@@ -30,13 +30,13 @@ export = async () => {
 
     const zone = getZone({ name: domain });
 
-    const verificationRecord = new Record(
+    const verificationRecord = new DNSRecord(
       `${domain}-${config.name}`,
       {
+        content: interpolate`${identity.verificationToken}`,
         name: interpolate`${identity.id}`,
         proxied: false,
         type: "TXT",
-        value: interpolate`${identity.verificationToken}`,
         zoneId: zone.then((zone) => zone.id),
       },
       options
@@ -59,10 +59,10 @@ export = async () => {
       }
     );
 
-    const dkimRecords: Record[] = [];
+    const dkimRecords: DNSRecord[] = [];
 
     for (let i = 0; i < 3; i++) {
-      dkimRecords.push(new Record(
+      dkimRecords.push(new DNSRecord(
         `${domain}-${config.name}-dkim-${i}`,
         {
           name: dkim.dkimTokens.apply(dkimTokens => `${dkimTokens[i]}._domainkey`),

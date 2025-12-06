@@ -6,12 +6,12 @@ export const getConfig = async () => {
 
   return {
     awsAccountArns: stackConfig.requireObject<string[]>("aws-account-arns"),
+    encryptionProvider: stackConfig.get("encryptionProvider") || "awskms",
     forceDestroy: stackConfig.getBoolean("forceDestroy"),
     keyDeletionWindow: stackConfig.getNumber("keyDeletionWindow") || 7,
     name: stackConfig.get("name") || [getOrganization(), "pulumi-state"].join("-"),
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
-    secretsProvider: stackConfig.get("secretsProvider") || "passphrase"
   };
 };
 

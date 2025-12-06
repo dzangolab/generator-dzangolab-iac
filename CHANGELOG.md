@@ -1,3 +1,9 @@
+## 1.0.0-rc54.0 (2025-12-06)
+
+* fix(cloudflare): update cloudflare code (#198) ([2bceefd](https://github.com/dzangolab/generator-dzangolab-iac/commit/2bceefd)), closes [#198](https://github.com/dzangolab/generator-dzangolab-iac/issues/198)
+
+
+
 ## 1.0.0-rc54 (2025-12-06)
 
 * fix(cloudflare): update cloudflare code (#196) ([fdffbd6](https://github.com/dzangolab/generator-dzangolab-iac/commit/fdffbd6)), closes [#196](https://github.com/dzangolab/generator-dzangolab-iac/issues/196)

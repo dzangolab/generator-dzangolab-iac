@@ -1,11 +1,11 @@
 import { getCallerIdentity, iam } from "@pulumi/aws";
 import { Alias, Key } from "@pulumi/aws/kms";
 import {
-  BucketV2,
+  Bucket,
   BucketPolicy,
   BucketPublicAccessBlock,
-  BucketServerSideEncryptionConfigurationV2,
-  BucketVersioningV2
+  BucketServerSideEncryptionConfiguration,
+  BucketVersioning
 } from "@pulumi/aws/s3";
 import { interpolate } from "@pulumi/pulumi";
 
@@ -23,7 +23,7 @@ export = async () => {
 
   const name = config.name;
 
-  const bucket = new BucketV2(
+  const bucket = new Bucket(
     name,
     {
       forceDestroy: config.forceDestroy,
@@ -43,7 +43,7 @@ export = async () => {
     options,
   );
 
-  new BucketVersioningV2(
+  new BucketVersioning(
     name,
     {
       bucket: bucket.id,
@@ -54,7 +54,7 @@ export = async () => {
     options,
   );
 
-  new BucketServerSideEncryptionConfigurationV2(
+  new BucketServerSideEncryptionConfiguration(
     name,
     {
       bucket: bucket.id,
@@ -110,17 +110,17 @@ export = async () => {
   outputs["pulumiBackendLoginCommand"] = interpolate`pulumi logout && pulumi login s3://${bucket.id}`;
   outputs["pulumiBackendUrl"] = interpolate`s3://${bucket.id}`;
 
-  const secretsProvider = config.secretsProvider;
+  const encryptionProvider = config.encryptionProvider;
 
-  switch (secretsProvider) {
+  switch (encryptionProvider) {
     case "passphrase":
       outputs["pulumiStackInitCommand"] = "pulumi stack init --secrets-provider=passphrase <project_name>.<stack_name>";
       break;
 
-    case "kms":
+    case "awskms":
       const awsAccountId = (await getCallerIdentity()).accountId
 
-      const secretsEncryptionKey = new Key(
+      const encryptionKey = new Key(
         name,
         {
           description: "Key use to encrypt secrets",
@@ -150,14 +150,14 @@ export = async () => {
         name,
         {
           name: `alias/${name}`,
-          targetKeyId: secretsEncryptionKey.keyId,
+          targetKeyId: encryptionKey.keyId,
         },
         options,
       );
 
-      outputs["pulumiSecretsProviderKeyId"] = interpolate`awskms:///${secretsEncryptionKey.keyId}`;
-      outputs["pulumiSecretsProviderKeyAlias"] = interpolate`awskms:///${alias.name}`;
-      outputs["pulumiStackInitCommand"] = interpolate`pulumi stack init --secrets-provider='awskms:///${secretsEncryptionKey.keyId}' <project_name>.<stack_name>`;
+      outputs["pulumiEncryptionProviderKeyId"] = interpolate`awskms:///${encryptionKey.keyId}`;
+      outputs["pulumiEncryptionProviderKeyAlias"] = interpolate`awskms:///${alias.name}`;
+      outputs["pulumiStackInitCommand"] = interpolate`pulumi stack init --secrets-provider='awskms:///${encryptionKey.keyId}' <project_name>.<stack_name>`;
 
       break;
   }

@@ -2,11 +2,96 @@
 
 Provisions an AWS S3 bucket as a Pulumi self-managed backend.
 
-Note: The state for this project is expected to be stored on the Pulumi cloud.
+Once provisioned, there should be no need to update this resource.
+
+## Usage
+
+To use this backend for other Pulumi projects:
+
+### Set `PULUMI_BACKEND_URL` environment variable
+
+```bash
+export PULUMI_BACKEND_URL=`pulumiBackendUrl`
+```
+
+If using `direnv`, update the root folder's `.env` file:
+
+```
+# .env
+PULUMI_BACKEND_URL=`pulumiBackendUrl`
+```
+
+### Use the `pulumiStackInitCommand` to initialize a stack
+
+```bash
+pulumi stack init --secrets-provider='awskms:///44ea4490-bda5-48cc-9113-614169407c10' [<project_name>.]<stack_name>
+```
+
+## Outputs
+
+### bucketArn 
+
+`arn:aws:s3:::hijoli-pulumi-state-a14c122`
+
+The ARN of the AWS S3 bucket used as the Pulumi backend.
+
+### bucketId
+
+`hijoli-pulumi-state-a14c122`
+
+The id/name of the AWS S3 bucket.
+
+### pulumiBackendLoginCommand
+
+`pulumi logout && pulumi login s3://hijoli-pulumi-state-a14c122`
+
+Use this command to log into the Pulumi Backend.
+
+Alternatively, use the `PULUMI_BACKEND_URL` environment variable (see below).
+
+### pulumiBackendUrl
+
+`s3://hijoli-pulumi-state-a14c122`
+
+The url of the Pulumi backend.
+
+Set this as the value of the `PULUMI_BACKEND_URL` environment variable to avoid having to log into the Pulumi backend constantly.
+
+### pulumiEncryptionProviderAlias
+
+`awskms:///alias/hijoli-pulumi-state`
+
+The alias of the pulumi secrets provider used to encrypt secrets.
+
+### pulumiEncryptionProviderId
+
+`awskms:///44ea4490-bda5-48cc-9113-614169407c10`
+
+The id of the pulumi secrets provider used to encrypt secrets.
+
+### pulumiStackInitCommand
+
+`pulumi stack init --secrets-provider='awskms:///44ea4490-bda5-48cc-9113-614169407c10' <project_name>.<stack_name>`
+
+Use this command to initialize a stack.
+
+## Backend
+
+The backend for this project is in the Pulumi cloud.
+
+|--------------|------------------------|
+| Url          | https://app.pulumi.com |
+| Account      | `hijoli`               |
+| Organization | `hijoli`               |
+
+
+## Backend
+
+The backend for this project is expected to be the Pulumi cloud.
 
 ## Requirements
 
-* node >= 20.0.0
+* node >= 24
 * [pulumi >= 3](https://www.pulumi.com/docs/install/)
 * An AWS profile 
 

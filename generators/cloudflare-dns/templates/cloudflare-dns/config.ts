@@ -1,4 +1,3 @@
-import { getZone, Record } from "@pulumi/cloudflare";
 import {
   Config,
   getOrganization,

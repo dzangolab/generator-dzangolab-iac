@@ -1,4 +1,4 @@
-import { getZone, Record } from "@pulumi/cloudflare";
+import { getZone, DNSRecord } from "@pulumi/cloudflare";
 import { interpolate } from "@pulumi/pulumi";
 
 import { getConfig } from "./config";
@@ -18,7 +18,7 @@ export = async () => {
   const records = [];
 
   if (config.ip) {
-    const record = new Record(
+    const record = new DNSRecord(
       `${hostname}.${config.domain}`,
       {
         content: config.ip,
@@ -37,7 +37,7 @@ export = async () => {
   for (let i = 0, aliases = config.aliases; i < aliases.length; i++) {
     const alias = getHostname(aliases[i], config.subdomain);
 
-    const record = new Record(
+    const record = new DNSRecord(
       `${alias}.${config.domain}`,
       {
         content: `${hostname}.${config.domain}`,

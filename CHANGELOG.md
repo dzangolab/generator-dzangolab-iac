@@ -1,3 +1,9 @@
+## 1.0.0-rc55.4 (2025-12-10)
+
+* fix(pulumi-s3-backend): fix default bucket name ([1a1ef4d](https://github.com/dzangolab/generator-dzangolab-iac/commit/1a1ef4d))
+
+
+
 ## 1.0.0-rc55.3 (2025-12-06)
 
 * fix(aws/ses): fix cloudflare domain record generation ([4792cc5](https://github.com/dzangolab/generator-dzangolab-iac/commit/4792cc5))

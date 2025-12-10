@@ -11,6 +11,7 @@ import AWSEBSGenerator from "../aws-ebs/index.js";
 import AWSECRGenerator from "../aws-ecr/index.js";
 import AWSEIPGenerator from "../aws-eip/index.js";
 import AWSGithubIdentityProviderGenerator from "../aws-github-identity-provider/index.js";
+import AWSIAMGroupsGenerator from "../aws-iam-groups/index.js";
 import AWSInstanceProfileGenerator from "../aws-instance-profile/index.js";
 import AWSNFSServerGenerator from "../aws-nfs-server/index.js";
 import AWSResourcesGenerator from "../aws-resources/index.js";
@@ -128,6 +129,11 @@ export default class IaCGenerator extends Generator {
             name: "AWS Github identity provider",
             value: "aws-github-idp"
           },
+
+          {
+            name: "AWS IAM groups",
+            value: "aws-iam-groups"
+          },
           {
             name: "AWS IAM instance profile",
             value: "aws-instance-profile"
@@ -238,6 +244,7 @@ export default class IaCGenerator extends Generator {
       "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },
       "aws-eip": { Generator: AWSEIPGenerator, path: "../aws-eip/index.js" },
       "aws-github-idp": { Generator: AWSGithubIdentityProviderGenerator, path: "../aws-github-identity-provider/index.js" },
+      "aws-iam-groups": { Generator: AWSIAMGroupsGenerator, path: "../aws-iam-groups/index.js" },
       "aws-instance-profile": { Generator: AWSInstanceProfileGenerator, path: "../aws-instance-profile/index.js" },
       "aws-nfs-server": { Generator: AWSNFSServerGenerator, path: "../aws-nfs-server/index.js" },
       "aws-resources": { Generator: AWSResourcesGenerator, path: "../aws-resources/index.js" },

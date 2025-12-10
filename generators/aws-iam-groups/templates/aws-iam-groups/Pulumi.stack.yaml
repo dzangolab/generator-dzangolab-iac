@@ -1,0 +1,18 @@
+config:
+  <%= projectName %>:groups: 
+    - GROUP1:
+        policy-arns:
+          - "arn:aws:iam::aws:policy/AdministratorAccess"
+    - GROUP2
+        policy-arns:
+          - "arn:aws:iam::aws:policy/AdministratorAccess"
+  <%= projectName %>:protect: false
+  <%= projectName %>:retainOnDelete: false  
+  <%= projectName %>:users: 
+    - USER1:
+      - groups:
+        - GROUP1
+    - USER2:
+      - groups:
+        - GROUP1
+        - GROUP2

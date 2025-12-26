@@ -23,6 +23,7 @@ import AWSSSHKeypairsGenerator from "../aws-ssh-keypairs/index.js";
 import AWSSwarmGenerator from "../aws-swarm/index.js";
 import AWSSwarmNodes from "../aws-swarm-nodes/index.js";
 import AWSSwarmSecurityGroupsGenerator from "../aws-swarm-security-groups/index.js";
+import AWSSwarmLoadBalancerGenerator from "../aws-swarm-load-balancer/index.js";
 import AWSVPCGenerator from "../aws-vpc/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
 import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
@@ -131,6 +132,10 @@ export default class IaCGenerator extends Generator {
           {
             name: "AWS IAM instance profile",
             value: "aws-instance-profile"
+          },
+          {
+            name: "AWS Load Balancer",
+            value: "aws-swarm-load-balancer"
           },
           {
             name: "AWS NFS server",
@@ -249,6 +254,7 @@ export default class IaCGenerator extends Generator {
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
       "aws-swarm": { Generator: AWSSwarmGenerator, path: "../aws-swarm/index.js" },
       "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },
+      "aws-swarm-load-balancer": { Generator: AWSSwarmLoadBalancerGenerator, path: "../aws-swarm-load-balancer/index.js" },
       "aws-swarm-nodes": { Generator: AWSSwarmNodes, path: "../aws-swarm-nodes/index.js" },
       "aws-swarm-security-groups": { Generator: AWSSwarmSecurityGroupsGenerator, path: "../aws-swarm-security-groups/index.js" },
       "aws-swarm-tokens": { Generator: AWSDockerSwarmTokensGenerator, path: "../aws-swarm-tokens/index.js" },

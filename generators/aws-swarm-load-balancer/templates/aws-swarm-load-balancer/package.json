@@ -1,0 +1,14 @@
+{
+  "name": "<%= projectName %>",
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/aws": "<%= versions.pulumi_aws %>",
+    "@pulumi/command": "<%= versions.pulumi_command %>",
+    "@pulumi/pulumi": "<%= versions.pulumi %>",
+    "@types/nunjucks": "^3",
+    "nunjucks": "^3"
+  },
+  "devDependencies": {
+    "@types/node": "<%= versions.types_node %>"
+  }
+}

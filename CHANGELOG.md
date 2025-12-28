@@ -1,3 +1,10 @@
+## 1.0.0-rc56 (2025-12-28)
+
+* feat(aws/resources): support configurable policies when provisioning an IAM user ([d3a13c2](https://github.com/dzangolab/generator-dzangolab-iac/commit/d3a13c2))
+* fix(pulumi-s3-backend): fix default bucket name ([1a1ef4d](https://github.com/dzangolab/generator-dzangolab-iac/commit/1a1ef4d))
+
+
+
 ## 1.0.0-rc55.3 (2025-12-06)
 
 * fix(aws/ses): fix cloudflare domain record generation ([4792cc5](https://github.com/dzangolab/generator-dzangolab-iac/commit/4792cc5))

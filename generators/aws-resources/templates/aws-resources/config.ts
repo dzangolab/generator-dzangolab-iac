@@ -12,9 +12,7 @@ export const getConfig = async () => {
 
   return {
     name: stackConfig.get("name") || stack,
-    policies: {
-      ecr: "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-    },
+    policies: stackConfig.get("policies") || {},
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     secretRecoveryWindowInDays: stackConfig.requireNumber("secretRecoveryWindowInDays"),

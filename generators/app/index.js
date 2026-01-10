@@ -5,6 +5,7 @@ import AnsibleAWSGenerator from "../ansible-aws/index.js";
 import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSDockerSwarmLeaderGenerator from "../aws-swarm-leader/index.js";
 import AWSDockerSwarmTokensGenerator from "../aws-swarm-tokens/index.js";
+import AWSDockerSwarmManagersASGGenerator from "../aws-swarm-managers-asg/index.js";
 import AWSDockerSwarmWorkersGenerator from "../aws-swarm-workers/index.js";
 import AWSDockerSwarmWorkersASGGenerator from "../aws-swarm-workers-asg/index.js";
 import AWSEBSGenerator from "../aws-ebs/index.js";
@@ -92,6 +93,10 @@ export default class IaCGenerator extends Generator {
             name: "AWS Docker swarm leader",
             value: "aws-swarm-leader"
           },          
+          {
+            name: "AWS Docker swarm managers ASG",
+            value: "aws-swarm-managers-asg"
+          },
           {
             name: "AWS Docker swarm nodes",
             value: "aws-swarm-nodes"
@@ -249,6 +254,7 @@ export default class IaCGenerator extends Generator {
       "aws-ssh-keypairs": { Generator: AWSSSHKeypairsGenerator, path: "../aws-ssh-keypairs/index.js" },
       "aws-swarm": { Generator: AWSSwarmGenerator, path: "../aws-swarm/index.js" },
       "aws-swarm-leader": { Generator: AWSDockerSwarmLeaderGenerator, path: "../aws-swarm-leader/index.js" },
+      "aws-swarm-managers-asg": { Generator: AWSDockerSwarmManagersASGGenerator, path: "../aws-swarm-managers-asg/index.js" },
       "aws-swarm-nodes": { Generator: AWSSwarmNodes, path: "../aws-swarm-nodes/index.js" },
       "aws-swarm-security-groups": { Generator: AWSSwarmSecurityGroupsGenerator, path: "../aws-swarm-security-groups/index.js" },
       "aws-swarm-tokens": { Generator: AWSDockerSwarmTokensGenerator, path: "../aws-swarm-tokens/index.js" },

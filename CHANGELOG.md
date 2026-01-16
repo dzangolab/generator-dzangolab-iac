@@ -1,3 +1,13 @@
+## 1.0.0-rc57 (2026-01-16)
+
+* feat(aws/credentials): add support for hex keys ([12a0cdb](https://github.com/dzangolab/generator-dzangolab-iac/commit/12a0cdb))
+* feat(aws/resources): support configurable policies when provisioning an IAM user ([d3a13c2](https://github.com/dzangolab/generator-dzangolab-iac/commit/d3a13c2))
+* fix(ansible-aws): update ssh-keys playbook ([6c191ee](https://github.com/dzangolab/generator-dzangolab-iac/commit/6c191ee))
+* fix(pulumi-s3-backend): fix default bucket name ([1a1ef4d](https://github.com/dzangolab/generator-dzangolab-iac/commit/1a1ef4d))
+* chore: release v1.0.0-rc56 (#206) ([5c723bf](https://github.com/dzangolab/generator-dzangolab-iac/commit/5c723bf)), closes [#206](https://github.com/dzangolab/generator-dzangolab-iac/issues/206)
+
+
+
 ## 1.0.0-rc56 (2025-12-28)
 
 * feat(aws/resources): support configurable policies when provisioning an IAM user ([d3a13c2](https://github.com/dzangolab/generator-dzangolab-iac/commit/d3a13c2))

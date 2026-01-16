@@ -5,7 +5,7 @@ import {
   jsonStringify,
   Output,
 } from "@pulumi/pulumi";
-import { RandomPassword } from "@pulumi/random";
+import { RandomId, RandomPassword } from "@pulumi/random";
 
 import { getConfig } from "./config";
 
@@ -25,7 +25,7 @@ export = async () => {
     const constraints = config.passwords[p];
 
     const password = new RandomPassword(
-      `${config.name}-${p}-password`,
+      `${config.name}-${p}`,
       {
         keepers: {
           timestamp: config.timestamp,
@@ -36,7 +36,24 @@ export = async () => {
       options
     );
 
-    secretValue[`${p}-password`] = password.result;
+    secretValue[`${p}`] = password.result;
+  }
+
+  const byteLength = config.byteLength || 32;
+
+  for (const keyName in config.keys) {
+    const constraints = config.keys[keyName];
+
+    const key = new RandomId(
+      keyName,
+      {
+        byteLength,
+        ...constraints
+      },
+      options
+    );
+
+    secretValue[keyName] = key.hex;
   }
 
   const accessKey = new AccessKey(

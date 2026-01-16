@@ -19,6 +19,8 @@ type Constraints = {
   upper?: boolean,
 }
 
+type Keys = { [key: string]: { byteLength?: number } };
+
 type Passwords = { [key: string]: Constraints };
 
 export const getConfig = async () => {
@@ -41,6 +43,8 @@ export const getConfig = async () => {
   }
 
   let config: { [key: string]: any } = {
+    byteLength: stackConfig.get("byteLength"),
+    keys: stackConfig.getObject<Keys>("keys"),
     name: stackConfig.get("name") || stack,
     passwordLength: stackConfig.getNumber("passwordLength"),
     passwords: stackConfig.requireObject<Passwords>("passwords"),

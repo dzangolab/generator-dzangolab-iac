@@ -1,14 +1,19 @@
 config:
   <%= projectName %>:awsResourcesStack: <%= prefix %>-resources
+#  <%= projectName %>:byteLength: 32
+#  <%= projectName %>:keys:
+#    secret-key: {
+#      length: 64
+#    }
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:passwords:
-    # mariadb-root: {}
-    # minio-root: {}
-    # nocodb: {}
-    # postgres: {
+    # mariadb-root-password: {}
+    # minio-root-password: {}
+    # nocodb-password: {}
+    # postgres-root-password: {
     #  overrideSpecial: "!@#$%&*()-_=+[]<>:?"
     # }
-    # traefik-dashboard: {
+    # traefik-dashboard-password: {
     #  special: false
     # }    
   <%= projectName %>:protect: "false"

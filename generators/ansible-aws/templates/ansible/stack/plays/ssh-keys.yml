@@ -5,12 +5,9 @@
   tasks:
     - name: Read SSH keys
       ansible.builtin.set_fact:
-        keys: |-
-          [
-          {% for key in ssh_keys %}
-            "{{ lookup('file', [ssh_key_folder, '/', key, '.pub'] | join('')) }}",
-          {% endfor %}
-          ]
+        keys : "{{ keys | default([])  + [lookup('file', [ssh_key_folder, '/', item, '.pub'] | join(''))] }}"
+      with_items:
+        - "{{ ssh_keys }}"
     - name: Set SSH keys
       ansible.posix.authorized_key:
         exclusive: true

@@ -54,7 +54,7 @@ export = async () => {
       options
     );
 
-    records.push(interpolate`A ${record.ttl} ${record.name} ${record.content} [proxied: ${record.proxied}]`);
+    records.push(interpolate`CNAME ${record.ttl} ${record.name} ${record.content} [proxied: ${record.proxied}]`);
   }
 
   return {

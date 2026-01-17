@@ -1,3 +1,9 @@
+## 1.0.0-rc57.0 (2026-01-17)
+
+* fix(cloudflare): fix outputs ([fd46839](https://github.com/dzangolab/generator-dzangolab-iac/commit/fd46839))
+
+
+
 ## 1.0.0-rc57 (2026-01-16)
 
 * feat(aws/credentials): add support for hex keys ([12a0cdb](https://github.com/dzangolab/generator-dzangolab-iac/commit/12a0cdb))

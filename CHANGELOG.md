@@ -1,3 +1,9 @@
+## 1.0.0-rc57.1 (2026-01-19)
+
+* fix(aws/resources): set default of 30 days for recovery window ([eb7905e](https://github.com/dzangolab/generator-dzangolab-iac/commit/eb7905e))
+
+
+
 ## 1.0.0-rc57.0 (2026-01-17)
 
 * fix(cloudflare): fix outputs ([fd46839](https://github.com/dzangolab/generator-dzangolab-iac/commit/fd46839))

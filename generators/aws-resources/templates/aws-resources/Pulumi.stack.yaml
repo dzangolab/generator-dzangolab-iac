@@ -2,5 +2,5 @@ config:
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: "false"
   <%= projectName %>:retainOnDelete: "false"
-  <%= projectName %>:secretRecoveryWindowInDays: 7
+#  <%= projectName %>:secretRecoveryWindowInDays: 30
   <%= projectName %>:useSesSmtp: false

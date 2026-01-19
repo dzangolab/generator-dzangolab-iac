@@ -15,7 +15,7 @@ export const getConfig = async () => {
     policies: stackConfig.get("policies") || {},
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
-    secretRecoveryWindowInDays: stackConfig.requireNumber("secretRecoveryWindowInDays"),
+    secretRecoveryWindowInDays: stackConfig.getNumber("secretRecoveryWindowInDays") || 30,
     useSesSmtp: stackConfig.getBoolean("useSesSmtp")
   };
 };

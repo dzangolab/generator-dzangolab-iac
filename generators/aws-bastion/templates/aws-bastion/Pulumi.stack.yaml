@@ -1,0 +1,19 @@
+config:
+  <%= projectName %>:ami: <%= ami %>
+  <%= projectName %>:availabilityZone: <%= availabilityZone %>
+#  <%= projectName %>:bastionSecurityGroupId: 
+  <%= projectName %>:disableApiTermination: false
+  <%= projectName %>:instanceType: <%= instanceType %>
+#  <%= projectName %>:keypair: KEYPAIR_NAME
+  <%= projectName %>:keyName: KEYNAME
+  <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs/global
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:pathToSshKeysFolder: path/to/ssh-keys-folder
+  <%= projectName %>:protect: false
+#  <%= projectName %>:publicKeyNames:
+#    - 
+  <%= projectName %>:retainOnDelete: false
+#  <%= projectName %>:securityGroupIds:
+  <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
+  <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
+  <%= projectName %>:vpcStack: <%= prefix %>-vpc 

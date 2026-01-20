@@ -1,0 +1,6 @@
+name: <%= projectName %>
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: Provisions a bastion server

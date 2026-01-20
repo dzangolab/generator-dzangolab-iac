@@ -1,50 +1,24 @@
 import {
+  all,
   Config,
   getOrganization,
   getStack,
-  StackReference
+  StackReference,
 } from "@pulumi/pulumi";
 import { Environment, FileSystemLoader } from "nunjucks";
+import type { Output, StackReferenceOutputDetails } from "@pulumi/pulumi";
 
 import getPublicKeys from "./public-keys";
-
-import type { StackReferenceOutputDetails } from "@pulumi/pulumi";
 
 export const getConfig = async () => {
   const organization = getOrganization();
   const stack = getStack();
   const stackConfig = new Config();
 
+  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
+  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../ssh-keys";
+
   const name = stackConfig.get("name") || `${organization}-${stack}`;
-
-  /** Get Availability zone **/
-  let availabilityZone = stackConfig.require("availabilityZone");
-
-  /** Get Bastion IP address */
-  let bastionIp = stackConfig.get("bastionIp");
-
-  if (!bastionIp) {
-    const outputs = await getOutputs(
-      "bastionStack",
-      "publicIp"
-    );
-
-    bastionIp = outputs ? outputs[0] as string : undefined;
-  }
-
-  /** Get EIP */
-  let eip = stackConfig.get("eip");
-  let eipId = stackConfig.get("eipId");
-
-  if (!eip || !eipId) {
-    const outputs = await getOutputs(
-      "eipStack",
-      "eip,eipId"
-    );
-
-    eip = outputs ? outputs[0] as string : undefined;
-    eipId = outputs ? outputs[1] as string : undefined;
-  }
 
   /** Get instance profile */
   let iamInstanceProfile = stackConfig.get("iamInstanceProfile");
@@ -72,6 +46,35 @@ export const getConfig = async () => {
     keypair = outputs ? outputs[0]["name"] as string : undefined;
   }
 
+  /** Get targetGroup */
+  let targetGroupArn = stackConfig.get("targetGroupArn");
+  let lbDnsName = stackConfig.get("lbDnsName");
+
+  if (!targetGroupArn) {
+    const outputs = await getOutputs(
+      "loadBalancerStack",
+      "lbDnsName,targetGroupArn"
+    );
+
+    lbDnsName = outputs ? outputs[0] as string : undefined;
+    targetGroupArn = outputs ? outputs[1] as string : undefined;
+  }
+
+  /** Get manager token */
+  let managerToken: Output<string>;
+
+  const outputs = await getSecret(
+    "swarmTokensStack",
+    "managerToken"
+  );
+  
+  if (!outputs) {
+    throw new Error("Required manager swarm token could not be found");
+  }
+  else{
+    managerToken =  outputs[0]
+  }
+
   /** Get security group ids */
   const useBastion = stackConfig.getBoolean("useBastion");
 
@@ -80,7 +83,7 @@ export const getConfig = async () => {
   if (!securityGroupIds) {
     const securityGroupNames = useBastion
       ? "swarm-managers,web,ssh-bastion"
-      : "swarm-managers,web";
+      : "swarm-managers,web,ssh";
 
     const outputs = await getOutputs<{ "arn": string; "id": string }>(
       "securityGroupsStack",
@@ -101,94 +104,73 @@ export const getConfig = async () => {
         const bastion = outputs[2] as { "arn": string; "id": string };
         securityGroupIds.push(bastion["id"]);
       }
+      else{
+        const ssh = outputs[2] as { "arn": string; "id": string };
+        securityGroupIds.push(ssh["id"]);
+      }
     } catch (e) {
       throw new Error("Required security groups could not be found");
     }
   }
 
-  /** Get subnet id **/
-  const subnetId = stackConfig.require("subnetId");
+  /** Get user data **/
+  const userData = 
+    all({
+      managerToken,
+    }).apply(({managerToken}) => {
+      return generateUserData(
+        stackConfig.get("userDataTemplate") || "./cloud-config.njx",
+        {
+          packages: stackConfig.getObject<string[]>("packages"),
+          publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
+          swarmManagerToken: managerToken,
+        }
+      );
+    });
 
-  const useNFS = stackConfig.getBoolean("useNFS");
-
-  /** Get volume id **/
-  let volumeId = stackConfig.get("volumeId");
-
-  if (!volumeId) {
-    const outputs = await getOutputs(
-      "volumeStack",
-      "id"
-    );
-
-    volumeId = outputs ? outputs[0] as string : undefined;
-  }
-
-  let vpcId = stackConfig.get("vpcId");
   let cidrBlock = undefined as unknown as string;
+  let publicSubnetIds: string[] | undefined = stackConfig.get("publicSubnetIds") as string[] | undefined;
+  let vpcId = stackConfig.get("vpcId");
 
   if (!vpcId) {
     const outputs = await getOutputs(
       "vpcStack",
-      "vpcId,cidrBlock"
+      "cidrBlock,publicSubnetIds,vpcId"
     );
 
-    if (outputs) {
-      vpcId = outputs[0] as string;
-      cidrBlock = outputs[1] as string;
-    }
+    cidrBlock = outputs ? outputs[0] as string : undefined as unknown as string
+    publicSubnetIds = outputs ? outputs[1].split(",") as string[] : undefined
+    vpcId = outputs ? outputs[2] as string : undefined
   }
-
-  /** User data **/
-  const pathToSshKeysFolder = stackConfig.get("pathToSshKeysFolder") || "../../../ssh-keys";
-
-  const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
-
-  const userData = generateUserData(
-    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
-    {
-      dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
-      packages: stackConfig.getObject<string[]>("packages"),
-      publicKeyNames: getPublicKeys(publicKeyNames, pathToSshKeysFolder),
-      volumes: useNFS ? undefined : [
-        {
-          device: stackConfig.get("volumeDevice") || "/dev/xvdf",
-          filesystem: stackConfig.get("volumeFilesystem") || "ext4",
-          label: stackConfig.get("volumeLabel") || "data",
-          path: "/mnt/data"
-        }
-      ],
-    }
-  );
 
   return {
     ami: stackConfig.require("ami"),
     associatePublicIpAddress: stackConfig.getBoolean("associatePublicIpAddress"),
-    availabilityZone,
-    bastionIp,
     cidrBlock,
     disableApiTermination: stackConfig.getBoolean("disableApiTermination"),
-    eip,
-    eipId,
     iamInstanceProfile,
     instanceType: stackConfig.require("instanceType"),
     keypair,
+    lbDnsName,
+    maxSize: stackConfig.getNumber("maxSize") || 3,
+    minSize: stackConfig.getNumber("minSize") || 3,
     monitoring: stackConfig.getBoolean("monitoring"),
     name,
+    publicSubnetIds,
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     rootBlockDevice: {
-      volumeSize: stackConfig.requireNumber("rootBlockDeviceSize"),
+      volumeSize: stackConfig.getNumber("rootBlockDeviceSize") || 16,
     },
     securityGroupIds,
-    subnetId,
+    targetGroupArn,
     tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
-    useBastion,
-    useNFS,
     userData,
-    volumeId,
-    vpcId,
+    vpcId
   };
 };
+
+const stacks: { [key: string]: StackReference } = {};
 
 function generateUserData(
   template: string,
@@ -198,10 +180,10 @@ function generateUserData(
     new FileSystemLoader(),
   ]);
 
-  return env.render(template, context);
-}
+  const raw = env.render(template, context);
 
-const stacks: { [key: string]: StackReference } = {};
+  return Buffer.from(raw).toString("base64");
+}
 
 async function getOutputs<T = string>(
   stackConfigVar: string,
@@ -276,6 +258,78 @@ async function getOutputs<T = string>(
     else {
       outputs.push(undefined as unknown as T)
     }
+  }
+
+  return outputs;
+}
+
+async function getSecret<T = string>(
+  stackConfigVar: string,
+  defaultOutputNames: string
+): Promise<undefined | Output<T>[]> {
+
+  const organization = getOrganization();
+  const stack = getStack();
+  const stackConfig = new Config();
+
+  const config = stackConfig.get(stackConfigVar);
+  if (!config) {
+    return undefined;
+  }
+
+  let [project, outputNamesString] = config.split(":");
+
+  if (!project) {
+    return undefined;
+  }
+
+  if (!outputNamesString) {
+    outputNamesString = defaultOutputNames;
+  }
+
+  if (!outputNamesString) {
+    return undefined;
+  }
+
+  const outputNames = outputNamesString.split(",");
+
+  let stackName = undefined;
+  let _organization = organization;
+  let _project = undefined;
+  let _stack = stack;
+
+  const tokens = project.split("/");
+
+  switch (tokens.length) {
+    case 3:
+      [_organization, _project, _stack] = tokens;
+      break;
+
+    case 2:
+      if (organization == "organization") {
+        [_project, _stack] = tokens;
+      } else {
+        [_organization, _project] = tokens;
+      }
+      break;
+
+    case 1:
+      _project = tokens[0];
+      break;
+  }
+
+  stackName = `${_organization}/${_project}/${_stack}`;
+  let otherStack = stacks[stackName];
+
+  if (!otherStack) {
+    otherStack = new StackReference(stackName);
+    stacks[stackName] = otherStack;
+  }
+
+  const outputs: Output<T>[] = [];
+  for (const name of outputNames) {
+    const output: Output<T> = otherStack.getOutput(name) as Output<T>;
+    outputs.push(output);
   }
 
   return outputs;

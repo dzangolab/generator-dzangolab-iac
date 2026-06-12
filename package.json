@@ -57,7 +57,7 @@
     "jest": "30.0.5",
     "lint-staged": "16.1.2",
     "prettier": "3.6.2",
-    "shipjs": "0.27.0",
+    "shipjs": "0.28.4",
     "sort-package-json": "3.4.0",
     "yeoman-assert": "3.1.1",
     "yeoman-test": "10.1.1"

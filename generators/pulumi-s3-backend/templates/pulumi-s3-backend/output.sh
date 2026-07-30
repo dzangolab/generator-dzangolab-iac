@@ -1,12 +1,12 @@
-#!/usr/env/bin bash
+#!/usr/bin/env bash
 
 # Usage
-# ./output {stack} 
+# ./output.sh
 
 npm install
 pulumi logout
-pulumi login
-pulumi stack select $1
+pulumi login "file://$(pwd)/.local"
+pulumi stack select <%= environment %>
 if [ $? -eq 0 ]; then
   pulumi stack output
 fi

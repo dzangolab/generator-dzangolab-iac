@@ -20,6 +20,15 @@ export default class PulumiS3BackendGenerator extends PulumiGenerator {
       desc: "AWS profile used to provision resources on AWS"
     });
 
+    // The "environment" option is already registered (as "staging") by the parent
+    // PulumiGenerator constructor, and `option()` is a no-op for names it already
+    // knows about — so the only way to change its default is to patch the spec
+    // directly and re-run parseOptions (which still lets an explicit --environment
+    // flag win, since it takes priority over `default` there).
+    this._options.environment.default = this._getDefaultEnvironment();
+    this._options.environment.desc = "Environment (i.e. Pulumi stack) for this project's own local backend — defaults to today's date since this project has no real staging/production split";
+    this.parseOptions();
+
     /*
     this.option("secretsProvider", {
       choices: [
@@ -114,4 +123,13 @@ export default class PulumiS3BackendGenerator extends PulumiGenerator {
       );
     }
   };
+
+  _getDefaultEnvironment() {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+
+    return `${yyyy}${mm}${dd}`;
+  }
 }

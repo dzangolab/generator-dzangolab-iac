@@ -1,220 +1,97 @@
 # Pulumi S3 backend
 
-Provisions an AWS S3 bucket as a Pulumi self-managed backend.
+Provisions the AWS S3 bucket (and, optionally, a KMS key) that other Pulumi projects use as a self-managed backend.
 
-Once provisioned, there should be no need to update this resource.
+## Using this backend in your Pulumi project
 
-## Usage
+**This is the backend that every other Pulumi project should use** — don't use Pulumi Cloud or a project-local backend; log into this S3 backend instead. (The one exception is this project itself, which can't use it for its own state — see [below](#this-projects-own-state).)
 
-To use this backend for other Pulumi projects:
+1. Set `PULUMI_BACKEND_URL` (e.g. in your project's `.env`, or exported directly):
 
-### Set `PULUMI_BACKEND_URL` environment variable
+   ```bash
+   export PULUMI_BACKEND_URL=<pulumiBackendUrl output>
+   ```
 
-```bash
-export PULUMI_BACKEND_URL=`pulumiBackendUrl`
-```
+2. Init a stack, using the `pulumiStackInitCommand` output for the secrets provider:
 
-If using `direnv`, update the root folder's `.env` file:
+   ```bash
+   pulumi stack init --secrets-provider='<pulumiEncryptionProviderKeyId output>' <project_name>.<stack_name>
+   ```
 
-```
-# .env
-PULUMI_BACKEND_URL=`pulumiBackendUrl`
-```
-
-### Use the `pulumiStackInitCommand` to initialize a stack
+Alternatively, to log into the backend without setting `PULUMI_BACKEND_URL`:
 
 ```bash
-pulumi stack init --secrets-provider='awskms:///44ea4490-bda5-48cc-9113-614169407c10' [<project_name>.]<stack_name>
+pulumi logout && pulumi login <pulumiBackendUrl output>
 ```
+
+These values (bucket, key) only change if this project is ever re-provisioned against a new bucket/key — get them from this project's outputs (see [Outputs](#outputs)) rather than guessing.
 
 ## Outputs
 
-### bucketArn 
+| Output | Current value | Description |
+|--------|----------------|-------------|
+| `pulumiBackendUrl` | TBD | Set as `PULUMI_BACKEND_URL` in other projects to avoid logging in repeatedly. |
+| `pulumiBackendLoginCommand` | TBD | Full `pulumi login` command for this backend. |
+| `pulumiStackInitCommand` | TBD | Ready-to-use `pulumi stack init` command for other projects. |
+| `pulumiEncryptionProviderKeyId` | TBD | Only present when `encryptionProvider` is `awskms`. |
+| `pulumiEncryptionProviderKeyAlias` | TBD | Only present when `encryptionProvider` is `awskms`. |
+| `bucketArn` | TBD | ARN of the S3 bucket. |
+| `bucketId` | TBD | Id/name of the S3 bucket. |
 
-`arn:aws:s3:::hijoli-pulumi-state-a14c122`
+To refresh these yourself: `./output.sh`, or manually `pulumi login "file://$(pwd)/.local" && pulumi stack select <%= environment %> && pulumi stack output`.
 
-The ARN of the AWS S3 bucket used as the Pulumi backend.
+## This project's own state
 
-### bucketId
+This project provisions the backend that *other* projects store their state in — but it can't use that backend for itself (there's nothing to log into until this project has already run). So its own state is kept locally, in [.local/](.local) under this directory, via a `file://$(pwd)/.local` Pulumi backend. It isn't shared and isn't stored in the S3 bucket.
 
-`hijoli-pulumi-state-a14c122`
+This project's own secrets (anything set with `pulumi config set --secret`) are encrypted with a passphrase, not Pulumi Cloud or AWS KMS. Store that passphrase outside this project (e.g. in a secrets manager) — never commit it.
 
-The id/name of the AWS S3 bucket.
+Copy `.env.example` to `.env` and set `PULUMI_CONFIG_PASSPHRASE` to that value:
 
-### pulumiBackendLoginCommand
+```bash
+cp .env.example .env
+```
 
-`pulumi logout && pulumi login s3://hijoli-pulumi-state-a14c122`
+To work on this project's own stack:
 
-Use this command to log into the Pulumi Backend.
+```bash
+pulumi login "file://$(pwd)/.local"
+pulumi stack select <%= environment %>
+```
 
-Alternatively, use the `PULUMI_BACKEND_URL` environment variable (see below).
+(`$(pwd)` needs a real shell to expand — don't put it in `.env` itself; env-file loaders like direnv's `dotenv` parse it literally rather than evaluating it, which breaks the login.)
 
-### pulumiBackendUrl
-
-`s3://hijoli-pulumi-state-a14c122`
-
-The url of the Pulumi backend.
-
-Set this as the value of the `PULUMI_BACKEND_URL` environment variable to avoid having to log into the Pulumi backend constantly.
-
-### pulumiEncryptionProviderAlias
-
-`awskms:///alias/hijoli-pulumi-state`
-
-The alias of the pulumi secrets provider used to encrypt secrets.
-
-### pulumiEncryptionProviderId
-
-`awskms:///44ea4490-bda5-48cc-9113-614169407c10`
-
-The id of the pulumi secrets provider used to encrypt secrets.
-
-### pulumiStackInitCommand
-
-`pulumi stack init --secrets-provider='awskms:///44ea4490-bda5-48cc-9113-614169407c10' <project_name>.<stack_name>`
-
-Use this command to initialize a stack.
-
-## Backend
-
-The backend for this project is in the Pulumi cloud.
-
-|--------------|------------------------|
-| Url          | https://app.pulumi.com |
-| Account      | `hijoli`               |
-| Organization | `hijoli`               |
-
-
-## Backend
-
-The backend for this project is expected to be the Pulumi cloud.
+(Stacks here are named by creation date — `<%= environment %>` is the current one; check `.local/.pulumi/stacks/` if a newer one has since been created.)
 
 ## Requirements
 
 * node >= 24
 * [pulumi >= 3](https://www.pulumi.com/docs/install/)
-* An AWS profile 
+* An AWS profile
 
 ## Environment variables
 
-The following environment variables must be set:
+Set in `.env` (copied from `.env.example`):
 
 | Name | Description |
 |------|-------------|
-| `AWS_PROFILE` | An AWS profile that has permission to create an S3 buclket and associated IAM policies. |
-| `PULUMI_ACCESS_TOKEN` | A Pulumi API access token | 
+| `AWS_PROFILE` | AWS profile with permission to read (and, for provisioning, create) the bucket/KMS resources. |
+| `AWS_REGION` | AWS region the backend resources live in. |
+| `PULUMI_CONFIG_PASSPHRASE` | Passphrase used to encrypt/decrypt this project's own stack secrets. See [above](#this-projects-own-state). |
 
-## Usage (bash scripts)
+## Provisioning (rare)
 
-### update.sh
+This only needs to happen once, or when the backend's config genuinely needs to change.
 
-```bash
-./update {stack}
-```
-
-Updates the stack.
-
-### output.sh
-
-```bash
-./output {stack}
-```
-
-Lists the stack's outputs.
-
-## Usage (manual)
-
-### Install dependencies 
-
-```
-npm install
-```
-
-### Login to the Pulumi cloud as the backend
-
-If logged in to another backend
-
-```bash
-pulumi logout
-```
-
-Log into the Pulumi cloud
-
-```bash
-pulumi login
-```
-
-### Set the default organization 
-
-```bash
-pulumi org set-default {your organization}
-```
-
-### Provisioning resources
-
-* Initialize and select the appropriate stack
-
-```bash
-pulumi stack init {stack}
-```
-
-Or select the appropriate stack if it already exists
-
-```bash
-pulumi stack select {stack}
-```
-
-* Update the stack config `Pulumi.{stack}.yaml` with the appropriate values for your project.
-
-* Run `pulumi up`
-
-### Using the backend in another Pulumi project
-
-To use the backend in another Pulumni project you must login into the backend.
-
-The login command to use can be copied from the output of this Pulumi project. 
-
-* Select the appropriate stack
-
-```bash
-pulumi stack select {stack}
-```
-
-* Check the stack's output
-
-```bash
-pulumi stack output
-```
-
-Copy the `pulumiBackendLoginCommand` output value. It should be in the form of:
-
-`pulumi login s3://{stack}-pulumi-state`
-
-Alternatively, you can view the command in the Pulumi cloud.
-
-* Go to your other Pulumi project.
-* Run the Pulumi login command
+* Install dependencies: `npm install`
+* Log into this project's own (local) backend and select/init the stack — see [above](#this-projects-own-state)
+* Update the stack config (`Pulumi.<%= environment %>.yaml`) as needed — see [Configuration settings](#configuration-settings)
+* `npm install && pulumi up` (after logging in/selecting the stack)
 
 ### Destroying resources
 
-* Select the appropriate stack
-
-```bash
-pulumi stack select {stack}
-```
-
-* Update the stack config
-
-Update the `protect` and `retainOnDelete` stack config settings to `false`.
-
-If the bucket contains entries, either empty the bucket or update the `forceDestroy` stack config setting to `true`.
-
-* Destroy the resources
-
-```
-pulumi destroy
-```
-
+* Select the stack, set `protect` and `retainOnDelete` to `false` in its config (and `forceDestroy` to `true` if the bucket has objects in it)
+* `pulumi destroy`
 
 ## Resources provisioned
 
@@ -224,64 +101,38 @@ pulumi destroy
 | Versioning | `aws.s3.BucketVersioningV2` | |
 | Public access block | `aws.s3.BucketPublicAccessBlock` | Bucket is private. |
 | Encryption | `aws.s3.BucketServerSideEncryptionConfigurationV2` | |
-| Bucket policy | `aws.s2.BucketPolicy` |  |
-| Key | `aws.kms.Key` | Key used by the Pulumi secrets provider to encrypt secrets |
-| Alias | `aws.kms.Alias` | Key alias |
+| Bucket policy | `aws.s3.BucketPolicy` | Only created when `aws-account-arns` is non-empty |
+| Key | `aws.kms.Key` | Used by the Pulumi secrets provider to encrypt secrets. Only created when `encryptionProvider` is `awskms`. |
+| Alias | `aws.kms.Alias` | Key alias. Only created when `encryptionProvider` is `awskms`. |
 
 ## Configuration settings
 
-
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| `aws-account-arns` | string |  | AWS accounts to be granted access to the backend for different roles. The format should be <Account ID>:role/<Role Name> for roles <Account ID>:user/<Username> for users. |
-| `forceDestroy` | Boolean | `false` | Indicates whether all objects should be destroyed when the bucket is destroyed. See `aws.s3.Bucket` `forceDestroy` |
-| `keyDeletionWindow` | number | 7 | Deletion widow (in days) for AWS Key |
-| `name` | String |  | The name of the S3 bucket to provision.  |
-| `protect` | boolean | false | Protect resources from accidental deletion |
-| `retainOnDelete` | boolean | false | Retain resources when destroyed |
-| `secretsProvider` | string | "passphrase"  | Type of secrets provider for encrypting secrets in the backend. Acceptable values are `passphrase` or `kms`.  |
+| `aws-account-arns` | string[] | (empty) | AWS accounts/roles/users to grant bucket access to. See examples below. |
+| `encryptionProvider` | string | `<%= encryptionProvider %>` | Secrets provider for stacks that use this backend. `passphrase` or `awskms`. |
+| `forceDestroy` | boolean | `false` | Whether all objects are destroyed when the bucket is destroyed. |
+| `keyDeletionWindow` | number | `7` | Deletion window (in days) for the KMS key. |
+| `name` | string | | Name of the S3 bucket to provision. |
+| `protect` | boolean | `true` | Protect resources from accidental deletion. |
+| `retainOnDelete` | boolean | `true` | Retain resources when destroyed. |
 
-### aws-account-arns example
+### `aws-account-arns` examples
 
-#### Granting access to a role of an account
+Grant access to a role:
 
 ```
-<AccountID>:role/<FederatedUser>
+<AccountID>:role/<RoleName>
 ```
 
-For example:
-
-123456789:role/AWSReservedSSO_Devops-AdministratorAccess_ABC123/
-
-#### Granting access to a user of an account
+Grant access to a user:
 
 ```
 <AccountID>:user/<Username>
 ```
 
-For example:
-
-123456789:user/bob@example.com
-
-#### Granting access to an account
+Grant access to an entire account:
 
 ```
 <AccountID>:root
 ```
-
-For example:
-
-123456789:root
-
-## Outputs
-
-
-| Output | Description |
-|--------|-------------|
-| `bucketArn` | The arn of the bucket  |
-| `bucketId` | The id o the bucket |
-| `pulumiBackendLoginCommand` | The comamnd to login into the backend |
-| `pulumiBackendUrl` | The url of the S3 pulumi backend |
-| `pulumiSecretsProviderId` | The id of the pulumi secrets provider used to encrypt secrets }
-| `pulumiSecretsProviderAlias` | The alias of the pulumi secrets provider used to encrypt secrets }
-| `pulumiStackInitCommand` |  The command to initialize a stack |

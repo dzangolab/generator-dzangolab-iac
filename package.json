@@ -52,7 +52,7 @@
     "husky": "9.1.7",
     "jest": "30.0.5",
     "shipjs": "0.28.4",
-    "sort-package-json": "3.7.1",
+    "sort-package-json": "4.0.0",
     "yeoman-assert": "3.1.1",
     "yeoman-test": "10.1.1"
   },

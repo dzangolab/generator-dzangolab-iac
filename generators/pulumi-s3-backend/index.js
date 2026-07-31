@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { existsSync, mkdirSync } from "node:fs";
 
 import PulumiGenerator from "../pulumi/index.js";
 
@@ -121,6 +122,12 @@ export default class PulumiS3BackendGenerator extends PulumiGenerator {
           ...this.props,
         }
       );
+    }
+
+    const localBackendPath = this.destinationPath(this._getFolderName(), ".local");
+
+    if (!existsSync(localBackendPath)) {
+      mkdirSync(localBackendPath, { recursive: true });
     }
   };
 

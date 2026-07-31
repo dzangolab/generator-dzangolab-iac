@@ -40,8 +40,8 @@
     "testEnvironment": "node"
   },
   "dependencies": {
-    "yeoman-environment": "4.4.3",
-    "yeoman-generator": "7.5.1",
+    "yeoman-environment": "6.1.0",
+    "yeoman-generator": "8.2.2",
     "yosay": "3.0.0"
   },
   "devDependencies": {
@@ -57,6 +57,6 @@
     "yeoman-test": "11.6.0"
   },
   "engines": {
-    "node": "^20.9.0 || >=21.1.0"
+    "node": "^20.17.0 || >=22.9.0"
   }
 }

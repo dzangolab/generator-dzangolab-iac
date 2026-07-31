@@ -17,7 +17,7 @@ class PulumiGenerator extends Generator {
       pulumi_command: "^1",
       pulumi_cloudflare: "^6",
       pulumi_random: "^4",
-      types_node: "^24",
+      types_node: "^25",
     };
     
     this.option("createStackConfig", {

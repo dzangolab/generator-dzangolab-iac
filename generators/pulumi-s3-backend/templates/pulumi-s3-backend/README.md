@@ -42,7 +42,9 @@ To refresh these yourself: `./output.sh`, or manually `pulumi login "file://$(pw
 
 ## This project's own state
 
-This project provisions the backend that *other* projects store their state in — but it can't use that backend for itself (there's nothing to log into until this project has already run). So its own state is kept locally, in [.local/](.local) under this directory, via a `file://$(pwd)/.local` Pulumi backend. It isn't shared and isn't stored in the S3 bucket.
+This project provisions the backend that *other* projects store their state in — but it can't use that backend for itself (there's nothing to log into until this project has already run). So its own state is kept locally, in [.local/](.local) under this directory, via a `file://$(pwd)/.local` Pulumi backend. It isn't stored in the S3 bucket.
+
+Unlike other projects' state, `.local/` **is committed to version control** — it's the only copy of this project's state, so it isn't gitignored.
 
 This project's own secrets (anything set with `pulumi config set --secret`) are encrypted with a passphrase, not Pulumi Cloud or AWS KMS. Store that passphrase outside this project (e.g. in a secrets manager) — never commit it.
 

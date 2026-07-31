@@ -16,7 +16,7 @@ function optionOrPrompt(prompts) {
   }, this);
 
   if (filteredPrompts.length) {
-    return this.prompt(filteredPrompts).then(function mergeProps(mergeProps) {
+    return this.prompt(filteredPrompts).then(function (mergeProps) {
       // Merge mergeProps into props/
       Object.assign(props, mergeProps);
       return props;

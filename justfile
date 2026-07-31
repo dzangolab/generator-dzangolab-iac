@@ -12,7 +12,7 @@ lint-fix:
 
 outdated:
 	@printf "\033[0;32m>>> Check for outdated dependencies\033[0m\n"
-	npm outdated
+	-npm outdated
 
 publish:
 	@printf "\033[0;32m>>> Publish packages\033[0m\n"

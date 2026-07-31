@@ -1,6 +1,3 @@
-tag = 0
-version = 0.1
-
 install:
 	@printf "\033[0;32m>>> Installing dependencies\033[0m\n"
 	npm install
@@ -9,7 +6,7 @@ lint:
 	@printf "\033[0;32m>>> Lint code\033[0m\n"
 	npm run lint
 
-lint.fix:
+lint-fix:
 	@printf "\033[0;32m>>> Lint code\033[0m\n"
 	npm run lint:fix
 

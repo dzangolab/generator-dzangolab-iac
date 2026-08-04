@@ -1,3 +1,6 @@
+bastion: true
+bastion_ip:
+
 deploy_dir: /mnt/data
 deploy_group: adm
 deploy_user: ec2-user

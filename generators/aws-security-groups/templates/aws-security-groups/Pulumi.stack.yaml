@@ -2,7 +2,7 @@ config:
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false
-  <%= projectName %>:seecure: true
+  <%= projectName %>:secure: true
   <%= projectName %>:securityGroups:
     # - dns
     # - nfs

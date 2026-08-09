@@ -13,18 +13,21 @@ export const getConfig = async () => {
 
   let vpcId = stackConfig.get("vpcId");
   let cidrBlock = undefined as unknown as string;
+  let sshPort = undefined as unknown as number;
 
   if (vpcId) {
     cidrBlock = stackConfig.require("cidrBlock");
+    sshPort = stackConfig.getNumber("sshPort") || 22;
   } else {
     const outputs = await getOutputs(
       "vpcStack",
-      "vpcId,cidrBlock"
+      "vpcId,cidrBlock,sshPort"
     );
 
     if (outputs) {
       vpcId = outputs[0] as string;
       cidrBlock = outputs[1] as string;
+      sshPort = outputs[2] as unknown as number;
     }
   }
 
@@ -35,6 +38,7 @@ export const getConfig = async () => {
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     secure: stackConfig.getBoolean("secure"),
     securityGroups: stackConfig.requireObject<string[]>("securityGroups"),
+    sshPort,
     vpcId
   };
 };

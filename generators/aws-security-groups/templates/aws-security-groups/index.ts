@@ -24,6 +24,7 @@ export = async () => {
       ipv6CidrBlocks?: string[];
     }[]; 
   }} = {
+    // [OP 2026-08-09] Pointless. Do not use
     dns: {
       description: "Allow inbound DNS traffic",
       ingress: [
@@ -33,7 +34,6 @@ export = async () => {
           toPort: 53,
           protocol: "tcp",
           cidrBlocks: config.secure ? [config.cidrBlock] : ["0.0.0.0/0"],
-          ipv6CidrBlocks: config.secure ? [config.cidrBlock] : ["::/0"],
         },
         {
           description: "DNS (UDP)",
@@ -41,7 +41,6 @@ export = async () => {
           toPort: 53,
           protocol: "udp",
           cidrBlocks: config.secure ? [config.cidrBlock] : ["0.0.0.0/0"],
-          ipv6CidrBlocks: config.secure ? [config.cidrBlock] : ["::/0"],
         },
       ],
     },
@@ -54,7 +53,6 @@ export = async () => {
           toPort: 2049,
           protocol: "tcp",
           cidrBlocks: config.secure ? [config.cidrBlock] : ["0.0.0.0/0"],
-          ipv6CidrBlocks: config.secure ? [config.cidrBlock] : ["::/0"],
         },
         {
           description: "NFS (UDP)",
@@ -70,7 +68,6 @@ export = async () => {
           toPort: -1,
           protocol: "icmp",
           cidrBlocks: config.secure ? [config.cidrBlock] : ["0.0.0.0/0"],
-          ipv6CidrBlocks: config.secure ? [config.cidrBlock] : ["::/0"],
         },
       ],
     },
@@ -79,8 +76,8 @@ export = async () => {
       ingress: [
         {
           description: "SSH",
-          fromPort: 22,
-          toPort: 22,
+          fromPort: config.sshPort,
+          toPort: config.sshPort,
           protocol: "tcp",
           cidrBlocks: ["0.0.0.0/0"],
           ipv6CidrBlocks: ["::/0"],

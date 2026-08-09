@@ -66,9 +66,10 @@ export const getConfig = async () => {
   let securityGroupIds = stackConfig.getObject<string[]>("securityGroupIds");
 
   if (!securityGroupIds) {
-    const securityGroupNames = useBastion
-      ? "swarm-managers,web,ssh-bastion"
-      : "swarm-managers,web";
+    securityGroupIds = [];
+
+    const securityGroupNames = stackConfig.get("securityGroupNames") || 
+      (useBastion ? "swarm-managers,web,ssh-bastion" : "swarm-managers,web");
 
     const outputs = await getOutputs<{ "arn": string; "id": string }>(
       "securityGroupsStack",
@@ -79,18 +80,9 @@ export const getConfig = async () => {
       throw new Error("Required security group could not be found");
     }
 
-    try {
-      const managers = outputs[0] as { "arn": string; "id": string };
-      const web = outputs[1] as { "arn": string; "id": string };
-
-      securityGroupIds = [managers["id"], web["id"]];
-
-      if (useBastion) {
-        const bastion = outputs[2] as { "arn": string; "id": string };
-        securityGroupIds.push(bastion["id"]);
-      }
-    } catch (e) {
-      throw new Error("Required security groups could not be found");
+    for (const output of outputs) {
+      const group = output as { "arn": string; "id": string };
+      securityGroupIds.push(group.id);
     }
   }
 

@@ -25,6 +25,7 @@ config:
   <%= projectName %>:retainOnDelete: false
   <%= projectName %>:rootBlockDeviceSize: 20
 #  <%= projectName %>:securityGroupIds:
+#  <%= projectName %>:securityGroupNames: "ssh,swarm-managers,web"
   <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
 <% if (!useNFS) { %>

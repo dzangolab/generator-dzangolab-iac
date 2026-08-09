@@ -3,7 +3,9 @@
   "main": "index.ts",
   "dependencies": {
     "@pulumi/awsx": "<%= versions.pulumi_awsx %>",
-    "@pulumi/pulumi": "<%= versions.pulumi %>"
+    "@pulumi/pulumi": "<%= versions.pulumi %>",
+    "@pulumi/random": "<%= versions.pulumi_random %>"
+
   },
   "devDependencies": {
     "@types/node": "<%= versions.types_node %>"

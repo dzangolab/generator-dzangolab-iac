@@ -22,6 +22,7 @@ export const getConfig = async () => {
     natGatewayStrategy: stackConfig.get<NatGatewayStrategy>("natGatewayStrategy") || "None",
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
+    sshPort: stackConfig.getNumber("sshPort"),
     subnetSpecs: stackConfig.getObject<any | undefined>("subnetSpecs"),
     subnetStrategy: stackConfig.get<SubnetAllocationStrategy>("subnetStrategy") || "Auto",
     tags: stackConfig.getObject<{ [key: string]: string }>("tags")

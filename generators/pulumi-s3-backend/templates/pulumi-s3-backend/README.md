@@ -1,6 +1,6 @@
 # Pulumi S3 backend
 
-Provisions the AWS S3 bucket (and, optionally, a KMS key) that other Pulumi projects use as a self-managed backend.
+Provisions the AWS S3 bucket that other Pulumi projects use as a self-managed backend. The state is encrypted via an AWS KMS key.
 
 ## Using this backend in your Pulumi project
 

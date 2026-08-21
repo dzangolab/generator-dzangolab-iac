@@ -14,9 +14,12 @@ export = async () => {
   const eip = new Eip(
     `${config.name}`,
     {
+      ...(config.networkBorderGroup != null && {
+        networkBorderGroup: config.networkBorderGroup,
+      }),
       tags: {
         Name: `${config.name}`,
-      }
+      },
     },
     options
   );

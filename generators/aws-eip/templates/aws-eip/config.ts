@@ -7,6 +7,7 @@ export const getConfig = async () => {
 
   return {
     name: stackConfig.get("name") || stack,
+    networkBorderGroup: stackConfig.get("networkBorderGroup"),
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
   };

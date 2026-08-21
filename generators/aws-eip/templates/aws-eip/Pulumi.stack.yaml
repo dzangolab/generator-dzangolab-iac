@@ -1,4 +1,5 @@
 config:
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
+#  <%= projectName %>:networkBorderGroup:
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false

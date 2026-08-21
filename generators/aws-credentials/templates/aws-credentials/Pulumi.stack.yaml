@@ -6,6 +6,7 @@ config:
 #      length: 64
 #    }
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
+#  <%= projectName %>:passwordLength: 36
   <%= projectName %>:passwords:
     # mariadb-root-password: {}
     # minio-root-password: {}

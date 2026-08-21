@@ -46,7 +46,7 @@ export const getConfig = async () => {
     byteLength: stackConfig.get("byteLength"),
     keys: stackConfig.getObject<Keys>("keys"),
     name: stackConfig.get("name") || stack,
-    passwordLength: stackConfig.getNumber("passwordLength"),
+    passwordLength: stackConfig.getNumber("passwordLength") || 36,
     passwords: stackConfig.requireObject<Passwords>("passwords"),
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),

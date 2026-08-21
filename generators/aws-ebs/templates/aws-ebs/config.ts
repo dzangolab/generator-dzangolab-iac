@@ -10,6 +10,7 @@ export const getConfig = async () => {
   const stackConfig = new Config();
 
   let size = stackConfig.getObject<number>("size") || 5;
+  let type = stackConfig.get("type") || "gp3";
   
   return {
       availabilityZone: stackConfig.require("availabilityZone"),
@@ -17,7 +18,8 @@ export const getConfig = async () => {
       protect: stackConfig.getBoolean("protect"),
       retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
       size,
-      tags: stackConfig.getObject<{ [key: string]: string }>("tags")
+      tags: stackConfig.getObject<{ [key: string]: string }>("tags"),
+      type
   };
 };
 

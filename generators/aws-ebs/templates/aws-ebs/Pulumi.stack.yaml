@@ -3,3 +3,5 @@ config:
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:protect: false
   <%= projectName %>:retainOnDelete: false
+#  <%= projectName %>:size: 5
+#  <%= projectName %>:type: gp3

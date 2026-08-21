@@ -30,5 +30,7 @@ export = async () => {
   return {
     arn: interpolate`${volume.arn}`,
     id: interpolate`${volume.id}`,
+    size: interpolate`${volume.size}`,
+    type: interpolate`${volume.type}`
   };
 }

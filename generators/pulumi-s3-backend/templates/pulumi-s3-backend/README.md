@@ -1,3 +1,11 @@
+---
+type: Reference
+title: Pulumi S3 backend
+description: Provisions the AWS S3 bucket that other Pulumi projects use as a self-managed backend, encrypted via an AWS KMS key.
+tags: [pulumi, aws, s3, backend]
+generated: { by: generator-dzangolab-iac/<%= generatorVersion %>, at: <%= new Date().toISOString() %> }
+---
+
 # Pulumi S3 backend
 
 Provisions the AWS S3 bucket that other Pulumi projects use as a self-managed backend. The state is encrypted via an AWS KMS key.
@@ -9,36 +17,38 @@ Provisions the AWS S3 bucket that other Pulumi projects use as a self-managed ba
 1. Set `PULUMI_BACKEND_URL` (e.g. in your project's `.env`, or exported directly):
 
    ```bash
-   export PULUMI_BACKEND_URL=<pulumiBackendUrl output>
+   export PULUMI_BACKEND_URL={{pulumiBackendUrl}}
    ```
 
 2. Init a stack, using the `pulumiStackInitCommand` output for the secrets provider:
 
    ```bash
-   pulumi stack init --secrets-provider='<pulumiEncryptionProviderKeyId output>' <project_name>.<stack_name>
+   pulumi stack init --secrets-provider='{{pulumiEncryptionProviderKeyId}}' <project_name>.<stack_name>
    ```
 
 Alternatively, to log into the backend without setting `PULUMI_BACKEND_URL`:
 
 ```bash
-pulumi logout && pulumi login <pulumiBackendUrl output>
+pulumi logout && pulumi login {{pulumiBackendUrl}}
 ```
 
 These values (bucket, key) only change if this project is ever re-provisioned against a new bucket/key — get them from this project's outputs (see [Outputs](#outputs)) rather than guessing.
 
 ## Outputs
 
+Each row's placeholder (e.g. `{{pulumiBackendUrl}}`) is used verbatim everywhere that output's value is needed in this README — including in the commands [above](#using-this-backend-in-your-pulumi-project).
+
 | Output | Current value | Description |
 |--------|----------------|-------------|
-| `pulumiBackendUrl` | TBD | Set as `PULUMI_BACKEND_URL` in other projects to avoid logging in repeatedly. |
-| `pulumiBackendLoginCommand` | TBD | Full `pulumi login` command for this backend. |
-| `pulumiStackInitCommand` | TBD | Ready-to-use `pulumi stack init` command for other projects. |
-| `pulumiEncryptionProviderKeyId` | TBD | Only present when `encryptionProvider` is `awskms`. |
-| `pulumiEncryptionProviderKeyAlias` | TBD | Only present when `encryptionProvider` is `awskms`. |
-| `bucketArn` | TBD | ARN of the S3 bucket. |
-| `bucketId` | TBD | Id/name of the S3 bucket. |
+| `pulumiBackendUrl` | {{pulumiBackendUrl}} | Set as `PULUMI_BACKEND_URL` in other projects to avoid logging in repeatedly. |
+| `pulumiBackendLoginCommand` | {{pulumiBackendLoginCommand}} | Full `pulumi login` command for this backend. |
+| `pulumiStackInitCommand` | {{pulumiStackInitCommand}} | Ready-to-use `pulumi stack init` command for other projects. |
+| `pulumiEncryptionProviderKeyId` | {{pulumiEncryptionProviderKeyId}} | Only present when `encryptionProvider` is `awskms`. |
+| `pulumiEncryptionProviderKeyAlias` | {{pulumiEncryptionProviderKeyAlias}} | Only present when `encryptionProvider` is `awskms`. |
+| `bucketArn` | {{bucketArn}} | ARN of the S3 bucket. |
+| `bucketId` | {{bucketId}} | Id/name of the S3 bucket. |
 
-To refresh these yourself: `./output.sh`, or manually `pulumi login "file://$(pwd)/.local" && pulumi stack select <%= environment %> && pulumi stack output`.
+To fill in these placeholders throughout this file, run `./update-readme.sh`. To just print the values without touching the README: `./output.sh`, or manually `pulumi login "file://$(pwd)/.local" && pulumi stack select <%= environment %> && pulumi stack output`.
 
 ## This project's own state
 

@@ -154,7 +154,8 @@ export const getConfig = async () => {
     protect: stackConfig.getBoolean("protect"),
     retainOnDelete: stackConfig.getBoolean("retainOnDelete"),
     rootBlockDevice: {
-      volumeSize: stackConfig.requireNumber("rootBlockDeviceSize"),
+      volumeSize: stackConfig.getNumber("rootBlockDeviceSize") || 20,
+      volumeType: stackConfig.get("rootBlockDeviceType") || "gp3",
     },
     securityGroupIds,
     subnetId,

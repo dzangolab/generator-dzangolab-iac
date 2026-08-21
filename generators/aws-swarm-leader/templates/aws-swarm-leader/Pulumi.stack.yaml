@@ -18,15 +18,16 @@ config:
   <%= projectName %>:keyName: KEYNAME
   <%= projectName %>:keypairsStack: <%= prefix %>-ssh-keypairs/global
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
-  <%= projectName %>:pathToSshKeysFolder: path/to/ssh-keys-folder
+  <%= projectName %>:pathToSshKeysFolder: path/to/ssh-keys
   <%= projectName %>:protect: false
 #  <%= projectName %>:publicKeyNames:
 #    - 
   <%= projectName %>:retainOnDelete: false
-  <%= projectName %>:rootBlockDeviceSize: 20
+#  <%= projectName %>:rootBlockDeviceSize: 20
+#  <%= projectName %>:rootBlockDeviceSType: "gp3"
 #  <%= projectName %>:securityGroupIds:
-#  <%= projectName %>:securityGroupNames: "ssh,swarm-managers,web"
-  <%= projectName %>:securityGroupStack: <%= prefix %>-security-group
+#  <%= projectName %>:securityGroupsNames: "ssh,swarm-managers,web"
+  <%= projectName %>:securityGroupsStack: <%= prefix %>-security-groups
   <%= projectName %>:subnetId: subnet-XXXXXXXXXXXXXXXX
 <% if (!useNFS) { %>
 #  <%= projectName %>:volumeId:

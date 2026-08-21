@@ -2,7 +2,7 @@
   "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
-    "@pulumi/awsx": "<%= versions.pulumi_awsx %>",
+    "@pulumi/aws": "<%= versions.pulumi_aws %>",
     "@pulumi/pulumi": "<%= versions.pulumi %>"
   },
   "devDependencies": {

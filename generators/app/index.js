@@ -83,7 +83,7 @@ export default class IaCGenerator extends Generator {
             name: "Ansible for AWS swarm",
             value: "ansible-aws"
           },
-          { type: "separator" },
+          { type: "separator", separator: "──────────" },
           {
             name: "AWS credentials",
             value: "aws-credentials"
@@ -168,12 +168,12 @@ export default class IaCGenerator extends Generator {
             name: "AWS VPC",
             value: "aws-vpc"
           },
-          { type: "separator" },
+          { type: "separator", separator: "──────────" },
           {
             name: "Cloudflare DNS",
             value: "cloudflare-dns"
           },
-          { type: "separator" },
+          { type: "separator", separator: "──────────" },
           {
             name: "DigitalOcean database cluster",
             value: "do-database-cluster"
@@ -206,12 +206,12 @@ export default class IaCGenerator extends Generator {
             name: "DigitalOcean swarm",
             value: "do-swarm"
           },
-          { type: "separator" },
+          { type: "separator", separator: "──────────" },
           {
             name: "Pulumi S3 Backend",
             value: "pulumi-s3-backend"
           },
-          { type: "separator" },
+          { type: "separator", separator: "──────────" },
           {
             name: "SSH key folder",
             value: "ssh-key-folder"

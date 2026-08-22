@@ -18,6 +18,10 @@ publish:
 	@printf "\033[0;32m>>> Publish packages\033[0m\n"
 	npx shipjs trigger
 
+promote version:
+	@printf "\033[0;32m>>> Promoting {{version}} to latest\033[0m\n"
+	npm dist-tag add generator-dzangolab-iac@{{version}} latest
+
 release:
 	@printf "\033[0;32m>>> Prepare packages for release\033[0m\n"
 	npx shipjs prepare

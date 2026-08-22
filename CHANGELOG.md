@@ -1,3 +1,9 @@
+# [1.0.0-rc57.4](https://github.com/dzangolab/generator-dzangolab-iac/compare/v1.0.0-rc57.3...v1.0.0-rc57.4) (2026-08-22)
+
+
+### Bug Fixes
+
+* fix separators ([8b75268](https://github.com/dzangolab/generator-dzangolab-iac/commit/8b752686c5784ef3f6edaf9fd2b4744f2aa66005))
 # [1.0.0-rc57.3](https://github.com/dzangolab/generator-dzangolab-iac/compare/v1.0.0-rc57.2...v1.0.0-rc57.3) (2026-08-22)
 
 

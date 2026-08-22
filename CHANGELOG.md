@@ -1,3 +1,26 @@
+# [1.0.0-rc57.2](https://github.com/dzangolab/generator-dzangolab-iac/compare/v1.0.0-rc57.1...v1.0.0-rc57.2) (2026-08-22)
+
+
+### Bug Fixes
+
+* **aws/credentials:** add sensible default value for password length; fix dependencies ([b88fd6b](https://github.com/dzangolab/generator-dzangolab-iac/commit/b88fd6b988c94a6e7bf67b8c1d584d54b062791b))
+* **aws/ebs:** add support for volume type (default gp3); add defaults in stack config template ([2ec9911](https://github.com/dzangolab/generator-dzangolab-iac/commit/2ec9911d4aadb8eda5176b612745195a51823145))
+* **aws/eip:** add support for network border. group ([08f3685](https://github.com/dzangolab/generator-dzangolab-iac/commit/08f36855094da03551c82202dd97483e52535f57))
+* **aws/instance-profile:** fix dependencies ([7ae4b52](https://github.com/dzangolab/generator-dzangolab-iac/commit/7ae4b52c35e389709361474e3d0e86e89837622b))
+* **aws/key-pairs:** fix dependencies ([c8d6614](https://github.com/dzangolab/generator-dzangolab-iac/commit/c8d66145a8084680af4d074762f9eaaeb130f256))
+* **aws/swarm-leader:** add support for root block device type; fix securityGroupsStack typo ([96973c3](https://github.com/dzangolab/generator-dzangolab-iac/commit/96973c34fb0f0fad521978c8e5fadc4a92762df3))
+* **deps:** update dependency @pulumi/command to v1 ([#231](https://github.com/dzangolab/generator-dzangolab-iac/issues/231)) ([ee5bded](https://github.com/dzangolab/generator-dzangolab-iac/commit/ee5bdeda92e8968531e9b7dc16bd6bb393483ce3))
+* **pulumi-s3-backend:** generate updatable README ([bdd961c](https://github.com/dzangolab/generator-dzangolab-iac/commit/bdd961cf1ed5a5b19dd1f913ff7f2b0880f0107d))
+
+
+### Features
+
+* **aws/security-groups:** add random ssh port ([65ee94c](https://github.com/dzangolab/generator-dzangolab-iac/commit/65ee94c79e2fd2c3106fbdbcb358acdc55f50eeb))
+* **aws/swarm-leader:** add support for custom security groups ([60b5dfc](https://github.com/dzangolab/generator-dzangolab-iac/commit/60b5dfc3388a03c2bdc2dd38e400be2879f8246d))
+* **aws/vpc:** add random ssh port ([3f76665](https://github.com/dzangolab/generator-dzangolab-iac/commit/3f76665fad7b9e8dc18c6906c0b519f0cc4b5c95))
+* **pulumi-s3-backend:** create .local folder for local backend ([525fb32](https://github.com/dzangolab/generator-dzangolab-iac/commit/525fb3235b7e5c71d470a734b6be513a7a81bcdc))
+* **pulumi-s3-backup:** update generator to use a local backend ([a109835](https://github.com/dzangolab/generator-dzangolab-iac/commit/a10983562973bafb4190c9d724fb323437f1e71f))
+* update typescript to 25 ([ead37ed](https://github.com/dzangolab/generator-dzangolab-iac/commit/ead37ed8bfd8da05c14e2a2936442ce8bf1dd672))
 ## 1.0.0-rc57.1 (2026-01-19)
 
 * fix(aws/resources): set default of 30 days for recovery window ([eb7905e](https://github.com/dzangolab/generator-dzangolab-iac/commit/eb7905e))

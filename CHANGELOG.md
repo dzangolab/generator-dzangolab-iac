@@ -1,3 +1,9 @@
+# [1.0.0-rc57.3](https://github.com/dzangolab/generator-dzangolab-iac/compare/v1.0.0-rc57.2...v1.0.0-rc57.3) (2026-08-22)
+
+
+### Bug Fixes
+
+* **pulumi-s3-backend:** fix readme ([11f4b3b](https://github.com/dzangolab/generator-dzangolab-iac/commit/11f4b3be8ba18336e72fe8b20aab6d223ac4d4b8))
 # [1.0.0-rc57.2](https://github.com/dzangolab/generator-dzangolab-iac/compare/v1.0.0-rc57.1...v1.0.0-rc57.2) (2026-08-22)
 
 

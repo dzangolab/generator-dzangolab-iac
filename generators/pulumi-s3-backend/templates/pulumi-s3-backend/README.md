@@ -48,7 +48,7 @@ Each row's placeholder (e.g. `{{pulumiBackendUrl}}`) is used verbatim everywhere
 | `bucketArn` | {{bucketArn}} | ARN of the S3 bucket. |
 | `bucketId` | {{bucketId}} | Id/name of the S3 bucket. |
 
-To fill in these placeholders throughout this file, run `./update-readme.sh`. To just print the values without touching the README: `./output.sh`, or manually `pulumi login "file://$(pwd)/.local" && pulumi stack select <%= environment %> && pulumi stack output`.
+To fill in these placeholders throughout this file, run `./update-readme.sh`. To just print the values without touching the README: `./output.sh`, or manually `pulumi login "file://$(pwd)/.local" && pulumi stack output` (run `pulumi stack select` first if no stack is currently selected).
 
 ## This project's own state
 
@@ -68,12 +68,12 @@ To work on this project's own stack:
 
 ```bash
 pulumi login "file://$(pwd)/.local"
-pulumi stack select <%= environment %>
+pulumi stack select
 ```
 
 (`$(pwd)` needs a real shell to expand — don't put it in `.env` itself; env-file loaders like direnv's `dotenv` parse it literally rather than evaluating it, which breaks the login.)
 
-(Stacks here are named by creation date — `<%= environment %>` is the current one; check `.local/.pulumi/stacks/` if a newer one has since been created.)
+(Stacks here are named by creation date — `pulumi stack select` with no name lists the available stacks and prompts you to pick one; run `pulumi stack ls` to see them without switching.)
 
 ## Requirements
 

@@ -10,7 +10,10 @@
 npm install
 pulumi logout
 pulumi login "file://$(pwd)/.local"
-pulumi stack select <%= environment %>
+
+if ! pulumi stack --show-name >/dev/null 2>&1; then
+  pulumi stack select
+fi
 
 if [ $? -eq 0 ]; then
   get_output() {

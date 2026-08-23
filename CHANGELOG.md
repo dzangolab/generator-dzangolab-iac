@@ -1,3 +1,9 @@
+# [1.0.0-rc57.5](https://github.com/dzangolab/generator-dzangolab-iac/compare/v1.0.0-rc57.4...v1.0.0-rc57.5) (2026-08-23)
+
+
+### Features
+
+* **aws-swarm-leader:** update removed nunjucks templates to child folder ([aea93a4](https://github.com/dzangolab/generator-dzangolab-iac/commit/aea93a49f6d87843b14ca932fe3727de3845f0a2))
 # [1.0.0-rc57.4](https://github.com/dzangolab/generator-dzangolab-iac/compare/v1.0.0-rc57.3...v1.0.0-rc57.4) (2026-08-22)
 
 

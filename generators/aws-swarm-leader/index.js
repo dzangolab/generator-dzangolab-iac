@@ -1,6 +1,14 @@
 import chalk from "chalk";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import PulumiGenerator from "../pulumi/index.js";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const { version: generatorVersion } = JSON.parse(
+  readFileSync(join(__dirname, "../../package.json"), "utf8"),
+);
 
 export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
   constructor(args, opts) {
@@ -108,6 +116,7 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
       {
         ...this.options,
         ...this.props,
+        generatorVersion,
       },
       {},
       { 

@@ -123,7 +123,7 @@ export const getConfig = async () => {
   const publicKeyNames = stackConfig.requireObject("publicKeyNames") as string[];
 
   const userData = generateUserData(
-    stackConfig.get("userDataTemplate") || "./cloud-config.al2023.njx",
+    stackConfig.get("userDataTemplate") || "./nunjucks/cloud-config.al2023.njx",
     {
       dockerNetworks: stackConfig.getObject<string[]>("dockerNetworks"),
       packages: stackConfig.getObject<string[]>("packages"),

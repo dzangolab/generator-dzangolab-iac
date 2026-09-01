@@ -1,0 +1,28 @@
+ansible_link__bastion_ip: "{{ bastion_ip }}"
+
+ansible_link__config_debug: false
+ansible_link__config_host: '127.0.0.1'
+ansible_link__config_inventory_file: '/etc/ansible-link/hosts'
+ansible_link__config_job_storage_dir: '/tmp/ansible-link-jobs'
+ansible_link__config_metrics_port: 9099
+ansible_link__config_omit_event_data: false
+ansible_link__config_only_failed_event_data: false
+ansible_link__config_port: 5001
+ansible_link__config_suppress_ansible_output: false
+ansible_link__config_playbook_dir: '/etc/ansible-link/playbooks'
+ansible_link__config_log_level: 'INFO'
+ansible_link__config_playbook_whitelist: []
+ansible_link__config_ansible_link__config_url: ""
+ansible_link__config_ansible_link__config_type: ""
+ansible_link__config_timeout: 5
+
+ansible_link__deploy_dir: "{{ deploy_dir }}/ansible-link"
+ansible_link__deploy_group: "{{ deploy_group }}"
+ansible_link__deploy_user: "{{ deploy_user }}"
+ansible_link__domain: "ansible-link.{{ domain }}"
+ansible_link__inventory_file: "{{ ansible_link__deploy_dir }}/hosts"
+ansible_link__network: "{{ network_public }}"
+ansible_link__nfs: "{{ nfs }}"
+ansible_link__nfs_ip: "{{ nfs_server_ip }}"
+ansible_link__state: "started"
+ansible_link__webhook: false

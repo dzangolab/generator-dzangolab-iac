@@ -1,0 +1,28 @@
+Content-Type: multipart/mixed; boundary="//"
+MIME-Version: 1.0
+
+--//
+Content-Type: text/cloud-config; charset="utf-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="cloud-config.txt"
+
+#cloud-config
+
+{% if packages %}
+packages: 
+{% for package in packages %}
+  - {{ package }}
+{% endfor %}
+{% endif %}
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+runcmd:
+{% for key in publicKeyNames %}
+  - echo {{ key }} >> /home/ec2-user/.ssh/authorized_keys
+{% endfor %}
+
+--//--

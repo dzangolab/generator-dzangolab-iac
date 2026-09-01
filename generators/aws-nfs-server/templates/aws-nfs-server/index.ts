@@ -22,7 +22,7 @@ export = async () => {
   });
 
   const securityGroup = new SecurityGroup(
-    `${config.name}-nfs`,
+    `${config.name}`,
     {
       description: "Allow NFS inbound traffic and all outbound traffic",
       egress: [

@@ -2,6 +2,7 @@
   "name": "<%= projectName %>",
   "main": "index.ts",
   "dependencies": {
+    "@aws-sdk/client-ec2": "^3.637.0",
     "@pulumi/aws": "<%= versions.pulumi_aws %>",
     "@pulumi/command": "<%= versions.pulumi_command %>",
     "@pulumi/pulumi": "<%= versions.pulumi %>",

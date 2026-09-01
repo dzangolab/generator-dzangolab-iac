@@ -48,6 +48,11 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
       desc: "Are you using a bastion to access the swarm leader"
     });
 
+    this.option("useEip", {
+      type: Boolean,
+      desc: "Are you using a Eip for the swarm leader"
+    });
+    
     this.option("useNFS", {
       type: Boolean,
       desc: "Are you using an NFS server for volume data"
@@ -79,6 +84,12 @@ export default class AWSSwarmLeaderGenerator extends PulumiGenerator {
         default: false,
         message: "Use a bastion",
         name: "useBastion",
+        type: "confirm",
+      },
+      {
+        default: false,
+        message: "Use a eip",
+        name: "useEip",
         type: "confirm",
       },
       {

@@ -40,7 +40,7 @@
     "testEnvironment": "node"
   },
   "dependencies": {
-    "yeoman-environment": "6.1.0",
+    "yeoman-environment": "7.0.0",
     "yeoman-generator": "8.2.2",
     "yosay": "3.0.0"
   },

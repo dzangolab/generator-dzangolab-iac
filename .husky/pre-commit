@@ -1,1 +1,3 @@
+export PATH="$HOME/.config/local/share/mise/shims:$PATH"
+
 npm run lint

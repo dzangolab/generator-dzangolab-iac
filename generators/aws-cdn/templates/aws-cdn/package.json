@@ -1,0 +1,14 @@
+{
+  "name": "<%= projectName %>",
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/aws": "<%= versions.pulumi_aws %>",
+<% if (dnsProvider === "cloudflare") { -%>
+    "@pulumi/cloudflare": "<%= versions.pulumi_cloudflare %>",
+<% } -%>
+    "@pulumi/pulumi": "<%= versions.pulumi %>"
+  },
+  "devDependencies": {
+    "@types/node": "<%= versions.types_node %>"
+  }
+}

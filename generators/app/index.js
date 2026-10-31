@@ -2,6 +2,7 @@ import Generator from "yeoman-generator";
 
 import AnsibleDOGenerator from "../ansible-do/index.js";
 import AnsibleAWSGenerator from "../ansible-aws/index.js";
+import AWSCDNGenerator from "../aws-cdn/index.js";
 import AWSCredentialsGenerator from "../aws-credentials/index.js";
 import AWSDockerSwarmLeaderGenerator from "../aws-swarm-leader/index.js";
 import AWSDockerSwarmTokensGenerator from "../aws-swarm-tokens/index.js";
@@ -84,6 +85,10 @@ export default class IaCGenerator extends Generator {
             value: "ansible-aws"
           },
           { type: "separator", separator: "──────────" },
+          {
+            name: "AWS CDN",
+            value: "aws-cdn"
+          },
           {
             name: "AWS credentials",
             value: "aws-credentials"
@@ -233,6 +238,7 @@ export default class IaCGenerator extends Generator {
     const generators = {
       "ansible-do": { Generator: AnsibleDOGenerator, path: "../ansible-do/index.js" },
       "ansible-aws": { Generator: AnsibleAWSGenerator, path: "../ansible-aws/index.js" },
+      "aws-cdn": { Generator: AWSCDNGenerator, path: "../aws-cdn/index.js" },
       "aws-credentials": { Generator: AWSCredentialsGenerator, path: "../aws-credentials/index.js" },
       "aws-ebs": { Generator: AWSEBSGenerator, path: "../aws-ebs/index.js" },
       "aws-ecr": { Generator: AWSECRGenerator, path: "../aws-ecr/index.js" },

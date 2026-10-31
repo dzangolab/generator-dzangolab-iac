@@ -1,0 +1,13 @@
+config:
+  <%= projectName %>:aliases:
+    - cdn
+  <%= projectName %>:bucket: <%= prefix ? `${prefix}-` : "" %><%= environment %>-cdn
+<% if (dnsProvider === "other") { -%>
+  # Set to true once the certificate validation records have been created and the certificate is issued
+  <%= projectName %>:certificateValidated: false
+<% } -%>
+  <%= projectName %>:defaultRootObject:
+  <%= projectName %>:domain: <%= domain %>
+  <%= projectName %>:priceClass: PriceClass_100
+  <%= projectName %>:protect: false
+  <%= projectName %>:retainOnDelete: false

@@ -18,9 +18,11 @@ export = async () => {
   };
 
   if (config.minCount !== config.maxCount) {
-    log.warn(
-      "minCount and maxCount differ: swarm managers should not scale with load, and an even number of managers adds no fault tolerance",
-    );
+    log.warn("minCount and maxCount differ: swarm managers should not scale with load");
+  }
+
+  if (config.minCount % 2 === 0) {
+    log.warn(`minCount is ${config.minCount}: an even number of managers tolerates no more failures than one fewer`);
   }
 
   const adminUsername = "azureadmin";

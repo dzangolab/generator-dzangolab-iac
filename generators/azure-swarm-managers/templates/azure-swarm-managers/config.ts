@@ -218,7 +218,7 @@ export const getConfig = async () => {
       }),
     );
 
-  const minCount = stackConfig.getNumber("minCount") ?? 2;
+  const minCount = stackConfig.getNumber("minCount") ?? 3;
 
   return {
     hostnamePrefix,

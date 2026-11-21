@@ -9,8 +9,8 @@ config:
   <%= projectName %>:keyVaultStack: organization/<%= prefix %>-key-vault/<%= environment %>
   <%= projectName %>:leaderStack: organization/<%= prefix %>-swarm-leader/<%= environment %>
   <%= projectName %>:loadBalancerStack: organization/<%= prefix %>-load-balancer/<%= environment %>
-  <%= projectName %>:maxCount: 2
-  <%= projectName %>:minCount: 2
+  <%= projectName %>:maxCount: 3
+  <%= projectName %>:minCount: 3
   <%= projectName %>:name: <%= prefix %>-<%= environment %>
   <%= projectName %>:nfsMounts: []
     # - mountPath: /mnt/nfs

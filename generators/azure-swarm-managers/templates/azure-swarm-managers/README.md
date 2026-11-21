@@ -60,7 +60,9 @@ Changes to the cloud-init template only reach new instances: the scale set has a
 
 ## Quorum
 
-Raft tolerates the loss of `(managers - 1) / 2` managers, so the total number of managers, including those outside this scale set (e.g. the swarm leader), should be odd. With one leader VM, keep `minCount` and `maxCount` even (2 or 4). Do not scale managers on load.
+Raft tolerates the loss of `(managers - 1) / 2` managers, so keep the number of managers odd: 3 (the default) tolerates one loss, 5 tolerates two. Keep `minCount` and `maxCount` equal: managers should not scale on load.
+
+The swarm leader VM only initializes the swarm, and is removed once these managers have joined. Before removing it, demote it and let it leave the swarm, so that the raft membership is back to this scale set alone. Then replace `leaderStack` with `joinAddresses` (or rely on `loadBalancerStack`), so that this stack no longer references the leader's.
 
 ## Configuration settings
 
@@ -82,7 +84,7 @@ Values marked "or from" can be set directly, or come from the output of the stac
 | location | string | or from `vnetStack` (`location`) | Azure region |
 | managerTokenSecretName | string | `swarm-manager-token` | Key Vault secret holding the manager join token |
 | maxCount | number | `minCount` | Maximum number of nodes |
-| minCount | number | `2` | Minimum (and initial) number of nodes |
+| minCount | number | `3` | Minimum (and initial) number of nodes |
 | name | string | stack name | Prefix of the Azure resource names |
 | netbirdManagementUrl | string | Netbird cloud | URL of a self-hosted Netbird management server |
 | netbirdSetupKey | secret | (required) | Netbird setup key |

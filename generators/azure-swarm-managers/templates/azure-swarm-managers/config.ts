@@ -97,23 +97,12 @@ export const getConfig = async () => {
     stackConfig.getNumber("sshPort") ??
     (stackConfig.get("vnetStack") ? stackOutput<number>("vnetStack", "sshPort") : 22);
 
-  // Addresses of existing managers, tried in order to join the swarm.
+  // Addresses tried in order to join the swarm. By default, the internal load
+  // balancer: it forwards port 2377 to any healthy manager, which is the leader
+  // VM for the first managers and the other managers for a replacement.
   const joinAddresses: Input<string[]> =
     stackConfig.getObject<string[]>("joinAddresses") ??
-    all([
-      stackConfig.get("leaderStack") ? stackOutput<string>("leaderStack", "privateIp") : undefined,
-      stackConfig.get("loadBalancerStack")
-        ? stackOutput<string>("loadBalancerStack", "internalLbPrivateIp")
-        : undefined,
-    ]).apply((addresses) => {
-      const defined = addresses.filter((a): a is string => !!a);
-
-      if (defined.length === 0) {
-        throw new Error("Set joinAddresses, leaderStack or loadBalancerStack: the managers need a swarm to join");
-      }
-
-      return defined;
-    });
+    stackOutput<string>("loadBalancerStack", "internalLbPrivateIp").apply((ip) => [ip]);
 
   const loadBalancerBackendPoolIds: Input<string[]> =
     stackConfig.getObject<string[]>("loadBalancerBackendPoolIds") ??

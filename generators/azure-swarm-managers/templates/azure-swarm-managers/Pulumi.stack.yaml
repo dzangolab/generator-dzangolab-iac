@@ -7,7 +7,6 @@ config:
   <%= projectName %>:alertEmail: <%= alertEmail %>
   <%= projectName %>:hostnamePrefix: <%= hostnamePrefix %>
   <%= projectName %>:keyVaultStack: organization/<%= prefix %>-key-vault/<%= environment %>
-  <%= projectName %>:leaderStack: organization/<%= prefix %>-swarm-leader/<%= environment %>
   <%= projectName %>:loadBalancerStack: organization/<%= prefix %>-load-balancer/<%= environment %>
   <%= projectName %>:maxCount: 3
   <%= projectName %>:minCount: 3

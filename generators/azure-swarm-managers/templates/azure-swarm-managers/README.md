@@ -8,6 +8,7 @@ Provisions an Azure VM scale set of Ubuntu nodes that join an existing Docker sw
 * [pulumi >= 3](https://www.pulumi.com/docs/install/)
 * An Azure subscription, and the Azure CLI logged in (`az login`)
 * An existing swarm, whose manager join token is stored in a Key Vault secret (`swarm-manager-token` by default)
+* An internal load balancer forwarding TCP 2377 to its backend pool, with a TCP probe on 2377. The managers add themselves to that pool; until they have joined, the VM that initialized the swarm must be in it too.
 * A users file (`../users.yml` by default) and a folder of public keys named `<user>.pub`, `<user>@….pub` or `<user>-….pub` (`../../ssh-keys` by default)
 
 ## Usage
@@ -49,7 +50,9 @@ cloud-init, on the first boot only:
 1. writes `/etc/ssh/sshd_config.d/10-hardening.conf` and restarts sshd;
 1. mounts the NFS shares, connects to Netbird, installs Docker;
 1. reads the join token from the Key Vault with the managed identity, retrying while the role propagates;
-1. joins the swarm through the first reachable address in `joinAddresses`.
+1. joins the swarm through the internal load balancer (or the first reachable address in `joinAddresses`), retrying for up to 5 minutes.
+
+The load balancer only forwards to the backends that pass its probe, i.e. that already listen on 2377 as managers. The first managers therefore join through the leader VM that initialized the swarm, and a replacement joins through the remaining managers, without depending on that leader.
 
 Changes to the cloud-init template only reach new instances: the scale set has a manual upgrade policy and cloud-init does not run again. Reimage the instances one at a time to roll a change out.
 
@@ -62,7 +65,7 @@ Changes to the cloud-init template only reach new instances: the scale set has a
 
 Raft tolerates the loss of `(managers - 1) / 2` managers, so keep the number of managers odd: 3 (the default) tolerates one loss, 5 tolerates two. Keep `minCount` and `maxCount` equal: managers should not scale on load.
 
-The swarm leader VM only initializes the swarm, and is removed once these managers have joined. Before removing it, demote it and let it leave the swarm, so that the raft membership is back to this scale set alone. Then replace `leaderStack` with `joinAddresses` (or rely on `loadBalancerStack`), so that this stack no longer references the leader's.
+The leader VM only initializes the swarm, and is removed once these managers have joined. Before removing it, demote it and let it leave the swarm, so that the raft membership is back to this scale set alone. This stack does not reference the leader's, so nothing changes here.
 
 ## Configuration settings
 
@@ -78,7 +81,7 @@ Values marked "or from" can be set directly, or come from the output of the stac
 | imagePublisher | string | `Canonical` | VM image publisher |
 | imageSku | string | `server` | VM image SKU |
 | imageVersion | string | `latest` | VM image version |
-| joinAddresses | string[] | or from `leaderStack` (`privateIp`) and `loadBalancerStack` (`internalLbPrivateIp`) | Manager addresses to join through, tried in order |
+| joinAddresses | string[] | or from `loadBalancerStack` (`internalLbPrivateIp`) | Addresses to join the swarm through, tried in order |
 | keyVaultId, keyVaultName | string | or from `keyVaultStack` (`id`, `name`) | Key Vault holding the join token |
 | loadBalancerBackendPoolIds | string[] | or from `loadBalancerStack` (`backendAddressPoolId`, `internalLbBackendAddressPoolId`); none without it | Load balancer backend pools the nodes join |
 | location | string | or from `vnetStack` (`location`) | Azure region |

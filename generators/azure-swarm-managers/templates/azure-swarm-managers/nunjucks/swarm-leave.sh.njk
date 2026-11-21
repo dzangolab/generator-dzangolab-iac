@@ -1,0 +1,52 @@
+#!/bin/bash
+# Watches Azure Scheduled Events for the termination of this instance, then
+# demotes this node and leaves the swarm, so that the raft membership shrinks
+# cleanly, and acknowledges the event so that Azure does not wait out the
+# notBefore timeout.
+# Matches on the Azure VM name (from IMDS), not on the OS hostname, which
+# cloud-init overrides.
+imds="http://169.254.169.254/metadata"
+endpoint="$imds/scheduledevents?api-version=2020-07-01"
+vm_name=$(curl -sf -H "Metadata: true" "$imds/instance/compute/name?api-version=2021-02-01&format=text")
+
+if [[ -z "$vm_name" ]]; then
+  echo "could not read the VM name from IMDS" >&2
+  exit 1
+fi
+
+while true; do
+  event_id=$(curl -sf -H "Metadata: true" "$endpoint" | VM_NAME="$vm_name" python3 -c '
+import json, os, sys
+try:
+    data = json.load(sys.stdin)
+except ValueError:
+    sys.exit(0)
+for event in data.get("Events", []):
+    if event.get("EventType") in ("Preempt", "Terminate") and os.environ["VM_NAME"] in event.get("Resources", []):
+        print(event["EventId"])
+        break
+')
+  if [[ -n "$event_id" ]]; then
+    logger -t swarm-leave "termination event $event_id for $vm_name: demoting and leaving the swarm"
+    node_id=$(docker info --format '{% raw %}{{.Swarm.NodeID}}{% endraw %}' 2>/dev/null)
+    if [[ -n "$node_id" ]]; then
+      # Demote first so that the raft commits the membership change before this
+      # node disappears. Retry through transient leader elections.
+      for attempt in $(seq 1 12); do
+        docker node demote "$node_id" 2>&1 | logger -t swarm-leave && break
+        sleep 5
+      done
+      for attempt in $(seq 1 18); do
+        role=$(docker node inspect "$node_id" --format '{% raw %}{{.Spec.Role}}{% endraw %}' 2>/dev/null)
+        [[ "$role" = "worker" ]] && break
+        sleep 5
+      done
+    fi
+    docker swarm leave 2>&1 | logger -t swarm-leave
+    curl -sf -H "Metadata: true" -X POST \
+      -d "{\"StartRequests\": [{\"EventId\": \"$event_id\"}]}" \
+      "$endpoint" | logger -t swarm-leave
+    exit 0
+  fi
+  sleep 10
+done

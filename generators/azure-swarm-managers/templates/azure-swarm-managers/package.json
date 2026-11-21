@@ -1,0 +1,14 @@
+{
+  "name": "<%= projectName %>",
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/azure-native": "<%= versions.pulumi_azure_native %>",
+    "@pulumi/pulumi": "<%= versions.pulumi %>",
+    "@types/nunjucks": "<%= versions.types_nunjucks %>",
+    "nunjucks": "<%= versions.nunjucks %>",
+    "yaml": "<%= versions.yaml %>"
+  },
+  "devDependencies": {
+    "@types/node": "<%= versions.types_node %>"
+  }
+}

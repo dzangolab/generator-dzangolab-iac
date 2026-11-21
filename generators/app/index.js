@@ -24,6 +24,7 @@ import AWSSwarmGenerator from "../aws-swarm/index.js";
 import AWSSwarmNodes from "../aws-swarm-nodes/index.js";
 import AWSSwarmSecurityGroupsGenerator from "../aws-swarm-security-groups/index.js";
 import AWSVPCGenerator from "../aws-vpc/index.js";
+import AzureDockerSwarmManagersGenerator from "../azure-swarm-managers/index.js";
 import CloudflareDNSGenerator from "../cloudflare-dns/index.js";
 import DigitalOceanDatabaseClusterGenerator from "../do-database-cluster/index.js";
 import DigitalOceanDockerSwarmGenerator from "../do-swarm/index.js";
@@ -170,6 +171,11 @@ export default class IaCGenerator extends Generator {
           },
           { type: "separator", separator: "──────────" },
           {
+            name: "Azure Docker swarm managers",
+            value: "azure-swarm-managers"
+          },
+          { type: "separator", separator: "──────────" },
+          {
             name: "Cloudflare DNS",
             value: "cloudflare-dns"
           },
@@ -255,6 +261,7 @@ export default class IaCGenerator extends Generator {
       "aws-swarm-workers": { Generator: AWSDockerSwarmWorkersGenerator, path: "../aws-swarm-workers/index.js" },
       "aws-swarm-workers-asg": { Generator: AWSDockerSwarmWorkersASGGenerator, path: "../aws-swarm-workers-asg/index.js" },
       "aws-vpc": { Generator: AWSVPCGenerator, path: "../aws-vpc/index.js" },
+      "azure-swarm-managers": { Generator: AzureDockerSwarmManagersGenerator, path: "../azure-swarm-managers/index.js" },
       "cloudflare-dns": { Generator: CloudflareDNSGenerator, path: "../cloudflare-dns/index.js" },
       "do-database-cluster": { Generator: DigitalOceanDatabaseClusterGenerator, path: "../do-database-cluster/index.js" },
       "do-droplet": { Generator: DigitalOceanDropletGenerator, path: "../do-droplet/index.js" },

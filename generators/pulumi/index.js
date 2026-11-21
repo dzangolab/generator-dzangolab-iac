@@ -11,13 +11,17 @@ class PulumiGenerator extends Generator {
     this.options.versions = {
       digitalocean: "^4",
       dzangolab: "^0.33",
+      nunjucks: "3.2.4",
       pulumi: "^3",
       pulumi_aws: "^7",
       pulumi_awsx: "^3",
+      pulumi_azure_native: "3.32.0",
       pulumi_command: "^1",
       pulumi_cloudflare: "^6",
       pulumi_random: "^4",
       types_node: "^25",
+      types_nunjucks: "3.2.6",
+      yaml: "2.9.1",
     };
     
     this.option("createStackConfig", {

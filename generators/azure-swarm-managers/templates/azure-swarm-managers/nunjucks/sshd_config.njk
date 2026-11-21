@@ -1,0 +1,23 @@
+# Written by cloud-init. sshd keeps the first value it reads for a keyword, so
+# this file overrides 50-cloud-init.conf and /etc/ssh/sshd_config. Ciphers and
+# key exchange are left to the OpenSSH defaults of the image.
+Port {{ sshPort }}
+AllowGroups {{ groups | selectattr("ssh") | join(" ", "name") }}
+AllowAgentForwarding no
+AllowTcpForwarding no
+GatewayPorts no
+HostbasedAuthentication no
+IgnoreRhosts yes
+KbdInteractiveAuthentication no
+LogLevel VERBOSE
+LoginGraceTime 30
+MaxAuthTries 3
+MaxSessions 10
+MaxStartups 10:30:60
+PasswordAuthentication no
+PermitEmptyPasswords no
+PermitRootLogin no
+PermitTunnel no
+PubkeyAuthentication yes
+UsePAM yes
+X11Forwarding no

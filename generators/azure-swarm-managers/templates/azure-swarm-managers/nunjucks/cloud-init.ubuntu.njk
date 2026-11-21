@@ -1,0 +1,194 @@
+#cloud-config
+
+package_reboot_if_required: true
+package_update: true
+package_upgrade: true
+# runcmd sets the hostname from the instance index; without this, cloud-init
+# resets it to the Azure computer name at every boot.
+preserve_hostname: true
+
+packages:
+  - ca-certificates
+  - curl
+  - fail2ban
+  - mailutils
+  - msmtp
+  - msmtp-mta
+{% if nfsMounts | length > 0 %}
+  - nfs-common
+{% endif %}
+{% for package in packages %}
+  - {{ package }}
+{% endfor %}
+
+{% if swapSize > 0 %}
+swap:
+  filename: {{ swapFile }}
+  size: {{ swapSize }}
+{% endif %}
+
+groups:
+{% for group in groups %}
+  - {{ group.name }}
+{% endfor %}
+
+users:
+  - name: azureadmin
+    groups: data
+    shell: /usr/sbin/nologin
+    lock_passwd: true
+{% for user in users %}
+  - name: {{ user.name }}
+    groups: {{ user.groups }}
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+{% for key in user.sshKeys %}
+      - {{ key }}
+{% endfor %}
+{% endfor %}
+
+write_files:
+- path: /etc/ssh/sshd_config.d/10-hardening.conf
+  permissions: '0600'
+  content: |
+{% filter indent(4, true) %}{% include "nunjucks/sshd_config.njk" %}{% endfilter %}
+{% for group in groups %}{% if group.sudo %}
+- path: /etc/sudoers.d/{{ group.name }}
+  permissions: '0440'
+  content: |
+    %{{ group.name }} ALL=(ALL) NOPASSWD:ALL
+{% endif %}{% endfor %}
+- path: /etc/msmtprc
+  permissions: '0600'
+  content: |
+{% filter indent(4, true) %}{% include "nunjucks/msmtprc.njk" %}{% endfilter %}
+- path: /usr/local/bin/monitor-outbound.sh
+  permissions: '0755'
+  content: |
+{% filter indent(4, true) %}{% include "nunjucks/monitor-outbound.sh.njk" %}{% endfilter %}
+- path: /etc/systemd/system/monitor-outbound.service
+  permissions: '0644'
+  content: |
+{% filter indent(4, true) %}{% include "nunjucks/monitor-outbound.service.njk" %}{% endfilter %}
+- path: /usr/local/bin/swarm-leave.sh
+  permissions: '0755'
+  content: |
+{% filter indent(4, true) %}{% include "nunjucks/swarm-leave.sh.njk" %}{% endfilter %}
+- path: /etc/systemd/system/swarm-leave.service
+  permissions: '0644'
+  content: |
+{% filter indent(4, true) %}{% include "nunjucks/swarm-leave.service.njk" %}{% endfilter %}
+- path: /usr/local/bin/swarm-node-prune.sh
+  permissions: '0755'
+  content: |
+{% filter indent(4, true) %}{% include "nunjucks/swarm-node-prune.sh.njk" %}{% endfilter %}
+- path: /etc/systemd/system/swarm-node-prune.service
+  permissions: '0644'
+  content: |
+    [Unit]
+    Description=Remove swarm nodes that stay down
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/local/bin/swarm-node-prune.sh
+- path: /etc/systemd/system/swarm-node-prune.timer
+  permissions: '0644'
+  content: |
+    [Unit]
+    Description=Remove swarm nodes that stay down
+
+    [Timer]
+    OnCalendar=*:0/10
+    Persistent=false
+    AccuracySec=15s
+
+    [Install]
+    WantedBy=timers.target
+- path: /var/lib/netbird/default.json
+  permissions: '0600'
+  content: |
+{% filter indent(4, true) %}{% include "nunjucks/netbird.json.njk" %}{% endfilter %}
+# The json-file driver rotates container logs itself; no logrotate rule needed.
+- path: /etc/docker/daemon.json
+  permissions: '0644'
+  content: |
+    {
+      "log-driver": "json-file",
+      "log-opts": {
+        "max-file": "5",
+        "max-size": "10m"
+      }
+    }
+- path: /etc/systemd/system/docker-prune.service
+  permissions: '0644'
+  content: |
+    [Unit]
+    Description=Prune unused Docker data
+
+    [Service]
+    Type=oneshot
+    ExecStart=/bin/sh -c '/usr/bin/docker container prune -f && /usr/bin/docker image prune -a -f && /usr/bin/docker volume prune -f && /usr/bin/docker builder prune -f'
+- path: /etc/systemd/system/docker-prune.timer
+  permissions: '0644'
+  content: |
+    [Unit]
+    Description=Prune unused Docker data
+
+    [Timer]
+    OnCalendar=*-*-* 00:13:25
+    Persistent=false
+    AccuracySec=15s
+
+    [Install]
+    WantedBy=timers.target
+
+# runcmd runs under /bin/sh: no bashisms.
+runcmd:
+  - |
+    vm_name=$(curl -sf -H "Metadata: true" "http://169.254.169.254/metadata/instance/compute/name?api-version=2021-02-01&format=text")
+    node_hostname="{{ hostnamePrefix }}-manager-$(printf '%03d' $(( ${vm_name##*_} + 1 )))"
+    hostnamectl set-hostname "$node_hostname"
+    grep -q " $node_hostname\$" /etc/hosts || echo "127.0.1.1 $node_hostname" >> /etc/hosts
+  - systemctl daemon-reload
+  # Ubuntu runs sshd through socket activation: the Port change needs the socket restarted.
+  - |
+    sshd -t && if systemctl is-active --quiet ssh.socket; then systemctl restart ssh.socket; else systemctl restart ssh; fi
+{% for mount in nfsMounts %}
+  - mkdir -p {{ mount.mountPath }}
+  - grep -q " {{ mount.mountPath }} nfs " /etc/fstab || echo "{{ mount.source }} {{ mount.mountPath }} nfs vers=4,minorversion=1,sec=sys,_netdev,nofail 0 0" >> /etc/fstab
+  - mount {{ mount.mountPath }}
+  - chown azureadmin:data {{ mount.mountPath }}
+  - chmod 2775 {{ mount.mountPath }}
+{% endfor %}
+  - curl -fsSL https://pkgs.netbird.io/install.sh | sh
+  - netbird up --setup-key {{ netbirdSetupKey }} --allow-server-ssh{% if netbird.custom %} --management-url {{ netbird.managementScheme }}://{{ netbird.managementHost }}{% endif %}
+  - systemctl enable --now monitor-outbound.service
+  - systemctl enable --now docker-prune.timer
+  - systemctl enable --now swarm-node-prune.timer
+  - systemctl stop unattended-upgrades || true
+  - curl -fsSL https://get.docker.com | sh
+{% for user in users %}
+  - usermod -a -G docker,data {{ user.name }}
+{% endfor %}
+  # The role on the join token may take a few minutes to propagate: retry.
+  - |
+    imds="http://169.254.169.254/metadata"
+    manager_token=""
+    for attempt in $(seq 1 60); do
+      access_token=$(curl -sf -H "Metadata: true" "$imds/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net&client_id={{ identityClientId }}" | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])") \
+        && manager_token=$(curl -sf -H "Authorization: Bearer $access_token" "https://{{ keyVaultName }}.vault.azure.net/secrets/{{ managerTokenSecretName }}?api-version=7.4" | python3 -c "import sys,json; print(json.load(sys.stdin)['value'])") \
+        && [ -n "$manager_token" ] && break
+      sleep 10
+    done
+    if [ -z "$manager_token" ]; then echo "could not read {{ managerTokenSecretName }} from {{ keyVaultName }}" >&2; exit 1; fi
+    advertise_addr=$(curl -sf -H "Metadata: true" "$imds/instance/network/interface/0/ipv4/ipAddress/0/privateIpAddress?api-version=2021-02-01&format=text")
+    joined=false
+    for attempt in $(seq 1 30); do
+      for address in {{ joinAddresses | join(" ") }}; do
+        docker swarm join --advertise-addr "$advertise_addr" --token "$manager_token" "$address:2377" && joined=true && break 2
+      done
+      sleep 10
+    done
+    if [ "$joined" != true ]; then echo "could not join the swarm through {{ joinAddresses | join(", ") }}" >&2; exit 1; fi
+  - systemctl enable --now swarm-leave.service

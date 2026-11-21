@@ -1,0 +1,6 @@
+name: <%= projectName %>
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: Provisions an Azure VM scale set of Docker swarm manager nodes joining an existing swarm

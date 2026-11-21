@@ -1,0 +1,13 @@
+defaults
+auth           on
+tls            on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+logfile        /var/log/msmtp.log
+
+account        default
+host           {{ smtp.host }}
+port           {{ smtp.port }}
+tls_starttls   {{ "on" if smtp.startTls else "off" }}
+from           {{ smtp.from }}
+user           {{ smtp.user }}
+password       {{ smtp.password }}

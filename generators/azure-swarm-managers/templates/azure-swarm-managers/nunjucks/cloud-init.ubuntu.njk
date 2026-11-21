@@ -176,14 +176,16 @@ runcmd:
 {% for user in users %}
   - usermod -a -G docker,data {{ user.name }}
 {% endfor %}
-  # The role on the join token may take a few minutes to propagate: retry.
+  # The role on the join token may take a few minutes to propagate, and the
+  # secret holds a placeholder until the leader has written the token: retry.
   - |
     imds="http://169.254.169.254/metadata"
     manager_token=""
     for attempt in $(seq 1 60); do
       access_token=$(curl -sf -H "Metadata: true" "$imds/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net&client_id={{ identityClientId }}" | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])") \
-        && manager_token=$(curl -sf -H "Authorization: Bearer $access_token" "https://{{ keyVaultName }}.vault.azure.net/secrets/{{ managerTokenSecretName }}?api-version=7.4" | python3 -c "import sys,json; print(json.load(sys.stdin)['value'])") \
-        && [ -n "$manager_token" ] && break
+        && manager_token=$(curl -sf -H "Authorization: Bearer $access_token" "https://{{ keyVaultName }}.vault.azure.net/secrets/{{ managerTokenSecretName }}?api-version=7.4" | python3 -c "import sys,json; print(json.load(sys.stdin)['value'])")
+      case "$manager_token" in SWMTKN-*) break ;; esac
+      manager_token=""
       sleep 10
     done
     if [ -z "$manager_token" ]; then echo "could not read {{ managerTokenSecretName }} from {{ keyVaultName }}" >&2; exit 1; fi

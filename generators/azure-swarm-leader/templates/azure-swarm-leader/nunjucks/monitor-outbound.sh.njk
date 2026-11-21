@@ -1,0 +1,37 @@
+#!/bin/bash
+# Mails {{ alertEmail }} the first time this host opens a connection to a public
+# address. Connections to the host's listening ports (inbound) and to private,
+# link-local, loopback and Netbird (100.64.0.0/10) addresses are ignored:
+# swarm and VNet traffic would otherwise alert all the time.
+known=/run/monitor-outbound/known
+mkdir -p "$(dirname "$known")"
+
+peers() {
+  local listening
+  listening=$(ss -Htuln | awk '{print $5}' | sed -E 's/.*:([0-9]+)$/\1/' | sort -u | paste -sd'|')
+  ss -Htun \
+    | awk -v listening="|${listening}|" '$2 == "ESTAB" { port = $5; sub(/.*:/, "", port); if (index(listening, "|" port "|")) next; print $6 }' \
+    | sed -E 's/:[0-9]+$//; s/^\[//; s/\]$//; s/^::ffff://' \
+    | grep -Ev '^(10\.|127\.|169\.254\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.|100\.(6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.|::1$|fe80:|f[cd])' \
+    | sort -u
+}
+
+peers > "$known"
+
+while true; do
+  sleep 20
+  current=$(mktemp)
+  peers > "$current"
+  new=$(comm -13 "$known" "$current")
+  if [ -n "$new" ]; then
+    logger -t monitor-outbound "[ALERT] New outbound connection detected: $new"
+    {
+      echo "[ALERT] New outbound connection detected on $(hostname):"
+      echo "$new"
+    } | mail -s "[ALERT] $(hostname): new outbound connection" {{ alertEmail }}
+  fi
+  # Remember every peer seen so far, not only the last snapshot, so that a
+  # peer reconnecting does not alert again.
+  sort -u "$known" "$current" -o "$known"
+  rm -f "$current"
+done

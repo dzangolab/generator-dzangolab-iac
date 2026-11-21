@@ -1,0 +1,36 @@
+#!/bin/bash
+# Formats (when empty) and mounts the data disks, found by their LUN.
+# SCSI VMs (v5 and older) expose /dev/disk/by-lun/<lun>. NVMe VMs (v6 and
+# newer) expose the disks as NVMe namespaces: slot 1 is the OS disk and data
+# disks follow in LUN order; the by-path slot number is stable, the nvme0nN
+# device names are not.
+set -u
+status=0
+{% for disk in dataDisks %}
+
+device=""
+for attempt in $(seq 1 120); do
+  if [ -e /dev/disk/by-lun/{{ disk.lun }} ]; then
+    device=/dev/disk/by-lun/{{ disk.lun }}
+  else
+    slot=$(ls /dev/disk/by-path/*-nvme-{{ disk.lun + 2 }} 2>/dev/null | head -1)
+    [ -n "$slot" ] && device=$(readlink -f "$slot")
+  fi
+  [ -n "$device" ] && break
+  sleep 1
+done
+if [ -z "$device" ]; then
+  echo "disk at LUN {{ disk.lun }} ({{ disk.mountPath }}) not found after 120 s" >&2
+  status=1
+else
+  blkid "$device" > /dev/null || mkfs.{{ disk.fsType }} "$device"
+  uuid=$(blkid -s UUID -o value "$device")
+  mkdir -p {{ disk.mountPath }}
+  grep -q "UUID=$uuid " /etc/fstab || echo "UUID=$uuid {{ disk.mountPath }} {{ disk.fsType }} defaults,nofail 0 2" >> /etc/fstab
+  mount {{ disk.mountPath }}
+  chown azureadmin:data {{ disk.mountPath }}
+  chmod 2775 {{ disk.mountPath }}
+fi
+{% endfor %}
+
+exit $status

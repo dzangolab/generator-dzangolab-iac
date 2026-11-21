@@ -1,0 +1,29 @@
+# Secrets, to set with the CLI:
+#   pulumi config set --secret netbirdSetupKey <setup key>
+#   pulumi config set --secret smtpPassword <password>
+# Each upstream value can be given directly (e.g. resourceGroupName) instead of
+# through its stack reference (resourceGroupStack); see README.md.
+config:
+  <%= projectName %>:alertEmail: <%= alertEmail %>
+  <%= projectName %>:dataDisks: []
+    # - mountPath: /mnt/data
+    #   stack: organization/<%= prefix %>-disks/<%= environment %>
+  <%= projectName %>:hostnamePrefix: <%= hostnamePrefix %>
+  <%= projectName %>:keyVaultStack: organization/<%= prefix %>-key-vault/<%= environment %>
+  <%= projectName %>:loadBalancerStack: organization/<%= prefix %>-load-balancer/<%= environment %>
+  <%= projectName %>:name: <%= prefix %>-<%= environment %>
+  <%= projectName %>:nfsMounts: []
+    # - mountPath: /mnt/nfs
+    #   stack: organization/<%= prefix %>-nfs/<%= environment %>
+  <%= projectName %>:protect: "true"
+  <%= projectName %>:resourceGroupStack: organization/<%= prefix %>-resource-group/<%= environment %>
+  <%= projectName %>:retainOnDelete: "true"
+  <%= projectName %>:smtpFrom: noreply@example.com
+  <%= projectName %>:smtpHost: smtp.example.com
+  <%= projectName %>:smtpPort: 465
+  # tls for ports 465, 2465…; starttls for ports 587, 2587…
+  <%= projectName %>:smtpTlsMode: tls
+  <%= projectName %>:smtpUser: smtp-user
+  <%= projectName %>:tags: {}
+  <%= projectName %>:vmSize: <%= vmSize %>
+  <%= projectName %>:vnetStack: organization/<%= prefix %>-virtual-network/<%= environment %>

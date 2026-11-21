@@ -167,6 +167,11 @@ runcmd:
   - systemctl enable --now docker-prune.timer
   - systemctl enable --now swarm-node-prune.timer
   - systemctl stop unattended-upgrades || true
+  # Unused on these VMs. NFS mounts are NFSv4.1, which needs no rpcbind; rpcbind
+  # stays installed because nfs-common depends on it. rpcbind.socket goes before
+  # rpcbind.service, which the socket would start again.
+  - systemctl disable --now ModemManager.service rpcbind.socket rpcbind.service udisks2.service || true
+  - systemctl mask ModemManager.service rpcbind.socket rpcbind.service udisks2.service || true
   - curl -fsSL https://get.docker.com | sh
 {% for user in users %}
   - usermod -a -G docker,data {{ user.name }}

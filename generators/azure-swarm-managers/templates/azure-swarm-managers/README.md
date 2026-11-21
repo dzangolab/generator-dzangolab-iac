@@ -48,7 +48,8 @@ cloud-init, on the first boot only:
 
 1. sets the hostname to `<hostnamePrefix>-manager-<instance index + 1>`;
 1. writes `/etc/ssh/sshd_config.d/10-hardening.conf` and restarts sshd;
-1. mounts the NFS shares, connects to Netbird, installs Docker;
+1. mounts the NFS shares (NFSv4.1), connects to Netbird;
+1. stops and masks `ModemManager`, `rpcbind` (socket and service) and `udisks2`, which the nodes never use, then installs Docker;
 1. reads the join token from the Key Vault with the managed identity, retrying while the role propagates;
 1. joins the swarm through the internal load balancer (or the first reachable address in `joinAddresses`), retrying for up to 5 minutes.
 

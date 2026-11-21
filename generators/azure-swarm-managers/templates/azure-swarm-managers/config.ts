@@ -168,14 +168,14 @@ export const getConfig = async () => {
     }))
     .filter((u) => u.sshKeys.length > 0);
 
-  const smtpPort = stackConfig.getNumber("smtpPort") ?? 465;
   const smtp = {
     from: stackConfig.require("smtpFrom"),
     host: stackConfig.require("smtpHost"),
     password: stackConfig.requireSecret("smtpPassword"),
-    port: smtpPort,
-    // 587 is the submission port (STARTTLS); 465 and the like use implicit TLS.
-    startTls: stackConfig.getBoolean("smtpStartTls") ?? smtpPort === 587,
+    port: stackConfig.getNumber("smtpPort") ?? 465,
+    // "tls": encrypted from the first byte (ports 465, 2465…);
+    // "starttls": plain connection upgraded to TLS (ports 587, 2587…).
+    tlsMode: stackConfig.get("smtpTlsMode", { allowedValues: ["starttls", "tls"] }) ?? "tls",
     user: stackConfig.require("smtpUser"),
   };
 

@@ -96,8 +96,8 @@ Values marked "or from" can be set directly, or come from the output of the stac
 | smtpFrom | string | (required) | Sender of the alerts |
 | smtpHost | string | (required) | SMTP relay |
 | smtpPassword | secret | (required) | SMTP password |
-| smtpPort | number | `465` | SMTP port |
-| smtpStartTls | boolean | `true` on port 587 | STARTTLS instead of implicit TLS |
+| smtpPort | number | `465` | SMTP port; must match `smtpTlsMode` |
+| smtpTlsMode | `tls` \| `starttls` | `tls` | `tls`: encrypted from the start (ports 465, 2465…); `starttls`: plain connection upgraded to TLS (ports 587, 2587…) |
 | smtpUser | string | (required) | SMTP user |
 | sshKeysDir | string | `../../ssh-keys` | Folder of the users' public keys |
 | sshPort | number | or from `vnetStack` (`sshPort`); `22` without it | sshd port |

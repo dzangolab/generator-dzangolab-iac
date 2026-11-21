@@ -21,6 +21,8 @@ config:
   <%= projectName %>:smtpFrom: noreply@example.com
   <%= projectName %>:smtpHost: smtp.example.com
   <%= projectName %>:smtpPort: 465
+  # tls for ports 465, 2465…; starttls for ports 587, 2587…
+  <%= projectName %>:smtpTlsMode: tls
   <%= projectName %>:smtpUser: smtp-user
   <%= projectName %>:tags: {}
   <%= projectName %>:vmSize: <%= vmSize %>

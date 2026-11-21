@@ -7,7 +7,7 @@ logfile        /var/log/msmtp.log
 account        default
 host           {{ smtp.host }}
 port           {{ smtp.port }}
-tls_starttls   {{ "on" if smtp.startTls else "off" }}
+tls_starttls   {{ "on" if smtp.tlsMode == "starttls" else "off" }}
 from           {{ smtp.from }}
 user           {{ smtp.user }}
 password       {{ smtp.password }}

@@ -1,0 +1,6 @@
+name: <%= projectName %>
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+description: Provisions an Azure VM that initializes a Docker swarm and stores its join tokens in a Key Vault

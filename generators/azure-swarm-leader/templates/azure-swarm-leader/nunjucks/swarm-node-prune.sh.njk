@@ -1,0 +1,24 @@
+#!/bin/bash
+# Removes swarm nodes that were "Down" at two consecutive runs (10 to 20
+# minutes apart), e.g. instances that terminated before the swarm-leave hook
+# ran. A node that is only rebooting is back before the second run.
+# Down managers are demoted first: docker refuses to remove a manager, and a
+# dead manager still counts towards the raft quorum.
+# Runs on every manager; when two remove the same node, one fails harmlessly.
+state=/var/lib/swarm-node-prune/down
+mkdir -p "$(dirname "$state")"
+touch "$state"
+
+current=$(mktemp)
+docker node ls --format '{% raw %}{{.ID}} {{.Status}}{% endraw %}' 2>/dev/null \
+  | awk '$2 == "Down" {print $1}' \
+  | sort > "$current"
+
+comm -12 "$state" "$current" | while read -r id; do
+  if [ "$(docker node inspect "$id" --format '{% raw %}{{.Spec.Role}}{% endraw %}')" = "manager" ]; then
+    docker node demote "$id"
+  fi
+  docker node rm "$id"
+done
+
+mv "$current" "$state"

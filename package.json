@@ -46,8 +46,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.4",
-    "@commitlint/cli": "21.2.4",
-    "@commitlint/config-conventional": "21.2.4",
+    "@commitlint/cli": "21.3.0",
+    "@commitlint/config-conventional": "21.3.0",
     "chalk": "6.0.1",
     "husky": "9.1.7",
     "jest": "30.5.2",
